@@ -16,7 +16,7 @@ import android.view.ViewGroup
 import at.ict4d.ict4dnews.lifecycle.RXLifecycleObserver
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>: Fragment() {
+abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment() {
 
     protected lateinit var binding: B
 

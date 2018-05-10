@@ -5,5 +5,9 @@
     <string name="nav_news">Neugikeiten</string>
     <string name="nav_ict4dat">ICT4D.at</string>
     <string name="nav_more">Mehr</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="search">Suchen</string>
+    <string name="filter">Filtern</string>
+    <string name="news_search_hint">Suche nach Neuigkeiten…</string>
 
 </resources>

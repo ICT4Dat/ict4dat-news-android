@@ -6,7 +6,7 @@ import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
 import at.ict4d.ict4dnews.dagger.modules.ApplicationModule
 import timber.log.Timber
 
-class ICT4DNewsApplication: Application() {
+class ICT4DNewsApplication : Application() {
 
     companion object {
         @JvmStatic

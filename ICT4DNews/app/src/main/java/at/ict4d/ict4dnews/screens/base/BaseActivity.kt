@@ -9,7 +9,7 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.lifecycle.RXErrorEventBusLifecycleObserver
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseActivity<B : ViewDataBinding>: AppCompatActivity() {
+abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 
     protected lateinit var binding: B
 

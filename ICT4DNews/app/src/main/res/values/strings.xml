@@ -3,4 +3,9 @@
     <string name="nav_news">News</string>
     <string name="nav_ict4dat">ICT4D.at</string>
     <string name="nav_more">More</string>
+    <string name="refresh">Refresh</string>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="news_search_hint">Search for News…</string>
+
 </resources>
