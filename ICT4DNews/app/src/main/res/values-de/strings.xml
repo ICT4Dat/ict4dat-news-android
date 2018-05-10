@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ICT4D News</string>
+    <string name="nav_news">Neugikeiten</string>
+    <string name="nav_ict4dat">ICT4D.at</string>
+    <string name="nav_more">Mehr</string>
+
+</resources>
