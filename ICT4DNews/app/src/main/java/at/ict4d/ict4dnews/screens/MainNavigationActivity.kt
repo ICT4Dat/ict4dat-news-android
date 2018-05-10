@@ -2,17 +2,19 @@ package at.ict4d.ict4dnews.screens
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
 import at.ict4d.ict4dnews.R
+import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
+import at.ict4d.ict4dnews.screens.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main_navigation.*
-import timber.log.Timber
 
-class MainNavigationActivity : AppCompatActivity() {
+class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
+
+    override fun getLayoutId(): Int = R.layout.activity_main_navigation
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_news -> {
-                message.setText(R.string.nav_news)
+                binding.message.setText(R.string.nav_news)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_ict4dat -> {
@@ -29,8 +31,6 @@ class MainNavigationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_navigation)
-
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 }
