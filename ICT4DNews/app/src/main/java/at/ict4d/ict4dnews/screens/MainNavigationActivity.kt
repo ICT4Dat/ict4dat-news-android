@@ -6,8 +6,9 @@ import android.support.v4.app.Fragment
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
 import at.ict4d.ict4dnews.screens.base.BaseActivity
+import at.ict4d.ict4dnews.screens.ict4dat.ICT4DatFragment
+import at.ict4d.ict4dnews.screens.more.MoreFragment
 import at.ict4d.ict4dnews.screens.news.ICT4DNewsFragment
-import kotlinx.android.synthetic.main.activity_main_navigation.*
 import java.lang.IllegalArgumentException
 
 class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
@@ -17,15 +18,15 @@ class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_news -> {
-
+                showFragment(ICT4DNewsFragment::class.java.simpleName, true)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_ict4dat -> {
-
+                showFragment(ICT4DatFragment::class.java.simpleName, true)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_more -> {
-
+                showFragment(MoreFragment::class.java.simpleName, true)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -34,7 +35,8 @@ class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        binding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
 
         if (savedInstanceState == null) {
             showFragment(ICT4DNewsFragment::class.java.simpleName)
@@ -48,23 +50,29 @@ class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
      */
     private fun showFragment(fragmentTag: String, addToBackStack: Boolean = false) {
 
-        var fragment: Fragment? = supportFragmentManager.findFragmentByTag(fragmentTag)
+        val currentTag = supportFragmentManager.findFragmentById(R.id.placeholder)?.tag
 
-        if (fragment == null) {
-            when (fragmentTag) {
-                ICT4DNewsFragment::class.java.simpleName -> fragment = ICT4DNewsFragment.newInstance()
-                else -> throw IllegalArgumentException("Fragment Tag unknown.")
+        if (currentTag != fragmentTag) {
+            var fragment: Fragment? = supportFragmentManager.findFragmentByTag(fragmentTag)
+
+            if (fragment == null) {
+                when (fragmentTag) {
+                    ICT4DNewsFragment::class.java.simpleName -> fragment = ICT4DNewsFragment.newInstance()
+                    ICT4DatFragment::class.java.simpleName -> fragment = ICT4DatFragment()
+                    MoreFragment::class.java.simpleName -> fragment = MoreFragment()
+                    else -> throw IllegalArgumentException("Fragment Tag unknown.")
+                }
             }
+
+            val transaction = supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.placeholder, fragment, fragmentTag)
+
+            if (addToBackStack) {
+                transaction.addToBackStack(fragmentTag)
+            }
+
+            transaction.commit()
         }
-
-        val transaction = supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.placeholder, fragment, fragmentTag)
-
-        if (addToBackStack) {
-            transaction.addToBackStack(null)
-        }
-
-        transaction.commit()
     }
 }
