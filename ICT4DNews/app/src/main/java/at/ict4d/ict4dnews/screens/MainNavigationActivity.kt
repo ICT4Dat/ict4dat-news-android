@@ -1,9 +1,11 @@
-package at.ict4d.ict4dnews
+package at.ict4d.ict4dnews.screens
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import at.ict4d.ict4dnews.R
 import kotlinx.android.synthetic.main.activity_main_navigation.*
+import timber.log.Timber
 
 class MainNavigationActivity : AppCompatActivity() {
 
