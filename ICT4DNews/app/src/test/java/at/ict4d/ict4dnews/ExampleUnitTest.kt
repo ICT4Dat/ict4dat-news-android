@@ -1,4 +1,4 @@
-package at.ict4d.ict4dnews.feature
+package at.ict4d.ict4dnews
 
 import org.junit.Test
 

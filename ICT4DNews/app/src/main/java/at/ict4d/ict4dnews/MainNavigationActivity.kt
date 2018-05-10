@@ -1,4 +1,4 @@
-package at.ict4d.ict4dnews.feature
+package at.ict4d.ict4dnews
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView

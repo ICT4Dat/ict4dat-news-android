@@ -1,4 +1,4 @@
-package at.ict4d.ict4dnews.feature
+package at.ict4d.ict4dnews
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("at.ict4d.ict4dnews.feature.test", appContext.packageName)
+        assertEquals("at.ict4d.ict4dnews", appContext.packageName)
     }
 }
