@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="at.ict4d.ict4dnews">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ICT4DNewsApplication"
         android:allowBackup="true"

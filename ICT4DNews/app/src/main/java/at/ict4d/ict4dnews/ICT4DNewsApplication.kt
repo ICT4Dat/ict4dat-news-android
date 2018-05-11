@@ -4,6 +4,7 @@ import android.app.Application
 import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
 import at.ict4d.ict4dnews.dagger.modules.ApplicationModule
+import com.facebook.stetho.Stetho
 import timber.log.Timber
 
 class ICT4DNewsApplication : Application() {
@@ -19,6 +20,7 @@ class ICT4DNewsApplication : Application() {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+            Stetho.initializeWithDefaults(this);
         }
     }
 
