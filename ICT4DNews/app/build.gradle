@@ -7,7 +7,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "at.ict4d.ict4dnews"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -91,6 +91,10 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
     implementation 'com.squareup.retrofit2:converter-simplexml:2.3.0'
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // ThreeTenABP - java.time backport
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 
     // *** Android Architecture Components ***
     // ViewModel and LiveData

@@ -9,7 +9,6 @@ import at.ict4d.ict4dnews.screens.base.BaseActivity
 import at.ict4d.ict4dnews.screens.ict4dat.ICT4DatFragment
 import at.ict4d.ict4dnews.screens.more.MoreFragment
 import at.ict4d.ict4dnews.screens.news.ICT4DNewsFragment
-import at.ict4d.ict4dnews.server.Server
 import java.lang.IllegalArgumentException
 
 class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
@@ -42,9 +41,6 @@ class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
         if (savedInstanceState == null) {
             showFragment(ICT4DNewsFragment::class.java.simpleName)
         }
-
-        // TODO: delete
-        compositeDisposable.add(Server().loadICT4DatRSSFeed())
     }
 
     /**

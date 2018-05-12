@@ -2,15 +2,21 @@ package at.ict4d.ict4dnews.dagger.modules
 
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.ICT4DNewsApplication
+import at.ict4d.ict4dnews.server.ApiJsonSelfHostedWPService
 import at.ict4d.ict4dnews.server.ApiRSSService
+import at.ict4d.ict4dnews.utils.GsonLocalDateTimeDeserializer
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.threeten.bp.LocalDateTime
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.io.File
 import java.util.*
@@ -22,13 +28,32 @@ class ApiServiceModule {
 
     @Provides
     @Singleton
-    fun provideApiService(okHttpClient: OkHttpClient): ApiRSSService {
+    fun provideRSSApiService(okHttpClient: OkHttpClient): ApiRSSService {
         return Retrofit.Builder()
                 .baseUrl("http://will.be.overritten.com")
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build().create(ApiRSSService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideJsonWordpressApiService(okHttpClient: OkHttpClient, gson: Gson): ApiJsonSelfHostedWPService {
+        return Retrofit.Builder()
+                .baseUrl("http://will.be.overritten.com")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build().create(ApiJsonSelfHostedWPService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return GsonBuilder()
+                .registerTypeAdapter(LocalDateTime::class.java, GsonLocalDateTimeDeserializer())
+                .create()
     }
 
     @Provides
@@ -59,5 +84,4 @@ class ApiServiceModule {
 
         return builder.build()
     }
-
 }

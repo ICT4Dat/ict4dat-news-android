@@ -6,4 +6,6 @@ interface IServer {
 
     fun loadICT4DatRSSFeed(): Disposable
 
+    fun loadICT4DatJsonFeed(): Disposable
+
 }
