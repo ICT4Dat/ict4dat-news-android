@@ -1,7 +1,8 @@
 package at.ict4d.ict4dnews.server
 
 import at.ict4d.ict4dnews.ICT4DNewsApplication
-import at.ict4d.ict4dnews.persistence.database.dao.SelfHostedWPPostDao
+import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
+import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -16,7 +17,7 @@ class Server : IServer {
     protected lateinit var apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService
 
     @Inject
-    protected lateinit var selfHostedWPPostDao: SelfHostedWPPostDao
+    protected lateinit var persistenceManager: IPersistenceManager
 
     init {
         ICT4DNewsApplication.component.inject(this)
@@ -36,16 +37,22 @@ class Server : IServer {
     }
 
     override fun loadICT4DatJsonFeed(): Disposable {
-        return apiJsonSelfHostedWPService.getJSONICT4DatNews()
+        return apiJsonSelfHostedWPService.getJsonICT4DatAuthors().flatMap { authors: List<WordpressAuthor> ->
+            Timber.d("*** $authors")
+            persistenceManager.insertAllAuthors(authors)
+            return@flatMap apiJsonSelfHostedWPService.getJsonICT4DatNews()
+        }
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .subscribe(
                         { posts ->
                             Timber.d("*** $posts")
-                            selfHostedWPPostDao.insertAll(posts)
+                            persistenceManager.insertAllSelfHostedWPPosts(posts)
                         },
                         { error: Throwable? ->
                             Timber.e(error)
-                        })
+                        }, {
+                    Timber.d("Upadate ICT4D.at complete")
+                })
     }
 }

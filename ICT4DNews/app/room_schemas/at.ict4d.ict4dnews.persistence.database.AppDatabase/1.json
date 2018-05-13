@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "754baa62a6970321021e6a706b590ae3",
+    "identityHash": "48d81a476a7b9cef66520b98d19bb910",
     "entities": [
       {
         "tableName": "self_hosted_wp_posts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `id` INTEGER NOT NULL, `date` TEXT NOT NULL, `modified` TEXT NOT NULL, `slug` TEXT NOT NULL, `type` TEXT NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `excerpt` TEXT NOT NULL, `author` INTEGER NOT NULL, `featured_media` INTEGER NOT NULL, `comment_status` TEXT NOT NULL, `categories` TEXT NOT NULL, `tags` TEXT NOT NULL, PRIMARY KEY(`link`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `date` TEXT NOT NULL, `modified` TEXT NOT NULL, `slug` TEXT NOT NULL, `type` TEXT NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `excerpt` TEXT NOT NULL, `author` INTEGER NOT NULL, `featured_media` INTEGER NOT NULL, `comment_status` TEXT NOT NULL, `categories` TEXT NOT NULL, `tags` TEXT NOT NULL, PRIMARY KEY(`link`))",
         "fields": [
           {
             "fieldPath": "link",
@@ -16,7 +16,7 @@
           },
           {
             "fieldPath": "server_id",
-            "columnName": "id",
+            "columnName": "server_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -101,11 +101,67 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "wordpress_authors",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `name` TEXT NOT NULL, `url` TEXT NOT NULL, `description` TEXT NOT NULL, `slug` TEXT NOT NULL, `avatar_urls` TEXT NOT NULL, PRIMARY KEY(`link`))",
+        "fields": [
+          {
+            "fieldPath": "link",
+            "columnName": "link",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "server_id",
+            "columnName": "server_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "slug",
+            "columnName": "slug",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avatarURLs",
+            "columnName": "avatar_urls",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "link"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"754baa62a6970321021e6a706b590ae3\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"48d81a476a7b9cef66520b98d19bb910\")"
     ]
   }
 }

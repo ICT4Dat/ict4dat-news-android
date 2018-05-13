@@ -4,6 +4,8 @@ import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.server.ApiJsonSelfHostedWPService
 import at.ict4d.ict4dnews.server.ApiRSSService
+import at.ict4d.ict4dnews.server.IServer
+import at.ict4d.ict4dnews.server.Server
 import at.ict4d.ict4dnews.utils.GsonLocalDateTimeDeserializer
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
@@ -54,6 +56,11 @@ class ApiServiceModule {
         return GsonBuilder()
                 .registerTypeAdapter(LocalDateTime::class.java, GsonLocalDateTimeDeserializer())
                 .create()
+    }
+
+    @Provides
+    fun provideServer(): IServer {
+        return Server()
     }
 
     @Provides

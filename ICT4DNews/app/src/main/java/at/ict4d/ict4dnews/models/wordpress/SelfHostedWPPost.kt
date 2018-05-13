@@ -15,7 +15,7 @@ data class SelfHostedWPPost(
         @SerializedName(SERIALIZED_LINK)
         val link: String,
 
-        @ColumnInfo(name = TABLE_ID)
+        @ColumnInfo(name = TABLE_SERVER_ID)
         @SerializedName(SERIALIZED_ID)
         val server_id: Int,
 
@@ -70,7 +70,7 @@ data class SelfHostedWPPost(
 
     companion object {
         const val TABLE_TABLE_NAME = "self_hosted_wp_posts"
-        const val TABLE_ID = "id"
+        const val TABLE_SERVER_ID = "server_id"
         const val TABLE_DATE = "date"
         const val TABLE_MODIFIED = "modified"
         const val TABLE_SLUG = "slug"
