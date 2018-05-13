@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "48d81a476a7b9cef66520b98d19bb910",
+    "identityHash": "92c5d69579ae6fbcac3fecbd3208a869",
     "entities": [
       {
         "tableName": "self_hosted_wp_posts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `date` TEXT NOT NULL, `modified` TEXT NOT NULL, `slug` TEXT NOT NULL, `type` TEXT NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `excerpt` TEXT NOT NULL, `author` INTEGER NOT NULL, `featured_media` INTEGER NOT NULL, `comment_status` TEXT NOT NULL, `categories` TEXT NOT NULL, `tags` TEXT NOT NULL, PRIMARY KEY(`link`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `date` TEXT NOT NULL, `modified` TEXT NOT NULL, `slug` TEXT NOT NULL, `type` TEXT NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `excerpt` TEXT NOT NULL, `server_author` INTEGER NOT NULL, `author` TEXT NOT NULL, `featured_media` INTEGER NOT NULL, `comment_status` TEXT NOT NULL, `categories` TEXT NOT NULL, `tags` TEXT NOT NULL, PRIMARY KEY(`link`), FOREIGN KEY(`author`) REFERENCES `wordpress_authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "link",
@@ -63,9 +63,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "author",
-            "columnName": "author",
+            "fieldPath": "server_author",
+            "columnName": "server_author",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorLink",
+            "columnName": "author",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -99,8 +105,29 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_self_hosted_wp_posts_author",
+            "unique": false,
+            "columnNames": [
+              "author"
+            ],
+            "createSql": "CREATE  INDEX `index_self_hosted_wp_posts_author` ON `${TABLE_NAME}` (`author`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "wordpress_authors",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "author"
+            ],
+            "referencedColumns": [
+              "link"
+            ]
+          }
+        ]
       },
       {
         "tableName": "wordpress_authors",
@@ -161,7 +188,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"48d81a476a7b9cef66520b98d19bb910\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"92c5d69579ae6fbcac3fecbd3208a869\")"
     ]
   }
 }

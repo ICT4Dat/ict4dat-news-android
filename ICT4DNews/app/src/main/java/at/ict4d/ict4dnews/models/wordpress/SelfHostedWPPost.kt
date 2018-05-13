@@ -1,13 +1,17 @@
 package at.ict4d.ict4dnews.models.wordpress
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost.Companion.TABLE_TABLE_NAME
 import com.google.gson.annotations.SerializedName
 import org.threeten.bp.LocalDateTime
 
-@Entity(tableName = TABLE_TABLE_NAME)
+@Entity(tableName = TABLE_TABLE_NAME,
+
+        foreignKeys = [(ForeignKey(entity = WordpressAuthor::class,
+                parentColumns = [WordpressAuthor.TABLE_LINK],
+                childColumns = [SelfHostedWPPost.TABLE_AUTHOR]))],
+
+        indices = [(Index(value = [SelfHostedWPPost.TABLE_AUTHOR]))])
 data class SelfHostedWPPost(
 
         @PrimaryKey
@@ -47,9 +51,12 @@ data class SelfHostedWPPost(
         @SerializedName(SERIALIZED_EXCERPT)
         val excerpt: Map<String, String>,
 
+        @ColumnInfo(name = TABLE_SERVER_AUTHOR)
+        @SerializedName(SERIALIZED_SERVER_AUTHOR)
+        val server_author: Int,
+
         @ColumnInfo(name = TABLE_AUTHOR)
-        @SerializedName(SERIALIZED_AUTHOR)
-        val author: Int,
+        var authorLink: String,
 
         @ColumnInfo(name = TABLE_FEATURED_MEDIA)
         @SerializedName(SERIALIZED_FEATURED_MEDIA)
@@ -79,6 +86,7 @@ data class SelfHostedWPPost(
         const val TABLE_TITLE = "title"
         const val TABLE_CONTENT = "content"
         const val TABLE_EXCERPT = "excerpt"
+        const val TABLE_SERVER_AUTHOR = "server_author"
         const val TABLE_AUTHOR = "author"
         const val TABLE_FEATURED_MEDIA = "featured_media"
         const val TABLE_COMMENT_STATUS = "comment_status"
@@ -94,7 +102,7 @@ data class SelfHostedWPPost(
         const val SERIALIZED_TITLE = "title"
         const val SERIALIZED_CONTENT = "content"
         const val SERIALIZED_EXCERPT = "excerpt"
-        const val SERIALIZED_AUTHOR = "author"
+        const val SERIALIZED_SERVER_AUTHOR = "author"
         const val SERIALIZED_FEATURED_MEDIA = "featured_media"
         const val SERIALIZED_COMMENT_STATUS = "comment_status"
         const val SERIALIZED_CATEGORIES = "categories"

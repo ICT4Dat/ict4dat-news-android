@@ -1,9 +1,12 @@
 package at.ict4d.ict4dnews.server
 
 import at.ict4d.ict4dnews.ICT4DNewsApplication
+import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
+import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,22 +40,27 @@ class Server : IServer {
     }
 
     override fun loadICT4DatJsonFeed(): Disposable {
-        return apiJsonSelfHostedWPService.getJsonICT4DatAuthors().flatMap { authors: List<WordpressAuthor> ->
-            Timber.d("*** $authors")
-            persistenceManager.insertAllAuthors(authors)
-            return@flatMap apiJsonSelfHostedWPService.getJsonICT4DatNews()
-        }
+        return Flowable.zip(
+                apiJsonSelfHostedWPService.getJsonICT4DatAuthors(),
+                apiJsonSelfHostedWPService.getJsonICT4DatNews(),
+                BiFunction { authors: List<WordpressAuthor>, posts: List<SelfHostedWPPost> ->
+
+                    posts.map { post -> post.authorLink = authors.find { author -> author.server_id == post.server_author }?.link ?: "" }
+
+                    // Timber.d("*** $authors")
+                    // Timber.d("*** $posts")
+                    persistenceManager.insertAllAuthors(authors)
+                    persistenceManager.insertAllSelfHostedWPPosts(posts)
+                }
+        )
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
-                .subscribe(
-                        { posts ->
-                            Timber.d("*** $posts")
-                            persistenceManager.insertAllSelfHostedWPPosts(posts)
-                        },
-                        { error: Throwable? ->
-                            Timber.e(error)
-                        }, {
-                    Timber.d("Upadate ICT4D.at complete")
+                .subscribe({
+                    Timber.d("onNext: $it")
+                }, {
+                    Timber.e("Error in ICT4D.at Call", it)
+                }, {
+                    Timber.d("onComplete ICT4D.at")
                 })
     }
 }
