@@ -21,7 +21,7 @@ data class SelfHostedWPPost(
 
         @ColumnInfo(name = TABLE_SERVER_ID)
         @SerializedName(SERIALIZED_ID)
-        val server_id: Int,
+        val serverID: Int,
 
         @ColumnInfo(name = TABLE_DATE)
         @SerializedName(SERIALIZED_DATE)
@@ -53,7 +53,7 @@ data class SelfHostedWPPost(
 
         @ColumnInfo(name = TABLE_SERVER_AUTHOR)
         @SerializedName(SERIALIZED_SERVER_AUTHOR)
-        val server_author: Int,
+        val serverAuthor: Int,
 
         @ColumnInfo(name = TABLE_AUTHOR)
         var authorLink: String,

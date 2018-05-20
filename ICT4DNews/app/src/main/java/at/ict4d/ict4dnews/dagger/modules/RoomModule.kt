@@ -7,6 +7,7 @@ import at.ict4d.ict4dnews.persistence.PersistenceManager
 import at.ict4d.ict4dnews.persistence.database.AppDatabase
 import at.ict4d.ict4dnews.persistence.database.dao.SelfHostedWPPostDao
 import at.ict4d.ict4dnews.persistence.database.dao.WordpressAuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.WordpressMediaDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -34,7 +35,13 @@ class RoomModule {
 
     @Singleton
     @Provides
-    fun providesPersistentManager(database: AppDatabase): IPersistenceManager {
+    fun providesWordpressMediaDao(database: AppDatabase): WordpressMediaDao {
+        return database.wordpressMediaDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesPersistentManager(): IPersistenceManager {
         return PersistenceManager()
     }
 }

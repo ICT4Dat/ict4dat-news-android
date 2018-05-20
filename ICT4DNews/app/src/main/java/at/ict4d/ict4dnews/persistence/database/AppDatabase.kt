@@ -7,8 +7,10 @@ import android.arch.persistence.room.TypeConverters
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
+import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
 import at.ict4d.ict4dnews.persistence.database.dao.SelfHostedWPPostDao
 import at.ict4d.ict4dnews.persistence.database.dao.WordpressAuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.WordpressMediaDao
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.LocalDateTime
@@ -17,13 +19,15 @@ import java.util.Collections.emptyList
 import javax.inject.Inject
 
 
-@Database(entities = [SelfHostedWPPost::class, WordpressAuthor::class], version = 1)
+@Database(entities = [SelfHostedWPPost::class, WordpressAuthor::class, WordpressMedia::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun selfHostedWPPostDao(): SelfHostedWPPostDao
 
     abstract fun wordpressAuthorDao(): WordpressAuthorDao
+
+    abstract fun wordpressMediaDao(): WordpressMediaDao
 
     companion object {
         const val DATABASE_NAME = "ict4d_news_database"

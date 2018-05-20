@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "92c5d69579ae6fbcac3fecbd3208a869",
+    "identityHash": "fecfb483d1fbb771152e159c779d944b",
     "entities": [
       {
         "tableName": "self_hosted_wp_posts",
@@ -15,7 +15,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "server_id",
+            "fieldPath": "serverID",
             "columnName": "server_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -63,7 +63,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "server_author",
+            "fieldPath": "serverAuthor",
             "columnName": "server_author",
             "affinity": "INTEGER",
             "notNull": true
@@ -184,11 +184,173 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "wordpress_media",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `serverID` INTEGER NOT NULL, `date_created` TEXT NOT NULL, `raw_link` TEXT NOT NULL, `server_post_id` INTEGER NOT NULL, `post_link` TEXT NOT NULL, `date_modified` TEXT NOT NULL, `slug` TEXT NOT NULL, `status` TEXT NOT NULL, `type` TEXT NOT NULL, `server_author` INTEGER NOT NULL, `author` TEXT NOT NULL, `comment_status` TEXT NOT NULL, `alt_text` TEXT NOT NULL, `media_type` TEXT NOT NULL, `mime_type` TEXT NOT NULL, `title_rendered` TEXT NOT NULL, `description_rendered` TEXT NOT NULL, PRIMARY KEY(`link`), FOREIGN KEY(`author`) REFERENCES `wordpress_authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`post_link`) REFERENCES `self_hosted_wp_posts`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "wpLink",
+            "columnName": "link",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverID",
+            "columnName": "serverID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateCreated",
+            "columnName": "date_created",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "linkRaw",
+            "columnName": "raw_link",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverPostID",
+            "columnName": "server_post_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postLink",
+            "columnName": "post_link",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateModified",
+            "columnName": "date_modified",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "slug",
+            "columnName": "slug",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverAuthor",
+            "columnName": "server_author",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorLink",
+            "columnName": "author",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "commentStatus",
+            "columnName": "comment_status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "altText",
+            "columnName": "alt_text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mediaType",
+            "columnName": "media_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mimeType",
+            "columnName": "mime_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title.rendered",
+            "columnName": "title_rendered",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description.rendered",
+            "columnName": "description_rendered",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "link"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_wordpress_media_author",
+            "unique": false,
+            "columnNames": [
+              "author"
+            ],
+            "createSql": "CREATE  INDEX `index_wordpress_media_author` ON `${TABLE_NAME}` (`author`)"
+          },
+          {
+            "name": "index_wordpress_media_post_link",
+            "unique": false,
+            "columnNames": [
+              "post_link"
+            ],
+            "createSql": "CREATE  INDEX `index_wordpress_media_post_link` ON `${TABLE_NAME}` (`post_link`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "wordpress_authors",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "author"
+            ],
+            "referencedColumns": [
+              "link"
+            ]
+          },
+          {
+            "table": "self_hosted_wp_posts",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "post_link"
+            ],
+            "referencedColumns": [
+              "link"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"92c5d69579ae6fbcac3fecbd3208a869\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fecfb483d1fbb771152e159c779d944b\")"
     ]
   }
 }

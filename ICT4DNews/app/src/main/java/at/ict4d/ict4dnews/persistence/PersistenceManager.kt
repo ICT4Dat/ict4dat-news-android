@@ -4,8 +4,10 @@ import android.arch.lifecycle.LiveData
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
+import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
 import at.ict4d.ict4dnews.persistence.database.dao.SelfHostedWPPostDao
 import at.ict4d.ict4dnews.persistence.database.dao.WordpressAuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.WordpressMediaDao
 import javax.inject.Inject
 
 class PersistenceManager : IPersistenceManager {
@@ -16,17 +18,20 @@ class PersistenceManager : IPersistenceManager {
     @Inject
     protected lateinit var wordpressAuthorDao: WordpressAuthorDao
 
+    @Inject
+    protected lateinit var wordpressMediaDao: WordpressMediaDao
+
     init {
         ICT4DNewsApplication.component.inject(this)
     }
 
-    // Wordpress Authors
+    // Self Hosted Wordpress Authors
 
-    override fun insertAuthor(author: WordpressAuthor) = wordpressAuthorDao.insert(author)
+    override fun insertWordpressAuthor(author: WordpressAuthor) = wordpressAuthorDao.insert(author)
 
-    override fun insertAllAuthors(authors: List<WordpressAuthor>) = wordpressAuthorDao.insertAll(authors)
+    override fun insertAllWordpressAuthors(authors: List<WordpressAuthor>) = wordpressAuthorDao.insertAll(authors)
 
-    override fun getAllAuthors(): LiveData<List<WordpressAuthor>> = wordpressAuthorDao.getAll()
+    override fun getAllWordpressAuthors(): LiveData<List<WordpressAuthor>> = wordpressAuthorDao.getAll()
 
     // Self Hosted Wordpress Blog
 
@@ -35,5 +40,13 @@ class PersistenceManager : IPersistenceManager {
     override fun insertAllSelfHostedWPPosts(posts: List<SelfHostedWPPost>) = selfHostedWPPostDao.insertAll(posts)
 
     override fun getAllSelfHostedWPPosts(): LiveData<List<SelfHostedWPPost>> = selfHostedWPPostDao.getAll()
+
+    // Self Hosted Wordpress Media
+
+    override fun insertWordpressMedia(media: WordpressMedia) = wordpressMediaDao.insert(media)
+
+    override fun insertAllWordpressMedia(media: List<WordpressMedia>) = wordpressMediaDao.insertAll(media)
+
+    override fun getAllWordpressMedia(): LiveData<List<WordpressMedia>> = wordpressMediaDao.getAll()
 
 }

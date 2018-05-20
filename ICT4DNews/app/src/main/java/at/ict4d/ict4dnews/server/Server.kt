@@ -3,6 +3,7 @@ package at.ict4d.ict4dnews.server
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
+import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
@@ -45,12 +46,29 @@ class Server : IServer {
                 apiJsonSelfHostedWPService.getJsonICT4DatNews(),
                 BiFunction { authors: List<WordpressAuthor>, posts: List<SelfHostedWPPost> ->
 
-                    posts.map { post -> post.authorLink = authors.find { author -> author.server_id == post.server_author }?.link ?: "" }
+                    // Set up forgein key for posts
+                    posts.map { post -> post.authorLink = authors.find { author -> author.server_id == post.serverAuthor }?.link ?: "" }
+
+                    // Query for all media elements per each post
+                    val media: MutableList<WordpressMedia> = mutableListOf()
+                    for (post in posts) {
+                        val postMedia = apiJsonSelfHostedWPService.getJsonICT4DatMediaForPost(post.serverID).execute().body()
+
+                        if (postMedia != null) {
+                            media += postMedia
+                        }
+                    }
+
+                    // Set up forgein keys for media
+                    media.map { m -> m.postLink = posts.find { post -> post.serverID == m.serverPostID }?.link ?: "" }
+                    media.map { m -> m.authorLink = authors.find { author -> author.server_id == m.serverAuthor }?.link ?: "" }
 
                     // Timber.d("*** $authors")
                     // Timber.d("*** $posts")
-                    persistenceManager.insertAllAuthors(authors)
+                    //Timber.d("*** $media")
+                    persistenceManager.insertAllWordpressAuthors(authors)
                     persistenceManager.insertAllSelfHostedWPPosts(posts)
+                    persistenceManager.insertAllWordpressMedia(media)
                 }
         )
                 .subscribeOn(Schedulers.io())
