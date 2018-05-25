@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
+import io.reactivex.Flowable
 
 @Dao
 abstract class WordpressAuthorDao {
@@ -17,6 +18,6 @@ abstract class WordpressAuthorDao {
     abstract fun insertAll(authors: List<WordpressAuthor>)
 
     @Query("SELECT * FROM ${WordpressAuthor.TABLE_TABLE_NAME}")
-    abstract fun getAll(): LiveData<List<WordpressAuthor>>
+    abstract fun getAll(): Flowable<List<WordpressAuthor>>
 
 }

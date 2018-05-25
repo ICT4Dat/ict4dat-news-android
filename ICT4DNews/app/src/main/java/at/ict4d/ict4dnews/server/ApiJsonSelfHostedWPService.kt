@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface ApiJsonSelfHostedWPService {
 
-    @GET("http://www.ict4d.at/wp-json/wp/v2/posts")
+    @GET("http://www.ict4d.at/wp-json/wp/v2/posts?per_page=30")
     fun getJsonICT4DatNews(): Flowable<List<SelfHostedWPPost>>
 
     @GET("http://www.ict4d.at/wp-json/wp/v2/users")

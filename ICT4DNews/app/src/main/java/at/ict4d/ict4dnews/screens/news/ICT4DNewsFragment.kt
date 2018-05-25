@@ -1,14 +1,14 @@
 package at.ict4d.ict4dnews.screens.news
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.*
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
+import at.ict4d.ict4dnews.models.NewsListModel
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
-import at.ict4d.ict4dnews.screens.news.dummy.DummyContent
-import at.ict4d.ict4dnews.screens.news.dummy.DummyContent.DummyItem
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -37,6 +37,8 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         setHasOptionsMenu(true)
     }
 
+    private var adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter(this)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
@@ -48,7 +50,14 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         })
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
-        binding.recyclerview.adapter = ICT4DNewsRecyclerViewAdapter(DummyContent.ITEMS, this)
+        binding.recyclerview.adapter = adapter
+
+        model.newsListData.observe(this, Observer {
+            it?.let {
+                Timber.d("list in fragment: $it")
+                adapter.submitList(it)
+            }
+        })
 
         return view
     }
@@ -93,7 +102,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         }
     }
 
-    override fun onListItemClicked(item: DummyItem?) {
+    override fun onListItemClicked(item: NewsListModel?) {
         activity?.toast("clicked on: ${item.toString()}")
     }
 

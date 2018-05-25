@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.models.wordpress
 
 import android.arch.persistence.room.*
+import at.ict4d.ict4dnews.models.NewsListModel
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost.Companion.TABLE_TABLE_NAME
 import com.google.gson.annotations.SerializedName
 import org.threeten.bp.LocalDateTime
@@ -12,7 +13,7 @@ import org.threeten.bp.LocalDateTime
                 childColumns = [SelfHostedWPPost.TABLE_AUTHOR]))],
 
         indices = [(Index(value = [SelfHostedWPPost.TABLE_AUTHOR]))])
-data class SelfHostedWPPost(
+data class SelfHostedWPPost (
 
         @PrimaryKey
         @ColumnInfo(name = TABLE_LINK)
@@ -41,11 +42,11 @@ data class SelfHostedWPPost(
 
         @ColumnInfo(name = TABLE_TITLE)
         @SerializedName(SERIALIZED_TITLE)
-        val title: Map<String, String>,
+        val title: MutableMap<String, String>,
 
         @ColumnInfo(name = TABLE_CONTENT)
         @SerializedName(SERIALIZED_CONTENT)
-        val content: Map<String, String>,
+        val content: MutableMap<String, String>,
 
         @ColumnInfo(name = TABLE_EXCERPT)
         @SerializedName(SERIALIZED_EXCERPT)
@@ -73,6 +74,7 @@ data class SelfHostedWPPost(
         @ColumnInfo(name = TABLE_TAGS)
         @SerializedName(SERIALIZED_TAGS)
         val tags: List<Int>
+
 ) {
 
     companion object {
@@ -107,5 +109,6 @@ data class SelfHostedWPPost(
         const val SERIALIZED_COMMENT_STATUS = "comment_status"
         const val SERIALIZED_CATEGORIES = "categories"
         const val SERIALIZED_TAGS = "tags"
+        const val SERIALIZED_RENDERED = "rendered"
     }
 }

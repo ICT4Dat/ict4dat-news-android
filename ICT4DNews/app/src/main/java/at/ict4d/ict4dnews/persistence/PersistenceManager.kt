@@ -8,6 +8,7 @@ import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
 import at.ict4d.ict4dnews.persistence.database.dao.SelfHostedWPPostDao
 import at.ict4d.ict4dnews.persistence.database.dao.WordpressAuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.WordpressMediaDao
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 class PersistenceManager : IPersistenceManager {
@@ -31,7 +32,7 @@ class PersistenceManager : IPersistenceManager {
 
     override fun insertAllWordpressAuthors(authors: List<WordpressAuthor>) = wordpressAuthorDao.insertAll(authors)
 
-    override fun getAllWordpressAuthors(): LiveData<List<WordpressAuthor>> = wordpressAuthorDao.getAll()
+    override fun getAllWordpressAuthors(): Flowable<List<WordpressAuthor>> = wordpressAuthorDao.getAll()
 
     // Self Hosted Wordpress Blog
 
@@ -39,7 +40,7 @@ class PersistenceManager : IPersistenceManager {
 
     override fun insertAllSelfHostedWPPosts(posts: List<SelfHostedWPPost>) = selfHostedWPPostDao.insertAll(posts)
 
-    override fun getAllSelfHostedWPPosts(): LiveData<List<SelfHostedWPPost>> = selfHostedWPPostDao.getAll()
+    override fun getAllSelfHostedWPPosts(): Flowable<List<SelfHostedWPPost>> = selfHostedWPPostDao.getAll()
 
     // Self Hosted Wordpress Media
 
@@ -47,6 +48,6 @@ class PersistenceManager : IPersistenceManager {
 
     override fun insertAllWordpressMedia(media: List<WordpressMedia>) = wordpressMediaDao.insertAll(media)
 
-    override fun getAllWordpressMedia(): LiveData<List<WordpressMedia>> = wordpressMediaDao.getAll()
+    override fun getAllWordpressMedia(): Flowable<List<WordpressMedia>> = wordpressMediaDao.getAll()
 
 }

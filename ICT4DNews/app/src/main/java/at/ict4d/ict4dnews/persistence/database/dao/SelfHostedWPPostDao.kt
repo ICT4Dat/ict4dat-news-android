@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
+import io.reactivex.Flowable
 
 @Dao
 abstract class SelfHostedWPPostDao {
@@ -17,6 +18,6 @@ abstract class SelfHostedWPPostDao {
     abstract fun insertAll(posts: List<SelfHostedWPPost>)
 
     @Query("SELECT * FROM ${SelfHostedWPPost.TABLE_TABLE_NAME}")
-    abstract fun getAll(): LiveData<List<SelfHostedWPPost>>
+    abstract fun getAll(): Flowable<List<SelfHostedWPPost>>
 
 }

@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
+import io.reactivex.Flowable
 
 @Dao
 abstract class WordpressMediaDao {
@@ -17,6 +18,6 @@ abstract class WordpressMediaDao {
     abstract fun insertAll(media: List<WordpressMedia>)
 
     @Query("SELECT * FROM ${WordpressMedia.TABLE_TABLE_NAME}")
-    abstract fun getAll(): LiveData<List<WordpressMedia>>
+    abstract fun getAll(): Flowable<List<WordpressMedia>>
 
 }

@@ -1,6 +1,9 @@
 package at.ict4d.ict4dnews.server
 
+import android.support.v4.text.TextUtilsCompat
+import android.text.TextUtils
 import at.ict4d.ict4dnews.ICT4DNewsApplication
+import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
@@ -63,9 +66,18 @@ class Server : IServer {
                     media.map { m -> m.postLink = posts.find { post -> post.serverID == m.serverPostID }?.link ?: "" }
                     media.map { m -> m.authorLink = authors.find { author -> author.server_id == m.serverAuthor }?.link ?: "" }
 
+                    // Strip HTML
+                    posts.map {post ->
+                        post.content[SelfHostedWPPost.SERIALIZED_RENDERED]?.let {
+                            post.content[SelfHostedWPPost.SERIALIZED_RENDERED] = it.stripHtml()
+                        }
+                        post.title[SelfHostedWPPost.SERIALIZED_RENDERED]?.let {
+                            post.title[SelfHostedWPPost.SERIALIZED_RENDERED] = it.stripHtml()
+                        }
+                    }
                     // Timber.d("*** $authors")
                     // Timber.d("*** $posts")
-                    //Timber.d("*** $media")
+                    // Timber.d("*** $media")
                     persistenceManager.insertAllWordpressAuthors(authors)
                     persistenceManager.insertAllSelfHostedWPPosts(posts)
                     persistenceManager.insertAllWordpressMedia(media)
