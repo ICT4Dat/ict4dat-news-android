@@ -1,4 +1,4 @@
-package at.ict4d.ict4dnews.screens.news
+package at.ict4d.ict4dnews.screens.news.list
 
 import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil

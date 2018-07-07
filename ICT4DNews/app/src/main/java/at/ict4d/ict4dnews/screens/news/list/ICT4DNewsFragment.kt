@@ -1,7 +1,9 @@
-package at.ict4d.ict4dnews.screens.news
+package at.ict4d.ict4dnews.screens.news.list
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.*
@@ -9,9 +11,13 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.models.NewsListModel
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
+import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity
+import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_ictdnews_item.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -43,11 +49,11 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
                               savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        binding.swiperefresh.setOnRefreshListener({
+        binding.swiperefresh.setOnRefreshListener {
             // TODO: start refresh operation
             activity?.toast("refreshing....")
             binding.swiperefresh.isRefreshing = false
-        })
+        }
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
@@ -75,9 +81,9 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe({ query ->
                     Timber.d("*** query: $query")
-                    activity?.runOnUiThread({
+                    activity?.runOnUiThread {
                         activity?.toast("You will search for: $query")
-                    })
+                    }
                 }, { e ->
                     Timber.e("*** error: $e")
                 }, {
@@ -103,7 +109,14 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     }
 
     override fun onListItemClicked(item: NewsListModel?) {
-        activity?.toast("clicked on: ${item.toString()}")
+        item?.let {item ->
+            activity?.let {
+                val intent = Intent(it, ICT4DNewsDetailActivity::class.java)
+                intent.putExtra(KEY_NEWS_LIST_MODEL, item)
+                val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(it, postImage, "post_image")
+                startActivity(intent, optionsCompat.toBundle())
+            }
+        }
     }
 
     companion object {

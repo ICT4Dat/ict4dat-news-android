@@ -21,6 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".screens.news.detail.ICT4DNewsDetailActivity"
+            android:label="@string/title_activity_ict4_dnews_detail"
+            android:parentActivityName=".screens.MainNavigationActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="at.ict4d.ict4dnews.screens.MainNavigationActivity" />
+        </activity>
     </application>
 
 </manifest>

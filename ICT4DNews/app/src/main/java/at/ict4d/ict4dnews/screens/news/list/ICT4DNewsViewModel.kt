@@ -1,4 +1,4 @@
-package at.ict4d.ict4dnews.screens.news
+package at.ict4d.ict4dnews.screens.news.list
 
 import android.arch.lifecycle.MutableLiveData
 import at.ict4d.ict4dnews.ICT4DNewsApplication
@@ -12,7 +12,6 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import javax.inject.Inject
 
 class ICT4DNewsViewModel : BaseViewModel() {

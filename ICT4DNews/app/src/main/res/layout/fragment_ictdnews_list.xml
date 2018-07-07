@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
-            tools:context=".screens.news.ICT4DNewsFragment"
+            tools:context=".screens.news.list.ICT4DNewsFragment"
             tools:listitem="@layout/fragment_ictdnews_item" />
 
     </android.support.v4.widget.SwipeRefreshLayout>

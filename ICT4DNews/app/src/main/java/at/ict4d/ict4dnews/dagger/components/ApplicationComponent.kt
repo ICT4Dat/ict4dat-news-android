@@ -8,7 +8,7 @@ import at.ict4d.ict4dnews.lifecycle.RXErrorEventBusLifecycleObserver
 import at.ict4d.ict4dnews.persistence.PersistenceManager
 import at.ict4d.ict4dnews.persistence.database.Converters
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
-import at.ict4d.ict4dnews.screens.news.ICT4DNewsViewModel
+import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsViewModel
 import at.ict4d.ict4dnews.server.Server
 import dagger.Component
 import javax.inject.Singleton

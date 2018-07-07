@@ -27,7 +27,6 @@ class ICT4DatFragment : BaseNavigationFragment<ICT4DatViewModel, FragmentIct4dat
     companion object {
 
         @JvmStatic
-        fun newInstance() =
-                ICT4DatFragment()
+        fun newInstance() = ICT4DatFragment()
     }
 }

@@ -9,7 +9,7 @@ import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import at.ict4d.ict4dnews.screens.ict4dat.ICT4DatFragment
 import at.ict4d.ict4dnews.screens.more.MoreFragment
-import at.ict4d.ict4dnews.screens.news.ICT4DNewsFragment
+import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsFragment
 import at.ict4d.ict4dnews.server.IServer
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
