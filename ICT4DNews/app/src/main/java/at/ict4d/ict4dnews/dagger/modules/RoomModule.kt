@@ -5,9 +5,9 @@ import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.persistence.PersistenceManager
 import at.ict4d.ict4dnews.persistence.database.AppDatabase
-import at.ict4d.ict4dnews.persistence.database.dao.SelfHostedWPPostDao
-import at.ict4d.ict4dnews.persistence.database.dao.WordpressAuthorDao
-import at.ict4d.ict4dnews.persistence.database.dao.WordpressMediaDao
+import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,20 +23,20 @@ class RoomModule {
 
     @Singleton
     @Provides
-    fun providesSelfHostedWPPostDao(database: AppDatabase): SelfHostedWPPostDao {
-        return database.selfHostedWPPostDao()
+    fun providesSelfHostedWPPostDao(database: AppDatabase): NewsDao {
+        return database.newsDao()
     }
 
     @Singleton
     @Provides
-    fun providesWordpressAuthorDao(database: AppDatabase): WordpressAuthorDao {
-        return database.wordpressAuthorDao()
+    fun providesWordpressAuthorDao(database: AppDatabase): AuthorDao {
+        return database.authorDao()
     }
 
     @Singleton
     @Provides
-    fun providesWordpressMediaDao(database: AppDatabase): WordpressMediaDao {
-        return database.wordpressMediaDao()
+    fun providesWordpressMediaDao(database: AppDatabase): MediaDao {
+        return database.mediaDao()
     }
 
     @Singleton

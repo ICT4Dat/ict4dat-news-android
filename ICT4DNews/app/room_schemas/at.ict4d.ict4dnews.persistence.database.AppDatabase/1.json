@@ -2,11 +2,82 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fecfb483d1fbb771152e159c779d944b",
+    "identityHash": "8d31e1f8b1b6e1343a67c879ee9bbcbc",
     "entities": [
       {
-        "tableName": "self_hosted_wp_posts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `date` TEXT NOT NULL, `modified` TEXT NOT NULL, `slug` TEXT NOT NULL, `type` TEXT NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `excerpt` TEXT NOT NULL, `server_author` INTEGER NOT NULL, `author` TEXT NOT NULL, `featured_media` INTEGER NOT NULL, `comment_status` TEXT NOT NULL, `categories` TEXT NOT NULL, `tags` TEXT NOT NULL, PRIMARY KEY(`link`), FOREIGN KEY(`author`) REFERENCES `wordpress_authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "tableName": "news",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `featured_media` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "link",
+            "columnName": "link",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorID",
+            "columnName": "author_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverID",
+            "columnName": "server_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mediaFeaturedURL",
+            "columnName": "featured_media",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "link"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_news_author_id",
+            "unique": false,
+            "columnNames": [
+              "author_id"
+            ],
+            "createSql": "CREATE  INDEX `index_news_author_id` ON `${TABLE_NAME}` (`author_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "authors",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "author_id"
+            ],
+            "referencedColumns": [
+              "link"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "authors",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `name` TEXT, `image_url` TEXT, `description` TEXT, `username` TEXT, PRIMARY KEY(`link`))",
         "fields": [
           {
             "fieldPath": "link",
@@ -21,159 +92,28 @@
             "notNull": true
           },
           {
-            "fieldPath": "date",
-            "columnName": "date",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "modifiedDate",
-            "columnName": "modified",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "slug",
-            "columnName": "slug",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "type",
-            "columnName": "type",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "title",
-            "columnName": "title",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "content",
-            "columnName": "content",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "excerpt",
-            "columnName": "excerpt",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "serverAuthor",
-            "columnName": "server_author",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "authorLink",
-            "columnName": "author",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "featuredMedia",
-            "columnName": "featured_media",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "commentStatus",
-            "columnName": "comment_status",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "categories",
-            "columnName": "categories",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "tags",
-            "columnName": "tags",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "link"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [
-          {
-            "name": "index_self_hosted_wp_posts_author",
-            "unique": false,
-            "columnNames": [
-              "author"
-            ],
-            "createSql": "CREATE  INDEX `index_self_hosted_wp_posts_author` ON `${TABLE_NAME}` (`author`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "wordpress_authors",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "author"
-            ],
-            "referencedColumns": [
-              "link"
-            ]
-          }
-        ]
-      },
-      {
-        "tableName": "wordpress_authors",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `name` TEXT NOT NULL, `url` TEXT NOT NULL, `description` TEXT NOT NULL, `slug` TEXT NOT NULL, `avatar_urls` TEXT NOT NULL, PRIMARY KEY(`link`))",
-        "fields": [
-          {
-            "fieldPath": "link",
-            "columnName": "link",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "server_id",
-            "columnName": "server_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "url",
-            "columnName": "url",
+            "fieldPath": "imageURL",
+            "columnName": "image_url",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "description",
             "columnName": "description",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "slug",
-            "columnName": "slug",
+            "fieldPath": "username",
+            "columnName": "username",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "avatarURLs",
-            "columnName": "avatar_urls",
-            "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -186,11 +126,11 @@
         "foreignKeys": []
       },
       {
-        "tableName": "wordpress_media",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `serverID` INTEGER NOT NULL, `date_created` TEXT NOT NULL, `raw_link` TEXT NOT NULL, `server_post_id` INTEGER NOT NULL, `post_link` TEXT NOT NULL, `date_modified` TEXT NOT NULL, `slug` TEXT NOT NULL, `status` TEXT NOT NULL, `type` TEXT NOT NULL, `server_author` INTEGER NOT NULL, `author` TEXT NOT NULL, `comment_status` TEXT NOT NULL, `alt_text` TEXT NOT NULL, `media_type` TEXT NOT NULL, `mime_type` TEXT NOT NULL, `title_rendered` TEXT NOT NULL, `description_rendered` TEXT NOT NULL, PRIMARY KEY(`link`), FOREIGN KEY(`author`) REFERENCES `wordpress_authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`post_link`) REFERENCES `self_hosted_wp_posts`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "tableName": "media",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `serverID` INTEGER NOT NULL, `news_id` TEXT NOT NULL, `author_id` TEXT NOT NULL, `mime_type` TEXT, `title` TEXT, `description` TEXT, `date_created` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`news_id`) REFERENCES `news`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
-            "fieldPath": "wpLink",
+            "fieldPath": "link",
             "columnName": "link",
             "affinity": "TEXT",
             "notNull": true
@@ -202,100 +142,40 @@
             "notNull": true
           },
           {
-            "fieldPath": "dateCreated",
-            "columnName": "date_created",
+            "fieldPath": "newsID",
+            "columnName": "news_id",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "linkRaw",
-            "columnName": "raw_link",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "serverPostID",
-            "columnName": "server_post_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "postLink",
-            "columnName": "post_link",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "dateModified",
-            "columnName": "date_modified",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "slug",
-            "columnName": "slug",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "status",
-            "columnName": "status",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "type",
-            "columnName": "type",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "serverAuthor",
-            "columnName": "server_author",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "authorLink",
-            "columnName": "author",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "commentStatus",
-            "columnName": "comment_status",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "altText",
-            "columnName": "alt_text",
+            "fieldPath": "authorID",
+            "columnName": "author_id",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "mediaType",
-            "columnName": "media_type",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "mimeType",
             "columnName": "mime_type",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "title.rendered",
-            "columnName": "title_rendered",
+            "fieldPath": "title",
+            "columnName": "title",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "description.rendered",
-            "columnName": "description_rendered",
+            "fieldPath": "description",
+            "columnName": "description",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateCreated",
+            "columnName": "date_created",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -306,40 +186,40 @@
         },
         "indices": [
           {
-            "name": "index_wordpress_media_author",
+            "name": "index_media_news_id",
             "unique": false,
             "columnNames": [
-              "author"
+              "news_id"
             ],
-            "createSql": "CREATE  INDEX `index_wordpress_media_author` ON `${TABLE_NAME}` (`author`)"
+            "createSql": "CREATE  INDEX `index_media_news_id` ON `${TABLE_NAME}` (`news_id`)"
           },
           {
-            "name": "index_wordpress_media_post_link",
+            "name": "index_media_author_id",
             "unique": false,
             "columnNames": [
-              "post_link"
+              "author_id"
             ],
-            "createSql": "CREATE  INDEX `index_wordpress_media_post_link` ON `${TABLE_NAME}` (`post_link`)"
+            "createSql": "CREATE  INDEX `index_media_author_id` ON `${TABLE_NAME}` (`author_id`)"
           }
         ],
         "foreignKeys": [
           {
-            "table": "wordpress_authors",
+            "table": "news",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
-              "author"
+              "news_id"
             ],
             "referencedColumns": [
               "link"
             ]
           },
           {
-            "table": "self_hosted_wp_posts",
+            "table": "authors",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
-              "post_link"
+              "author_id"
             ],
             "referencedColumns": [
               "link"
@@ -350,7 +230,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fecfb483d1fbb771152e159c779d944b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8d31e1f8b1b6e1343a67c879ee9bbcbc\")"
     ]
   }
 }

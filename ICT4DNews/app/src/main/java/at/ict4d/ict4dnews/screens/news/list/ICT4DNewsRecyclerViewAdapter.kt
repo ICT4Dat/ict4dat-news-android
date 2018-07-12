@@ -9,19 +9,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.models.NewsListModel
+import at.ict4d.ict4dnews.models.NewsModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_ictdnews_item.view.*
 
 
-class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickListener?) : ListAdapter<NewsListModel, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickListener?) : ListAdapter<NewsModel, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
 
     private val mOnClickListener: View.OnClickListener
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as NewsListModel
+            val item = v.tag as NewsModel
             mListener?.onListItemClicked(item)
         }
     }
@@ -33,13 +33,13 @@ class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickLi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.headlineView.text = item.forListTitle
+        holder.headlineView.text = item.title
 
-        if (item.forListImageURL == null) {
+        if (item.mediaFeaturedURL == null) {
             holder.imageView.setImageDrawable(null)
         } else {
-            Glide.with(holder.imageView.context).load(item.forListImageURL).apply(RequestOptions.circleCropTransform()).into(holder.imageView)
-            holder.imageView.contentDescription = item.forListTitle
+            Glide.with(holder.imageView.context).load(item.mediaFeaturedURL).apply(RequestOptions.circleCropTransform()).into(holder.imageView)
+            holder.imageView.contentDescription = item.title
         }
 
         with(holder.view) {
@@ -54,16 +54,16 @@ class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickLi
     }
 
     interface OnICT4DNewsListClickListener {
-        fun onListItemClicked(item: NewsListModel?)
+        fun onListItemClicked(item: NewsModel?)
     }
 }
 
-class NewsListDiffCallback : DiffUtil.ItemCallback<NewsListModel>() {
-    override fun areItemsTheSame(oldItem: NewsListModel?, newItem: NewsListModel?): Boolean {
-        return oldItem?.forListNewsURL == newItem?.forListNewsURL
+class NewsListDiffCallback : DiffUtil.ItemCallback<NewsModel>() {
+    override fun areItemsTheSame(oldItem: NewsModel?, newItem: NewsModel?): Boolean {
+        return oldItem?.link == newItem?.link
     }
 
-    override fun areContentsTheSame(oldItem: NewsListModel?, newItem: NewsListModel?): Boolean {
+    override fun areContentsTheSame(oldItem: NewsModel?, newItem: NewsModel?): Boolean {
         return oldItem == newItem
     }
 }
