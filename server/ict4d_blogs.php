@@ -1,4 +1,5 @@
 <?php
+header('Content-type:application/json;charset=utf-8');
 $array = array(array("name" => "My heart's in Accra",  
               "description" => "Personal blog from Ethan Zuckerman, director of the Center for Civic Media at MIT.", 
               "url" => "http://www.ethanzuckerman.com/blog/feed/",
