@@ -5,11 +5,9 @@ import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.persistence.PersistenceManager
 import at.ict4d.ict4dnews.persistence.database.AppDatabase
-import at.ict4d.ict4dnews.persistence.database.dao.SelfHostedWPPostDao
-import at.ict4d.ict4dnews.persistence.database.dao.WordpressAuthorDao
-import at.ict4d.ict4dnews.persistence.database.dao.WordpressMediaDao
-import at.ict4d.ict4dnews.server.ApiJsonSelfHostedWPService
-import at.ict4d.ict4dnews.server.ApiRSSService
+import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -19,33 +17,29 @@ class RoomModule {
 
     @Singleton
     @Provides
-    fun providesRoomDatabase(application: ICT4DNewsApplication): AppDatabase {
-        return Room.databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME).build()
-    }
+    fun providesRoomDatabase(application: ICT4DNewsApplication): AppDatabase = Room.databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME).build()
+
 
     @Singleton
     @Provides
-    fun providesSelfHostedWPPostDao(database: AppDatabase): SelfHostedWPPostDao {
-        return database.selfHostedWPPostDao()
-    }
+    fun providesNewsDao(database: AppDatabase): NewsDao = database.newsDao()
+
 
     @Singleton
     @Provides
-    fun providesWordpressAuthorDao(database: AppDatabase): WordpressAuthorDao {
-        return database.wordpressAuthorDao()
-    }
+    fun providesAuthorDao(database: AppDatabase): AuthorDao = database.authorDao()
+
 
     @Singleton
     @Provides
-    fun providesWordpressMediaDao(database: AppDatabase): WordpressMediaDao {
-        return database.wordpressMediaDao()
-    }
+    fun providesMediaDao(database: AppDatabase): MediaDao = database.mediaDao()
+
 
     @Singleton
     @Provides
     fun providesPersistentManager(
-            selfHostedWPPostDao: SelfHostedWPPostDao,
-            wordpressAuthorDao: WordpressAuthorDao,
-            wordpressMediaDao: WordpressMediaDao
-    ): IPersistenceManager = PersistenceManager(selfHostedWPPostDao, wordpressAuthorDao, wordpressMediaDao)
+            authorDao: AuthorDao,
+            newsDao: NewsDao,
+            mediaDao: MediaDao
+    ): IPersistenceManager = PersistenceManager(authorDao, newsDao, mediaDao)
 }

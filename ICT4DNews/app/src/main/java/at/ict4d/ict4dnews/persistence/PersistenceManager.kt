@@ -1,41 +1,42 @@
 package at.ict4d.ict4dnews.persistence
 
-import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
-import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
-import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
-import at.ict4d.ict4dnews.persistence.database.dao.SelfHostedWPPostDao
-import at.ict4d.ict4dnews.persistence.database.dao.WordpressAuthorDao
-import at.ict4d.ict4dnews.persistence.database.dao.WordpressMediaDao
-import io.reactivex.Flowable
+import android.arch.lifecycle.LiveData
+import at.ict4d.ict4dnews.models.AuthorModel
+import at.ict4d.ict4dnews.models.MediaModel
+import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
+import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import javax.inject.Inject
 
 class PersistenceManager @Inject constructor(
-        private val selfHostedWPPostDao: SelfHostedWPPostDao,
-        private val wordpressAuthorDao: WordpressAuthorDao,
-        private val wordpressMediaDao: WordpressMediaDao
+        private val authorDao: AuthorDao,
+        private val newsDao: NewsDao,
+        private val mediaDao: MediaDao
 ) : IPersistenceManager {
 
-    // Self Hosted Wordpress Authors
+    // Authors
 
-    override fun insertWordpressAuthor(author: WordpressAuthor) = wordpressAuthorDao.insert(author)
+    override fun insertAuthor(author: AuthorModel) = authorDao.insert(author)
 
-    override fun insertAllWordpressAuthors(authors: List<WordpressAuthor>) = wordpressAuthorDao.insertAll(authors)
+    override fun insertAllAuthors(authors: List<AuthorModel>) = authorDao.insertAll(authors)
 
-    override fun getAllWordpressAuthors(): Flowable<List<WordpressAuthor>> = wordpressAuthorDao.getAll()
+    override fun getAllAuthors(): LiveData<List<AuthorModel>> = authorDao.getAll()
 
-    // Self Hosted Wordpress Blog
+    // News
 
-    override fun insertSelfHostedWPPost(post: SelfHostedWPPost) = selfHostedWPPostDao.insert(post)
+    override fun insertNews(news: NewsModel) = newsDao.insert(news)
 
-    override fun insertAllSelfHostedWPPosts(posts: List<SelfHostedWPPost>) = selfHostedWPPostDao.insertAll(posts)
+    override fun insertAllNews(news: List<NewsModel>) = newsDao.insertAll(news)
 
-    override fun getAllSelfHostedWPPosts(): Flowable<List<SelfHostedWPPost>> = selfHostedWPPostDao.getAll()
+    override fun getAllNews(): LiveData<List<NewsModel>> = newsDao.getAll()
 
-    // Self Hosted Wordpress Media
+    // Media
 
-    override fun insertWordpressMedia(media: WordpressMedia) = wordpressMediaDao.insert(media)
+    override fun insertMedia(media: MediaModel) = mediaDao.insert(media)
 
-    override fun insertAllWordpressMedia(media: List<WordpressMedia>) = wordpressMediaDao.insertAll(media)
+    override fun insertAllMedia(media: List<MediaModel>) = mediaDao.insertAll(media)
 
-    override fun getAllWordpressMedia(): Flowable<List<WordpressMedia>> = wordpressMediaDao.getAll()
+    override fun getAllMedia(): LiveData<List<MediaModel>> = mediaDao.getAll()
+
 }
