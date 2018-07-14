@@ -21,4 +21,4 @@ before_install:
   - ls -la
 
 script:
-  - ./gradlew clean assembleDebug --stacktrace
+  - gradle build assembleDebug --stacktrace
