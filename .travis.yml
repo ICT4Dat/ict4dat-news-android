@@ -24,11 +24,7 @@ cache:
   - $HOME/.android/build-cache
 
 before_install:
-  - pwd
-  - ls -la
   - cd ICT4DNews
-  - pwd
-  - ls -la
 
 script:
   - chmod +x ./gradlew
