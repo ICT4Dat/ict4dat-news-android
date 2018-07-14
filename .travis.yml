@@ -31,4 +31,5 @@ before_install:
   - ls -la
 
 script:
+  - chmod +x ./gradlew
   - ./gradlew clean assembleDebug --stacktrace
