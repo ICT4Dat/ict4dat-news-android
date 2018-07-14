@@ -1,0 +1,15 @@
+android:
+  components:
+    - tools
+    - platform-tools
+    - tools
+    - extra-android-support
+    - extra-android-m2repository
+    - extra-google-m2repository
+
+    # The SDK version used to compile your project
+    - android-27
+    - build-tools-27.0.3
+
+script:
+  - ./gradlew clean assembleDebug --stacktrace
