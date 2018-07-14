@@ -32,4 +32,4 @@ before_install:
   - ls -la
 
 script:
-  - ./gradlew clean assembleDebug --stacktrace
+  - "./gradlew clean assembleDebug --stacktrace"
