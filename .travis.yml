@@ -14,4 +14,4 @@ jdk:
   - oraclejdk8
 
 script:
-  - gradle build clean assembleDebug --stacktrace
+  - ./ICT4DNews/gradlew clean assembleDebug --stacktrace
