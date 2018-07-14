@@ -13,5 +13,12 @@ android:
 jdk:
   - oraclejdk8
 
+before_install:
+  - pwd
+  - ls -la
+  - cd ICT4DNews
+  - pwd
+  - chmod +x /.gradlew
+
 script:
-  - ./ICT4DNews/gradlew clean assembleDebug --stacktrace
+  - ./gradlew clean assembleDebug --stacktrace
