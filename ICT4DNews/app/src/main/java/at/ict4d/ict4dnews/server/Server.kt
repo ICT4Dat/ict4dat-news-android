@@ -1,8 +1,5 @@
 package at.ict4d.ict4dnews.server
 
-import android.support.v4.text.TextUtilsCompat
-import android.text.TextUtils
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
@@ -15,20 +12,11 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class Server : IServer {
-
-    @Inject
-    protected lateinit var apiRSSService: ApiRSSService
-
-    @Inject
-    protected lateinit var apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService
-
-    @Inject
-    protected lateinit var persistenceManager: IPersistenceManager
-
-    init {
-        ICT4DNewsApplication.component.inject(this)
-    }
+class Server @Inject constructor(
+        private val apiRSSService: ApiRSSService,
+        private val apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
+        private val persistenceManager: IPersistenceManager
+) : IServer {
 
     override fun loadICT4DatRSSFeed(): Disposable {
         return apiRSSService.getRssICT4DatNews()
@@ -67,7 +55,7 @@ class Server : IServer {
                     media.map { m -> m.authorLink = authors.find { author -> author.server_id == m.serverAuthor }?.link ?: "" }
 
                     // Strip HTML
-                    posts.map {post ->
+                    posts.map { post ->
                         post.content[SelfHostedWPPost.SERIALIZED_RENDERED]?.let {
                             post.content[SelfHostedWPPost.SERIALIZED_RENDERED] = it.stripHtml()
                         }
@@ -89,6 +77,7 @@ class Server : IServer {
                     Timber.d("onNext: $it")
                 }, {
                     Timber.e("Error in ICT4D.at Call", it)
+                    Timber.e(it)
                 }, {
                     Timber.d("onComplete ICT4D.at")
                 })

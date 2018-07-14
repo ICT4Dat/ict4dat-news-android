@@ -36,12 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
 
 class Converters {
 
-    @Inject
-    lateinit var gson: Gson
-
-    init {
-        ICT4DNewsApplication.component.inject(this)
-    }
+    private val gson: Gson = Gson()
 
     @TypeConverter
     fun localDateTimeFromString(value: String?): LocalDateTime? {

@@ -22,12 +22,6 @@ import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [ICT4DNewsFragment.OnListFragmentInteractionListener] interface.
- */
 class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(), ICT4DNewsRecyclerViewAdapter.OnICT4DNewsListClickListener {
 
     override fun getMenuItemId(): Int = R.id.navigation_news

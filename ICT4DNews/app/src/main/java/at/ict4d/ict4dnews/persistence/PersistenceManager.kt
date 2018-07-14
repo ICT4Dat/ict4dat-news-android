@@ -1,7 +1,5 @@
 package at.ict4d.ict4dnews.persistence
 
-import android.arch.lifecycle.LiveData
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
@@ -11,20 +9,11 @@ import at.ict4d.ict4dnews.persistence.database.dao.WordpressMediaDao
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class PersistenceManager : IPersistenceManager {
-
-    @Inject
-    protected lateinit var selfHostedWPPostDao: SelfHostedWPPostDao
-
-    @Inject
-    protected lateinit var wordpressAuthorDao: WordpressAuthorDao
-
-    @Inject
-    protected lateinit var wordpressMediaDao: WordpressMediaDao
-
-    init {
-        ICT4DNewsApplication.component.inject(this)
-    }
+class PersistenceManager @Inject constructor(
+        private val selfHostedWPPostDao: SelfHostedWPPostDao,
+        private val wordpressAuthorDao: WordpressAuthorDao,
+        private val wordpressMediaDao: WordpressMediaDao
+) : IPersistenceManager {
 
     // Self Hosted Wordpress Authors
 
@@ -49,5 +38,4 @@ class PersistenceManager : IPersistenceManager {
     override fun insertAllWordpressMedia(media: List<WordpressMedia>) = wordpressMediaDao.insertAll(media)
 
     override fun getAllWordpressMedia(): Flowable<List<WordpressMedia>> = wordpressMediaDao.getAll()
-
 }

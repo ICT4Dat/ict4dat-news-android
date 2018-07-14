@@ -1,22 +1,23 @@
 package at.ict4d.ict4dnews
 
+import android.app.Activity
 import android.app.Application
-import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
-import at.ict4d.ict4dnews.dagger.modules.ApplicationModule
 import com.facebook.stetho.Stetho
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import timber.log.Timber
+import javax.inject.Inject
 
-class ICT4DNewsApplication : Application() {
+class ICT4DNewsApplication : Application(), HasActivityInjector {
 
-    companion object {
-        @JvmStatic
-        lateinit var component: ApplicationComponent
-    }
+    @Inject
+    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
 
     override fun onCreate() {
         super.onCreate()
-        initDagger()
+        DaggerApplicationComponent.builder().create(this).inject(this)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
@@ -24,10 +25,5 @@ class ICT4DNewsApplication : Application() {
         }
     }
 
-    private fun initDagger() {
-        component = DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(this))
-                .build()
-    }
-
+    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
 }

@@ -14,16 +14,12 @@ import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class ICT4DNewsViewModel : BaseViewModel() {
+class ICT4DNewsViewModel @Inject constructor(
+        persistenceManager: IPersistenceManager) : BaseViewModel() {
 
     val newsListData: MutableLiveData<List<NewsListModel>> = MutableLiveData()
 
-    @Inject
-    protected lateinit var persistenceManager: IPersistenceManager
-
     init {
-        ICT4DNewsApplication.component.inject(this)
-
         compositeDisposable.add(Flowable.zip(
                 persistenceManager.getAllSelfHostedWPPosts(),
                 persistenceManager.getAllWordpressAuthors(),

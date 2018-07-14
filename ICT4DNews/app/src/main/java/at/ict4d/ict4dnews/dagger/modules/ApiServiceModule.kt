@@ -2,6 +2,7 @@ package at.ict4d.ict4dnews.dagger.modules
 
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.ICT4DNewsApplication
+import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.server.ApiJsonSelfHostedWPService
 import at.ict4d.ict4dnews.server.ApiRSSService
 import at.ict4d.ict4dnews.server.IServer
@@ -12,6 +13,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,7 +53,7 @@ class ApiServiceModule {
     }
 
     @Provides
-    @Singleton
+    @Reusable
     fun provideGson(): Gson {
         return GsonBuilder()
                 .registerTypeAdapter(LocalDateTime::class.java, GsonLocalDateTimeDeserializer())
@@ -59,9 +61,13 @@ class ApiServiceModule {
     }
 
     @Provides
-    fun provideServer(): IServer {
-        return Server()
-    }
+    @Reusable
+    fun provideServer(
+            apiRSSService: ApiRSSService,
+            apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
+            persistenceManager: IPersistenceManager
+    ): IServer = Server(apiRSSService, apiJsonSelfHostedWPService, persistenceManager)
+
 
     @Provides
     @Singleton
