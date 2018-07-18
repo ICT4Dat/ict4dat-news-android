@@ -35,3 +35,6 @@ class RxEventBus @Inject constructor() {
         return mBusSubject.ofType(eventClass)
     }
 }
+
+// TODO("Replace this class with actual class in future because ktlint complains class and file name is not matched")
+class Xyz

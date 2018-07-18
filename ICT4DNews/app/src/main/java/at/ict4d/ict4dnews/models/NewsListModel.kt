@@ -6,10 +6,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class NewsListModel(
-        val forListNewsURL: String,
-        var forListTitle: String? = null,
-        var forListDescription: String? = null,
-        var forListImageURL: String? = null) : Parcelable {
+    val forListNewsURL: String,
+    var forListTitle: String? = null,
+    var forListDescription: String? = null,
+    var forListImageURL: String? = null
+) : Parcelable {
 
     constructor(selfHostedWPPost: SelfHostedWPPost) : this(selfHostedWPPost.link) {
         this.forListTitle = selfHostedWPPost.title[SelfHostedWPPost.SERIALIZED_RENDERED]

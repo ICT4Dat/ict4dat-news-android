@@ -1,6 +1,11 @@
 package at.ict4d.ict4dnews.models.wordpress
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Embedded
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.Index
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia.Companion.TABLE_AUTHOR
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia.Companion.TABLE_POST_LINK
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia.Companion.TABLE_TABLE_NAME
@@ -24,76 +29,76 @@ import org.threeten.bp.LocalDateTime
         ])
 data class WordpressMedia(
 
-        @PrimaryKey
-        @ColumnInfo(name = TABLE_WP_LINK)
-        @SerializedName(SERIALIZED_WP_LINK)
-        val wpLink: String,
+    @PrimaryKey
+    @ColumnInfo(name = TABLE_WP_LINK)
+    @SerializedName(SERIALIZED_WP_LINK)
+    val wpLink: String,
 
-        @ColumnInfo(name = TABLE_SERVER_ID)
-        @SerializedName(SERIALIZED_SERVER_ID)
-        val serverID: Int,
+    @ColumnInfo(name = TABLE_SERVER_ID)
+    @SerializedName(SERIALIZED_SERVER_ID)
+    val serverID: Int,
 
-        @ColumnInfo(name = TABLE_DATE_CREATED)
-        @SerializedName(SERIALIZED_DATE_CREATED)
-        val dateCreated: LocalDateTime,
+    @ColumnInfo(name = TABLE_DATE_CREATED)
+    @SerializedName(SERIALIZED_DATE_CREATED)
+    val dateCreated: LocalDateTime,
 
-        @ColumnInfo(name = TABLE_RAW_LINK)
-        @SerializedName(SERIALIZED_RAW_LINK)
-        val linkRaw: String,
+    @ColumnInfo(name = TABLE_RAW_LINK)
+    @SerializedName(SERIALIZED_RAW_LINK)
+    val linkRaw: String,
 
-        @ColumnInfo(name = TABLE_SERVER_POST_ID)
-        @SerializedName(SERIALIZED_SERVER_POST_ID)
-        val serverPostID: Int,
+    @ColumnInfo(name = TABLE_SERVER_POST_ID)
+    @SerializedName(SERIALIZED_SERVER_POST_ID)
+    val serverPostID: Int,
 
-        @ColumnInfo(name = TABLE_POST_LINK)
-        var postLink: String,
+    @ColumnInfo(name = TABLE_POST_LINK)
+    var postLink: String,
 
-        @ColumnInfo(name = TABLE_DATE_MODIFIED)
-        @SerializedName(SERIALIZED_DATE_MODIFIED)
-        val dateModified: LocalDateTime,
+    @ColumnInfo(name = TABLE_DATE_MODIFIED)
+    @SerializedName(SERIALIZED_DATE_MODIFIED)
+    val dateModified: LocalDateTime,
 
-        @ColumnInfo(name = TABLE_SLUG)
-        @SerializedName(SERIALIZED_SLUG)
-        val slug: String,
+    @ColumnInfo(name = TABLE_SLUG)
+    @SerializedName(SERIALIZED_SLUG)
+    val slug: String,
 
-        @ColumnInfo(name = TABLE_STATUS)
-        @SerializedName(SERIALIZED_STATUS)
-        val status: String,
+    @ColumnInfo(name = TABLE_STATUS)
+    @SerializedName(SERIALIZED_STATUS)
+    val status: String,
 
-        @ColumnInfo(name = TABLE_TYPE)
-        @SerializedName(SERIALIZED_TYPE)
-        val type: String,
+    @ColumnInfo(name = TABLE_TYPE)
+    @SerializedName(SERIALIZED_TYPE)
+    val type: String,
 
-        @Embedded
-        @SerializedName(SERIALIZED_MEDIA_TITLE)
-        val title: MediaTitle,
+    @Embedded
+    @SerializedName(SERIALIZED_MEDIA_TITLE)
+    val title: MediaTitle,
 
-        @ColumnInfo(name = TABLE_SERVER_AUTHOR)
-        @SerializedName(SERIALIZED_SERVER_AUTHOR)
-        val serverAuthor: Int,
+    @ColumnInfo(name = TABLE_SERVER_AUTHOR)
+    @SerializedName(SERIALIZED_SERVER_AUTHOR)
+    val serverAuthor: Int,
 
-        @ColumnInfo(name = TABLE_AUTHOR)
-        var authorLink: String,
+    @ColumnInfo(name = TABLE_AUTHOR)
+    var authorLink: String,
 
-        @ColumnInfo(name = TABLE_COMMENT_STATUS)
-        @SerializedName(SERIALIZED_COMMENT_STATUS)
-        val commentStatus: String,
+    @ColumnInfo(name = TABLE_COMMENT_STATUS)
+    @SerializedName(SERIALIZED_COMMENT_STATUS)
+    val commentStatus: String,
 
-        @Embedded
-        @SerializedName(SERIALIZED_MEDIA_DESCRIPTION)
-        val description: MediaDescription,
+    @Embedded
+    @SerializedName(SERIALIZED_MEDIA_DESCRIPTION)
+    val description: MediaDescription,
 
-        @ColumnInfo(name = TABLE_ALT_TEXT)
-        @SerializedName(SERIALIZED_ALT_TEXT)
-        val altText: String,
+    @ColumnInfo(name = TABLE_ALT_TEXT)
+    @SerializedName(SERIALIZED_ALT_TEXT)
+    val altText: String,
 
-        @ColumnInfo(name = TABLE_MEDIA_TYPE)
-        @SerializedName(SERIALIZED__MEDIA_TYPE)
-        val mediaType: String,
+    @ColumnInfo(name = TABLE_MEDIA_TYPE)
+    @SerializedName(SERIALIZED__MEDIA_TYPE)
+    val mediaType: String,
 
-        @ColumnInfo(name = TABLE_MIME_TYPE)
-        @SerializedName(SERIALIZED__MIME_TYPE)
-        val mimeType: String
+    @ColumnInfo(name = TABLE_MIME_TYPE)
+    @SerializedName(SERIALIZED__MIME_TYPE)
+    val mimeType: String
 
 ) {
     companion object {
@@ -135,9 +140,9 @@ data class WordpressMedia(
 }
 
 data class MediaTitle(
-        @ColumnInfo(name = TABLE_TITLE_RENDERED)
-        @SerializedName(SERIALIZED_TITLE_RENDERED)
-        var rendered: String
+    @ColumnInfo(name = TABLE_TITLE_RENDERED)
+    @SerializedName(SERIALIZED_TITLE_RENDERED)
+    var rendered: String
 ) {
     companion object {
         const val TABLE_TITLE_RENDERED = "title_rendered"
@@ -146,9 +151,9 @@ data class MediaTitle(
 }
 
 data class MediaDescription(
-        @ColumnInfo(name = TABLE_DESCRIPTION_RENDERED)
-        @SerializedName(SERIALIZED_DESCRIPTION_RENDERED)
-        var rendered: String
+    @ColumnInfo(name = TABLE_DESCRIPTION_RENDERED)
+    @SerializedName(SERIALIZED_DESCRIPTION_RENDERED)
+    var rendered: String
 ) {
     companion object {
         const val TABLE_DESCRIPTION_RENDERED = "description_rendered"

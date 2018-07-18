@@ -18,7 +18,6 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.Collections.emptyList
 import javax.inject.Inject
 
-
 @Database(entities = [SelfHostedWPPost::class, WordpressAuthor::class, WordpressMedia::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

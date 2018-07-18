@@ -47,5 +47,4 @@ class ICT4DNewsApplication : Application() {
                 .applicationModule(ApplicationModule(this))
                 .build()
     }
-
 }

@@ -15,7 +15,6 @@ interface IPersistenceManager {
 
     fun getAllWordpressAuthors(): Flowable<List<WordpressAuthor>>
 
-
     // Self Hosted Wordpress Blog
 
     fun insertSelfHostedWPPost(post: SelfHostedWPPost)
@@ -24,7 +23,6 @@ interface IPersistenceManager {
 
     fun getAllSelfHostedWPPosts(): Flowable<List<SelfHostedWPPost>>
 
-
     // Self Hosted Wordpress Media
 
     fun insertWordpressMedia(media: WordpressMedia)
@@ -32,5 +30,4 @@ interface IPersistenceManager {
     fun insertAllWordpressMedia(media: List<WordpressMedia>)
 
     fun getAllWordpressMedia(): Flowable<List<WordpressMedia>>
-
 }

@@ -1,7 +1,5 @@
 package at.ict4d.ict4dnews.server
 
-import android.support.v4.text.TextUtilsCompat
-import android.text.TextUtils
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
@@ -67,7 +65,7 @@ class Server : IServer {
                     media.map { m -> m.authorLink = authors.find { author -> author.server_id == m.serverAuthor }?.link ?: "" }
 
                     // Strip HTML
-                    posts.map {post ->
+                    posts.map { post ->
                         post.content[SelfHostedWPPost.SERIALIZED_RENDERED]?.let {
                             post.content[SelfHostedWPPost.SERIALIZED_RENDERED] = it.stripHtml()
                         }

@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.screens.ict4dat
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4datBinding
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
-
 
 class ICT4DatFragment : BaseNavigationFragment<ICT4DatViewModel, FragmentIct4datBinding>() {
 

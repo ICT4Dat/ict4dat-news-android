@@ -41,5 +41,4 @@ class ICT4DNewsViewModel : BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe())
     }
-
 }

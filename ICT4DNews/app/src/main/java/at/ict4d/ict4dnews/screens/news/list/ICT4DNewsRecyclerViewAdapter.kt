@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_ictdnews_item.view.*
 
-
 class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickListener?) : ListAdapter<NewsListModel, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
 
     private val mOnClickListener: View.OnClickListener

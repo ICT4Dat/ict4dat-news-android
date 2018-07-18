@@ -13,8 +13,10 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class RXErrorEventBusLifecycleObserver(private val activity: AppCompatActivity,
-                                       private val compositeDisposable: CompositeDisposable) : RXLifecycleObserver(compositeDisposable) {
+class RXErrorEventBusLifecycleObserver(
+    private val activity: AppCompatActivity,
+    private val compositeDisposable: CompositeDisposable
+) : RXLifecycleObserver(compositeDisposable) {
 
     @Inject
     protected lateinit var eventBus: RxEventBus

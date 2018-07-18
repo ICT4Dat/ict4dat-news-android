@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.persistence
 
-import android.arch.lifecycle.LiveData
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
@@ -49,5 +48,4 @@ class PersistenceManager : IPersistenceManager {
     override fun insertAllWordpressMedia(media: List<WordpressMedia>) = wordpressMediaDao.insertAll(media)
 
     override fun getAllWordpressMedia(): Flowable<List<WordpressMedia>> = wordpressMediaDao.getAll()
-
 }
