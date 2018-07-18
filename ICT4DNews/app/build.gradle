@@ -45,6 +45,18 @@ android {
     }
 }
 
+// Exclude LeakCanary in tests
+// Ensure the no-op dependency is always used in JVM tests.
+configurations.all { config ->
+    if (config.name.contains('UnitTest') || config.name.contains('AndroidTest')) {
+        config.resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.squareup.leakcanary' && details.requested.name == 'leakcanary-android') {
+                details.useTarget(group: details.requested.group, name: 'leakcanary-android-no-op', version: details.requested.version)
+            }
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -56,8 +68,8 @@ dependencies {
     implementation "com.android.support:support-vector-drawable:27.1.1"
     implementation "com.android.support:preference-v7:27.1.1"
     implementation "com.android.support:support-annotations:27.1.1"
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation "com.android.support:recyclerview-v7:27.1.1"
+    implementation "com.android.support:cardview-v7:27.1.1"
 
     // Data Binding
     kapt "com.android.databinding:compiler:3.1.3"
@@ -80,11 +92,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.1.9"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
     implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
-    implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.1'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.1.1'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.1.1'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.1.1'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.1.1'
+    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.1"
+    implementation "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.1.1"
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.1.1"
+    implementation "com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.1.1"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -95,11 +106,11 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
-    implementation 'com.squareup.retrofit2:converter-simplexml:2.3.0'
+    implementation "com.squareup.retrofit2:converter-simplexml:2.3.0"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // ThreeTenABP - java.time backport
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+    implementation "com.jakewharton.threetenabp:threetenabp:1.1.0"
 
     // *** Android Architecture Components ***
     // ViewModel and LiveData
@@ -126,4 +137,8 @@ dependencies {
     testImplementation "junit:junit:4.12"
     androidTestImplementation "com.android.support.test:runner:1.0.2"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+
+    // Leak Canary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.5.4"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.5.4"
 }

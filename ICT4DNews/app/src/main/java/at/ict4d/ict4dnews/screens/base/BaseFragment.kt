@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import at.ict4d.ict4dnews.BuildConfig
+import at.ict4d.ict4dnews.lifecycle.LeakCanaryLifecycleObserver
 import at.ict4d.ict4dnews.lifecycle.RXLifecycleObserver
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
@@ -60,6 +62,12 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
             model = ViewModelProviders.of(context, viewModelFactory).get(getViewModel())
         }
         lifecycle.addObserver(RXLifecycleObserver(compositeDisposable))
+
+        if (BuildConfig.DEBUG) {
+            activity?.let {
+                lifecycle.addObserver(LeakCanaryLifecycleObserver(it, this))
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

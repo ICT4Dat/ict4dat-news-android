@@ -1,0 +1,23 @@
+{
+	"info": {
+		"_postman_id": "187d627d-d05a-4412-ab9d-a7f7e2401174",
+		"name": "ICT4D News Android App",
+		"description": "Android ICT4D News app of ICT4D.at: https://github.com/ICT4Dat/ict4dat-news-android/",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "blogs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				},
+				"description": "The supported blogs in the application"
+			},
+			"response": []
+		}
+	]
+}
