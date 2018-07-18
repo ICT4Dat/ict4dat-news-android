@@ -9,34 +9,34 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = TABLE_TABLE_NAME)
 data class WordpressAuthor(
 
-        @PrimaryKey
-        @ColumnInfo(name = TABLE_LINK)
-        @SerializedName(SERIALIZED_LINK)
-        val link: String,
+    @PrimaryKey
+    @ColumnInfo(name = TABLE_LINK)
+    @SerializedName(SERIALIZED_LINK)
+    val link: String,
 
-        @ColumnInfo(name = TABLE_SERVER_ID)
-        @SerializedName(SERIALIZED_SERVER_ID)
-        val server_id: Int,
+    @ColumnInfo(name = TABLE_SERVER_ID)
+    @SerializedName(SERIALIZED_SERVER_ID)
+    val server_id: Int,
 
-        @ColumnInfo(name = TABLE_NAME)
-        @SerializedName(SERIALIZED_NAME)
-        val name: String,
+    @ColumnInfo(name = TABLE_NAME)
+    @SerializedName(SERIALIZED_NAME)
+    val name: String,
 
-        @ColumnInfo(name = TABLE_URL)
-        @SerializedName(SERIALIZED_URL)
-        val url: String,
+    @ColumnInfo(name = TABLE_URL)
+    @SerializedName(SERIALIZED_URL)
+    val url: String,
 
-        @ColumnInfo(name = TABLE_DESCRIPTION)
-        @SerializedName(SERIALIZED_DESCRIPTION)
-        val description: String,
+    @ColumnInfo(name = TABLE_DESCRIPTION)
+    @SerializedName(SERIALIZED_DESCRIPTION)
+    val description: String,
 
-        @ColumnInfo(name = TABLE_SLUG)
-        @SerializedName(SERIALIZED_SLUG)
-        val slug: String,
+    @ColumnInfo(name = TABLE_SLUG)
+    @SerializedName(SERIALIZED_SLUG)
+    val slug: String,
 
-        @ColumnInfo(name = TABLE_AVATAR_URLS)
-        @SerializedName(SERIALIZED_AVATAR_URLS)
-        val avatarURLs: Map<String, String>
+    @ColumnInfo(name = TABLE_AVATAR_URLS)
+    @SerializedName(SERIALIZED_AVATAR_URLS)
+    val avatarURLs: Map<String, String>
 ) {
     companion object {
         const val TABLE_TABLE_NAME = "wordpress_authors"

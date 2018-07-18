@@ -21,5 +21,4 @@ interface ApiJsonSelfHostedWPService {
 
     @GET("http://www.ict4d.at/wp-json/wp/v2/media")
     fun getJsonICT4DatMediaForPost(@Query("parent") serverPostID: Int): Call<List<WordpressMedia>>
-
 }

@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.persistence.database.dao
 
-import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -19,5 +18,4 @@ abstract class SelfHostedWPPostDao {
 
     @Query("SELECT * FROM ${SelfHostedWPPost.TABLE_TABLE_NAME}")
     abstract fun getAll(): Flowable<List<SelfHostedWPPost>>
-
 }

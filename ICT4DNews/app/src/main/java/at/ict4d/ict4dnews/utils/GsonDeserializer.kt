@@ -9,8 +9,7 @@ import timber.log.Timber
 import java.lang.reflect.Type
 import java.text.ParseException
 
-
-class GsonLocalDateTimeDeserializer() : JsonDeserializer<LocalDateTime> {
+class GsonLocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {
 
     override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): LocalDateTime {
         try {
@@ -21,3 +20,6 @@ class GsonLocalDateTimeDeserializer() : JsonDeserializer<LocalDateTime> {
         return LocalDateTime.now()
     }
 }
+
+// TODO("Replace this class with actual class in future because ktlint complains class and file name is not matched")
+class Temp

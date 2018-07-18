@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply from: 'tasks.gradle' // contains supporting tasks e.g ktlint
 
 android {
     compileSdkVersion 27
@@ -130,4 +131,7 @@ dependencies {
     // Leak Canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:1.5.4"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.5.4"
+
+    //KLint
+    ktlint "com.github.shyiko:ktlint:0.24.0"
 }

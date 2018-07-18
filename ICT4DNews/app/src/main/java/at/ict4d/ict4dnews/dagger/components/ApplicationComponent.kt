@@ -30,5 +30,4 @@ interface ApplicationComponent {
     fun inject(mainNavigationActivity: MainNavigationActivity)
 
     fun inject(icT4DNewsViewModel: ICT4DNewsViewModel)
-
 }
