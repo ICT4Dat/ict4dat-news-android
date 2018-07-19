@@ -1,9 +1,9 @@
 package at.ict4d.ict4dnews.persistence
 
 import android.arch.lifecycle.LiveData
-import at.ict4d.ict4dnews.models.AuthorModel
-import at.ict4d.ict4dnews.models.MediaModel
-import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.Author
+import at.ict4d.ict4dnews.models.Media
+import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
@@ -17,26 +17,26 @@ class PersistenceManager @Inject constructor(
 
     // Authors
 
-    override fun insertAuthor(author: AuthorModel) = authorDao.insert(author)
+    override fun insertAuthor(author: Author) = authorDao.insert(author)
 
-    override fun insertAllAuthors(authors: List<AuthorModel>) = authorDao.insertAll(authors)
+    override fun insertAllAuthors(authors: List<Author>) = authorDao.insertAll(authors)
 
-    override fun getAllAuthors(): LiveData<List<AuthorModel>> = authorDao.getAll()
+    override fun getAllAuthors(): LiveData<List<Author>> = authorDao.getAll()
 
     // News
 
-    override fun insertNews(news: NewsModel) = newsDao.insert(news)
+    override fun insertNews(news: News) = newsDao.insert(news)
 
-    override fun insertAllNews(news: List<NewsModel>) = newsDao.insertAll(news)
+    override fun insertAllNews(news: List<News>) = newsDao.insertAll(news)
 
-    override fun getAllNews(): LiveData<List<NewsModel>> = newsDao.getAll()
+    override fun getAllNews(): LiveData<List<News>> = newsDao.getAll()
 
     // Media
 
-    override fun insertMedia(media: MediaModel) = mediaDao.insert(media)
+    override fun insertMedia(media: Media) = mediaDao.insert(media)
 
-    override fun insertAllMedia(media: List<MediaModel>) = mediaDao.insertAll(media)
+    override fun insertAllMedia(media: List<Media>) = mediaDao.insertAll(media)
 
-    override fun getAllMedia(): LiveData<List<MediaModel>> = mediaDao.getAll()
+    override fun getAllMedia(): LiveData<List<Media>> = mediaDao.getAll()
 
 }
