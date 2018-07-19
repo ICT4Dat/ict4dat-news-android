@@ -4,10 +4,11 @@ import android.arch.lifecycle.LiveData
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
+import org.threeten.bp.LocalDateTime
 
 interface IPersistenceManager {
 
-    // Self Hosted Wordpress Authors
+    // Authors
 
     fun insertAuthor(author: Author)
 
@@ -15,8 +16,7 @@ interface IPersistenceManager {
 
     fun getAllAuthors(): LiveData<List<Author>>
 
-
-    // Self Hosted Wordpress Blog
+    // News
 
     fun insertNews(news: News)
 
@@ -24,13 +24,13 @@ interface IPersistenceManager {
 
     fun getAllOrderedByPublishedDate(): LiveData<List<News>>
 
+    fun getLatestNewsPublishedDate(): LocalDateTime
 
-    // Self Hosted Wordpress Media
+    // Media
 
     fun insertMedia(media: Media)
 
     fun insertAllMedia(media: List<Media>)
 
     fun getAllMedia(): LiveData<List<Media>>
-
 }

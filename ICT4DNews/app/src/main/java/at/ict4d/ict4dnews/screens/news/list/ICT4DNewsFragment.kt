@@ -53,7 +53,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
 
         model.newsList.observe(this, Observer {
             it?.let {
-                Timber.d("list in fragment: $it")
+                // Timber.d("list in fragment: $it")
                 adapter.submitList(it)
             }
         })
