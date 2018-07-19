@@ -29,7 +29,7 @@ class PersistenceManager @Inject constructor(
 
     override fun insertAllNews(news: List<News>) = newsDao.insertAll(news)
 
-    override fun getAllNews(): LiveData<List<News>> = newsDao.getAll()
+    override fun getAllOrderedByPublishedDate(): LiveData<List<News>> = newsDao.getAllOrderedByPublishedDate()
 
     // Media
 

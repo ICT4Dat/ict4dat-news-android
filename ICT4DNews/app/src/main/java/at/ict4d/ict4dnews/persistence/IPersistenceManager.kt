@@ -22,7 +22,7 @@ interface IPersistenceManager {
 
     fun insertAllNews(news: List<News>)
 
-    fun getAllNews(): LiveData<List<News>>
+    fun getAllOrderedByPublishedDate(): LiveData<List<News>>
 
 
     // Self Hosted Wordpress Media

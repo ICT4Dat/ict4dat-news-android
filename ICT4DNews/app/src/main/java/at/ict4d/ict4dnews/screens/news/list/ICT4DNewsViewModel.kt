@@ -11,7 +11,7 @@ class ICT4DNewsViewModel @Inject constructor(
         persistenceManager: IPersistenceManager,
         server: IServer) : BaseViewModel() {
 
-    val newsList: LiveData<List<News>> = persistenceManager.getAllNews()
+    val newsList: LiveData<List<News>> = persistenceManager.getAllOrderedByPublishedDate()
 
     init {
         compositeDisposable.add(server.loadICT4DatJsonFeed())
