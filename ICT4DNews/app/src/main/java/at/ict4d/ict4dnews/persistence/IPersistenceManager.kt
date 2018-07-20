@@ -1,5 +1,9 @@
 package at.ict4d.ict4dnews.persistence
 
+import android.arch.lifecycle.LiveData
+import at.ict4d.ict4dnews.models.AuthorModel
+import at.ict4d.ict4dnews.models.MediaModel
+import at.ict4d.ict4dnews.models.NewsModel
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
@@ -9,28 +13,28 @@ interface IPersistenceManager {
 
     // Self Hosted Wordpress Authors
 
-    fun insertWordpressAuthor(author: WordpressAuthor)
+    fun insertAuthor(author: AuthorModel)
 
-    fun insertAllWordpressAuthors(authors: List<WordpressAuthor>)
+    fun insertAllAuthors(authors: List<AuthorModel>)
 
-    fun getAllWordpressAuthors(): Flowable<List<WordpressAuthor>>
+    fun getAllAuthors(): LiveData<List<AuthorModel>>
 
 
     // Self Hosted Wordpress Blog
 
-    fun insertSelfHostedWPPost(post: SelfHostedWPPost)
+    fun insertNews(news: NewsModel)
 
-    fun insertAllSelfHostedWPPosts(posts: List<SelfHostedWPPost>)
+    fun insertAllNews(news: List<NewsModel>)
 
-    fun getAllSelfHostedWPPosts(): Flowable<List<SelfHostedWPPost>>
+    fun getAllNews(): LiveData<List<NewsModel>>
 
 
     // Self Hosted Wordpress Media
 
-    fun insertWordpressMedia(media: WordpressMedia)
+    fun insertMedia(media: MediaModel)
 
-    fun insertAllWordpressMedia(media: List<WordpressMedia>)
+    fun insertAllMedia(media: List<MediaModel>)
 
-    fun getAllWordpressMedia(): Flowable<List<WordpressMedia>>
+    fun getAllMedia(): LiveData<List<MediaModel>>
 
 }

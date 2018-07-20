@@ -1,16 +1,16 @@
 package at.ict4d.ict4dnews.server
 
-import android.support.v4.text.TextUtilsCompat
-import android.text.TextUtils
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.extensions.stripHtml
+import at.ict4d.ict4dnews.models.AuthorModel
+import at.ict4d.ict4dnews.models.MediaModel
+import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.wordpress.SELF_HOSTED_WP_POST_SERIALIZED_RENDERED
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
-import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class Server : IServer {
     override fun loadICT4DatRSSFeed(): Disposable {
         return apiRSSService.getRssICT4DatNews()
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
                 .subscribe(
                         { channel ->
                             Timber.d("*** $channel")
@@ -44,53 +44,74 @@ class Server : IServer {
     }
 
     override fun loadICT4DatJsonFeed(): Disposable {
-        return Flowable.zip(
-                apiJsonSelfHostedWPService.getJsonICT4DatAuthors(),
-                apiJsonSelfHostedWPService.getJsonICT4DatNews(),
-                BiFunction { authors: List<WordpressAuthor>, posts: List<SelfHostedWPPost> ->
 
-                    // Set up forgein key for posts
-                    posts.map { post -> post.authorLink = authors.find { author -> author.server_id == post.serverAuthor }?.link ?: "" }
+        return apiJsonSelfHostedWPService.getJsonICT4DatNews()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe({ serverPosts: List<SelfHostedWPPost> ->
+
+                    // Query for the authors
+                    val serverAuthors: MutableList<WordpressAuthor> = mutableListOf()
+                    for (post in serverPosts.distinctBy { it.serverAuthorID }) {
+                        val author = apiJsonSelfHostedWPService.getJsonICT4DatAuthorByID(serverAuthorID = post.serverAuthorID).execute().body()
+
+                        author?.let {
+                            serverAuthors.add(author)
+                        }
+                    }
 
                     // Query for all media elements per each post
-                    val media: MutableList<WordpressMedia> = mutableListOf()
-                    for (post in posts) {
+                    val serverMedia: MutableList<WordpressMedia> = mutableListOf()
+                    for (post in serverPosts) {
                         val postMedia = apiJsonSelfHostedWPService.getJsonICT4DatMediaForPost(post.serverID).execute().body()
 
                         if (postMedia != null) {
-                            media += postMedia
+                            serverMedia += postMedia
                         }
                     }
 
-                    // Set up forgein keys for media
-                    media.map { m -> m.postLink = posts.find { post -> post.serverID == m.serverPostID }?.link ?: "" }
-                    media.map { m -> m.authorLink = authors.find { author -> author.server_id == m.serverAuthor }?.link ?: "" }
+                    // Set up foreign keys for media
+                    serverMedia.map { m -> m.postLink = serverPosts.find { post -> post.serverID == m.serverPostID }?.link ?: "" }
+                    serverMedia.map { m -> m.authorLink = serverAuthors.find { author -> author.server_id == m.serverAuthorID }?.link ?: "" }
+
+                    // Set up foreign key for posts
+                    serverPosts.map { post -> post.authorLink = serverAuthors.find { author -> author.server_id == post.serverAuthorID }?.link ?: "" }
+                    serverPosts.map { post -> post.featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw ?: ""}
+
+                    // Map to local models
+                    val authors = serverAuthors.map { AuthorModel(it) }
+                    val news = serverPosts.map { NewsModel(it) }
+                    val media = serverMedia.map { MediaModel(it) }
 
                     // Strip HTML
-                    posts.map {post ->
-                        post.content[SelfHostedWPPost.SERIALIZED_RENDERED]?.let {
-                            post.content[SelfHostedWPPost.SERIALIZED_RENDERED] = it.stripHtml()
+                    news.map { n ->
+                        n.title?.let {
+                            n.title = it.stripHtml()
                         }
-                        post.title[SelfHostedWPPost.SERIALIZED_RENDERED]?.let {
-                            post.title[SelfHostedWPPost.SERIALIZED_RENDERED] = it.stripHtml()
+                        n.description?.let {
+                            n.description = it.stripHtml()
                         }
                     }
-                    // Timber.d("*** $authors")
-                    // Timber.d("*** $posts")
-                    // Timber.d("*** $media")
-                    persistenceManager.insertAllWordpressAuthors(authors)
-                    persistenceManager.insertAllSelfHostedWPPosts(posts)
-                    persistenceManager.insertAllWordpressMedia(media)
-                }
-        )
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.newThread())
-                .subscribe({
-                    Timber.d("onNext: $it")
-                }, {
-                    Timber.e("Error in ICT4D.at Call", it)
-                }, {
-                    Timber.d("onComplete ICT4D.at")
+
+                    media.map { m ->
+                        m.description?.let {
+                            m.description = it.stripHtml()
+
+                        }
+                    }
+
+                    Timber.d("$serverPosts")
+                    Timber.d("$serverAuthors")
+                    Timber.d("$serverMedia")
+
+                    persistenceManager.insertAllAuthors(authors)
+                    persistenceManager.insertAllNews(news)
+                    persistenceManager.insertAllMedia(media)
+
+
+                },{
+                    Timber.e("Error in ICT4D.at Call")
+                    Timber.e(it)
                 })
     }
 }
