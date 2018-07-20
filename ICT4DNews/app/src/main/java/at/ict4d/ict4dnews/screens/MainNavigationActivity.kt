@@ -18,9 +18,6 @@ class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
 
     override fun getLayoutId(): Int = R.layout.activity_main_navigation
 
-    @Inject
-    protected lateinit var server: IServer
-
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_news -> {
@@ -44,8 +41,6 @@ class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
         binding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         ICT4DNewsApplication.component.inject(this)
-
-        compositeDisposable.add(server.loadICT4DatJsonFeed())
 
         if (savedInstanceState == null) {
             showFragment(ICT4DNewsFragment::class.java.simpleName)

@@ -9,7 +9,7 @@ import android.support.v7.widget.SearchView
 import android.view.*
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
-import at.ict4d.ict4dnews.models.NewsListModel
+import at.ict4d.ict4dnews.models.NewsModel
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity
 import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
@@ -17,7 +17,6 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_ictdnews_item.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -38,12 +37,12 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
 
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
+    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
-
-    private var adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -58,7 +57,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
-        model.newsListData.observe(this, Observer {
+        model.newsList.observe(this, Observer {
             it?.let {
                 Timber.d("list in fragment: $it")
                 adapter.submitList(it)
@@ -108,11 +107,11 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         }
     }
 
-    override fun onListItemClicked(item: NewsListModel?) {
-        item?.let {item ->
+    override fun onListItemClicked(item: NewsModel?) {
+        item?.let {i ->
             activity?.let {
                 val intent = Intent(it, ICT4DNewsDetailActivity::class.java)
-                intent.putExtra(KEY_NEWS_LIST_MODEL, item)
+                intent.putExtra(KEY_NEWS_LIST_MODEL, i)
                 val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(it, postImage, "post_image")
                 startActivity(intent, optionsCompat.toBundle())
             }
