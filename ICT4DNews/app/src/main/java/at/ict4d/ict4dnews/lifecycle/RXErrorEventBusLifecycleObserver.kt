@@ -13,17 +13,12 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class RXErrorEventBusLifecycleObserver(private val activity: AppCompatActivity,
-                                       private val compositeDisposable: CompositeDisposable) : RXLifecycleObserver(compositeDisposable) {
-
-    @Inject
-    protected lateinit var eventBus: RxEventBus
+class RXErrorEventBusLifecycleObserver @Inject constructor(
+        private val activity: AppCompatActivity,
+        private val compositeDisposable: CompositeDisposable,
+        private val eventBus: RxEventBus) : RXLifecycleObserver(compositeDisposable) {
 
     private var eventBusObserver: Disposable? = null
-
-    init {
-        ICT4DNewsApplication.component.inject(this)
-    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun registerEventBus() {

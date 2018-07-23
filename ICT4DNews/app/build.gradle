@@ -68,17 +68,17 @@ dependencies {
     implementation "com.android.support:support-vector-drawable:27.1.1"
     implementation "com.android.support:preference-v7:27.1.1"
     implementation "com.android.support:support-annotations:27.1.1"
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation "com.android.support:recyclerview-v7:27.1.1"
+    implementation "com.android.support:cardview-v7:27.1.1"
 
     // Data Binding
     kapt "com.android.databinding:compiler:3.1.3"
 
-    // Dagger
-    implementation "com.google.dagger:dagger:$dagger_version"
+    // Dagger 2
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-    compileOnly "org.glassfish:javax.annotation:10.0-b28"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -92,11 +92,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.1.9"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
     implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
-    implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.1'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.1.1'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.1.1'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.1.1'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.1.1'
+    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.1"
+    implementation "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.1.1"
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.1.1"
+    implementation "com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.1.1"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -107,11 +106,11 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
-    implementation 'com.squareup.retrofit2:converter-simplexml:2.3.0'
+    implementation "com.squareup.retrofit2:converter-simplexml:2.3.0"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // ThreeTenABP - java.time backport
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+    implementation "com.jakewharton.threetenabp:threetenabp:1.1.0"
 
     // *** Android Architecture Components ***
     // ViewModel and LiveData

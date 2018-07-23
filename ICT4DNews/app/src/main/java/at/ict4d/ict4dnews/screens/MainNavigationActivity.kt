@@ -14,7 +14,9 @@ import at.ict4d.ict4dnews.server.IServer
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
-class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
+class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMainNavigationBinding>() {
+
+    override fun getViewModel(): Class<MainNavigationViewModel> = MainNavigationViewModel::class.java
 
     override fun getLayoutId(): Int = R.layout.activity_main_navigation
 
@@ -39,8 +41,6 @@ class MainNavigationActivity : BaseActivity<ActivityMainNavigationBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        ICT4DNewsApplication.component.inject(this)
 
         if (savedInstanceState == null) {
             showFragment(ICT4DNewsFragment::class.java.simpleName)

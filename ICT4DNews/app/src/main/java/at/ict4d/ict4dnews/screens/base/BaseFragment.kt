@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.screens.base
 
 import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.databinding.DataBindingUtil
@@ -16,15 +17,26 @@ import android.view.ViewGroup
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.lifecycle.LeakCanaryLifecycleObserver
 import at.ict4d.ict4dnews.lifecycle.RXLifecycleObserver
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment() {
+abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), HasSupportFragmentInjector {
 
     protected lateinit var binding: B
 
     protected lateinit var model: V
 
-    protected val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    @Inject
+    protected lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    protected lateinit var compositeDisposable: CompositeDisposable
 
     /**
      * return the layout id associated with the Activity
@@ -44,9 +56,10 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment() {
     abstract fun getViewModel(): Class<V>
 
     override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
         super.onAttach(context)
         if (context is AppCompatActivity) {
-            model = ViewModelProviders.of(context).get(getViewModel())
+            model = ViewModelProviders.of(context, viewModelFactory).get(getViewModel())
         }
         lifecycle.addObserver(RXLifecycleObserver(compositeDisposable))
 
@@ -65,4 +78,9 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment() {
 
         return binding.root
     }
+
+    /**
+     * @see HasSupportFragmentInjector
+     */
+    override fun supportFragmentInjector() = childFragmentInjector
 }

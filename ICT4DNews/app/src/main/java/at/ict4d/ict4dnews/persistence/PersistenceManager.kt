@@ -1,32 +1,21 @@
 package at.ict4d.ict4dnews.persistence
 
 import android.arch.lifecycle.LiveData
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.models.AuthorModel
 import at.ict4d.ict4dnews.models.MediaModel
 import at.ict4d.ict4dnews.models.NewsModel
-import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
-import io.reactivex.Flowable
+import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import javax.inject.Inject
 
-class PersistenceManager : IPersistenceManager {
+class PersistenceManager @Inject constructor(
+        private val authorDao: AuthorDao,
+        private val newsDao: NewsDao,
+        private val mediaDao: MediaDao
+) : IPersistenceManager {
 
-    @Inject
-    protected lateinit var newsDao: NewsDao
-
-    @Inject
-    protected lateinit var authorDao: AuthorDao
-
-    @Inject
-    protected lateinit var mediaDao: MediaDao
-
-    init {
-        ICT4DNewsApplication.component.inject(this)
-    }
-
-    // Self Hosted Wordpress Authors
+    // Authors
 
     override fun insertAuthor(author: AuthorModel) = authorDao.insert(author)
 
@@ -34,7 +23,7 @@ class PersistenceManager : IPersistenceManager {
 
     override fun getAllAuthors(): LiveData<List<AuthorModel>> = authorDao.getAll()
 
-    // Self Hosted Wordpress Blog
+    // News
 
     override fun insertNews(news: NewsModel) = newsDao.insert(news)
 
@@ -42,7 +31,7 @@ class PersistenceManager : IPersistenceManager {
 
     override fun getAllNews(): LiveData<List<NewsModel>> = newsDao.getAll()
 
-    // Self Hosted Wordpress Media
+    // Media
 
     override fun insertMedia(media: MediaModel) = mediaDao.insert(media)
 

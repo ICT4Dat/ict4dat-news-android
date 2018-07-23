@@ -8,19 +8,13 @@ import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.IServer
 import javax.inject.Inject
 
-class ICT4DNewsViewModel : BaseViewModel() {
+class ICT4DNewsViewModel @Inject constructor(
+        persistenceManager: IPersistenceManager,
+        server: IServer) : BaseViewModel() {
 
-    @Inject
-    protected lateinit var persistenceManager: IPersistenceManager
-
-    @Inject
-    protected lateinit var server: IServer
-
-    val newsList: LiveData<List<NewsModel>>
+    val newsList: LiveData<List<NewsModel>> = persistenceManager.getAllNews()
 
     init {
-        ICT4DNewsApplication.component.inject(this)
         compositeDisposable.add(server.loadICT4DatJsonFeed())
-        newsList = persistenceManager.getAllNews()
     }
 }

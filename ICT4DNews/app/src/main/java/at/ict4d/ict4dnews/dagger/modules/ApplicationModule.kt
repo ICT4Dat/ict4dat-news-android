@@ -1,16 +1,22 @@
 package at.ict4d.ict4dnews.dagger.modules
 
-import at.ict4d.ict4dnews.ICT4DNewsApplication
+import at.ict4d.ict4dnews.dagger.modules.activities.ICT4DNewsDetailActivityModule
+import at.ict4d.ict4dnews.dagger.modules.activities.MainNavigationActivityModule
+import at.ict4d.ict4dnews.dagger.scopes.PerActivity
+import at.ict4d.ict4dnews.screens.MainNavigationActivity
+import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import dagger.android.ContributesAndroidInjector
 
+@Suppress("unused")
 @Module
-class ApplicationModule(private val ict4dNewsApplication: ICT4DNewsApplication) {
+abstract class ApplicationModule {
 
-    @Provides
-    @Singleton
-    fun providesApplication(): ICT4DNewsApplication {
-        return ict4dNewsApplication
-    }
+    @PerActivity
+    @ContributesAndroidInjector(modules = [ICT4DNewsDetailActivityModule::class])
+    abstract fun iCT4DNewsDetailActivityInjector(): ICT4DNewsDetailActivity
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [MainNavigationActivityModule::class])
+    abstract fun mainNavigationActivityInjector(): MainNavigationActivity
 }

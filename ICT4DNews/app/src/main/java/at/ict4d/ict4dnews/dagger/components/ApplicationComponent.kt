@@ -1,34 +1,16 @@
 package at.ict4d.ict4dnews.dagger.components
 
 import at.ict4d.ict4dnews.ICT4DNewsApplication
-import at.ict4d.ict4dnews.dagger.modules.ApiServiceModule
-import at.ict4d.ict4dnews.dagger.modules.ApplicationModule
-import at.ict4d.ict4dnews.dagger.modules.RoomModule
-import at.ict4d.ict4dnews.lifecycle.RXErrorEventBusLifecycleObserver
-import at.ict4d.ict4dnews.persistence.PersistenceManager
-import at.ict4d.ict4dnews.persistence.database.Converters
-import at.ict4d.ict4dnews.screens.MainNavigationActivity
-import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsViewModel
-import at.ict4d.ict4dnews.server.Server
+import at.ict4d.ict4dnews.dagger.modules.*
 import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(dependencies = [], modules = [ApplicationModule::class, ApiServiceModule::class, RoomModule::class])
-interface ApplicationComponent {
+@Component(modules = [AndroidSupportInjectionModule::class, ApplicationModule::class, RoomModule::class, ApiServiceModule::class, HelperModule::class, ViewModelFactoryModule::class])
+interface ApplicationComponent : AndroidInjector<ICT4DNewsApplication> {
 
-    fun application(): ICT4DNewsApplication
-
-    fun inject(rxErrorEventBusLifecycleObserver: RXErrorEventBusLifecycleObserver)
-
-    fun inject(server: Server)
-
-    fun inject(converters: Converters)
-
-    fun inject(persistenceManager: PersistenceManager)
-
-    fun inject(mainNavigationActivity: MainNavigationActivity)
-
-    fun inject(icT4DNewsViewModel: ICT4DNewsViewModel)
-
+    @Component.Builder
+    abstract class Builder : AndroidInjector.Builder<ICT4DNewsApplication>()
 }

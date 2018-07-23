@@ -17,31 +17,29 @@ class RoomModule {
 
     @Singleton
     @Provides
-    fun providesRoomDatabase(application: ICT4DNewsApplication): AppDatabase {
-        return Room.databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME).build()
-    }
+    fun providesRoomDatabase(application: ICT4DNewsApplication): AppDatabase = Room.databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME).build()
+
 
     @Singleton
     @Provides
-    fun providesSelfHostedWPPostDao(database: AppDatabase): NewsDao {
-        return database.newsDao()
-    }
+    fun providesNewsDao(database: AppDatabase): NewsDao = database.newsDao()
+
 
     @Singleton
     @Provides
-    fun providesWordpressAuthorDao(database: AppDatabase): AuthorDao {
-        return database.authorDao()
-    }
+    fun providesAuthorDao(database: AppDatabase): AuthorDao = database.authorDao()
+
 
     @Singleton
     @Provides
-    fun providesWordpressMediaDao(database: AppDatabase): MediaDao {
-        return database.mediaDao()
-    }
+    fun providesMediaDao(database: AppDatabase): MediaDao = database.mediaDao()
+
 
     @Singleton
     @Provides
-    fun providesPersistentManager(): IPersistenceManager {
-        return PersistenceManager()
-    }
+    fun providesPersistentManager(
+            authorDao: AuthorDao,
+            newsDao: NewsDao,
+            mediaDao: MediaDao
+    ): IPersistenceManager = PersistenceManager(authorDao, newsDao, mediaDao)
 }

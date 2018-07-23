@@ -1,11 +1,9 @@
 package at.ict4d.ict4dnews.server
 
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.AuthorModel
 import at.ict4d.ict4dnews.models.MediaModel
 import at.ict4d.ict4dnews.models.NewsModel
-import at.ict4d.ict4dnews.models.wordpress.SELF_HOSTED_WP_POST_SERIALIZED_RENDERED
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
@@ -15,20 +13,11 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class Server : IServer {
-
-    @Inject
-    protected lateinit var apiRSSService: ApiRSSService
-
-    @Inject
-    protected lateinit var apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService
-
-    @Inject
-    protected lateinit var persistenceManager: IPersistenceManager
-
-    init {
-        ICT4DNewsApplication.component.inject(this)
-    }
+class Server @Inject constructor(
+        private val apiRSSService: ApiRSSService,
+        private val apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
+        private val persistenceManager: IPersistenceManager
+) : IServer {
 
     override fun loadICT4DatRSSFeed(): Disposable {
         return apiRSSService.getRssICT4DatNews()
@@ -76,7 +65,7 @@ class Server : IServer {
 
                     // Set up foreign key for posts
                     serverPosts.map { post -> post.authorLink = serverAuthors.find { author -> author.server_id == post.serverAuthorID }?.link ?: "" }
-                    serverPosts.map { post -> post.featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw ?: ""}
+                    serverPosts.map { post -> post.featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw ?: "" }
 
                     // Map to local models
                     val authors = serverAuthors.map { AuthorModel(it) }
@@ -87,6 +76,7 @@ class Server : IServer {
                     news.map { n ->
                         n.title?.let {
                             n.title = it.stripHtml()
+
                         }
                         n.description?.let {
                             n.description = it.stripHtml()
@@ -96,7 +86,6 @@ class Server : IServer {
                     media.map { m ->
                         m.description?.let {
                             m.description = it.stripHtml()
-
                         }
                     }
 
@@ -108,8 +97,7 @@ class Server : IServer {
                     persistenceManager.insertAllNews(news)
                     persistenceManager.insertAllMedia(media)
 
-
-                },{
+                }, {
                     Timber.e("Error in ICT4D.at Call")
                     Timber.e(it)
                 })

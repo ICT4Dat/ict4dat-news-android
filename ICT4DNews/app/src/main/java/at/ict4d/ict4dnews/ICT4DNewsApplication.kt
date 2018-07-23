@@ -1,20 +1,26 @@
 package at.ict4d.ict4dnews
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
-import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
-import at.ict4d.ict4dnews.dagger.modules.ApplicationModule
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import timber.log.Timber
+import javax.inject.Inject
 
-class ICT4DNewsApplication : Application() {
+class ICT4DNewsApplication : Application(), HasActivityInjector {
+
+    @Inject
+    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+
+    private lateinit var refWatcher: RefWatcher
 
     companion object {
-        @JvmStatic
-        lateinit var component: ApplicationComponent
 
         @JvmStatic
         fun getRefWatcher(context: Context): RefWatcher {
@@ -23,10 +29,12 @@ class ICT4DNewsApplication : Application() {
         }
     }
 
-    private lateinit var refWatcher: RefWatcher
 
     override fun onCreate() {
         super.onCreate()
+
+        DaggerApplicationComponent.builder().create(this).inject(this)
+
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -34,18 +42,11 @@ class ICT4DNewsApplication : Application() {
         }
         refWatcher = LeakCanary.install(this)
 
-        initDagger()
-
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             Stetho.initializeWithDefaults(this)
         }
     }
 
-    private fun initDagger() {
-        component = DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(this))
-                .build()
-    }
-
+    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
 }
