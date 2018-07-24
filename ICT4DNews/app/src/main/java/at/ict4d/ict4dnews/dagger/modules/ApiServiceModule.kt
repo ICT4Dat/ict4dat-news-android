@@ -8,6 +8,7 @@ import at.ict4d.ict4dnews.server.ApiRSSService
 import at.ict4d.ict4dnews.server.IServer
 import at.ict4d.ict4dnews.server.Server
 import at.ict4d.ict4dnews.utils.GsonLocalDateTimeDeserializer
+import at.ict4d.ict4dnews.utils.RxEventBus
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -65,8 +66,9 @@ class ApiServiceModule {
     fun provideServer(
             apiRSSService: ApiRSSService,
             apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
-            persistenceManager: IPersistenceManager
-    ): IServer = Server(apiRSSService, apiJsonSelfHostedWPService, persistenceManager)
+            persistenceManager: IPersistenceManager,
+            eventBus: RxEventBus
+    ): IServer = Server(apiRSSService, apiJsonSelfHostedWPService, persistenceManager, eventBus)
 
 
     @Provides

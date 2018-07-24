@@ -1,7 +1,7 @@
 package at.ict4d.ict4dnews.screens.news.list
 
 import android.arch.lifecycle.LiveData
-import at.ict4d.ict4dnews.ICT4DNewsApplication
+import android.arch.lifecycle.MutableLiveData
 import at.ict4d.ict4dnews.models.NewsModel
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
@@ -10,11 +10,19 @@ import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
         persistenceManager: IPersistenceManager,
-        server: IServer) : BaseViewModel() {
+        private val server: IServer) : BaseViewModel() {
 
     val newsList: LiveData<List<NewsModel>> = persistenceManager.getAllNews()
+    var isRefreshing: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
-        compositeDisposable.add(server.loadICT4DatJsonFeed())
+        requestToLoadJsonFeed()
+    }
+
+    fun requestToLoadJsonFeed() {
+        if (isRefreshing.value == null || isRefreshing.value == false) {
+            isRefreshing.value = true
+            compositeDisposable.add(server.loadICT4DatJsonFeed())
+        }
     }
 }

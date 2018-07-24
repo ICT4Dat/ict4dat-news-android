@@ -6,13 +6,20 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.models.NewsModel
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity
 import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
+import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
+import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -36,24 +43,42 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    model.isRefreshing.value = false
+                    activity?.toast(getString(R.string.refresh_news_feed_failed))
+                })
+
+        compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    model.isRefreshing.value = false
+                    activity?.toast(getString(R.string.refresh_news_feed_successful))
+                })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
+        model.isRefreshing.observe(this, Observer {
+            it?.let {
+                binding.swiperefresh.isRefreshing = it
+            }
+        })
+
         binding.swiperefresh.setOnRefreshListener {
-            // TODO: start refresh operation
             activity?.toast("refreshing....")
-            binding.swiperefresh.isRefreshing = false
+            model.requestToLoadJsonFeed()
         }
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
         model.newsList.observe(this, Observer {
-            it?.let {
-                Timber.d("list in fragment: $it")
+            if (it != null && it.isNotEmpty()) {
+                Timber.d("list in fragment: ${it.size}")
                 adapter.submitList(it)
             }
         })
@@ -88,13 +113,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         return when (item?.itemId) {
 
             R.id.menu_refresh -> {
-
-                binding.swiperefresh.isRefreshing = true
-
-                // TODO: start refresh operation
-                activity?.toast("refreshing....")
-                binding.swiperefresh.isRefreshing = false
-
+                model.requestToLoadJsonFeed()
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -102,7 +121,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     }
 
     override fun onListItemClicked(item: NewsModel?) {
-        item?.let {i ->
+        item?.let { i ->
             activity?.let {
                 val intent = Intent(it, ICT4DNewsDetailActivity::class.java)
                 intent.putExtra(KEY_NEWS_LIST_MODEL, i)

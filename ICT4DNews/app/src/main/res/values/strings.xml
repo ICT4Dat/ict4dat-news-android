@@ -98,5 +98,9 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
-
+    <!--TODO (may be change these messages to some meaningful messages in future)-->
+    <string name="http_exception_error_message">Unable to connect</string>
+    <string name="server_error_message">Server is not responding at this moment</string>
+    <string name="refresh_news_feed_failed">Failed to refresh news feed</string>
+    <string name="refresh_news_feed_successful">News feed refresh successfully</string>
 </resources>

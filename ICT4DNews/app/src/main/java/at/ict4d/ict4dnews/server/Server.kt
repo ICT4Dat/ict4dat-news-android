@@ -1,5 +1,6 @@
 package at.ict4d.ict4dnews.server
 
+import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.AuthorModel
 import at.ict4d.ict4dnews.models.MediaModel
@@ -8,15 +9,20 @@ import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
+import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
+import at.ict4d.ict4dnews.utils.RxEventBus
+import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
 class Server @Inject constructor(
         private val apiRSSService: ApiRSSService,
         private val apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
-        private val persistenceManager: IPersistenceManager
+        private val persistenceManager: IPersistenceManager,
+        private val rxEventBus: RxEventBus
 ) : IServer {
 
     override fun loadICT4DatRSSFeed(): Disposable {
@@ -96,10 +102,15 @@ class Server @Inject constructor(
                     persistenceManager.insertAllAuthors(authors)
                     persistenceManager.insertAllNews(news)
                     persistenceManager.insertAllMedia(media)
-
+                    rxEventBus.post(NewsRefreshDoneMessage())
                 }, {
                     Timber.e("Error in ICT4D.at Call")
                     Timber.e(it)
+                    when (it) {
+                        is HttpException -> rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, it))
+                        else ->
+                            rxEventBus.post(ServerErrorMessage(R.string.server_error_message, it))
+                    }
                 })
     }
 }
