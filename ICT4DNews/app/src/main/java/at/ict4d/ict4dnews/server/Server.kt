@@ -14,9 +14,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class Server @Inject constructor(
-        private val apiRSSService: ApiRSSService,
-        private val apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
-        private val persistenceManager: IPersistenceManager
+    private val apiRSSService: ApiRSSService,
+    private val apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
+    private val persistenceManager: IPersistenceManager
 ) : IServer {
 
     override fun loadICT4DatRSSFeed(): Disposable {
@@ -76,7 +76,6 @@ class Server @Inject constructor(
                     news.map { n ->
                         n.title?.let {
                             n.title = it.stripHtml()
-
                         }
                         n.description?.let {
                             n.description = it.stripHtml()
@@ -96,7 +95,6 @@ class Server @Inject constructor(
                     persistenceManager.insertAllAuthors(authors)
                     persistenceManager.insertAllNews(news)
                     persistenceManager.insertAllMedia(media)
-
                 }, {
                     Timber.e("Error in ICT4D.at Call")
                     Timber.e(it)

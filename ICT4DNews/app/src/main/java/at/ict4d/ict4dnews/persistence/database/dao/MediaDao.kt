@@ -7,7 +7,6 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import at.ict4d.ict4dnews.models.MEDIA_TABLE_TABLE_NAME
 import at.ict4d.ict4dnews.models.MediaModel
-import io.reactivex.Flowable
 
 @Dao
 abstract class MediaDao {
@@ -20,5 +19,4 @@ abstract class MediaDao {
 
     @Query("SELECT * FROM $MEDIA_TABLE_TABLE_NAME")
     abstract fun getAll(): LiveData<List<MediaModel>>
-
 }

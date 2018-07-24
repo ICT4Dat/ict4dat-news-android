@@ -29,7 +29,6 @@ class ICT4DNewsApplication : Application(), HasActivityInjector {
         }
     }
 
-
     override fun onCreate() {
         super.onCreate()
 

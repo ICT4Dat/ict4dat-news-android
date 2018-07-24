@@ -3,7 +3,6 @@ package at.ict4d.ict4dnews.server
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
-import io.reactivex.Flowable
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
@@ -23,5 +22,4 @@ interface ApiJsonSelfHostedWPService {
 
     @GET("http://www.ict4d.at/wp-json/wp/v2/media")
     fun getJsonICT4DatMediaForPost(@Query("parent") serverPostID: Int): Call<List<WordpressMedia>>
-
 }

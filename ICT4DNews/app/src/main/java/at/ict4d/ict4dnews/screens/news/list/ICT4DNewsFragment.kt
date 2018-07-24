@@ -6,7 +6,12 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.models.NewsModel
@@ -16,7 +21,7 @@ import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_ictdnews_item.*
+import kotlinx.android.synthetic.main.fragment_ictdnews_item.postImage
 import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -38,8 +43,11 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         binding.swiperefresh.setOnRefreshListener {
@@ -102,7 +110,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     }
 
     override fun onListItemClicked(item: NewsModel?) {
-        item?.let {i ->
+        item?.let { i ->
             activity?.let {
                 val intent = Intent(it, ICT4DNewsDetailActivity::class.java)
                 intent.putExtra(KEY_NEWS_LIST_MODEL, i)

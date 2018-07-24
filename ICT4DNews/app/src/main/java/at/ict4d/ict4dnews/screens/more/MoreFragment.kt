@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.screens.more
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +18,11 @@ class MoreFragment : BaseNavigationFragment<MoreViewModel, FragmentMoreBinding>(
 
     override fun getViewModel(): Class<MoreViewModel> = MoreViewModel::class.java
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return super.onCreateView(inflater, container, savedInstanceState)
     }

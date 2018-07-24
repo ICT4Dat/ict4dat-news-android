@@ -8,5 +8,4 @@ interface ApiRSSService {
 
     @GET("http://www.ict4d.at/feed/")
     fun getRssICT4DatNews(): Flowable<RSSFeed>
-
 }

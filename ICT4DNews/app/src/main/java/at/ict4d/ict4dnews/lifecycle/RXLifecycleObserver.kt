@@ -7,7 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 open class RXLifecycleObserver @Inject constructor(
-        private val compositeDisposable: CompositeDisposable
+    private val compositeDisposable: CompositeDisposable
 ) : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

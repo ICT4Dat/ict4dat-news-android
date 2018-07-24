@@ -10,9 +10,9 @@ import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import javax.inject.Inject
 
 class PersistenceManager @Inject constructor(
-        private val authorDao: AuthorDao,
-        private val newsDao: NewsDao,
-        private val mediaDao: MediaDao
+    private val authorDao: AuthorDao,
+    private val newsDao: NewsDao,
+    private val mediaDao: MediaDao
 ) : IPersistenceManager {
 
     // Authors
@@ -38,5 +38,4 @@ class PersistenceManager @Inject constructor(
     override fun insertAllMedia(media: List<MediaModel>) = mediaDao.insertAll(media)
 
     override fun getAllMedia(): LiveData<List<MediaModel>> = mediaDao.getAll()
-
 }
