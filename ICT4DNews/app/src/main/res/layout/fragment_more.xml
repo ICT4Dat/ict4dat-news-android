@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Here we can put settings and other information" />
+            android:text="Here we can put contents of more fragment" />
 
     </FrameLayout>
 </layout>

@@ -2,6 +2,7 @@
     <string name="app_name">ICT4D News</string>
     <string name="nav_news">News</string>
     <string name="nav_ict4dat">ICT4D.at</string>
+    <string name="nav_ict4d">ICT4D</string>
     <string name="nav_more">More</string>
     <string name="refresh">Refresh</string>
     <string name="search">Search</string>
@@ -98,5 +99,8 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="ict4d_at_wikipedia">ICT4D at Wikipedia</string>
+    <string name="other_ict4d_source">Other ICT4D Source…</string>
+    <string name="ict4d_logo">ICT4D logo</string>
 
 </resources>
