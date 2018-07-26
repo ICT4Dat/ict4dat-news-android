@@ -14,7 +14,7 @@ const val AUTHOR_TABLE_USERNAME = "username"
 const val AUTHOR_TABLE_IMAGE_URL = "image_url"
 
 @Entity(tableName = AUTHOR_TABLE_TABLE_NAME)
-data class AuthorModel(
+data class Author(
 
         @PrimaryKey
         @ColumnInfo(name = AUTHOR_TABLE_LINK)
