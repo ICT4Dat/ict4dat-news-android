@@ -4,10 +4,6 @@ import android.arch.lifecycle.LiveData
 import at.ict4d.ict4dnews.models.AuthorModel
 import at.ict4d.ict4dnews.models.MediaModel
 import at.ict4d.ict4dnews.models.NewsModel
-import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
-import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
-import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
-import io.reactivex.Flowable
 
 interface IPersistenceManager {
 
@@ -18,6 +14,8 @@ interface IPersistenceManager {
     fun insertAllAuthors(authors: List<AuthorModel>)
 
     fun getAllAuthors(): LiveData<List<AuthorModel>>
+
+    fun getAuthorBy(authorId : String) : LiveData<AuthorModel>
 
 
     // Self Hosted Wordpress Blog

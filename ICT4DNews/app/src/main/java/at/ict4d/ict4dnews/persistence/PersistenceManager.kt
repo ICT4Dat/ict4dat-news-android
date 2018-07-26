@@ -23,6 +23,7 @@ class PersistenceManager @Inject constructor(
 
     override fun getAllAuthors(): LiveData<List<AuthorModel>> = authorDao.getAll()
 
+    override fun getAuthorBy(authorId: String): LiveData<AuthorModel> = authorDao.getAuthorDetailsBy(authorId)
     // News
 
     override fun insertNews(news: NewsModel) = newsDao.insert(news)
