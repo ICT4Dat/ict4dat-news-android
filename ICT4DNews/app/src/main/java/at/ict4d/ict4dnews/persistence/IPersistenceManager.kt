@@ -1,33 +1,36 @@
 package at.ict4d.ict4dnews.persistence
 
 import android.arch.lifecycle.LiveData
-import at.ict4d.ict4dnews.models.AuthorModel
-import at.ict4d.ict4dnews.models.MediaModel
-import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.Author
+import at.ict4d.ict4dnews.models.Media
+import at.ict4d.ict4dnews.models.News
+import org.threeten.bp.LocalDateTime
 
 interface IPersistenceManager {
 
-    // Self Hosted Wordpress Authors
+    // Authors
 
-    fun insertAuthor(author: AuthorModel)
+    fun insertAuthor(author: Author)
 
-    fun insertAllAuthors(authors: List<AuthorModel>)
+    fun insertAllAuthors(authors: List<Author>)
 
-    fun getAllAuthors(): LiveData<List<AuthorModel>>
+    fun getAllAuthors(): LiveData<List<Author>>
 
-    // Self Hosted Wordpress Blog
+    // News
 
-    fun insertNews(news: NewsModel)
+    fun insertNews(news: News)
 
-    fun insertAllNews(news: List<NewsModel>)
+    fun insertAllNews(news: List<News>)
 
-    fun getAllNews(): LiveData<List<NewsModel>>
+    fun getAllOrderedByPublishedDate(): LiveData<List<News>>
 
-    // Self Hosted Wordpress Media
+    fun getLatestNewsPublishedDate(): LocalDateTime
 
-    fun insertMedia(media: MediaModel)
+    // Media
 
-    fun insertAllMedia(media: List<MediaModel>)
+    fun insertMedia(media: Media)
 
-    fun getAllMedia(): LiveData<List<MediaModel>>
+    fun insertAllMedia(media: List<Media>)
+
+    fun getAllMedia(): LiveData<List<Media>>
 }

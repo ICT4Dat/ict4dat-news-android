@@ -1,15 +1,17 @@
 package at.ict4d.ict4dnews.server
 
 import at.ict4d.ict4dnews.extensions.stripHtml
-import at.ict4d.ict4dnews.models.AuthorModel
-import at.ict4d.ict4dnews.models.MediaModel
-import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.Author
+import at.ict4d.ict4dnews.models.Media
+import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -32,9 +34,9 @@ class Server @Inject constructor(
                 })
     }
 
-    override fun loadICT4DatJsonFeed(): Disposable {
+    override fun loadICT4DatJsonFeed(newsAfterDateTime: LocalDateTime): Disposable {
 
-        return apiJsonSelfHostedWPService.getJsonICT4DatNews()
+        return apiJsonSelfHostedWPService.getJsonICT4DatNews(newsAfterDate = newsAfterDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({ serverPosts: List<SelfHostedWPPost> ->
@@ -79,9 +81,9 @@ class Server @Inject constructor(
                 }
 
                 // Map to local models
-                val authors = serverAuthors.map { AuthorModel(it) }
-                val news = serverPosts.map { NewsModel(it) }
-                val media = serverMedia.map { MediaModel(it) }
+                val authors = serverAuthors.map { Author(it) }
+                val news = serverPosts.map { News(it) }
+                val media = serverMedia.map { Media(it) }
 
                 // Strip HTML
                 news.map { n ->

@@ -19,20 +19,25 @@ const val MEDIA_TABLE_DATE_CREATED = "date_created"
 const val MEDIA_TABLE_AUTHOR_ID = "author_id"
 const val MEDIA_TABLE_MIME_TYPE = "mime_type"
 
-@Entity(tableName = MEDIA_TABLE_TABLE_NAME,
+@Entity(
+    tableName = MEDIA_TABLE_TABLE_NAME,
 
-        foreignKeys = [
-            (ForeignKey(entity = NewsModel::class,
-                    parentColumns = [NEWS_TABLE_LINK],
-                    childColumns = [MEDIA_TABLE_NEWS_ID])),
+    foreignKeys = [
+        (ForeignKey(
+            entity = News::class,
+            parentColumns = [NEWS_TABLE_LINK],
+            childColumns = [MEDIA_TABLE_NEWS_ID]
+        )),
+        ForeignKey(
+            entity = Author::class,
+            parentColumns = [AUTHOR_TABLE_LINK],
+            childColumns = [MEDIA_TABLE_AUTHOR_ID]
+        )],
 
-            ForeignKey(entity = AuthorModel::class,
-                    parentColumns = [AUTHOR_TABLE_LINK],
-                    childColumns = [MEDIA_TABLE_AUTHOR_ID])],
-
-        indices = [(Index(value = [MEDIA_TABLE_NEWS_ID])),
-            Index(value = [MEDIA_TABLE_AUTHOR_ID])])
-data class MediaModel(
+    indices = [(Index(value = [MEDIA_TABLE_NEWS_ID])),
+        Index(value = [MEDIA_TABLE_AUTHOR_ID])]
+)
+data class Media(
 
     @PrimaryKey
     @ColumnInfo(name = MEDIA_TABLE_LINK)
@@ -60,7 +65,12 @@ data class MediaModel(
     var dateCreated: LocalDateTime? = null
 ) {
 
-    constructor(serverMedia: WordpressMedia) : this(serverMedia.linkRaw, serverMedia.serverID, serverMedia.postLink, serverMedia.authorLink) {
+    constructor(serverMedia: WordpressMedia) : this(
+        serverMedia.linkRaw,
+        serverMedia.serverID,
+        serverMedia.postLink,
+        serverMedia.authorLink
+    ) {
         mediaType = MediaType.parse(serverMedia.mimeType)
         title = serverMedia.title.rendered
         description = serverMedia.description.rendered

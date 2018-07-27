@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
-import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 
 import com.bumptech.glide.Glide
@@ -29,7 +29,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
-        val newsModelList = intent.getParcelableExtra<NewsModel>(KEY_NEWS_LIST_MODEL)
+        val newsModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
         Timber.d("Model: ${newsModelList.mediaFeaturedURL}")
 
         title = newsModelList.title

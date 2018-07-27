@@ -9,18 +9,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.News
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_ictdnews_item.view.*
 
-class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickListener?) : ListAdapter<NewsModel, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickListener?) :
+    ListAdapter<News, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
 
     private val mOnClickListener: View.OnClickListener
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as NewsModel
+            val item = v.tag as News
             mListener?.onListItemClicked(item)
         }
     }
@@ -37,7 +38,8 @@ class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickLi
         if (item.mediaFeaturedURL == null) {
             holder.imageView.setImageDrawable(null)
         } else {
-            Glide.with(holder.imageView.context).load(item.mediaFeaturedURL).apply(RequestOptions.circleCropTransform()).into(holder.imageView)
+            Glide.with(holder.imageView.context).load(item.mediaFeaturedURL).apply(RequestOptions.circleCropTransform())
+                .into(holder.imageView)
             holder.imageView.contentDescription = item.title
         }
 
@@ -53,16 +55,16 @@ class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickLi
     }
 
     interface OnICT4DNewsListClickListener {
-        fun onListItemClicked(item: NewsModel?)
+        fun onListItemClicked(item: News?)
     }
 }
 
-class NewsListDiffCallback : DiffUtil.ItemCallback<NewsModel>() {
-    override fun areItemsTheSame(oldItem: NewsModel?, newItem: NewsModel?): Boolean {
+class NewsListDiffCallback : DiffUtil.ItemCallback<News>() {
+    override fun areItemsTheSame(oldItem: News?, newItem: News?): Boolean {
         return oldItem?.link == newItem?.link
     }
 
-    override fun areContentsTheSame(oldItem: NewsModel?, newItem: NewsModel?): Boolean {
+    override fun areContentsTheSame(oldItem: News?, newItem: News?): Boolean {
         return oldItem == newItem
     }
 }

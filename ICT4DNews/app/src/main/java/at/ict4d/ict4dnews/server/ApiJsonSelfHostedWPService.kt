@@ -11,8 +11,11 @@ import retrofit2.http.Query
 
 interface ApiJsonSelfHostedWPService {
 
-    @GET("http://www.ict4d.at/wp-json/wp/v2/posts?per_page=10")
-    fun getJsonICT4DatNews(): Single<List<SelfHostedWPPost>>
+    @GET("http://www.ict4d.at/wp-json/wp/v2/posts")
+    fun getJsonICT4DatNews(
+        @Query("per_page") numberOfNewsToRequest: Int = 20, // get 20 news posts per default
+        @Query("after") newsAfterDate: String
+    ): Single<List<SelfHostedWPPost>>
 
     @GET("http://www.ict4d.at/wp-json/wp/v2/users/{serverAuthorID}/")
     fun getJsonICT4DatAuthorByID(@Path("serverAuthorID") serverAuthorID: Int): Call<WordpressAuthor>
