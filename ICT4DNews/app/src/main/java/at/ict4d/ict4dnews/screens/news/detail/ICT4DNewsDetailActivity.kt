@@ -6,7 +6,7 @@ import android.support.design.widget.Snackbar
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.extensions.extractDate
-import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
@@ -30,7 +30,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
-        val newsModelList = intent.getParcelableExtra<NewsModel>(KEY_NEWS_LIST_MODEL)
+        val newsModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
         Timber.d("Model: ${newsModelList.mediaFeaturedURL}")
         if (newsModelList != null) {
             model.loadAuthorDetails(newsModelList.authorID).observe(this, Observer {
@@ -42,7 +42,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 //        title = getString(R.string.nav_ict4dat)
         blog_title.text = newsModelList.title
         post_text.text = newsModelList.description
-        article_date.text = newsModelList.newsDate?.extractDate()
+        article_date.text = newsModelList.publishedDate?.extractDate()
 
         Glide.with(this).load(newsModelList.mediaFeaturedURL).into(appbar_image)
     }

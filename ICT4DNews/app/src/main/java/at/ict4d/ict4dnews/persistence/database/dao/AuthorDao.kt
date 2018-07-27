@@ -7,20 +7,20 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import at.ict4d.ict4dnews.models.AUTHOR_TABLE_LINK
 import at.ict4d.ict4dnews.models.AUTHOR_TABLE_TABLE_NAME
-import at.ict4d.ict4dnews.models.AuthorModel
+import at.ict4d.ict4dnews.models.Author
 
 @Dao
 abstract class AuthorDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(author: AuthorModel)
+    abstract fun insert(author: Author)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertAll(authors: List<AuthorModel>)
+    abstract fun insertAll(authors: List<Author>)
 
     @Query("SELECT * FROM $AUTHOR_TABLE_TABLE_NAME")
-    abstract fun getAll(): LiveData<List<AuthorModel>>
+    abstract fun getAll(): LiveData<List<Author>>
 
     @Query("SELECT * FROM $AUTHOR_TABLE_TABLE_NAME WHERE $AUTHOR_TABLE_LINK = :authorId")
-    abstract fun getAuthorDetailsBy(authorId: String): LiveData<AuthorModel>
+    abstract fun getAuthorDetailsBy(authorId: String): LiveData<Author>
 }

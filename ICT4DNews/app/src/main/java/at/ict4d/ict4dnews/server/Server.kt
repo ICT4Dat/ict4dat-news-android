@@ -1,9 +1,9 @@
 package at.ict4d.ict4dnews.server
 
 import at.ict4d.ict4dnews.extensions.stripHtml
-import at.ict4d.ict4dnews.models.AuthorModel
-import at.ict4d.ict4dnews.models.MediaModel
-import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.Author
+import at.ict4d.ict4dnews.models.Media
+import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
@@ -68,9 +68,9 @@ class Server @Inject constructor(
                     serverPosts.map { post -> post.featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw ?: "" }
 
                     // Map to local models
-                    val authors = serverAuthors.map { AuthorModel(it) }
-                    val news = serverPosts.map { NewsModel(it) }
-                    val media = serverMedia.map { MediaModel(it) }
+                    val authors = serverAuthors.map { Author(it) }
+                    val news = serverPosts.map { News(it) }
+                    val media = serverMedia.map { Media(it) }
 
                     // Strip HTML
                     news.map { n ->

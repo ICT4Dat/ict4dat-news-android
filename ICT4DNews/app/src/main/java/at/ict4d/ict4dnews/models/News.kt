@@ -18,17 +18,17 @@ const val NEWS_TABLE_TITLE = "title"
 const val NEWS_TABLE_DESCRIPTION = "description"
 const val NEWS_TABLE_FEATURED_MEDIA = "featured_media"
 const val NEWS_TABLE_SERVER_ID = "server_id"
-const val NEWS_TABLE_POST_DATE = "news_date"
+const val NEWS_TABLE_PUBLISHED_DATE = "published_date"
 
 @Parcelize
 @Entity(tableName = NEWS_TABLE_TABLE_NAME,
 
-        foreignKeys = [(ForeignKey(entity = AuthorModel::class,
+        foreignKeys = [(ForeignKey(entity = Author::class,
                 parentColumns = [AUTHOR_TABLE_LINK],
                 childColumns = [NEWS_TABLE_AUTHOR_ID]))],
 
         indices = [(Index(value = [NEWS_TABLE_AUTHOR_ID]))])
-data class NewsModel(
+data class News(
 
         @PrimaryKey
         @ColumnInfo(name = NEWS_TABLE_LINK)
@@ -49,14 +49,13 @@ data class NewsModel(
         @ColumnInfo(name = NEWS_TABLE_DESCRIPTION)
         var description: String? = null,
 
-        @ColumnInfo(name = NEWS_TABLE_POST_DATE)
-        var newsDate: LocalDateTime? = null
-) : Parcelable {
+        @ColumnInfo(name = NEWS_TABLE_PUBLISHED_DATE)
+        var publishedDate: LocalDateTime? = null) : Parcelable {
 
     constructor(selfHostedWPPost: SelfHostedWPPost) : this(selfHostedWPPost.link, selfHostedWPPost.authorLink, selfHostedWPPost.serverID) {
         this.title = selfHostedWPPost.title[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED]
         this.description = selfHostedWPPost.content[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED]
         this.mediaFeaturedURL = selfHostedWPPost.featuredMediaLink
-        this.newsDate = selfHostedWPPost.date
+        this.publishedDate = selfHostedWPPost.date
     }
 }

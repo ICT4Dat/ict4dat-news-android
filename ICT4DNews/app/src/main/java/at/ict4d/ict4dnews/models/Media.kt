@@ -18,17 +18,17 @@ const val MEDIA_TABLE_MIME_TYPE = "mime_type"
 @Entity(tableName = MEDIA_TABLE_TABLE_NAME,
 
         foreignKeys = [
-            ForeignKey(entity = NewsModel::class,
+            ForeignKey(entity = News::class,
                 parentColumns = [NEWS_TABLE_LINK],
                 childColumns = [MEDIA_TABLE_NEWS_ID]),
 
-            ForeignKey(entity = AuthorModel::class,
+            ForeignKey(entity = Author::class,
                 parentColumns = [AUTHOR_TABLE_LINK],
                 childColumns = [MEDIA_TABLE_AUTHOR_ID])],
 
         indices = [Index(value = [MEDIA_TABLE_NEWS_ID]),
             Index(value = [MEDIA_TABLE_AUTHOR_ID])])
-data class MediaModel(
+data class Media(
 
         @PrimaryKey
         @ColumnInfo(name = MEDIA_TABLE_LINK)

@@ -1,8 +1,7 @@
 package at.ict4d.ict4dnews.screens.news.list
 
 import android.arch.lifecycle.LiveData
-import at.ict4d.ict4dnews.ICT4DNewsApplication
-import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.IServer
@@ -12,7 +11,7 @@ class ICT4DNewsViewModel @Inject constructor(
         persistenceManager: IPersistenceManager,
         server: IServer) : BaseViewModel() {
 
-    val newsList: LiveData<List<NewsModel>> = persistenceManager.getAllNews()
+    val newsList: LiveData<List<News>> = persistenceManager.getAllOrderedByPublishedDate()
 
     init {
         compositeDisposable.add(server.loadICT4DatJsonFeed())

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "280099817000f6418e22f0f38aa3221e",
+    "identityHash": "472e2abcf9e0c9b85166d9a6ec50eae9",
     "entities": [
       {
         "tableName": "news",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `featured_media` TEXT, `title` TEXT, `description` TEXT, `news_date` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `featured_media` TEXT, `title` TEXT, `description` TEXT, `published_date` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "link",
@@ -45,8 +45,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "newsDate",
-            "columnName": "news_date",
+            "fieldPath": "publishedDate",
+            "columnName": "published_date",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -236,7 +236,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"280099817000f6418e22f0f38aa3221e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"472e2abcf9e0c9b85166d9a6ec50eae9\")"
     ]
   }
 }
