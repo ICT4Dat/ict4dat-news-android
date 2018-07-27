@@ -1,10 +1,15 @@
 package at.ict4d.ict4dnews.models
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.Index
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
 import at.ict4d.ict4dnews.models.wordpress.SELF_HOSTED_WP_POST_SERIALIZED_RENDERED
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import kotlinx.android.parcel.Parcelize
+import org.threeten.bp.LocalDateTime
 
 const val NEWS_TABLE_TABLE_NAME = "news"
 const val NEWS_TABLE_LINK = "link"
@@ -13,6 +18,7 @@ const val NEWS_TABLE_TITLE = "title"
 const val NEWS_TABLE_DESCRIPTION = "description"
 const val NEWS_TABLE_FEATURED_MEDIA = "featured_media"
 const val NEWS_TABLE_SERVER_ID = "server_id"
+const val NEWS_TABLE_POST_DATE = "news_date"
 
 @Parcelize
 @Entity(tableName = NEWS_TABLE_TABLE_NAME,
@@ -41,11 +47,16 @@ data class NewsModel(
         var title: String? = null,
 
         @ColumnInfo(name = NEWS_TABLE_DESCRIPTION)
-        var description: String? = null) : Parcelable {
+        var description: String? = null,
+
+        @ColumnInfo(name = NEWS_TABLE_POST_DATE)
+        var newsDate: LocalDateTime? = null
+) : Parcelable {
 
     constructor(selfHostedWPPost: SelfHostedWPPost) : this(selfHostedWPPost.link, selfHostedWPPost.authorLink, selfHostedWPPost.serverID) {
         this.title = selfHostedWPPost.title[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED]
         this.description = selfHostedWPPost.content[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED]
         this.mediaFeaturedURL = selfHostedWPPost.featuredMediaLink
+        this.newsDate = selfHostedWPPost.date
     }
 }

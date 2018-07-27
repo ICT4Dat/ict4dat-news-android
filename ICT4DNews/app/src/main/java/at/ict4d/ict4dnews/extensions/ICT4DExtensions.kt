@@ -4,7 +4,9 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.text.Html
-
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 
 /**
@@ -38,4 +40,8 @@ fun String.stripHtml(): String {
     } else {
         Html.fromHtml(this).toString()
     }
+}
+
+fun LocalDateTime.extractDate(): String {
+    return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
 }

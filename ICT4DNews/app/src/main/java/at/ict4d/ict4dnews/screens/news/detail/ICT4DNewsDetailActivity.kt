@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
+import at.ict4d.ict4dnews.extensions.extractDate
 import at.ict4d.ict4dnews.models.NewsModel
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import com.bumptech.glide.Glide
@@ -41,6 +42,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 //        title = getString(R.string.nav_ict4dat)
         blog_title.text = newsModelList.title
         post_text.text = newsModelList.description
+        article_date.text = newsModelList.newsDate?.extractDate()
 
         Glide.with(this).load(newsModelList.mediaFeaturedURL).into(appbar_image)
     }
