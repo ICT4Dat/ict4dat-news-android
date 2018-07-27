@@ -14,7 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
-import at.ict4d.ict4dnews.models.NewsModel
+import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity
 import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
@@ -120,7 +120,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         }
     }
 
-    override fun onListItemClicked(item: NewsModel?) {
+    override fun onListItemClicked(item: News?) {
         item?.let { i ->
             activity?.let {
                 val intent = Intent(it, ICT4DNewsDetailActivity::class.java)
