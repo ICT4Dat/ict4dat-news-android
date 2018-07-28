@@ -6,20 +6,13 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity
 import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
-import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
-import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -43,19 +36,6 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    model.isRefreshing.value = false
-                    activity?.toast(getString(R.string.refresh_news_feed_failed))
-                })
-
-        compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    model.isRefreshing.value = false
-                    activity?.toast(getString(R.string.refresh_news_feed_successful))
-                })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -63,13 +43,10 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         model.isRefreshing.observe(this, Observer {
-            it?.let {
-                binding.swiperefresh.isRefreshing = it
-            }
+            binding.swiperefresh.isRefreshing = it ?: false
         })
 
         binding.swiperefresh.setOnRefreshListener {
-            activity?.toast("refreshing....")
             model.requestToLoadJsonFeed()
         }
 

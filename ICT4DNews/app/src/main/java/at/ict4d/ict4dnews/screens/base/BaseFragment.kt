@@ -17,7 +17,6 @@ import android.view.ViewGroup
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.lifecycle.LeakCanaryLifecycleObserver
 import at.ict4d.ict4dnews.lifecycle.RXLifecycleObserver
-import at.ict4d.ict4dnews.utils.RxEventBus
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -38,9 +37,6 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
 
     @Inject
     protected lateinit var compositeDisposable: CompositeDisposable
-
-    @Inject
-    protected lateinit var rxEventBus: RxEventBus
 
     /**
      * return the layout id associated with the Activity

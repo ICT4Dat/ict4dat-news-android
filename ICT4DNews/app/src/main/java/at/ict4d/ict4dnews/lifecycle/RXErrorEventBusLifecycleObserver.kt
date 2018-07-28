@@ -3,13 +3,13 @@ package at.ict4d.ict4dnews.lifecycle
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 import android.support.v7.app.AppCompatActivity
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.toast
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ class RXErrorEventBusLifecycleObserver @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     if (!activity.isFinishing && !activity.isChangingConfigurations) {
-                        // TODO: show dialog here
+                        activity.toast(it.message)
                     }
                     Timber.e(it.throwable)
                 }
