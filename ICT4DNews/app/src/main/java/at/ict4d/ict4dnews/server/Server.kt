@@ -80,12 +80,10 @@ class Server @Inject constructor(
 
                 // Set up foreign key for posts
                 serverPosts.map { post ->
-                    post.authorLink = serverAuthors.find { author -> author.server_id == post.serverAuthorID }?.link ?:
-                        ""
+                    post.authorLink = serverAuthors.find { author -> author.server_id == post.serverAuthorID }?.link ?: ""
                 }
                 serverPosts.map { post ->
-                    post.featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw ?:
-                        ""
+                    post.featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw ?: ""
                 }
 
                 // Map to local models
