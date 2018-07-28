@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query
 import at.ict4d.ict4dnews.models.NEWS_TABLE_PUBLISHED_DATE
 import at.ict4d.ict4dnews.models.NEWS_TABLE_TABLE_NAME
 import at.ict4d.ict4dnews.models.News
+import org.threeten.bp.LocalDateTime
 
 @Dao
 abstract class NewsDao {
@@ -20,4 +21,7 @@ abstract class NewsDao {
 
     @Query("SELECT * FROM $NEWS_TABLE_TABLE_NAME ORDER BY datetime($NEWS_TABLE_PUBLISHED_DATE) DESC")
     abstract fun getAllOrderedByPublishedDate(): LiveData<List<News>>
+
+    @Query("SELECT $NEWS_TABLE_PUBLISHED_DATE FROM $NEWS_TABLE_TABLE_NAME ORDER BY datetime($NEWS_TABLE_PUBLISHED_DATE) DESC LIMIT 1")
+    abstract fun getLatestNewsPublishedDate(): LocalDateTime?
 }

@@ -6,10 +6,11 @@ import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.IServer
+import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
-        persistenceManager: IPersistenceManager,
+        private val persistenceManager: IPersistenceManager,
         private val server: IServer) : BaseViewModel() {
 
     var isRefreshing: MutableLiveData<Boolean> = MutableLiveData()
@@ -22,7 +23,10 @@ class ICT4DNewsViewModel @Inject constructor(
     fun requestToLoadJsonFeed() {
         if (isRefreshing.value == null || isRefreshing.value == false) {
             isRefreshing.value = true
-            compositeDisposable.add(server.loadICT4DatJsonFeed())
+
+            doAsync {
+                compositeDisposable.add(server.loadICT4DatJsonFeed(persistenceManager.getLatestNewsPublishedDate()))
+            }
         }
     }
 }

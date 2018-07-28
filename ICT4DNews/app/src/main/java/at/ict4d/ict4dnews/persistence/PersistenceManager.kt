@@ -7,6 +7,8 @@ import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
 class PersistenceManager @Inject constructor(
@@ -30,6 +32,8 @@ class PersistenceManager @Inject constructor(
     override fun insertAllNews(news: List<News>) = newsDao.insertAll(news)
 
     override fun getAllOrderedByPublishedDate(): LiveData<List<News>> = newsDao.getAllOrderedByPublishedDate()
+
+    override fun getLatestNewsPublishedDate(): LocalDateTime = newsDao.getLatestNewsPublishedDate() ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
 
     // Media
 
