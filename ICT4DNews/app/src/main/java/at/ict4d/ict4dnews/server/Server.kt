@@ -103,6 +103,12 @@ class Server @Inject constructor(
                     }
                 }
 
+                media.map { m ->
+                    m.description?.let {
+                        m.description = it.stripHtml()
+                    }
+                }
+
                 Timber.d("$serverPosts")
                 Timber.d("$serverAuthors")
                 Timber.d("$serverMedia")
