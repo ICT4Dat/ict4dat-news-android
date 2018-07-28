@@ -70,7 +70,11 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
 
         val actionBar = (activity as AppCompatActivity).supportActionBar

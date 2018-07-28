@@ -21,49 +21,49 @@ const val SELF_HOSTED_WP_POST_SERIALIZED_RENDERED = "rendered"
 
 data class SelfHostedWPPost(
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_LINK)
-        val link: String,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_LINK)
+    val link: String,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_ID)
-        val serverID: Int,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_ID)
+    val serverID: Int,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_DATE)
-        val date: LocalDateTime,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_DATE)
+    val date: LocalDateTime,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_MODIFIED)
-        val modifiedDate: LocalDateTime,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_MODIFIED)
+    val modifiedDate: LocalDateTime,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_SLUG)
-        val slug: String,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_SLUG)
+    val slug: String,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_TYPE)
-        val type: String,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_TYPE)
+    val type: String,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_TITLE)
-        val title: MutableMap<String, String>,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_TITLE)
+    val title: MutableMap<String, String>,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_CONTENT)
-        val content: MutableMap<String, String>,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_CONTENT)
+    val content: MutableMap<String, String>,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_EXCERPT)
-        val excerpt: Map<String, String>,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_EXCERPT)
+    val excerpt: Map<String, String>,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_SERVER_AUTHOR)
-        val serverAuthorID: Int,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_SERVER_AUTHOR)
+    val serverAuthorID: Int,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_FEATURED_MEDIA)
-        val featuredMedia: Int,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_FEATURED_MEDIA)
+    val featuredMedia: Int,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_COMMENT_STATUS)
-        val commentStatus: String,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_COMMENT_STATUS)
+    val commentStatus: String,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_CATEGORIES)
-        val categories: List<Int>,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_CATEGORIES)
+    val categories: List<Int>,
 
-        @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_TAGS)
-        val tags: List<Int>,
+    @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_TAGS)
+    val tags: List<Int>,
 
-        var authorLink: String,
+    var authorLink: String,
 
-        var featuredMediaLink: String
+    var featuredMediaLink: String
 )

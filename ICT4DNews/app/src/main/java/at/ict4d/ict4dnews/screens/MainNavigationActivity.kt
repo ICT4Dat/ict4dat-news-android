@@ -3,16 +3,13 @@ package at.ict4d.ict4dnews.screens
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import at.ict4d.ict4dnews.screens.ict4dat.ICT4DatFragment
 import at.ict4d.ict4dnews.screens.more.MoreFragment
 import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsFragment
-import at.ict4d.ict4dnews.server.IServer
 import java.lang.IllegalArgumentException
-import javax.inject.Inject
 
 class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMainNavigationBinding>() {
 

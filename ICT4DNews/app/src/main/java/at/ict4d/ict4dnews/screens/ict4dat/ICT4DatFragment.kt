@@ -18,7 +18,11 @@ class ICT4DatFragment : BaseNavigationFragment<ICT4DatViewModel, FragmentIct4dat
 
     override fun getViewModel(): Class<ICT4DatViewModel> = ICT4DatViewModel::class.java
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

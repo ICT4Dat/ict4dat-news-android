@@ -7,6 +7,7 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import at.ict4d.ict4dnews.models.NEWS_TABLE_PUBLISHED_DATE
 import at.ict4d.ict4dnews.models.NEWS_TABLE_TABLE_NAME
+
 import at.ict4d.ict4dnews.models.News
 import org.threeten.bp.LocalDateTime
 
