@@ -7,8 +7,8 @@ import org.simpleframework.xml.Root
 
 @Root(name = SERIALIZED_RSS, strict = false)
 data class RSSFeed(
-        @field:Element(name = SERIALIZED_CHANNEL)
-        var channel: Channel? = null
+    @field:Element(name = SERIALIZED_CHANNEL)
+    var channel: Channel? = null
 ) {
     companion object {
         const val SERIALIZED_RSS = "rss"

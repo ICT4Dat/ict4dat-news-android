@@ -14,9 +14,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class RXErrorEventBusLifecycleObserver @Inject constructor(
-        private val activity: AppCompatActivity,
-        private val compositeDisposable: CompositeDisposable,
-        private val eventBus: RxEventBus) : RXLifecycleObserver(compositeDisposable) {
+    private val activity: AppCompatActivity,
+    private val compositeDisposable: CompositeDisposable,
+    private val eventBus: RxEventBus
+) : RXLifecycleObserver(compositeDisposable) {
 
     private var eventBusObserver: Disposable? = null
 

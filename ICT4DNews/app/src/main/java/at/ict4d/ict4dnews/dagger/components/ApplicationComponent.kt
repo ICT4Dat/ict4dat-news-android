@@ -1,7 +1,11 @@
 package at.ict4d.ict4dnews.dagger.components
 
 import at.ict4d.ict4dnews.ICT4DNewsApplication
-import at.ict4d.ict4dnews.dagger.modules.*
+import at.ict4d.ict4dnews.dagger.modules.ApiServiceModule
+import at.ict4d.ict4dnews.dagger.modules.ApplicationModule
+import at.ict4d.ict4dnews.dagger.modules.HelperModule
+import at.ict4d.ict4dnews.dagger.modules.RoomModule
+import at.ict4d.ict4dnews.dagger.modules.ViewModelFactoryModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule

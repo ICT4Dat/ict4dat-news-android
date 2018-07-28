@@ -14,26 +14,27 @@ import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
-        private val persistenceManager: IPersistenceManager,
-        private val server: IServer,
-        rxEventBus: RxEventBus) : BaseViewModel() {
+    private val persistenceManager: IPersistenceManager,
+    private val server: IServer,
+    rxEventBus: RxEventBus
+) : BaseViewModel() {
 
     val newsList: LiveData<List<News>> = persistenceManager.getAllOrderedByPublishedDate()
 
     init {
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe {
-                    isRefreshing.value = false
-                })
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                isRefreshing.value = false
+            })
 
         compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe {
-                    isRefreshing.value = false
-                })
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                isRefreshing.value = false
+            })
 
         requestToLoadJsonFeed()
     }
