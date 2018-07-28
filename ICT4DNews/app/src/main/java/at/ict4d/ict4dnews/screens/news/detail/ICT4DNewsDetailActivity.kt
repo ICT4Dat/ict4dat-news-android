@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
+import at.ict4d.ict4dnews.extensions.changeVisibility
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import com.bumptech.glide.Glide
@@ -42,9 +43,15 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         when (item.itemId) {
             android.R.id.home -> {
                 supportFinishAfterTransition()
+                binding.fab.changeVisibility(false)
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        binding.fab.changeVisibility(false)
+        super.onBackPressed()
     }
 }
