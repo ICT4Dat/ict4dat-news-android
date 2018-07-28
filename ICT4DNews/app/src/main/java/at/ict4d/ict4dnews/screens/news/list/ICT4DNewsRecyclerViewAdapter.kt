@@ -17,15 +17,6 @@ import kotlinx.android.synthetic.main.fragment_ictdnews_item.view.*
 class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickListener?) :
     ListAdapter<News, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
 
-    private val mOnClickListener: View.OnClickListener
-
-    init {
-        mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as News
-            mListener?.onListItemClicked(item)
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_ictdnews_item, parent, false)
         return ViewHolder(view)
@@ -43,10 +34,7 @@ class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickLi
             holder.imageView.contentDescription = item.title
         }
 
-        with(holder.view) {
-            tag = item
-            setOnClickListener(mOnClickListener)
-        }
+        holder.itemView.setOnClickListener { mListener?.onListItemClicked(item, holder.imageView) }
     }
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -55,7 +43,7 @@ class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickLi
     }
 
     interface OnICT4DNewsListClickListener {
-        fun onListItemClicked(item: News?)
+        fun onListItemClicked(item: News, view: View)
     }
 }
 
