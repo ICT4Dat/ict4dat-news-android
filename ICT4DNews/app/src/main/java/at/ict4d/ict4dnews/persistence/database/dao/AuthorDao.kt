@@ -7,6 +7,7 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import at.ict4d.ict4dnews.models.AUTHOR_TABLE_LINK
 import at.ict4d.ict4dnews.models.AUTHOR_TABLE_TABLE_NAME
+
 import at.ict4d.ict4dnews.models.Author
 
 @Dao

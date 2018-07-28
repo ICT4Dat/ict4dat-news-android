@@ -6,20 +6,20 @@ import org.simpleframework.xml.Root
 
 @Root(name = SERIALIZED_IMAGE, strict = false)
 data class ChannelImage(
-        @field:Element(name = SERIALIZED_URL)
-        var url: String? = null,
+    @field:Element(name = SERIALIZED_URL)
+    var url: String? = null,
 
-        @field:Element(name = SERIALIZED_TITLE)
-        var title: String? = null,
+    @field:Element(name = SERIALIZED_TITLE)
+    var title: String? = null,
 
-        @field:Element(name = SERIALIZED_LINK)
-        var link: String? = null,
+    @field:Element(name = SERIALIZED_LINK)
+    var link: String? = null,
 
-        @field:Element(name = SERIALIZED_WIDTH)
-        var width: String? = null,
+    @field:Element(name = SERIALIZED_WIDTH)
+    var width: String? = null,
 
-        @field:Element(name = SERIALIZED_HEIGHT)
-        var height: String? = null
+    @field:Element(name = SERIALIZED_HEIGHT)
+    var height: String? = null
 ) {
     companion object {
         const val SERIALIZED_IMAGE = "image"

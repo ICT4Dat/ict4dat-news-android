@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
 import com.facebook.stetho.Stetho
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import dagger.android.AndroidInjector
@@ -29,9 +30,11 @@ class ICT4DNewsApplication : Application(), HasActivityInjector {
         }
     }
 
-
     override fun onCreate() {
         super.onCreate()
+
+        // java.time backport
+        AndroidThreeTen.init(this)
 
         DaggerApplicationComponent.builder().create(this).inject(this)
 

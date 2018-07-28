@@ -7,7 +7,7 @@ import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import javax.inject.Inject
 
 class ICT4DNewsDetailViewModel @Inject constructor(private val persistenceManager: IPersistenceManager) :
-        BaseViewModel() {
+    BaseViewModel() {
 
     fun loadAuthorDetails(authorId: String): LiveData<Author> = persistenceManager.getAuthorBy(authorId)
 }
