@@ -19,5 +19,4 @@ abstract class MediaDao {
 
     @Query("SELECT * FROM $MEDIA_TABLE_TABLE_NAME")
     abstract fun getAll(): LiveData<List<Media>>
-
 }

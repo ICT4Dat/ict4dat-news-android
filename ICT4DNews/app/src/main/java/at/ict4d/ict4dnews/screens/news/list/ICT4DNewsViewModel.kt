@@ -9,8 +9,9 @@ import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
-        persistenceManager: IPersistenceManager,
-        server: IServer) : BaseViewModel() {
+    persistenceManager: IPersistenceManager,
+    server: IServer
+) : BaseViewModel() {
 
     val newsList: LiveData<List<News>> = persistenceManager.getAllOrderedByPublishedDate()
 

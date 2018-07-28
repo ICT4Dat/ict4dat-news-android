@@ -5,8 +5,6 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.text.Html
 
-
-
 /**
  * LiveData that propagates only distinct emissions.
  * @see https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1
@@ -21,8 +19,8 @@ fun <T> LiveData<T>.getDistinct(): LiveData<T> {
                 initialized = true
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
-            } else if ((obj == null && lastObj != null)
-                    || obj != lastObj) {
+            } else if ((obj == null && lastObj != null) ||
+                    obj != lastObj) {
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
             }
