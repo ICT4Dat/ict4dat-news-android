@@ -8,6 +8,7 @@ import at.ict4d.ict4dnews.server.ApiRSSService
 import at.ict4d.ict4dnews.server.IServer
 import at.ict4d.ict4dnews.server.Server
 import at.ict4d.ict4dnews.utils.GsonLocalDateTimeDeserializer
+import at.ict4d.ict4dnews.utils.RxEventBus
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -34,30 +35,30 @@ class ApiServiceModule {
     @Singleton
     fun provideRSSApiService(okHttpClient: OkHttpClient): ApiRSSService {
         return Retrofit.Builder()
-                .baseUrl("http://will.be.overritten.com")
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttpClient)
-                .build().create(ApiRSSService::class.java)
+            .baseUrl("http://will.be.overritten.com")
+            .addConverterFactory(SimpleXmlConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(okHttpClient)
+            .build().create(ApiRSSService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideJsonWordpressApiService(okHttpClient: OkHttpClient, gson: Gson): ApiJsonSelfHostedWPService {
         return Retrofit.Builder()
-                .baseUrl("http://will.be.overritten.com")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttpClient)
-                .build().create(ApiJsonSelfHostedWPService::class.java)
+            .baseUrl("http://will.be.overritten.com")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(okHttpClient)
+            .build().create(ApiJsonSelfHostedWPService::class.java)
     }
 
     @Provides
     @Reusable
     fun provideGson(): Gson {
         return GsonBuilder()
-                .registerTypeAdapter(LocalDateTime::class.java, GsonLocalDateTimeDeserializer())
-                .create()
+            .registerTypeAdapter(LocalDateTime::class.java, GsonLocalDateTimeDeserializer())
+            .create()
     }
 
     @Provides
@@ -65,8 +66,9 @@ class ApiServiceModule {
     fun provideServer(
         apiRSSService: ApiRSSService,
         apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
-        persistenceManager: IPersistenceManager
-    ): IServer = Server(apiRSSService, apiJsonSelfHostedWPService, persistenceManager)
+        persistenceManager: IPersistenceManager,
+        eventBus: RxEventBus
+    ): IServer = Server(apiRSSService, apiJsonSelfHostedWPService, persistenceManager, eventBus)
 
     @Provides
     @Singleton
@@ -84,11 +86,11 @@ class ApiServiceModule {
         }
 
         val builder = OkHttpClient.Builder()
-                .cache(cache)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .addInterceptor(httpLoggingInterceptor)
+            .cache(cache)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .addInterceptor(httpLoggingInterceptor)
 
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(StethoInterceptor())

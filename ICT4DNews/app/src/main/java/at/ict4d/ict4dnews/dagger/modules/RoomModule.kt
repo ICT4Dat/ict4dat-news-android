@@ -5,9 +5,9 @@ import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.persistence.PersistenceManager
 import at.ict4d.ict4dnews.persistence.database.AppDatabase
-import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
+import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
