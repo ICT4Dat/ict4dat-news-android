@@ -1,0 +1,17 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".screens.news.detail.ICT4DNewsDetailActivity">
+
+        <TextView
+                android:id="@+id/post_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_margin="@dimen/text_margin"
+                tools:text="Long Text...."/>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

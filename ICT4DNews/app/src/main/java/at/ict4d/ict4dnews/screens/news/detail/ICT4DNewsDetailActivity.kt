@@ -6,10 +6,8 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
-
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
-import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
 import timber.log.Timber
 
 const val KEY_NEWS_LIST_MODEL = "news_list_model"
@@ -22,19 +20,26 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        fab.setOnClickListener { view ->
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
+        model.selectedNews = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+        Timber.d("Model: ${model.selectedNews?.mediaFeaturedURL}")
+        Glide.with(this).load(model.selectedNews?.mediaFeaturedURL).into(appbar_image)
+        binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                .setAction("Action", null).show()
         }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
-        val newsModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
-        Timber.d("Model: ${newsModelList.mediaFeaturedURL}")
+        var detailsFragment: ICT4DNewsDetailFragment? =
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
 
-        title = newsModelList.title
-        post_text.text = newsModelList.description
+        if (detailsFragment == null) {
+            detailsFragment = ICT4DNewsDetailFragment.newInstance()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, detailsFragment).commit()
+        }
 
-        Glide.with(this).load(newsModelList.mediaFeaturedURL).into(appbar_image)
+        if (model.selectedNews == null) {
+            Timber.e("Selected news must not be NULL")
+            finish()
+        }
     }
 }
