@@ -26,17 +26,15 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                .setAction("Action", null).show()
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
         val newsModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
         Timber.d("Model: ${newsModelList.mediaFeaturedURL}")
         if (newsModelList != null) {
-            model.loadAuthorDetails(newsModelList.authorID).observe(this, Observer {
-                if (it != null) {
-                    author_name.text = it.name
-                }
+            model.authorDetails(newsModelList.authorID).observe(this, Observer {
+                author_name.text = it?.name ?: ""
             })
         }
 //        title = getString(R.string.nav_ict4dat)

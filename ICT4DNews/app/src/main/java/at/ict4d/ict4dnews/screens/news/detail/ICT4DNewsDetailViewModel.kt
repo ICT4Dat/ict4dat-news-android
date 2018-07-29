@@ -9,5 +9,5 @@ import javax.inject.Inject
 class ICT4DNewsDetailViewModel @Inject constructor(private val persistenceManager: IPersistenceManager) :
     BaseViewModel() {
 
-    fun loadAuthorDetails(authorId: String): LiveData<Author> = persistenceManager.getAuthorBy(authorId)
+    fun authorDetails(authorId: String): LiveData<Author> = persistenceManager.getAuthorBy(authorId)
 }

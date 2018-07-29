@@ -8,6 +8,10 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Locale
 
+fun LocalDateTime.extractDate(): String {
+    return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
+}
+
 /**
  * LiveData that propagates only distinct emissions.
  * @see https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1
@@ -40,8 +44,4 @@ fun String.stripHtml(): String {
     } else {
         Html.fromHtml(this).toString()
     }
-}
-
-fun LocalDateTime.extractDate(): String {
-    return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
 }
