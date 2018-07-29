@@ -1,15 +1,18 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
+import at.ict4d.ict4dnews.extensions.extractDate
 import at.ict4d.ict4dnews.extensions.loadImage
 import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
+
 import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
 import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
 
@@ -32,8 +35,15 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
         val newsModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
 
-        title = newsModelList.title
+        if (newsModelList != null) {
+            model.authorDetails(newsModelList.authorID).observe(this, Observer {
+                author_name.text = it?.name ?: ""
+            })
+        }
+
+        blog_title.text = newsModelList.title
         post_text.text = newsModelList.description
+        article_date.text = newsModelList.publishedDate?.extractDate()
 
         binding.appbarImage.loadImage(newsModelList.mediaFeaturedURL)
     }

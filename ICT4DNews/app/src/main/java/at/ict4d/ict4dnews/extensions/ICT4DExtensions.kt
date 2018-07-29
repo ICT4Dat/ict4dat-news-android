@@ -10,6 +10,41 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.Locale
+
+fun LocalDateTime.extractDate(): String {
+    return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
+}
+
+@BindingAdapter("loadCircularImage")
+fun ImageView.loadCircularImage(imageUrl: String?) {
+    imageUrl?.let {
+        Glide.with(this.context).load(it).apply(RequestOptions.circleCropTransform()).into(this)
+    }
+}
+
+@BindingAdapter("loadImage")
+fun ImageView.loadImage(imageUrl: String?) {
+    imageUrl?.let {
+        Glide.with(this.context).load(it).into(this)
+    }
+}
+
+fun View.visible(visible: Boolean) {
+    this.visibility = if (visible) View.VISIBLE else View.GONE
+}
+
+@Suppress("DEPRECATION")
+fun String.stripHtml(): String {
+    return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY).toString()
+    } else {
+        Html.fromHtml(this).toString()
+    }
+}
+
 /**
  * LiveData that propagates only distinct emissions.
  * @see https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1
@@ -33,31 +68,4 @@ fun <T> LiveData<T>.getDistinct(): LiveData<T> {
         }
     })
     return distinctLiveData
-}
-
-@Suppress("DEPRECATION")
-fun String.stripHtml(): String {
-    return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY).toString()
-    } else {
-        Html.fromHtml(this).toString()
-    }
-}
-
-@BindingAdapter("loadCircularImage")
-fun ImageView.loadCircularImage(imageUrl: String?) {
-    imageUrl?.let {
-        Glide.with(this.context).load(it).apply(RequestOptions.circleCropTransform()).into(this)
-    }
-}
-
-@BindingAdapter("loadImage")
-fun ImageView.loadImage(imageUrl: String?) {
-    imageUrl?.let {
-        Glide.with(this.context).load(it).into(this)
-    }
-}
-
-fun View.visible(visible: Boolean) {
-    this.visibility = if (visible) View.VISIBLE else View.GONE
 }

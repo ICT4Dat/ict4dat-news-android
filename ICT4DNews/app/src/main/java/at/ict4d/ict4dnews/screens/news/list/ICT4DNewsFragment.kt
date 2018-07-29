@@ -50,18 +50,20 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
+        model.isRefreshing.observe(this, Observer {
+            binding.swiperefresh.isRefreshing = it ?: false
+        })
+
         binding.swiperefresh.setOnRefreshListener {
-            // TODO: start refresh operation
-            activity?.toast("refreshing....")
-            binding.swiperefresh.isRefreshing = false
+            model.requestToLoadJsonFeed()
         }
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
         model.newsList.observe(this, Observer {
-            it?.let {
-                // Timber.d("list in fragment: $it")
+            if (it != null && it.isNotEmpty()) {
+                Timber.d("list in fragment: ${it.size}")
                 adapter.submitList(it)
             }
         })
@@ -97,13 +99,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         return when (item?.itemId) {
 
             R.id.menu_refresh -> {
-
-                binding.swiperefresh.isRefreshing = true
-
-                // TODO: start refresh operation
-                activity?.toast("refreshing....")
-                binding.swiperefresh.isRefreshing = false
-
+                model.requestToLoadJsonFeed()
                 return true
             }
             else -> super.onOptionsItemSelected(item)
