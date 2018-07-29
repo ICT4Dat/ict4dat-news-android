@@ -23,9 +23,17 @@ cache:
   - $HOME/.gradle/wrapper/
   - $HOME/.android/build-cache
 
+stages:
+  - test
+  - build
+
 before_install:
   - cd ICT4DNews
-
-script:
   - chmod +x ./gradlew
-  - ./gradlew clean assembleDebug --stacktrace
+
+jobs:
+  include:
+    - stage: test
+      script: ./gradlew clean ktlint -Pci --stacktrace
+    - stage: build
+      script: ./gradlew clean assembleDebug --stacktrace

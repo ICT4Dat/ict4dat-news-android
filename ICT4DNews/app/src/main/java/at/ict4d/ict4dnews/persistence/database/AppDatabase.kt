@@ -7,16 +7,15 @@ import android.arch.persistence.room.TypeConverters
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
-import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
+import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Collections.emptyList
-
 
 @Database(entities = [News::class, Author::class, Media::class], version = 1)
 @TypeConverters(Converters::class)

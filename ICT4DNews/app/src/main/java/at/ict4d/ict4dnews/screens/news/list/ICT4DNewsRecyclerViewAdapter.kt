@@ -14,8 +14,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_ictdnews_item.view.*
 
-
-class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickListener?) : ListAdapter<News, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickListener?) :
+    ListAdapter<News, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
 
     private val mOnClickListener: View.OnClickListener
 
@@ -38,7 +38,8 @@ class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickLi
         if (item.mediaFeaturedURL == null) {
             holder.imageView.setImageDrawable(null)
         } else {
-            Glide.with(holder.imageView.context).load(item.mediaFeaturedURL).apply(RequestOptions.circleCropTransform()).into(holder.imageView)
+            Glide.with(holder.imageView.context).load(item.mediaFeaturedURL).apply(RequestOptions.circleCropTransform())
+                .into(holder.imageView)
             holder.imageView.contentDescription = item.title
         }
 

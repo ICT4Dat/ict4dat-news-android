@@ -6,7 +6,12 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.models.News
@@ -21,7 +26,8 @@ import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(), ICT4DNewsRecyclerViewAdapter.OnICT4DNewsListClickListener {
+class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(),
+    ICT4DNewsRecyclerViewAdapter.OnICT4DNewsListClickListener {
 
     override fun getMenuItemId(): Int = R.id.navigation_news
 
@@ -38,22 +44,27 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
+        model.isRefreshing.observe(this, Observer {
+            binding.swiperefresh.isRefreshing = it ?: false
+        })
+
         binding.swiperefresh.setOnRefreshListener {
-            // TODO: start refresh operation
-            activity?.toast("refreshing....")
-            binding.swiperefresh.isRefreshing = false
+            model.requestToLoadJsonFeed()
         }
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
         model.newsList.observe(this, Observer {
-            it?.let {
-                Timber.d("list in fragment: $it")
+            if (it != null && it.isNotEmpty()) {
+                Timber.d("list in fragment: ${it.size}")
                 adapter.submitList(it)
             }
         })
@@ -67,34 +78,29 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         val searchView = menuItem?.actionView as SearchView
 
         compositeDisposable.add(RxSearchView.queryTextChanges(searchView)
-                .debounce(400, TimeUnit.MILLISECONDS)
-                .map { char: CharSequence -> char.toString() }
-                .filter { query: String -> !query.isEmpty() }
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe({ query ->
-                    Timber.d("*** query: $query")
-                    activity?.runOnUiThread {
-                        activity?.toast("You will search for: $query")
-                    }
-                }, { e ->
-                    Timber.e("*** error: $e")
-                }, {
-                    Timber.d("*** complete")
-                }))
+            .debounce(400, TimeUnit.MILLISECONDS)
+            .map { char: CharSequence -> char.toString() }
+            .filter { query: String -> !query.isEmpty() }
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribe({ query ->
+                Timber.d("*** query: $query")
+                activity?.runOnUiThread {
+                    activity?.toast("You will search for: $query")
+                }
+            }, { e ->
+                Timber.e("*** error: $e")
+            }, {
+                Timber.d("*** complete")
+            })
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
 
             R.id.menu_refresh -> {
-
-                binding.swiperefresh.isRefreshing = true
-
-                // TODO: start refresh operation
-                activity?.toast("refreshing....")
-                binding.swiperefresh.isRefreshing = false
-
+                model.requestToLoadJsonFeed()
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -102,7 +108,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     }
 
     override fun onListItemClicked(item: News?) {
-        item?.let {i ->
+        item?.let { i ->
             activity?.let {
                 val intent = Intent(it, ICT4DNewsDetailActivity::class.java)
                 intent.putExtra(KEY_NEWS_LIST_MODEL, i)
@@ -116,6 +122,6 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
 
         @JvmStatic
         fun newInstance() =
-                ICT4DNewsFragment()
+            ICT4DNewsFragment()
     }
 }
