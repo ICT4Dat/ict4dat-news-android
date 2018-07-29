@@ -58,7 +58,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:padding="4dp"
-                android:text="Text about ict4d, blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah  blah blah blah blah "
+                android:text="Text about ict4d, lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
                 app:layout_constraintBottom_toTopOf="@+id/button2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

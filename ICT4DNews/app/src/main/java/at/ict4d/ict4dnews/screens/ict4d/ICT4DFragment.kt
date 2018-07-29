@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4dBinding
+import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
-import org.jetbrains.anko.browse
 
 class ICT4DFragment : BaseNavigationFragment<ICT4DViewModel, FragmentIct4dBinding>() {
 
@@ -28,12 +28,12 @@ class ICT4DFragment : BaseNavigationFragment<ICT4DViewModel, FragmentIct4dBindin
 
     fun ict4dWikipedia() {
         // TODO("open ict4d wiki link in browser")
-        activity?.browse("http://google.com", true)
+        context?.browseCustomTab(getString(R.string.ict4d_wikipedia))
     }
 
     fun otherIct4dSource() {
         // TODO("open other ict4d source link in browser")
-        activity?.browse("http://google.com", true)
+        activity?.browseCustomTab("http://google.com")
     }
 
     companion object {
