@@ -16,6 +16,8 @@ interface IPersistenceManager {
 
     fun getAllAuthors(): LiveData<List<Author>>
 
+    fun getAuthorBy(authorId: String): LiveData<Author>
+
     // News
 
     fun insertNews(news: News)
