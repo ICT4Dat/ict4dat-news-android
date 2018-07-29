@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.screens.ict4d
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,12 +27,12 @@ class ICT4DFragment : BaseNavigationFragment<ICT4DViewModel, FragmentIct4dBindin
     }
 
     fun ict4dWikipedia() {
-        //TODO("open ict4d wiki link in browser")
+        // TODO("open ict4d wiki link in browser")
         activity?.browse("http://google.com", true)
     }
 
     fun otherIct4dSource() {
-        //TODO("open other ict4d source link in browser")
+        // TODO("open other ict4d source link in browser")
         activity?.browse("http://google.com", true)
     }
 
