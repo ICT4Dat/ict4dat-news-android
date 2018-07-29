@@ -4,6 +4,13 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.text.Html
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.Locale
+
+fun LocalDateTime.extractDate(): String {
+    return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
+}
 
 /**
  * LiveData that propagates only distinct emissions.
@@ -20,7 +27,8 @@ fun <T> LiveData<T>.getDistinct(): LiveData<T> {
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
             } else if ((obj == null && lastObj != null) ||
-                    obj != lastObj) {
+                obj != lastObj
+            ) {
                 lastObj = obj
                 distinctLiveData.postValue(lastObj)
             }
