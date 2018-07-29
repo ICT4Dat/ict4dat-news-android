@@ -44,13 +44,20 @@ fun String.stripHtml(): String {
     }
 }
 
-@BindingAdapter("loadImage")
-fun ImageView.loadImage(imageUrl: String?) {
-    if (imageUrl != null) {
-        Glide.with(this.context).load(imageUrl).apply(RequestOptions.circleCropTransform()).into(this)
+@BindingAdapter("loadCircularImage")
+fun ImageView.loadCircularImage(imageUrl: String?) {
+    imageUrl?.let {
+        Glide.with(this.context).load(it).apply(RequestOptions.circleCropTransform()).into(this)
     }
 }
 
-fun View.changeVisibility(shouldShow: Boolean) {
-    this.visibility = if (shouldShow) View.VISIBLE else View.GONE
+@BindingAdapter("loadImage")
+fun ImageView.loadImage(imageUrl: String?) {
+    imageUrl?.let {
+        Glide.with(this.context).load(it).into(this)
+    }
+}
+
+fun View.visible(visible: Boolean) {
+    this.visibility = if (visible) View.VISIBLE else View.GONE
 }

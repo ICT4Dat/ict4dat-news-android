@@ -29,7 +29,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    app:loadImage="@{newsItem.mediaFeaturedURL}"
+                    app:loadCircularImage="@{newsItem.mediaFeaturedURL}"
                     android:contentDescription="@{newsItem.mediaFeaturedURL}"
                     android:transitionName="post_image"
                     app:layout_constraintStart_toStartOf="parent"
