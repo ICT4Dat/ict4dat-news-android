@@ -22,7 +22,6 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_ictdnews_item.*
-import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -38,6 +37,8 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter(this)
+
+    private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,13 +60,22 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
             model.requestToLoadJsonFeed()
         }
 
+        model.searchedNewsList.observe(this, Observer {
+            if (it != null) {
+                Timber.d("Search result size is ----> ${it.size}")
+                adapter.submitList(it)
+            }
+        })
+
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
         model.newsList.observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
-                Timber.d("list in fragment: ${it.size}")
-                adapter.submitList(it)
+                if (model.searchQuery == null) {
+                    Timber.d("list in fragment: ${it.size}")
+                    adapter.submitList(it)
+                }
             }
         })
 
@@ -73,6 +83,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        this.menu = menu
         inflater?.inflate(R.menu.ict4dnews_menu, menu)
         val menuItem = menu?.findItem(R.id.menu_search)
         val searchView = menuItem?.actionView as SearchView
@@ -80,20 +91,46 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         compositeDisposable.add(RxSearchView.queryTextChanges(searchView)
             .debounce(400, TimeUnit.MILLISECONDS)
             .map { char: CharSequence -> char.toString() }
-            .filter { query: String -> !query.isEmpty() }
             .observeOn(Schedulers.io())
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe({ query ->
                 Timber.d("*** query: $query")
-                activity?.runOnUiThread {
-                    activity?.toast("You will search for: $query")
-                }
+                model.performSearch(query)
             }, { e ->
                 Timber.e("*** error: $e")
             }, {
                 Timber.d("*** complete")
             })
         )
+
+        // restore search view after orientation change
+        model.searchQuery?.let {
+            if (it.isNotEmpty()) {
+                enableRefreshMenuItem(false)
+                menuItem.expandActionView()
+                searchView.setQuery(it, true)
+                searchView.clearFocus()
+            }
+        }
+
+        menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                enableRefreshMenuItem(false)
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                adapter.submitList(model.searchedNewsList.value)
+                model.searchQuery = null
+                enableRefreshMenuItem(true)
+                return true
+            }
+        })
+    }
+
+    private fun enableRefreshMenuItem(isEnable: Boolean) {
+        menu?.findItem(R.id.menu_refresh)?.isEnabled = isEnable
+        binding.swiperefresh.isEnabled = isEnable
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
