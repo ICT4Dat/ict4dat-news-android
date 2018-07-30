@@ -12,7 +12,6 @@ import at.ict4d.ict4dnews.extensions.loadImage
 import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
-
 import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
 import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
 
@@ -56,14 +55,15 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         }, 700)
     }
 
-    override fun onPause() {
+    override fun onBackPressed() {
         binding.fab.visible(false)
-        super.onPause()
+        super.onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                binding.fab.visible(false)
                 supportFinishAfterTransition()
                 return true
             }
