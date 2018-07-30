@@ -128,9 +128,9 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         })
     }
 
-    private fun enableRefreshMenuItem(isEnable: Boolean) {
-        menu?.findItem(R.id.menu_refresh)?.isEnabled = isEnable
-        binding.swiperefresh.isEnabled = isEnable
+    private fun enableRefreshMenuItem(enable: Boolean) {
+        menu?.findItem(R.id.menu_refresh)?.isEnabled = enable
+        binding.swiperefresh.isEnabled = enable
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
