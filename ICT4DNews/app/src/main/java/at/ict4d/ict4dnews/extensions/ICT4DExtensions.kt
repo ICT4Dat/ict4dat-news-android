@@ -3,13 +3,35 @@ package at.ict4d.ict4dnews.extensions
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
+import android.content.Context
+import android.net.Uri
+import android.support.customtabs.CustomTabsIntent
+import android.support.v4.content.ContextCompat
 import android.text.Html
+import at.ict4d.ict4dnews.R
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Locale
 
+fun Context.browseCustomTab(url: String) {
+    CustomTabsIntent
+        .Builder()
+        .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        .build()
+        .launchUrl(this, Uri.parse(url))
+}
+
 fun LocalDateTime.extractDate(): String {
     return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
+}
+
+@Suppress("DEPRECATION")
+fun String.stripHtml(): String {
+    return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY).toString()
+    } else {
+        Html.fromHtml(this).toString()
+    }
 }
 
 /**
@@ -35,13 +57,4 @@ fun <T> LiveData<T>.getDistinct(): LiveData<T> {
         }
     })
     return distinctLiveData
-}
-
-@Suppress("DEPRECATION")
-fun String.stripHtml(): String {
-    return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY).toString()
-    } else {
-        Html.fromHtml(this).toString()
-    }
 }
