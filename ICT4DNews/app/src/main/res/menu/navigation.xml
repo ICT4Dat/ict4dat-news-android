@@ -6,6 +6,12 @@
         android:icon="@drawable/ic_fiber_new_black_24dp"
         android:title="@string/nav_news" />
 
+    <!--TODO change the navigation_ict4d icon-->
+    <item
+        android:id="@+id/navigation_ict4d"
+        android:icon="@drawable/ic_group_work_black_24dp"
+        android:title="@string/nav_ict4d" />
+
     <item
         android:id="@+id/navigation_ict4dat"
         android:icon="@drawable/ic_group_work_black_24dp"
