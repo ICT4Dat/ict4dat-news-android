@@ -3,6 +3,7 @@ package at.ict4d.ict4dnews.dagger.modules
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import at.ict4d.ict4dnews.screens.MainNavigationViewModel
+import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
 import at.ict4d.ict4dnews.screens.ict4dat.ICT4DatViewModel
 import at.ict4d.ict4dnews.screens.more.MoreViewModel
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailViewModel
@@ -26,6 +27,11 @@ abstract class ViewModelFactoryModule {
     @IntoMap
     @ViewModelKey(ICT4DNewsViewModel::class)
     abstract fun bindsICT4DNewsViewModel(viewModel: ICT4DNewsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ICT4DViewModel::class)
+    abstract fun bindsICT4DViewModel(viewModel: ICT4DViewModel): ViewModel
 
     @Binds
     @IntoMap
