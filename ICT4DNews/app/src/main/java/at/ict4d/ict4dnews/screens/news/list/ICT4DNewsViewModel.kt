@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.screens.news.list
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
@@ -20,6 +21,8 @@ class ICT4DNewsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val newsList: LiveData<List<News>> = persistenceManager.getAllOrderedByPublishedDate()
+    val searchedNewsList: MutableLiveData<List<News>> = MutableLiveData()
+    var searchQuery: String? = null
 
     init {
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
@@ -47,5 +50,11 @@ class ICT4DNewsViewModel @Inject constructor(
                 compositeDisposable.add(server.loadICT4DatJsonFeed(persistenceManager.getLatestNewsPublishedDate()))
             }
         }
+    }
+
+    fun performSearch(searchQuery: String) {
+        // TODO(change the filter logic in future when we have new UI)
+        this.searchQuery = searchQuery
+        searchedNewsList.postValue(newsList.value?.filter { it.title?.contains(searchQuery.trim(), true) ?: false })
     }
 }
