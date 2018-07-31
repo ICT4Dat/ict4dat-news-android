@@ -21,7 +21,7 @@ import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_ictdnews_item.*
+
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -144,14 +144,12 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         }
     }
 
-    override fun onListItemClicked(item: News?) {
-        item?.let { i ->
-            activity?.let {
-                val intent = Intent(it, ICT4DNewsDetailActivity::class.java)
-                intent.putExtra(KEY_NEWS_LIST_MODEL, i)
-                val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(it, postImage, "post_image")
-                startActivity(intent, optionsCompat.toBundle())
-            }
+    override fun onListItemClicked(item: News, view: View) {
+        activity?.let {
+            val intent = Intent(it, ICT4DNewsDetailActivity::class.java)
+            intent.putExtra(KEY_NEWS_LIST_MODEL, item)
+            val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(it, view, "post_image")
+            startActivity(intent, optionsCompat.toBundle())
         }
     }
 

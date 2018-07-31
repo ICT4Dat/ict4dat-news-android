@@ -2,16 +2,18 @@ package at.ict4d.ict4dnews.screens.news.detail
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
+import android.view.MenuItem
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.extensions.extractDate
+import at.ict4d.ict4dnews.extensions.loadImage
+import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
 import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
-import timber.log.Timber
 
 const val KEY_NEWS_LIST_MODEL = "news_list_model"
 
@@ -31,17 +33,41 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
         val newsModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
-        Timber.d("Model: ${newsModelList.mediaFeaturedURL}")
+
         if (newsModelList != null) {
             model.authorDetails(newsModelList.authorID).observe(this, Observer {
                 author_name.text = it?.name ?: ""
             })
         }
-//        title = getString(R.string.nav_ict4dat)
+
         blog_title.text = newsModelList.title
         post_text.text = newsModelList.description
         article_date.text = newsModelList.publishedDate?.extractDate()
 
-        Glide.with(this).load(newsModelList.mediaFeaturedURL).into(appbar_image)
+        binding.appbarImage.loadImage(newsModelList.mediaFeaturedURL)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Handler().postDelayed({
+            binding.fab.show()
+        }, 700)
+    }
+
+    override fun onBackPressed() {
+        binding.fab.visible(false)
+        super.onBackPressed()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                binding.fab.visible(false)
+                supportFinishAfterTransition()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
