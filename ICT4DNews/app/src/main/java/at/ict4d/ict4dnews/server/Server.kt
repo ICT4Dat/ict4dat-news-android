@@ -50,23 +50,35 @@ class Server @Inject constructor(
                 // Query for the authors
                 val serverAuthors: MutableList<WordpressAuthor> = mutableListOf()
                 for (post in serverPosts.distinctBy { it.serverAuthorID }) {
-                    val author =
-                        apiJsonSelfHostedWPService.getJsonICT4DatAuthorByID(serverAuthorID = post.serverAuthorID)
-                            .execute().body()
+                    try {
+                        val author =
+                            apiJsonSelfHostedWPService.getJsonICT4DatAuthorByID(serverAuthorID = post.serverAuthorID)
+                                .execute().body()
 
-                    author?.let {
-                        serverAuthors.add(author)
+                        author?.let {
+                            serverAuthors.add(author)
+                        }
+                    } catch (e: Throwable) {
+                        Timber.e("Error in downloading an author from a self-hosted Wordpress blog", e)
+                        rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
+                        return@subscribe
                     }
                 }
 
                 // Query for all media elements per each post
                 val serverMedia: MutableList<WordpressMedia> = mutableListOf()
                 for (post in serverPosts) {
-                    val postMedia =
-                        apiJsonSelfHostedWPService.getJsonICT4DatMediaForPost(post.serverID).execute().body()
+                    try {
+                        val postMedia =
+                            apiJsonSelfHostedWPService.getJsonICT4DatMediaForPost(post.serverID).execute().body()
 
-                    if (postMedia != null) {
-                        serverMedia += postMedia
+                        if (postMedia != null) {
+                            serverMedia += postMedia
+                        }
+                    } catch (e: Throwable) {
+                        Timber.e("Error in downloading media from a self-hosted Wordpress blog", e)
+                        rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
+                        return@subscribe
                     }
                 }
 
