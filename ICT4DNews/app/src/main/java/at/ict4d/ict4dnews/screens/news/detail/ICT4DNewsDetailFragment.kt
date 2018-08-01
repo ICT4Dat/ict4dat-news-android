@@ -24,7 +24,7 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
                 binding.authorName.text = it?.name ?: ""
             })
         }
-        binding.blogTitle.text = getString(R.string.nav_ict4dat)
+        binding.blogTitle.text = model.selectedNews?.title
         binding.postText.text = model.selectedNews?.description
         binding.articleDate.text = model.selectedNews?.publishedDate?.extractDate()
     }
