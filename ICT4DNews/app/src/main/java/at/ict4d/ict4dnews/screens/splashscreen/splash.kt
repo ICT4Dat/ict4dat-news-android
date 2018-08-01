@@ -17,24 +17,16 @@ class splash : AppCompatActivity() {
             finish()
         }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         mDelayHandler = Handler()
-
-        //Navigate with delay
         mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
     }
-
-
     public override fun onDestroy() {
-
         if (mDelayHandler != null) {
             mDelayHandler!!.removeCallbacks(mRunnable)
         }
-
         super.onDestroy()
     }
-
 }

@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
 import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
 import android.support.customtabs.CustomTabsIntent
 
-
 const val KEY_NEWS_LIST_MODEL = "news_list_model"
 
 class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityIct4DnewsDetailBinding>() {
@@ -27,10 +26,8 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 
     override fun getViewModel(): Class<ICT4DNewsDetailViewModel> = ICT4DNewsDetailViewModel::class.java
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -66,7 +63,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_ict4_dnews_detail,menu)
+        menuInflater.inflate(R.menu.menu_ict4_dnews_detail, menu)
         return true
 
     }
@@ -93,6 +90,4 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         val customTabsIntent = builder.build()
         customTabsIntent.launchUrl(this, Uri.parse(url))
     }
-
-
 }
