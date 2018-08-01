@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="250dp"
+    android:paddingTop="287dp"
     android:background="@drawable/splash_gradient"
     tools:context=".screens.splashscreen.splash">
-<TextView
-    android:id="@+id/tvSplash"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:textStyle="bold"
-    android:textColor="#ffff"
-    android:textSize="30sp"
-    android:text="ICT4D.at"
-
-    />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="ICT4D.at"
+        android:keepScreenOn="true"
+        android:textSize="30sp"
+        android:textColor="#ffff"
+        android:shadowColor="@color/colorPrimaryDark"
+        />
 </android.support.constraint.ConstraintLayout>

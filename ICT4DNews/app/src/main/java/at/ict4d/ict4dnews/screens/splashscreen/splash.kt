@@ -27,7 +27,7 @@ class splash : AppCompatActivity() {
 
         //Navigate with delay
         mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
-        
+
     }
 
 
