@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.Snackbar
 import android.view.Menu
 import android.view.MenuItem
 import at.ict4d.ict4dnews.R
@@ -30,7 +29,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fab.setOnClickListener { view ->
-            val linkShare =intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+            val linkShare = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.putExtra(Intent.EXTRA_TEXT, linkShare.link)
             sharingIntent.setType("text/plain")
