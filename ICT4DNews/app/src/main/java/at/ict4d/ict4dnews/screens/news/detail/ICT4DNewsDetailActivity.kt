@@ -65,7 +65,6 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_ict4_dnews_detail, menu)
         return true
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
