@@ -4,10 +4,8 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
-import kotlinx.android.synthetic.main.activity_splash.*
 
 class splash : AppCompatActivity() {
     private var mDelayHandler: Handler? = null
@@ -27,7 +25,6 @@ class splash : AppCompatActivity() {
 
         //Navigate with delay
         mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
-
     }
 
 

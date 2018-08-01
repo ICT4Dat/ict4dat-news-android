@@ -7,7 +7,6 @@ import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.extensions.extractDate
@@ -18,9 +17,6 @@ import at.ict4d.ict4dnews.screens.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
 import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
 import android.support.customtabs.CustomTabsIntent
-import android.support.v4.content.ContextCompat.startActivity
-import android.content.Intent
-import android.graphics.Color
 
 
 const val KEY_NEWS_LIST_MODEL = "news_list_model"
@@ -74,6 +70,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         return true
 
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -82,16 +79,15 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
                 return true
             }
 
-            R.id.action_open ->{
-                    ChromeTabload()
-
+            R.id.action_open -> {
+                ChromeTabload()
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun ChromeTabload() {
-        val newsLink= intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+        val newsLink = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
         val url = newsLink.link
         val builder = CustomTabsIntent.Builder()
         val customTabsIntent = builder.build()
