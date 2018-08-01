@@ -15,4 +15,5 @@
     <string name="ict4d_logo">ICT4D logo</string>
     <string name="http_exception_error_message">Unable to connect</string>
     <string name="server_error_message">Server is not responding at this moment</string>
+    <string name="send_to">Share with</string>
 </resources>

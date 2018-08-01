@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -29,8 +30,11 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            val linkShare =intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, linkShare.link)
+            sharingIntent.setType("text/plain")
+            this.startActivity(Intent.createChooser(sharingIntent, resources.getText(R.string.send_to)))
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
