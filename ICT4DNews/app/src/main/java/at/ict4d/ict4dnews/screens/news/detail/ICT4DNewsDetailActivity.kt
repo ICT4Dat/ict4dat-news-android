@@ -1,10 +1,13 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
 import android.arch.lifecycle.Observer
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
+import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.extensions.extractDate
@@ -14,6 +17,11 @@ import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
 import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
+import android.support.customtabs.CustomTabsIntent
+import android.support.v4.content.ContextCompat.startActivity
+import android.content.Intent
+import android.graphics.Color
+
 
 const val KEY_NEWS_LIST_MODEL = "news_list_model"
 
@@ -23,12 +31,13 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 
     override fun getViewModel(): Class<ICT4DNewsDetailViewModel> = ICT4DNewsDetailViewModel::class.java
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+                    .setAction("Action", null).show()
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
@@ -60,6 +69,11 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         super.onBackPressed()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_ict4_dnews_detail,menu)
+        return true
+
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -67,7 +81,22 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
                 supportFinishAfterTransition()
                 return true
             }
+
+            R.id.action_open ->{
+                    ChromeTabload()
+
+            }
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun ChromeTabload() {
+        val newsLink= intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+        val url = newsLink.link
+        val builder = CustomTabsIntent.Builder()
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(this, Uri.parse(url))
+    }
+
+
 }
