@@ -1,13 +1,15 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
+import android.view.MenuItem
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
+import at.ict4d.ict4dnews.extensions.loadImage
+import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
-import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
 import timber.log.Timber
 
 const val KEY_NEWS_LIST_MODEL = "news_list_model"
@@ -23,7 +25,8 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
         model.selectedNews = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
         Timber.d("Model: ${model.selectedNews?.mediaFeaturedURL}")
-        Glide.with(this).load(model.selectedNews?.mediaFeaturedURL).into(appbar_image)
+        binding.appbarImage.loadImage(model.selectedNews?.mediaFeaturedURL)
+
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -41,5 +44,29 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             Timber.e("Selected news must not be NULL")
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Handler().postDelayed({
+            binding.fab.show()
+        }, 700)
+    }
+
+    override fun onBackPressed() {
+        binding.fab.visible(false)
+        super.onBackPressed()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                binding.fab.visible(false)
+                supportFinishAfterTransition()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

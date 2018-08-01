@@ -4,11 +4,16 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.content.Context
+import android.databinding.BindingAdapter
 import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.text.Html
+import android.view.View
+import android.widget.ImageView
 import at.ict4d.ict4dnews.R
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Locale
@@ -23,6 +28,24 @@ fun Context.browseCustomTab(url: String) {
 
 fun LocalDateTime.extractDate(): String {
     return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
+}
+
+@BindingAdapter("loadCircularImage")
+fun ImageView.loadCircularImage(imageUrl: String?) {
+    imageUrl?.let {
+        Glide.with(this.context).load(it).apply(RequestOptions.circleCropTransform()).into(this)
+    }
+}
+
+@BindingAdapter("loadImage")
+fun ImageView.loadImage(imageUrl: String?) {
+    imageUrl?.let {
+        Glide.with(this.context).load(it).into(this)
+    }
+}
+
+fun View.visible(visible: Boolean) {
+    this.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
 @Suppress("DEPRECATION")
