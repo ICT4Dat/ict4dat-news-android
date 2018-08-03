@@ -33,7 +33,12 @@ fun LocalDateTime.extractDate(): String {
 @BindingAdapter("loadCircularImage")
 fun ImageView.loadCircularImage(imageUrl: String?) {
     imageUrl?.let {
-        Glide.with(this.context).load(it).apply(RequestOptions.circleCropTransform()).into(this)
+        // TODO(Change error and placeholder image)
+        val requestOptions = RequestOptions().placeholder(R.mipmap.ic_launcher).error(R.drawable.ic_error_black_24dp)
+            .apply(RequestOptions.circleCropTransform())
+        Glide.with(this.context).load(it)
+            .apply(requestOptions)
+            .into(this)
     }
 }
 
