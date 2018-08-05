@@ -4,9 +4,8 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
 
-open class RXLifecycleObserver @Inject constructor(
+open class RXLifecycleObserver(
     private val compositeDisposable: CompositeDisposable
 ) : LifecycleObserver {
 
