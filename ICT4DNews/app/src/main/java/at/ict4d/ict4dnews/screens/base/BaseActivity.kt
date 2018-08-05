@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.lifecycle.RXErrorEventBusLifecycleObserver
+import at.ict4d.ict4dnews.utils.RxEventBus
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -33,7 +34,7 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding> : AppCompatActiv
     protected lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
-    protected lateinit var rxErrorEventBusLifecycleObserver: RXErrorEventBusLifecycleObserver
+    protected lateinit var rxEventBus: RxEventBus
 
     /**
      * return the layout id associated with the Activity
@@ -53,7 +54,7 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding> : AppCompatActiv
         model = ViewModelProviders.of(this, viewModelFactory).get(getViewModel())
 
         setSupportActionBar(binding.root.findViewById(R.id.toolbar))
-        lifecycle.addObserver(rxErrorEventBusLifecycleObserver)
+        lifecycle.addObserver(RXErrorEventBusLifecycleObserver(this, compositeDisposable, rxEventBus))
     }
 
     override fun supportFragmentInjector() = fragmentInjector
