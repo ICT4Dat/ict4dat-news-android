@@ -62,7 +62,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
 
         model.searchedNewsList.observe(this, Observer {
             if (it != null) {
-                Timber.d("Search result size is ----> ${it.size}")
+                Timber.d("Search result size is ----> ${it.size} and query is ----> ${model.searchQuery}")
                 adapter.submitList(it)
             }
         })
@@ -71,11 +71,9 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         binding.recyclerview.adapter = adapter
 
         model.newsList.observe(this, Observer {
-            if (it != null && it.isNotEmpty()) {
-                if (model.searchQuery == null) {
-                    Timber.d("list in fragment: ${it.size}")
-                    adapter.submitList(it)
-                }
+            if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
+                Timber.d("list in fragment: ${it.size}")
+                adapter.submitList(it)
             }
         })
 
