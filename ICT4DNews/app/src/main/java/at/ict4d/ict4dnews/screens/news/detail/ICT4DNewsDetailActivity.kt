@@ -8,7 +8,6 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.extensions.loadImage
 import at.ict4d.ict4dnews.extensions.visible
-import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import timber.log.Timber
 
@@ -23,7 +22,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
-        model.selectedNews = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+        model.selectedNews = intent.getParcelableExtra(KEY_NEWS_LIST_MODEL)
         Timber.d("Model: ${model.selectedNews?.mediaFeaturedURL}")
         binding.appbarImage.loadImage(model.selectedNews?.mediaFeaturedURL)
 
@@ -31,7 +30,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-//        title = getString(R.string.nav_ict4dat)
+
         var detailsFragment: ICT4DNewsDetailFragment? =
             supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
 
