@@ -11,9 +11,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.toast
 import timber.log.Timber
-import javax.inject.Inject
 
-class RXErrorEventBusLifecycleObserver @Inject constructor(
+class RXErrorEventBusLifecycleObserver(
     private val activity: AppCompatActivity,
     private val compositeDisposable: CompositeDisposable,
     private val eventBus: RxEventBus
