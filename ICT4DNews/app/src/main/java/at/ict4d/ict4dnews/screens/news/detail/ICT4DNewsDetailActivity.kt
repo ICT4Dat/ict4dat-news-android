@@ -1,19 +1,15 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
-import at.ict4d.ict4dnews.extensions.extractDate
 import at.ict4d.ict4dnews.extensions.loadImage
 import at.ict4d.ict4dnews.extensions.visible
-import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
-import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
+import timber.log.Timber
 
 const val KEY_NEWS_LIST_MODEL = "news_list_model"
 
@@ -25,26 +21,28 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
+        model.selectedNews = intent.getParcelableExtra(KEY_NEWS_LIST_MODEL)
+        Timber.d("Model: ${model.selectedNews?.mediaFeaturedURL}")
+        binding.appbarImage.loadImage(model.selectedNews?.mediaFeaturedURL)
 
-        fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
-        val newsModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+        var detailsFragment: ICT4DNewsDetailFragment? =
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
 
-        if (newsModelList != null) {
-            model.authorDetails(newsModelList.authorID).observe(this, Observer {
-                author_name.text = it?.name ?: ""
-            })
+        if (detailsFragment == null) {
+            detailsFragment = ICT4DNewsDetailFragment.newInstance()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, detailsFragment).commit()
         }
 
-        blog_title.text = newsModelList.title
-        post_text.text = newsModelList.description
-        article_date.text = newsModelList.publishedDate?.extractDate()
-
-        binding.appbarImage.loadImage(newsModelList.mediaFeaturedURL)
+        if (model.selectedNews == null) {
+            Timber.e("Selected news must not be NULL")
+            finish()
+        }
     }
 
     override fun onResume() {
