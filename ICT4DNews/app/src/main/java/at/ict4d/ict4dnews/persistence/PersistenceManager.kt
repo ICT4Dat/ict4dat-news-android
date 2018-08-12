@@ -2,9 +2,11 @@ package at.ict4d.ict4dnews.persistence
 
 import android.arch.lifecycle.LiveData
 import at.ict4d.ict4dnews.models.Author
+import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import org.threeten.bp.LocalDateTime
@@ -13,7 +15,8 @@ import javax.inject.Inject
 class PersistenceManager @Inject constructor(
     private val authorDao: AuthorDao,
     private val newsDao: NewsDao,
-    private val mediaDao: MediaDao
+    private val mediaDao: MediaDao,
+    private val blogsDao: BlogDao
 ) : IPersistenceManager {
 
     // Authors
@@ -44,4 +47,12 @@ class PersistenceManager @Inject constructor(
     override fun insertAllMedia(media: List<Media>) = mediaDao.insertAll(media)
 
     override fun getAllMedia(): LiveData<List<Media>> = mediaDao.getAll()
+
+    // Blogs
+
+    override fun insert(blog: Blog) = blogsDao.insert(blog)
+
+    override fun insertAll(blogs: List<Blog>) = blogsDao.insertAll(blogs)
+
+    override fun getAll(): LiveData<List<Blog>> = blogsDao.getAll()
 }

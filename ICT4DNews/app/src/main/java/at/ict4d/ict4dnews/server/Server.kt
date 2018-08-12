@@ -9,6 +9,7 @@ import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
+import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class Server @Inject constructor(
     private val apiRSSService: ApiRSSService,
     private val apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
+    private val apiICT4DatNews: ApiICT4DatNews,
     private val persistenceManager: IPersistenceManager,
     private val rxEventBus: RxEventBus
 ) : IServer {
@@ -33,6 +35,7 @@ class Server @Inject constructor(
             .observeOn(Schedulers.io())
             .subscribe(
                 { channel ->
+                    // TODO: implement and save to DB
                     Timber.d("*** $channel")
                 },
                 { error: Throwable? ->
@@ -130,13 +133,31 @@ class Server @Inject constructor(
                 persistenceManager.insertAllMedia(media)
                 rxEventBus.post(NewsRefreshDoneMessage())
             }, {
-                Timber.e("Error in ICT4D.at Call")
-                Timber.e(it)
-                when (it) {
-                    is HttpException -> rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, it))
-                    else ->
-                        rxEventBus.post(ServerErrorMessage(R.string.server_error_message, it))
-                }
+                Timber.e("Error in Self Hosted Wordpress Blog Call")
+                handleError(it, NewsRefreshDoneMessage())
             })
+    }
+
+    override fun loadBlogs(): Disposable {
+        return apiICT4DatNews.getBlogs()
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe({
+
+                Timber.d("downloaded ${it.size} blogs from ICT4D.at")
+                persistenceManager.insertAll(it)
+            }, {
+                Timber.e("Error in Blogs Call")
+                handleError(it, BlogsRefreshDoneMessage())
+            })
+    }
+
+    private fun handleError(error: Throwable?, message: Any) {
+        Timber.e(error)
+        when (error) {
+            is HttpException -> rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, error))
+            else -> rxEventBus.post(ServerErrorMessage(R.string.server_error_message, error))
+        }
+        rxEventBus.post(message)
     }
 }

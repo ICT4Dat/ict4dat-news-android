@@ -1,5 +1,6 @@
 package at.ict4d.ict4dnews.utils
 
+import at.ict4d.ict4dnews.models.FeedType
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -15,15 +16,31 @@ class GsonLocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {
         json: JsonElement?,
         typeOfT: Type?,
         context: JsonDeserializationContext?
-    ): LocalDateTime {
+    ): LocalDateTime? {
         try {
+            if (json?.asString.isNullOrEmpty()) {
+                return null
+            }
+
             return LocalDateTime.parse(json?.asString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
         } catch (e: ParseException) {
             Timber.e("Caught Parse Exception", e)
         }
-        return LocalDateTime.now()
+        return null
     }
 }
 
-// TODO(Replace this class with actual class, Temp is added to satisfy ktlint check)
-class Temp
+class GsonFeedTypeDeserializer : JsonDeserializer<FeedType> {
+
+    override fun deserialize(
+        json: JsonElement?,
+        typeOfT: Type?,
+        context: JsonDeserializationContext?
+    ): FeedType? {
+        val intFeedType = json?.asInt
+        if (intFeedType != null && intFeedType in 0..2) {
+            return FeedType.values()[intFeedType]
+        }
+        return null
+    }
+}

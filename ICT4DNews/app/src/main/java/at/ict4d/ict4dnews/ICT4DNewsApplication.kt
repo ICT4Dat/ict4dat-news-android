@@ -3,6 +3,7 @@ package at.ict4d.ict4dnews
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -19,9 +20,15 @@ class ICT4DNewsApplication : Application(), HasActivityInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
 
+    @Inject
+    lateinit var component: ApplicationComponent
+
     private lateinit var refWatcher: RefWatcher
 
     companion object {
+
+        @JvmStatic
+        lateinit var instance: ICT4DNewsApplication
 
         @JvmStatic
         fun getRefWatcher(context: Context): RefWatcher {
@@ -32,6 +39,7 @@ class ICT4DNewsApplication : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
 
         // java.time backport
         AndroidThreeTen.init(this)

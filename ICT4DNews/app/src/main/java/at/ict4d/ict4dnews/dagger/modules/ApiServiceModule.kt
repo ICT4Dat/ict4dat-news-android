@@ -2,11 +2,14 @@ package at.ict4d.ict4dnews.dagger.modules
 
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.ICT4DNewsApplication
+import at.ict4d.ict4dnews.models.FeedType
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
+import at.ict4d.ict4dnews.server.ApiICT4DatNews
 import at.ict4d.ict4dnews.server.ApiJsonSelfHostedWPService
 import at.ict4d.ict4dnews.server.ApiRSSService
 import at.ict4d.ict4dnews.server.IServer
 import at.ict4d.ict4dnews.server.Server
+import at.ict4d.ict4dnews.utils.GsonFeedTypeDeserializer
 import at.ict4d.ict4dnews.utils.GsonLocalDateTimeDeserializer
 import at.ict4d.ict4dnews.utils.RxEventBus
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -54,10 +57,22 @@ class ApiServiceModule {
     }
 
     @Provides
+    @Singleton
+    fun provideICT4DatNewsApiService(okHttpClient: OkHttpClient, gson: Gson): ApiICT4DatNews {
+        return Retrofit.Builder()
+            .baseUrl("http://www.ict4d.at/ict4dnews/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(okHttpClient)
+            .build().create(ApiICT4DatNews::class.java)
+    }
+
+    @Provides
     @Reusable
     fun provideGson(): Gson {
         return GsonBuilder()
             .registerTypeAdapter(LocalDateTime::class.java, GsonLocalDateTimeDeserializer())
+            .registerTypeAdapter(FeedType::class.java, GsonFeedTypeDeserializer())
             .create()
     }
 
@@ -66,9 +81,10 @@ class ApiServiceModule {
     fun provideServer(
         apiRSSService: ApiRSSService,
         apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
+        apiICT4DatNews: ApiICT4DatNews,
         persistenceManager: IPersistenceManager,
         eventBus: RxEventBus
-    ): IServer = Server(apiRSSService, apiJsonSelfHostedWPService, persistenceManager, eventBus)
+    ): IServer = Server(apiRSSService, apiJsonSelfHostedWPService, apiICT4DatNews, persistenceManager, eventBus)
 
     @Provides
     @Singleton

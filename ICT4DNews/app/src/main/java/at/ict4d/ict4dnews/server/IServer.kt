@@ -8,4 +8,6 @@ interface IServer {
     fun loadICT4DatRSSFeed(): Disposable
 
     fun loadICT4DatJsonFeed(newsAfterDateTime: LocalDateTime): Disposable
+
+    fun loadBlogs(): Disposable
 }
