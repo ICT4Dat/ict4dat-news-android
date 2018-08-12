@@ -19,18 +19,26 @@ const val NEWS_TABLE_DESCRIPTION = "description"
 const val NEWS_TABLE_FEATURED_MEDIA = "featured_media"
 const val NEWS_TABLE_SERVER_ID = "server_id"
 const val NEWS_TABLE_PUBLISHED_DATE = "published_date"
+const val NEWS_TABLE_BLOG_ID = "blog_id"
 
 @Parcelize
 @Entity(
     tableName = NEWS_TABLE_TABLE_NAME,
 
-    foreignKeys = [(ForeignKey(
-        entity = Author::class,
-        parentColumns = [AUTHOR_TABLE_LINK],
-        childColumns = [NEWS_TABLE_AUTHOR_ID]
-    ))],
+    foreignKeys = [
+        ForeignKey(
+            entity = Author::class,
+            parentColumns = [AUTHOR_TABLE_LINK],
+            childColumns = [NEWS_TABLE_AUTHOR_ID]
+        ),
+        ForeignKey(
+            entity = Blog::class,
+            parentColumns = [BLOG_TABLE_URL],
+            childColumns = [NEWS_TABLE_BLOG_ID]
+        )],
 
-    indices = [(Index(value = [NEWS_TABLE_AUTHOR_ID]))]
+    indices = [Index(value = [NEWS_TABLE_AUTHOR_ID]),
+        Index(value = [NEWS_TABLE_BLOG_ID])]
 )
 data class News(
 
@@ -42,10 +50,10 @@ data class News(
     val authorID: String,
 
     @ColumnInfo(name = NEWS_TABLE_SERVER_ID)
-    var serverID: Int,
+    val serverID: Int,
 
     @ColumnInfo(name = NEWS_TABLE_FEATURED_MEDIA)
-    var mediaFeaturedURL: String? = null,
+    val mediaFeaturedURL: String? = null,
 
     @ColumnInfo(name = NEWS_TABLE_TITLE)
     var title: String? = null,
@@ -54,17 +62,20 @@ data class News(
     var description: String? = null,
 
     @ColumnInfo(name = NEWS_TABLE_PUBLISHED_DATE)
-    var publishedDate: LocalDateTime? = null
+    val publishedDate: LocalDateTime? = null,
+
+    @ColumnInfo(name = NEWS_TABLE_BLOG_ID)
+    val blogID: String
 ) : Parcelable {
 
     constructor(selfHostedWPPost: SelfHostedWPPost) : this(
         selfHostedWPPost.link,
         selfHostedWPPost.authorLink,
-        selfHostedWPPost.serverID
-    ) {
-        this.title = selfHostedWPPost.title[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED]
-        this.description = selfHostedWPPost.content[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED]
-        this.mediaFeaturedURL = selfHostedWPPost.featuredMediaLink
-        this.publishedDate = selfHostedWPPost.date
-    }
+        selfHostedWPPost.serverID,
+        selfHostedWPPost.featuredMediaLink,
+        selfHostedWPPost.title[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED],
+        selfHostedWPPost.content[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED],
+        selfHostedWPPost.date,
+        "" // TODO: set
+    )
 }

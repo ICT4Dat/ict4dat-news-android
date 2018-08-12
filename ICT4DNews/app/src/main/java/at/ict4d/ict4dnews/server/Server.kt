@@ -3,6 +3,7 @@ package at.ict4d.ict4dnews.server
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.Author
+import at.ict4d.ict4dnews.models.FeedType
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
@@ -13,6 +14,7 @@ import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDateTime
@@ -30,7 +32,7 @@ class Server @Inject constructor(
 ) : IServer {
 
     override fun loadICT4DatRSSFeed(): Disposable {
-        return apiRSSService.getRssICT4DatNews()
+        return apiRSSService.getRssICT4DatNews("") // TODO: fix URL
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe(
@@ -41,6 +43,52 @@ class Server @Inject constructor(
                 { error: Throwable? ->
                     Timber.e(error)
                 })
+    }
+
+    override fun loadAllNewsFromAllActiveBlogs(): Disposable {
+
+        val blogs = persistenceManager.getAllActiveBlogs()
+
+        val requests = ArrayList<Single<*>>()
+
+        for (blog in blogs) {
+            if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
+                Timber.d(blog.url)
+                requests.add(apiJsonSelfHostedWPService.getJsonNewsOfURL(blog.url + "/wp-json/wp/v2/posts")
+                    .onErrorReturn { emptyList() }
+                )
+            } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
+                /*
+                requests.add(apiRSSService.getRssICT4DatNews(blog.url)
+                    .onErrorReturn { RSSFeed(null) }
+                )*/
+            }
+        }
+
+        return Single.zip(requests) {
+            Timber.d("Result: ${it.size}")
+            Timber.d("Result: ${it[0]}")
+            var blogURL: String? = null
+            for (blog in it) {
+                if (blog is ArrayList<*>) {
+                    for (newsPost in blog) {
+                        if (newsPost is SelfHostedWPPost) {
+                            // TODO this is not working yet, we need to extract the base URL and find the Blog in the DB.
+                            blogURL = persistenceManager.getBlogURLByFuzzyURL(newsPost.link)
+                            Timber.d(blogURL)
+                        }
+                    }
+                }
+            }
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe({
+                Timber.d("**** done: $it")
+            }, {
+                Timber.e("**** Error in downloading news from all active posts")
+                handleError(it, NewsRefreshDoneMessage())
+            })
     }
 
     override fun loadICT4DatJsonFeed(newsAfterDateTime: LocalDateTime): Disposable {
@@ -145,6 +193,7 @@ class Server @Inject constructor(
             .subscribe({
 
                 Timber.d("downloaded ${it.size} blogs from ICT4D.at")
+                it.map { blog -> blog.active = true }
                 persistenceManager.insertAll(it)
             }, {
                 Timber.e("Error in Blogs Call")

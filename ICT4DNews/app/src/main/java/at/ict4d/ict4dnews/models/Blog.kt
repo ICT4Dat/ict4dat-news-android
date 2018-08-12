@@ -3,7 +3,9 @@ package at.ict4d.ict4dnews.models
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 const val BLOG_TABLE_TABLE_NAME = "blogs"
 const val BLOG_TABLE_URL = "url"
@@ -11,6 +13,7 @@ const val BLOG_TABLE_NAME = "name"
 const val BLOG_TABLE_DESCRIPTION = "description"
 const val BLOG_TABLE_FEED_TYPE = "feed_type"
 const val BLOG_TABLE_LOGO_URL = "logo_url"
+const val BLOG_TABLE_ACTIVE = "active"
 
 const val BLOG_SERIALIZED_URL = "url"
 const val BLOG_SERIALIZED_NAME = "name"
@@ -18,6 +21,7 @@ const val BLOG_SERIALIZED_DESCRIPTION = "description"
 const val BLOG_SERIALIZED_FEED_TYPE = "feed_type"
 const val BLOG_SERIALIZED_LOGO_URL = "logo_url"
 
+@Parcelize
 @Entity(tableName = BLOG_TABLE_TABLE_NAME)
 data class Blog(
 
@@ -40,8 +44,11 @@ data class Blog(
 
     @ColumnInfo(name = BLOG_TABLE_LOGO_URL)
     @SerializedName(BLOG_SERIALIZED_LOGO_URL)
-    val logoURL: String?
-)
+    val logoURL: String?,
+
+    @ColumnInfo(name = BLOG_TABLE_ACTIVE)
+    var active: Boolean = true
+) : Parcelable
 
 enum class FeedType {
     SELF_HOSTED_WP_BLOG, WORDPRESS_COM, RSS

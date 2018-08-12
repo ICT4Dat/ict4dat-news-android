@@ -44,4 +44,8 @@ interface IPersistenceManager {
     fun insertAll(blogs: List<Blog>)
 
     fun getAll(): LiveData<List<Blog>>
+
+    fun getAllActiveBlogs(): List<Blog>
+
+    fun getBlogURLByFuzzyURL(fuzzyURL: String): String?
 }

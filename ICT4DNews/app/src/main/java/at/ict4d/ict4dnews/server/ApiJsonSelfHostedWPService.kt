@@ -8,8 +8,14 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface ApiJsonSelfHostedWPService {
+
+    @GET
+    fun getJsonNewsOfURL(
+        @Url url: String
+    ): Single<List<SelfHostedWPPost>>
 
     @GET("http://www.ict4d.at/wp-json/wp/v2/posts")
     fun getJsonICT4DatNews(

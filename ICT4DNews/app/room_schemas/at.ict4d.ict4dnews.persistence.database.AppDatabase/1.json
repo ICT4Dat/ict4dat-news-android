@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "21c9bf225c7b1ce802dc5f30fd033640",
+    "identityHash": "1d018764c2e71bb5b39a7814bdeec317",
     "entities": [
       {
         "tableName": "news",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `featured_media` TEXT, `title` TEXT, `description` TEXT, `published_date` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `featured_media` TEXT, `title` TEXT, `description` TEXT, `published_date` TEXT, `blog_id` TEXT NOT NULL, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`blog_id`) REFERENCES `blogs`(`url`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "link",
@@ -49,6 +49,12 @@
             "columnName": "published_date",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "blogID",
+            "columnName": "blog_id",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -65,6 +71,14 @@
               "author_id"
             ],
             "createSql": "CREATE  INDEX `index_news_author_id` ON `${TABLE_NAME}` (`author_id`)"
+          },
+          {
+            "name": "index_news_blog_id",
+            "unique": false,
+            "columnNames": [
+              "blog_id"
+            ],
+            "createSql": "CREATE  INDEX `index_news_blog_id` ON `${TABLE_NAME}` (`blog_id`)"
           }
         ],
         "foreignKeys": [
@@ -77,6 +91,17 @@
             ],
             "referencedColumns": [
               "link"
+            ]
+          },
+          {
+            "table": "blogs",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "blog_id"
+            ],
+            "referencedColumns": [
+              "url"
             ]
           }
         ]
@@ -235,7 +260,7 @@
       },
       {
         "tableName": "blogs",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `feed_type` INTEGER NOT NULL, `logo_url` TEXT, PRIMARY KEY(`url`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `feed_type` INTEGER NOT NULL, `logo_url` TEXT, `active` INTEGER NOT NULL, PRIMARY KEY(`url`))",
         "fields": [
           {
             "fieldPath": "url",
@@ -266,6 +291,12 @@
             "columnName": "logo_url",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "active",
+            "columnName": "active",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -280,7 +311,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"21c9bf225c7b1ce802dc5f30fd033640\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1d018764c2e71bb5b39a7814bdeec317\")"
     ]
   }
 }

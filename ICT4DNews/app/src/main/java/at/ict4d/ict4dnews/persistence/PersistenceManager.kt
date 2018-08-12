@@ -55,4 +55,8 @@ class PersistenceManager @Inject constructor(
     override fun insertAll(blogs: List<Blog>) = blogsDao.insertAll(blogs)
 
     override fun getAll(): LiveData<List<Blog>> = blogsDao.getAll()
+
+    override fun getAllActiveBlogs(): List<Blog> = blogsDao.getAllActiveBlogs()
+
+    override fun getBlogURLByFuzzyURL(fuzzyURL: String) = blogsDao.getBlogURLByFuzzyURL(fuzzyURL)
 }

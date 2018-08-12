@@ -23,11 +23,11 @@ const val MEDIA_TABLE_MIME_TYPE = "mime_type"
     tableName = MEDIA_TABLE_TABLE_NAME,
 
     foreignKeys = [
-        (ForeignKey(
+        ForeignKey(
             entity = News::class,
             parentColumns = [NEWS_TABLE_LINK],
             childColumns = [MEDIA_TABLE_NEWS_ID]
-        )),
+        ),
         ForeignKey(
             entity = Author::class,
             parentColumns = [AUTHOR_TABLE_LINK],

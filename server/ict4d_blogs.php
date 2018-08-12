@@ -52,7 +52,7 @@ $array = array(
 
 	array("name" => "UNICEF Stories",  
 		"description" => "Stories and Innovation", 
-		"url" => "http://unicefstories.org",
+		"url" => "http://unicefstories.org/",
 		"feed_type" => 0,
 		"logo_url" => "http://s21028.pcdn.co/wp-content/uploads/2018/04/Artboard-3.png"),
 
