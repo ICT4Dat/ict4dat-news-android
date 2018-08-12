@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1d018764c2e71bb5b39a7814bdeec317",
+    "identityHash": "fa20af659ccbd9ca240b3e258b8be9ae",
     "entities": [
       {
         "tableName": "news",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `featured_media` TEXT, `title` TEXT, `description` TEXT, `published_date` TEXT, `blog_id` TEXT NOT NULL, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`blog_id`) REFERENCES `blogs`(`url`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT, `server_id` INTEGER NOT NULL, `featured_media` TEXT, `title` TEXT, `description` TEXT, `published_date` TEXT, `blog_id` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`blog_id`) REFERENCES `blogs`(`url`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "link",
@@ -18,7 +18,7 @@
             "fieldPath": "authorID",
             "columnName": "author_id",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "serverID",
@@ -54,7 +54,7 @@
             "fieldPath": "blogID",
             "columnName": "blog_id",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -158,7 +158,7 @@
       },
       {
         "tableName": "media",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `serverID` INTEGER NOT NULL, `news_id` TEXT NOT NULL, `author_id` TEXT NOT NULL, `mime_type` TEXT, `title` TEXT, `description` TEXT, `date_created` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`news_id`) REFERENCES `news`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `serverID` INTEGER NOT NULL, `news_id` TEXT, `author_id` TEXT, `mime_type` TEXT, `title` TEXT, `description` TEXT, `date_created` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`news_id`) REFERENCES `news`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "link",
@@ -176,13 +176,13 @@
             "fieldPath": "newsID",
             "columnName": "news_id",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "authorID",
             "columnName": "author_id",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "mediaType",
@@ -311,7 +311,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1d018764c2e71bb5b39a7814bdeec317\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fa20af659ccbd9ca240b3e258b8be9ae\")"
     ]
   }
 }

@@ -47,10 +47,10 @@ data class Media(
     val serverID: Int,
 
     @ColumnInfo(name = MEDIA_TABLE_NEWS_ID)
-    val newsID: String,
+    val newsID: String?,
 
     @ColumnInfo(name = MEDIA_TABLE_AUTHOR_ID)
-    val authorID: String,
+    val authorID: String?,
 
     @ColumnInfo(name = MEDIA_TABLE_MIME_TYPE)
     var mediaType: MediaType? = null,

@@ -63,7 +63,9 @@ data class SelfHostedWPPost(
     @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_TAGS)
     val tags: List<Int>,
 
-    var authorLink: String,
+    var authorLink: String?,
 
-    var featuredMediaLink: String
+    var featuredMediaLink: String,
+
+    var blogLink: String
 )

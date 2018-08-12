@@ -3,9 +3,11 @@ package at.ict4d.ict4dnews.server
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.Author
+import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.FeedType
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
+import at.ict4d.ict4dnews.models.rss.RSSFeed
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
@@ -65,21 +67,24 @@ class Server @Inject constructor(
             }
         }
 
-        return Single.zip(requests) {
-            Timber.d("Result: ${it.size}")
-            Timber.d("Result: ${it[0]}")
-            var blogURL: String? = null
-            for (blog in it) {
-                if (blog is ArrayList<*>) {
-                    for (newsPost in blog) {
-                        if (newsPost is SelfHostedWPPost) {
-                            // TODO this is not working yet, we need to extract the base URL and find the Blog in the DB.
-                            blogURL = persistenceManager.getBlogURLByFuzzyURL(newsPost.link)
-                            Timber.d(blogURL)
-                        }
+        return Single.zip(requests) { serverResult ->
+            Timber.d("Result: ${serverResult.size}")
+            Timber.d("Result: ${serverResult[0]}")
+
+            for (item in serverResult) {
+
+                val serverResultBlogList = item as ArrayList<*>
+
+                if (serverResultBlogList.isNotEmpty()) {
+                    val firstItem = serverResultBlogList.first()
+                    if (firstItem is SelfHostedWPPost) {
+                        handleSelfHostedWPBlogList(blogs, serverResultBlogList)
+                    } else if (firstItem is RSSFeed) {
+                        // TODO: set up rss feed response and save to DB
                     }
                 }
             }
+            rxEventBus.post(NewsRefreshDoneMessage())
         }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
@@ -89,6 +94,94 @@ class Server @Inject constructor(
                 Timber.e("**** Error in downloading news from all active posts")
                 handleError(it, NewsRefreshDoneMessage())
             })
+    }
+
+    private fun handleSelfHostedWPBlogList(databaseBlogList: List<Blog>, serverResultBlog: ArrayList<*>) {
+
+        if (serverResultBlog.isNotEmpty() && serverResultBlog.first() is SelfHostedWPPost) {
+
+            // set blog URL
+            val dbBlog = databaseBlogList.find { dbBlog -> (serverResultBlog.first() as SelfHostedWPPost).link.contains(dbBlog.url) }
+            serverResultBlog.map { b -> (b as SelfHostedWPPost).blogLink = dbBlog?.url ?: "" }
+
+            // Query for the authors
+            val serverAuthors: MutableList<WordpressAuthor> = mutableListOf()
+            for (post in serverResultBlog.distinctBy { (it as SelfHostedWPPost).serverAuthorID }) {
+                try {
+                    val author = apiJsonSelfHostedWPService.getJsonNewsAuthorByID(dbBlog?.url + "wp-json/wp/v2/users/${(post as SelfHostedWPPost).serverAuthorID}/").execute().body()
+
+                    author?.let {
+                        serverAuthors.add(author)
+                    }
+                } catch (e: Throwable) {
+                    Timber.e("Error in downloading an author from a self-hosted Wordpress blog", e)
+                    rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
+                    return
+                }
+            }
+
+            // Query for all media elements per each post
+            val serverMedia: MutableList<WordpressMedia> = mutableListOf()
+            for (post in serverResultBlog) {
+                try {
+                    val postMedia = apiJsonSelfHostedWPService.getJsonNewsMediaForPost(dbBlog?.url + "wp-json/wp/v2/media?parent=${(post as SelfHostedWPPost).serverID}").execute().body()
+
+                    if (postMedia != null) {
+                        serverMedia += postMedia
+                    }
+                } catch (e: Throwable) {
+                    Timber.e("Error in downloading media from a self-hosted Wordpress blog", e)
+                    rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
+                    return
+                }
+            }
+
+            // Set up foreign keys for media
+            serverMedia.map { m ->
+                m.postLink = (serverResultBlog.find { post -> (post as SelfHostedWPPost).serverID == m.serverPostID } as? SelfHostedWPPost)?.link
+            }
+            serverMedia.map { m ->
+                m.authorLink = serverAuthors.find { author -> author.server_id == m.serverAuthorID }?.link
+            }
+
+            // Set up foreign key for posts
+            serverResultBlog.map { post ->
+                (post as SelfHostedWPPost).authorLink = serverAuthors.find { author -> author.server_id == post.serverAuthorID }?.link
+            }
+            serverResultBlog.map { post ->
+                (post as SelfHostedWPPost).featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw
+                    ?: ""
+            }
+
+            // Map to local models
+            val authors = serverAuthors.map { Author(it) }
+            val news = serverResultBlog.map { News((it as SelfHostedWPPost)) }
+            val media = serverMedia.map { Media(it) }
+
+            // Strip HTML
+            news.map { n ->
+                n.title?.let {
+                    n.title = it.stripHtml()
+                }
+                n.description?.let {
+                    n.description = it.stripHtml()
+                }
+            }
+
+            media.map { m ->
+                m.description?.let {
+                    m.description = it.stripHtml()
+                }
+            }
+
+            Timber.d("$serverResultBlog")
+            Timber.d("$serverAuthors")
+            Timber.d("$serverMedia")
+
+            persistenceManager.insertAllAuthors(authors)
+            persistenceManager.insertAllNews(news)
+            persistenceManager.insertAllMedia(media)
+        }
     }
 
     override fun loadICT4DatJsonFeed(newsAfterDateTime: LocalDateTime): Disposable {

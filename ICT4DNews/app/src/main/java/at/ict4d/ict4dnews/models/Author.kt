@@ -38,7 +38,13 @@ data class Author(
 
     constructor(serverAuthor: WordpressAuthor): this(serverAuthor.link, serverAuthor.server_id) {
         name = serverAuthor.name
-        imageURL = serverAuthor.avatarURLs.values.lastOrNull()
+        // Ignore Android Studio suggestion, the null checks are necessary!
+        if (serverAuthor.avatarURLs != null && serverAuthor.avatarURLs.isNotEmpty() &&
+            serverAuthor.avatarURLs.values != null && serverAuthor.avatarURLs.values.isNotEmpty()) {
+            imageURL = serverAuthor.avatarURLs.values.lastOrNull()
+        } else {
+            imageURL = null
+        }
         description = serverAuthor.description
         username = serverAuthor.slug
     }

@@ -74,9 +74,9 @@ data class WordpressMedia(
     @SerializedName(WORDPRESS_MEDIA_SERIALIZED__MIME_TYPE)
     val mimeType: String,
 
-    var postLink: String,
+    var postLink: String?,
 
-    var authorLink: String
+    var authorLink: String?
 )
 
 data class MediaTitle(

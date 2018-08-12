@@ -17,6 +17,16 @@ interface ApiJsonSelfHostedWPService {
         @Url url: String
     ): Single<List<SelfHostedWPPost>>
 
+    @GET
+    fun getJsonNewsAuthorByID(
+        @Url url: String
+    ): Call<WordpressAuthor>
+
+    @GET
+    fun getJsonNewsMediaForPost(
+        @Url url: String
+    ): Call<List<WordpressMedia>>
+
     @GET("http://www.ict4d.at/wp-json/wp/v2/posts")
     fun getJsonICT4DatNews(
         @Query("per_page") numberOfNewsToRequest: Int = 20, // get 20 news posts per default

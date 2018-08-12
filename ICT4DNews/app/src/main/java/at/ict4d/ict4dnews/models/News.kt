@@ -47,7 +47,7 @@ data class News(
     val link: String,
 
     @ColumnInfo(name = NEWS_TABLE_AUTHOR_ID)
-    val authorID: String,
+    val authorID: String?,
 
     @ColumnInfo(name = NEWS_TABLE_SERVER_ID)
     val serverID: Int,
@@ -65,7 +65,7 @@ data class News(
     val publishedDate: LocalDateTime? = null,
 
     @ColumnInfo(name = NEWS_TABLE_BLOG_ID)
-    val blogID: String
+    val blogID: String?
 ) : Parcelable {
 
     constructor(selfHostedWPPost: SelfHostedWPPost) : this(
@@ -76,6 +76,6 @@ data class News(
         selfHostedWPPost.title[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED],
         selfHostedWPPost.content[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED],
         selfHostedWPPost.date,
-        "" // TODO: set
+        selfHostedWPPost.blogLink
     )
 }
