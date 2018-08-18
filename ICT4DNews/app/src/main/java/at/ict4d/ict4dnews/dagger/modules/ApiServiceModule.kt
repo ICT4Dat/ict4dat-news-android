@@ -109,7 +109,7 @@ class ApiServiceModule {
             .addInterceptor(httpLoggingInterceptor)
 
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(StethoInterceptor())
+            builder.addNetworkInterceptor(StethoInterceptor())
         }
 
         return builder.build()

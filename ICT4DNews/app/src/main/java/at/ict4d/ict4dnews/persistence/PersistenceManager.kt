@@ -37,7 +37,7 @@ class PersistenceManager @Inject constructor(
 
     override fun getAllOrderedByPublishedDate(): LiveData<List<News>> = newsDao.getAllOrderedByPublishedDate()
 
-    override fun getLatestNewsPublishedDate(): LocalDateTime = newsDao.getLatestNewsPublishedDate()
+    override fun getLatestNewsPublishedDate(blogID: String): LocalDateTime = newsDao.getLatestBlogPublishedDate(blogID)
         ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
 
     // Media

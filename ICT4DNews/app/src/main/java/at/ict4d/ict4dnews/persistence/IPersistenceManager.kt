@@ -27,7 +27,7 @@ interface IPersistenceManager {
 
     fun getAllOrderedByPublishedDate(): LiveData<List<News>>
 
-    fun getLatestNewsPublishedDate(): LocalDateTime
+    fun getLatestNewsPublishedDate(blogID: String): LocalDateTime
 
     // Media
 

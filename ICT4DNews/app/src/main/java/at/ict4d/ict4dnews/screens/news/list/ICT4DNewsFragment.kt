@@ -92,12 +92,12 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
             .observeOn(Schedulers.io())
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe({ query ->
-                Timber.d("*** query: $query")
+                Timber.d("query: $query")
                 model.performSearch(query)
             }, { e ->
-                Timber.e("*** error: $e")
+                Timber.e("$e")
             }, {
-                Timber.d("*** complete")
+                Timber.d("serach complete")
             })
         )
 

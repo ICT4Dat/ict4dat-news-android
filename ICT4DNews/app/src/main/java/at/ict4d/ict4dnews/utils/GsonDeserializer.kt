@@ -24,7 +24,7 @@ class GsonLocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {
 
             return LocalDateTime.parse(json?.asString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
         } catch (e: ParseException) {
-            Timber.e("Caught Parse Exception", e)
+            Timber.e(e, "Caught Parse Exception")
         }
         return null
     }
