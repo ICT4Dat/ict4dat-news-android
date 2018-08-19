@@ -18,15 +18,15 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.postText.text = model.selectedNews?.description
+
         if (model.selectedNews != null && model.selectedNews?.authorID != null) {
             model.authorDetails(model.selectedNews?.authorID!!).observe(this, Observer {
                 binding.authorName.text = it?.name ?: ""
             })
         }
         binding.blogTitle.text = model.selectedNews?.title
-        binding.postText.text = model.selectedNews?.description
         binding.articleDate.text = model.selectedNews?.publishedDate?.extractDate()
+        binding.webview.loadData("<style>img{display: inline;height: auto;max-width: 100%;}</style>${model.selectedNews?.description}", "text/html; charset=utf-8", "UTF-8")
     }
 
     companion object {

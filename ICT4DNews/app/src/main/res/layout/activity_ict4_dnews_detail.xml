@@ -47,8 +47,10 @@
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" android:layout_width="match_parent"
-                android:id="@+id/fragment_container" android:layout_height="match_parent"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_width="match_parent"
+                android:id="@+id/fragment_container"
+                android:layout_height="match_parent"/>
 
         <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
