@@ -39,15 +39,17 @@ class ICT4DNewsViewModel @Inject constructor(
                 isRefreshing.value = false
             })
 
-        requestToLoadJsonFeed()
+        // TODO: delete, just for testing
+        compositeDisposable.add(server.loadBlogs())
+        // requestToLoadFeedsFromServers()
     }
 
-    fun requestToLoadJsonFeed() {
+    fun requestToLoadFeedsFromServers() {
         if (isRefreshing.value == null || isRefreshing.value == false) {
             isRefreshing.value = true
 
             doAsync {
-                compositeDisposable.add(server.loadICT4DatJsonFeed(persistenceManager.getLatestNewsPublishedDate()))
+                compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
             }
         }
     }

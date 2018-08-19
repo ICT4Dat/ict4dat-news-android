@@ -57,7 +57,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         })
 
         binding.swiperefresh.setOnRefreshListener {
-            model.requestToLoadJsonFeed()
+            model.requestToLoadFeedsFromServers()
         }
 
         model.searchedNewsList.observe(this, Observer {
@@ -92,12 +92,12 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
             .observeOn(Schedulers.io())
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe({ query ->
-                Timber.d("*** query: $query")
+                Timber.d("query: $query")
                 model.performSearch(query)
             }, { e ->
-                Timber.e("*** error: $e")
+                Timber.e("$e")
             }, {
-                Timber.d("*** complete")
+                Timber.d("serach complete")
             })
         )
 
@@ -135,7 +135,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         return when (item?.itemId) {
 
             R.id.menu_refresh -> {
-                model.requestToLoadJsonFeed()
+                model.requestToLoadFeedsFromServers()
                 return true
             }
             else -> super.onOptionsItemSelected(item)
