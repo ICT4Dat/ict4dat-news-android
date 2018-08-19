@@ -29,7 +29,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         super.onCreate(savedInstanceState)
         fab.setOnClickListener { view ->
             val postModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
-            val postTitle= postModelList.title
+            val postTitle = postModelList.title
             val postDate = postModelList.publishedDate?.extractDate()
             val postLink = postModelList.link
             val post = "$postTitle by ${author_name.text} - $postDate \n $postLink"
