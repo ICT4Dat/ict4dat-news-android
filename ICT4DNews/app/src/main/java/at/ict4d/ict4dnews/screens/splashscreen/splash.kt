@@ -7,10 +7,11 @@ import android.os.Handler
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
 
-class splash : AppCompatActivity() {
-    private var mDelayHandler: Handler? = null
-    private val SPLASH_DELAY: Long = 3000
-    internal val mRunnable: Runnable = Runnable {
+const val SPLASH_DELAY: Long = 3000
+
+class Splash : AppCompatActivity() {
+    private var delayHandler = Handler()
+    internal val runnable: Runnable = Runnable {
         if (!isFinishing) {
             val intent = Intent(applicationContext, MainNavigationActivity::class.java)
             startActivity(intent)
@@ -20,12 +21,12 @@ class splash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        mDelayHandler = Handler()
-        mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
+        delayHandler = Handler()
+        delayHandler.postDelayed(runnable, SPLASH_DELAY)
     }
     public override fun onDestroy() {
-        if (mDelayHandler != null) {
-            mDelayHandler!!.removeCallbacks(mRunnable)
+        if (true) {
+            delayHandler.removeCallbacks(runnable)
         }
         super.onDestroy()
     }

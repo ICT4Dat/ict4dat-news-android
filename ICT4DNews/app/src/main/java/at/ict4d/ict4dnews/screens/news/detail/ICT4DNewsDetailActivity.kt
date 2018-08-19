@@ -2,7 +2,6 @@ package at.ict4d.ict4dnews.screens.news.detail
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -16,7 +15,8 @@ import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
 import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
-import android.support.customtabs.CustomTabsIntent
+import at.ict4d.ict4dnews.extensions.browseCustomTab
+import org.jetbrains.anko.share
 
 const val KEY_NEWS_LIST_MODEL = "news_list_model"
 
@@ -29,11 +29,12 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fab.setOnClickListener { view ->
-            val linkShare = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
-            val sharingIntent = Intent(Intent.ACTION_SEND)
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, linkShare.link)
-            sharingIntent.setType("text/plain")
-            this.startActivity(Intent.createChooser(sharingIntent, resources.getText(R.string.send_to)))
+            val postModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+            val postTitle=postModelList.title
+            val postDate = postModelList.publishedDate?.extractDate()
+            val postLink = postModelList.link
+            val post = "$postTitle by ${author_name.text} - $postDate \n $postLink"
+            share(post)
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
@@ -79,17 +80,10 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             }
 
             R.id.action_open -> {
-                ChromeTabload()
+                val url = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL).link
+                browseCustomTab(url)
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun ChromeTabload() {
-        val newsLink = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
-        val url = newsLink.link
-        val builder = CustomTabsIntent.Builder()
-        val customTabsIntent = builder.build()
-        customTabsIntent.launchUrl(this, Uri.parse(url))
     }
 }

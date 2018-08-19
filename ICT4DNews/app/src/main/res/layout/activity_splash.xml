@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingTop="287dp"
     android:background="@drawable/splash_gradient"
-    tools:context=".screens.splashscreen.splash">
+    tools:context=".screens.splashscreen.Splash">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:text="ICT4D.at"
         android:keepScreenOn="true"
         android:textSize="30sp"
-        android:textColor="#ffff"
+        android:textColor="@color/splashText"
         android:shadowColor="@color/colorPrimaryDark"
         />
 </android.support.constraint.ConstraintLayout>
