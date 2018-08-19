@@ -6,6 +6,7 @@ import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.persistence.PersistenceManager
 import at.ict4d.ict4dnews.persistence.database.AppDatabase
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import dagger.Module
@@ -33,9 +34,14 @@ class RoomModule {
 
     @Singleton
     @Provides
+    fun providesBlogDao(database: AppDatabase): BlogDao = database.blogDao()
+
+    @Singleton
+    @Provides
     fun providesPersistentManager(
         authorDao: AuthorDao,
         newsDao: NewsDao,
-        mediaDao: MediaDao
-    ): IPersistenceManager = PersistenceManager(authorDao, newsDao, mediaDao)
+        mediaDao: MediaDao,
+        blogDao: BlogDao
+    ): IPersistenceManager = PersistenceManager(authorDao, newsDao, mediaDao, blogDao)
 }
