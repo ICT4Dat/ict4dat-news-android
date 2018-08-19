@@ -8,5 +8,5 @@ import retrofit2.http.Url
 interface ApiRSSService {
 
     @GET
-    fun getRssICT4DatNews(@Url url: String): Single<RSSFeed>
+    fun getRssNews(@Url url: String): Single<RSSFeed>
 }

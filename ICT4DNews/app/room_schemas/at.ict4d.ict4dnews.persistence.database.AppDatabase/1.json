@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fa20af659ccbd9ca240b3e258b8be9ae",
+    "identityHash": "d85099b8c1253f3f1fbe4457aeefe746",
     "entities": [
       {
         "tableName": "news",
@@ -108,7 +108,7 @@
       },
       {
         "tableName": "authors",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `name` TEXT, `image_url` TEXT, `description` TEXT, `username` TEXT, PRIMARY KEY(`link`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER, `name` TEXT, `image_url` TEXT, `description` TEXT, `username` TEXT, PRIMARY KEY(`link`))",
         "fields": [
           {
             "fieldPath": "link",
@@ -120,7 +120,7 @@
             "fieldPath": "serverID",
             "columnName": "server_id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "name",
@@ -158,7 +158,7 @@
       },
       {
         "tableName": "media",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `serverID` INTEGER NOT NULL, `news_id` TEXT, `author_id` TEXT, `mime_type` TEXT, `title` TEXT, `description` TEXT, `date_created` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`news_id`) REFERENCES `news`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `serverID` INTEGER, `news_id` TEXT, `author_id` TEXT, `mime_type` TEXT, `title` TEXT, `description` TEXT, `date_created` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`news_id`) REFERENCES `news`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "link",
@@ -170,7 +170,7 @@
             "fieldPath": "serverID",
             "columnName": "serverID",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "newsID",
@@ -311,7 +311,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fa20af659ccbd9ca240b3e258b8be9ae\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d85099b8c1253f3f1fbe4457aeefe746\")"
     ]
   }
 }

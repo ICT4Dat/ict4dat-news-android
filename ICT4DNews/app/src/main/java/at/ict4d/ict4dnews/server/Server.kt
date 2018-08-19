@@ -2,6 +2,7 @@ package at.ict4d.ict4dnews.server
 
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.extensions.stripHtml
+import at.ict4d.ict4dnews.extensions.toLocalDateTimeFromRFCString
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.FeedType
@@ -35,42 +36,26 @@ class Server @Inject constructor(
     /**
      * @see IServer
      */
-    override fun loadICT4DatRSSFeed(): Disposable {
-        return apiRSSService.getRssICT4DatNews("") // TODO: fix URL
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .subscribe(
-                { channel ->
-                    // TODO: implement and save to DB
-                    Timber.d("*** $channel")
-                },
-                { error: Throwable? ->
-                    Timber.e(error)
-                })
-    }
-
-    /**
-     * @see IServer
-     */
     override fun loadAllNewsFromAllActiveBlogs(): Disposable {
 
         val blogs = persistenceManager.getAllActiveBlogs()
 
         val requests = ArrayList<Single<*>>()
-
         blogs.forEach { blog ->
             if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
                 Timber.d(blog.url)
                 requests.add(apiJsonSelfHostedWPService.getJsonNewsOfURL(
                     blog.url + "wp-json/wp/v2/posts",
-                    newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.url).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                    newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.url).format(
+                        DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                    )
+                    )
                     .onErrorReturn { emptyList() }
                 )
             } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
-                /*
-                requests.add(apiRSSService.getRssICT4DatNews(blog.url)
+                requests.add(apiRSSService.getRssNews(blog.url)
                     .onErrorReturn { RSSFeed(null) }
-                )*/
+                )
             }
         }
 
@@ -80,15 +65,10 @@ class Server @Inject constructor(
 
             serverResult.forEach {
 
-                val serverResultBlogList = it as List<*>
-
-                if (serverResultBlogList.isNotEmpty()) {
-                    val firstItem = serverResultBlogList.first()
-                    if (firstItem is SelfHostedWPPost) {
-                        handleSelfHostedWPBlogList(blogs, serverResultBlogList)
-                    } else if (firstItem is RSSFeed) {
-                        // TODO: set up rss feed response and save to DB
-                    }
+                if (it is List<*> && it.isNotEmpty() && it.first() is SelfHostedWPPost) {
+                    handleSelfHostedWPBlogList(blogs, it)
+                } else if (it is RSSFeed) {
+                    handleRSSList(blogs, it)
                 }
             }
             rxEventBus.post(NewsRefreshDoneMessage())
@@ -108,20 +88,23 @@ class Server @Inject constructor(
         if (serverResultBlog.isNotEmpty() && serverResultBlog.first() is SelfHostedWPPost) {
 
             // set blog URL
-            val dbBlog = databaseBlogList.find { dbBlog -> (serverResultBlog.first() as SelfHostedWPPost).link.contains(dbBlog.url) }
+            val dbBlog =
+                databaseBlogList.find { dbBlog -> (serverResultBlog.first() as SelfHostedWPPost).link.contains(dbBlog.url) }
             serverResultBlog.map { b -> (b as SelfHostedWPPost).blogLink = dbBlog?.url ?: "" }
 
             // Query for the authors
             val serverAuthors: MutableList<WordpressAuthor> = mutableListOf()
             serverResultBlog.distinctBy { (it as SelfHostedWPPost).serverAuthorID }.forEach { post ->
                 try {
-                    val author = apiJsonSelfHostedWPService.getJsonNewsAuthorByID(dbBlog?.url + "wp-json/wp/v2/users/${(post as SelfHostedWPPost).serverAuthorID}/").execute().body()
+                    val author =
+                        apiJsonSelfHostedWPService.getJsonNewsAuthorByID(dbBlog?.url + "wp-json/wp/v2/users/${(post as SelfHostedWPPost).serverAuthorID}/")
+                            .execute().body()
 
                     author?.let {
                         serverAuthors.add(author)
                     }
                 } catch (e: Throwable) {
-                    Timber.e(e, "Error in downloading an author from a self-hosted Wordpress blog", e)
+                    Timber.e(e, "Error in downloading an author from a self-hosted Wordpress blog")
                     rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
                     return
                 }
@@ -131,13 +114,15 @@ class Server @Inject constructor(
             val serverMedia: MutableList<WordpressMedia> = mutableListOf()
             serverResultBlog.forEach {
                 try {
-                    val postMedia = apiJsonSelfHostedWPService.getJsonNewsMediaForPost(dbBlog?.url + "wp-json/wp/v2/media?parent=${(it as SelfHostedWPPost).serverID}").execute().body()
+                    val postMedia =
+                        apiJsonSelfHostedWPService.getJsonNewsMediaForPost(dbBlog?.url + "wp-json/wp/v2/media?parent=${(it as SelfHostedWPPost).serverID}")
+                            .execute().body()
 
                     if (postMedia != null) {
                         serverMedia += postMedia
                     }
                 } catch (e: Throwable) {
-                    Timber.e(e, "Error in downloading media from a self-hosted Wordpress blog", e)
+                    Timber.e(e, "Error in downloading media from a self-hosted Wordpress blog")
                     rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
                     return
                 }
@@ -145,7 +130,8 @@ class Server @Inject constructor(
 
             // Set up foreign keys for media
             serverMedia.map { m ->
-                m.postLink = (serverResultBlog.find { post -> (post as SelfHostedWPPost).serverID == m.serverPostID } as? SelfHostedWPPost)?.link
+                m.postLink =
+                    (serverResultBlog.find { post -> (post as SelfHostedWPPost).serverID == m.serverPostID } as? SelfHostedWPPost)?.link
             }
             serverMedia.map { m ->
                 m.authorLink = serverAuthors.find { author -> author.server_id == m.serverAuthorID }?.link
@@ -153,7 +139,8 @@ class Server @Inject constructor(
 
             // Set up foreign key for posts
             serverResultBlog.map { post ->
-                (post as SelfHostedWPPost).authorLink = serverAuthors.find { author -> author.server_id == post.serverAuthorID }?.link
+                (post as SelfHostedWPPost).authorLink =
+                    serverAuthors.find { author -> author.server_id == post.serverAuthorID }?.link
             }
             serverResultBlog.map { post ->
                 (post as SelfHostedWPPost).featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw
@@ -166,20 +153,7 @@ class Server @Inject constructor(
             val media = serverMedia.map { Media(it) }
 
             // Strip HTML
-            news.map { n ->
-                n.title?.let {
-                    n.title = it.stripHtml()
-                }
-                n.description?.let {
-                    n.description = it.stripHtml()
-                }
-            }
-
-            media.map { m ->
-                m.description?.let {
-                    m.description = it.stripHtml()
-                }
-            }
+            stripHTMLof(news, media)
 
             Timber.d("$serverResultBlog")
             Timber.d("$serverAuthors")
@@ -188,6 +162,97 @@ class Server @Inject constructor(
             persistenceManager.insertAllAuthors(authors)
             persistenceManager.insertAllNews(news)
             persistenceManager.insertAllMedia(media)
+        }
+    }
+
+    private fun handleRSSList(databaseBlogList: List<Blog>, rssFeed: RSSFeed) {
+        Timber.d("$rssFeed")
+
+        rssFeed.channel?.let { channel ->
+
+            val endIndex = Math.min(rssFeed.channel?.feedItems?.first()?.link?.length ?: 0, 15)
+
+            databaseBlogList.find { dbBlog ->
+                rssFeed.channel?.feedItems?.first()?.link?.substring(0, endIndex)?.equals(
+                    dbBlog.url.substring(0, endIndex)
+                ) ?: false
+            }?.let { blog ->
+
+                val author = Author(blog, channel)
+
+                val mediaList = mutableListOf<Media>()
+                val newsList = mutableListOf<News>()
+                channel.feedItems?.let { items ->
+                    items.forEach { item ->
+
+                        item.link?.let { itemLink ->
+
+                            newsList.add(
+                                News(
+                                    itemLink,
+                                    author.link,
+                                    0,
+                                    channel.image?.url,
+                                    item.title,
+                                    item.description,
+                                    item.pubDate?.toLocalDateTimeFromRFCString(),
+                                    blog.url
+                                )
+                            )
+
+                            if (blog.feedType == FeedType.WORDPRESS_COM) { // RSS feeds only have one media
+
+                                newsList.last().description = item.wpContent
+
+                                item.wpRSSMedia?.let { media ->
+
+                                    media.forEach {
+                                        it.url?.let { url ->
+                                            mediaList.add(
+                                                Media(
+                                                    url,
+                                                    0,
+                                                    itemLink,
+                                                    author.link,
+                                                    it.medium,
+                                                    null,
+                                                    null,
+                                                    null
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Timber.d("$mediaList")
+
+                stripHTMLof(newsList, mediaList)
+
+                persistenceManager.insertAuthor(author)
+                persistenceManager.insertAllNews(newsList)
+                persistenceManager.insertAllMedia(mediaList)
+            }
+        }
+    }
+
+    private fun stripHTMLof(news: List<News>, media: List<Media>) {
+        news.map { n ->
+            n.title?.let {
+                n.title = it.stripHtml()
+            }
+            n.description?.let {
+                n.description = it.stripHtml()
+            }
+        }
+
+        media.map { m ->
+            m.description?.let {
+                m.description = it.stripHtml()
+            }
         }
     }
 

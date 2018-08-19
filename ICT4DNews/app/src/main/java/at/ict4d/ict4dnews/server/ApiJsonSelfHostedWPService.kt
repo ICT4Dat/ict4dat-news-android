@@ -14,7 +14,7 @@ interface ApiJsonSelfHostedWPService {
     @GET
     fun getJsonNewsOfURL(
         @Url url: String,
-        @Query("per_page") numberOfNewsToRequest: Int = 20, // get 20 news posts per default
+        @Query("per_page") numberOfNewsToRequest: Int = 10, // get 10 news posts per default
         @Query("after") newsAfterDate: String
     ): Single<List<SelfHostedWPPost>>
 

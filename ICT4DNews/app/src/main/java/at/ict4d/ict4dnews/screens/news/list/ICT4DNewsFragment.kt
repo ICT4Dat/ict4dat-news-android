@@ -57,7 +57,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         })
 
         binding.swiperefresh.setOnRefreshListener {
-            model.requestToLoadJsonFeed()
+            model.requestToLoadFeedsFromServers()
         }
 
         model.searchedNewsList.observe(this, Observer {
@@ -135,7 +135,7 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         return when (item?.itemId) {
 
             R.id.menu_refresh -> {
-                model.requestToLoadJsonFeed()
+                model.requestToLoadFeedsFromServers()
                 return true
             }
             else -> super.onOptionsItemSelected(item)

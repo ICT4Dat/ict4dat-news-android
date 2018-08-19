@@ -11,16 +11,7 @@ import io.reactivex.disposables.Disposable
 interface IServer {
 
     /**
-     * Loads all *Blog Posts* from *Blogs* in the database which are *RSS feeds*
-     * from the respected servers and stores the result into the database.
-     * Trigger this function for an update and subscribe to the database for changes.
-     *
-     * @return The RXJava Disposable to dispose this call when not needed anymore.
-     */
-    fun loadICT4DatRSSFeed(): Disposable
-
-    /**
-     * Loads all *Blog Posts* from *Blogs* in the database which are *Self Hosted Wordpress Blogs*
+     * Loads all *Blog Posts* from *Blogs* in the database
      * from the respected servers and stores the result into the database.
      * Trigger this function for an update and subscribe to the database for changes.
      *

@@ -16,7 +16,6 @@ import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import okhttp3.MediaType
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Collections.emptyList
@@ -83,16 +82,6 @@ class Converters {
     @TypeConverter
     fun intListToString(someObjects: List<Int>): String {
         return gson.toJson(someObjects)
-    }
-
-    @TypeConverter
-    fun mediaTypeFromString(string: String): MediaType? {
-        return MediaType.parse(string)
-    }
-
-    @TypeConverter
-    fun stringFromMediaType(mediaType: MediaType): String {
-        return mediaType.toString()
     }
 
     @TypeConverter

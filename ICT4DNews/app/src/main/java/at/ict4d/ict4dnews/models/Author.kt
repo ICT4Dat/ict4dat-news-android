@@ -3,6 +3,7 @@ package at.ict4d.ict4dnews.models
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import at.ict4d.ict4dnews.models.rss.Channel
 import at.ict4d.ict4dnews.models.wordpress.WordpressAuthor
 
 const val AUTHOR_TABLE_TABLE_NAME = "authors"
@@ -21,7 +22,7 @@ data class Author(
     val link: String,
 
     @ColumnInfo(name = AUTHOR_TABLE_SERVER_ID)
-    val serverID: Int,
+    val serverID: Int?,
 
     @ColumnInfo(name = AUTHOR_TABLE_NAME)
     var name: String? = null,
@@ -48,4 +49,13 @@ data class Author(
         description = serverAuthor.description
         username = serverAuthor.slug
     }
+
+    constructor(blog: Blog, channel: Channel): this(
+        blog.url,
+        0,
+        channel.title,
+        channel.image?.url,
+        channel.description,
+        null
+    )
 }

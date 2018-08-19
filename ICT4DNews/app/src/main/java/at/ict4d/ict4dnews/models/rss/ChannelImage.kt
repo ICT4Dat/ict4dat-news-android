@@ -1,32 +1,40 @@
 package at.ict4d.ict4dnews.models.rss
 
-import at.ict4d.ict4dnews.models.rss.ChannelImage.Companion.SERIALIZED_IMAGE
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
-@Root(name = SERIALIZED_IMAGE, strict = false)
+const val CHANNEL_IMAGE_SERIALIZED_IMAGE = "image"
+const val CHANNEL_IMAGE_SERIALIZED_URL = "url"
+const val CHANNEL_IMAGE_SERIALIZED_TITLE = "title"
+const val CHANNEL_IMAGE_SERIALIZED_LINK = "link"
+const val CHANNEL_IMAGE_SERIALIZED_WIDTH = "width"
+const val CHANNEL_IMAGE_SERIALIZED_HEIGHT = "height"
+
+@Root(name = CHANNEL_IMAGE_SERIALIZED_IMAGE, strict = false)
 data class ChannelImage(
-    @field:Element(name = SERIALIZED_URL)
+
+    @field:Element(
+        name = CHANNEL_IMAGE_SERIALIZED_URL,
+        required = false)
     var url: String? = null,
 
-    @field:Element(name = SERIALIZED_TITLE)
+    @field:Element(
+        name = CHANNEL_IMAGE_SERIALIZED_TITLE,
+        required = false)
     var title: String? = null,
 
-    @field:Element(name = SERIALIZED_LINK)
+    @field:Element(
+        name = CHANNEL_IMAGE_SERIALIZED_LINK,
+        required = false)
     var link: String? = null,
 
-    @field:Element(name = SERIALIZED_WIDTH)
+    @field:Element(
+        name = CHANNEL_IMAGE_SERIALIZED_WIDTH,
+        required = false)
     var width: String? = null,
 
-    @field:Element(name = SERIALIZED_HEIGHT)
+    @field:Element(
+        name = CHANNEL_IMAGE_SERIALIZED_HEIGHT,
+        required = false)
     var height: String? = null
-) {
-    companion object {
-        const val SERIALIZED_IMAGE = "image"
-        const val SERIALIZED_URL = "url"
-        const val SERIALIZED_TITLE = "title"
-        const val SERIALIZED_LINK = "link"
-        const val SERIALIZED_WIDTH = "width"
-        const val SERIALIZED_HEIGHT = "height"
-    }
-}
+)

@@ -6,7 +6,6 @@ import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
-import okhttp3.MediaType
 import org.threeten.bp.LocalDateTime
 
 const val MEDIA_TABLE_TABLE_NAME = "media"
@@ -44,7 +43,7 @@ data class Media(
     val link: String,
 
     @ColumnInfo(name = MEDIA_TABLE_SERVER_ID)
-    val serverID: Int,
+    val serverID: Int?,
 
     @ColumnInfo(name = MEDIA_TABLE_NEWS_ID)
     val newsID: String?,
@@ -53,7 +52,7 @@ data class Media(
     val authorID: String?,
 
     @ColumnInfo(name = MEDIA_TABLE_MIME_TYPE)
-    var mediaType: MediaType? = null,
+    var mediaType: String? = null,
 
     @ColumnInfo(name = MEDIA_TABLE_TITLE)
     var title: String? = null,
@@ -69,11 +68,10 @@ data class Media(
         serverMedia.linkRaw,
         serverMedia.serverID,
         serverMedia.postLink,
-        serverMedia.authorLink
-    ) {
-        mediaType = MediaType.parse(serverMedia.mimeType)
-        title = serverMedia.title.rendered
-        description = serverMedia.description.rendered
-        dateCreated = serverMedia.dateCreated
-    }
+        serverMedia.authorLink,
+        serverMedia.mimeType,
+        serverMedia.title.rendered,
+        serverMedia.description.rendered,
+        serverMedia.dateCreated
+    )
 }

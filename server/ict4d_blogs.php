@@ -71,13 +71,13 @@ $array = array(
 	array("name" => "Open Knowledge International Blog",  
 		"description" => "Open Knowledge International is a global non-profit organisation focused on realising open data’s value to society by helping civil society groups access and use data to take action on social problems.", 
 		"url" => "http://blog.okfn.org/feed/",
-		"feed_type" => 2,
+		"feed_type" => 1,
 		"logo_url" => "https://i1.wp.com/blog.okfn.org/files/2017/08/Logo-OKI-landscape-rgb-936x244.png?fit=600%2C156"),
 
 	array("name" => "iRevolutions",  
 		"description" => "Hacking emerging technologies to solve emerging aid & development problems.", 
 		"url" => "https://irevolutions.org/feed/",
-		"feed_type" => 2,
+		"feed_type" => 1,
 		"logo_url" => "https://irevolution.files.wordpress.com/2008/04/cropped-oath.jpg"),
 
 	array("name" => "My heart's in Accra",  
@@ -95,7 +95,7 @@ $array = array(
 	array("name" => " Chris Blattman",  
 		"description" => "Blog from Chris Blattman, development economist at the Harris School of Public Policy at the University of Chicago. Focus is on development, but he's young and hip and offers great perspective on local technology interventions.", 
 		"url" => "https://chrisblattman.com/feed",
-		"feed_type" => 2,
+		"feed_type" => 1,
 		"logo_url" => "https://chrisblattman.com/wp-content/themes/nimble/images/blattman-s.png"),
 
 	array("name" => "Digital@DAI",  
@@ -114,7 +114,7 @@ $array = array(
 	array("name" => "GSMA Newsroom",  
 		"description" => "Blog for the trade union of 800 mobile operators and 300 companies around the world.", 
 		"url" => "https://www.gsma.com/newsroom/category/press-release/feed/",
-		"feed_type" => 2,
+		"feed_type" => 1,
 		"logo_url" => "https://www.gsma.com/wp-content/plugins/plugin_header_overload/images/logo.png"),
 
 
@@ -175,13 +175,13 @@ $array = array(
 	array("name" => "Matt Haikin Blog",  
 		"description" => "Matt Haikin – ICT4D practitioner, researcher and consultant. Exploring participatory approaches to ICT, and technologies to enable participation.", 
 		"url" => "https://matthaikin.com/feed/",
-		"feed_type" => 2,
+		"feed_type" => 1,
 		"logo_url" => "null"),
 
 	array("name" => "Mobile for Development (GSMA) Blog",  
 		"description" => "Blog for the team within GSMA that focuses on emerging markets.", 
 		"url" => "https://www.gsma.com/mobilefordevelopment/feed/",
-		"feed_type" => 2,
+		"feed_type" => 0,
 		"logo_url" => "https://www.gsma.com/mobilefordevelopment/wp-content/plugins/plugin_header_overload/images/logo.png")
 	
 	);

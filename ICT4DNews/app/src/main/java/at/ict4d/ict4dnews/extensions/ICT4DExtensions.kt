@@ -26,9 +26,9 @@ fun Context.browseCustomTab(url: String) {
         .launchUrl(this, Uri.parse(url))
 }
 
-fun LocalDateTime.extractDate(): String {
-    return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
-}
+fun LocalDateTime.extractDate(): String = this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
+
+fun String.toLocalDateTimeFromRFCString(): LocalDateTime? = LocalDateTime.parse(this, DateTimeFormatter.RFC_1123_DATE_TIME) ?: null
 
 @BindingAdapter("loadCircularImage")
 fun ImageView.loadCircularImage(imageUrl: String?) {
