@@ -146,4 +146,7 @@ dependencies {
 
     //KLint
     ktlint "com.github.shyiko:ktlint:0.24.0"
+
+    //Chrome CustomTab
+    implementation 'com.android.support:customtabs:27.1.1'
 }

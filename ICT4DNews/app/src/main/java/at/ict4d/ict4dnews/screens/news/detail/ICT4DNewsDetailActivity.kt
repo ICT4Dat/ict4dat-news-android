@@ -1,13 +1,17 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.Snackbar
+import android.view.Menu
 import android.view.MenuItem
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.extensions.loadImage
 import at.ict4d.ict4dnews.extensions.visible
+import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import timber.log.Timber
 
@@ -21,6 +25,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
         model.selectedNews = intent.getParcelableExtra(KEY_NEWS_LIST_MODEL)
         Timber.d("Model: ${model.selectedNews?.mediaFeaturedURL}")
@@ -28,7 +33,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+                    .setAction("Action", null).show()
         }
 
         var detailsFragment: ICT4DNewsDetailFragment? =
@@ -58,6 +63,11 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         super.onBackPressed()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_ict4_dnews_detail, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -65,7 +75,19 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
                 supportFinishAfterTransition()
                 return true
             }
+
+            R.id.action_open -> {
+                ChromeTabload()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun ChromeTabload() {
+        val newsLink = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+        val url = newsLink.link
+        val builder = CustomTabsIntent.Builder()
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(this, Uri.parse(url))
     }
 }
