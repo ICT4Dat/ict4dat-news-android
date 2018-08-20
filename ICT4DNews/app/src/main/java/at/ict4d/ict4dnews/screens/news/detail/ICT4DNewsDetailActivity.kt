@@ -28,11 +28,11 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fab.setOnClickListener { view ->
-            val postModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
-            val postTitle = postModelList.title
-            val postDate = postModelList.publishedDate?.extractDate()
-            val postLink = postModelList.link
-            val post = "$postTitle by ${author_name.text} - $postDate \n $postLink"
+            var postModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
+            var postTitle = postModelList.title
+            var postDate = postModelList.publishedDate?.extractDate()
+            var postLink = postModelList.link
+            var post = "$postTitle by ${author_name.text} - $postDate \n $postLink"
             share(post)
         }
 
@@ -79,7 +79,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             }
 
             R.id.action_open -> {
-                val url = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL).link
+                var url = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL).link
                 browseCustomTab(url)
             }
         }
