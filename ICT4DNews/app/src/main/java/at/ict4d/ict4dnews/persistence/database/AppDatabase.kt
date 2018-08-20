@@ -4,20 +4,24 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverter
 import android.arch.persistence.room.TypeConverters
+import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.models.Author
+import at.ict4d.ict4dnews.models.Blog
+import at.ict4d.ict4dnews.models.FeedType
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import okhttp3.MediaType
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Collections.emptyList
+import javax.inject.Inject
 
-@Database(entities = [News::class, Author::class, Media::class], version = 1)
+@Database(entities = [News::class, Author::class, Media::class, Blog::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -27,6 +31,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun mediaDao(): MediaDao
 
+    abstract fun blogDao(): BlogDao
+
     companion object {
         const val DATABASE_NAME = "ict4d_news_database"
     }
@@ -34,7 +40,12 @@ abstract class AppDatabase : RoomDatabase() {
 
 class Converters {
 
-    private val gson: Gson = Gson()
+    @Inject
+    protected lateinit var gson: Gson
+
+    init {
+        ICT4DNewsApplication.instance.component.inject(this)
+    }
 
     @TypeConverter
     fun localDateTimeFromString(value: String?): LocalDateTime? {
@@ -74,12 +85,15 @@ class Converters {
     }
 
     @TypeConverter
-    fun mediaTypeFromString(string: String): MediaType? {
-        return MediaType.parse(string)
+    fun feedTypeFromInt(intFeedType: Int): FeedType? {
+        if (intFeedType in 0..2) {
+            return FeedType.values()[intFeedType]
+        }
+        return null
     }
 
     @TypeConverter
-    fun stringFromMediaType(mediaType: MediaType): String {
-        return mediaType.toString()
+    fun intFromFeedType(feedType: FeedType): Int {
+        return feedType.ordinal
     }
 }
