@@ -3,6 +3,7 @@ package at.ict4d.ict4dnews
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.support.multidex.MultiDexApplication
 import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
 import com.facebook.stetho.Stetho
@@ -15,7 +16,7 @@ import dagger.android.HasActivityInjector
 import timber.log.Timber
 import javax.inject.Inject
 
-class ICT4DNewsApplication : Application(), HasActivityInjector {
+class ICT4DNewsApplication : MultiDexApplication(), HasActivityInjector {
 
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
