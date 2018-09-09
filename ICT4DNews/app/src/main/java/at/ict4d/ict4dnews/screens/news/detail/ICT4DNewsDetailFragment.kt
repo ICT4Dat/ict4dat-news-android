@@ -10,7 +10,7 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 
 class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4DnewsDetailBinding>() {
 
-    override fun getToolbarTitleResId(): Int = R.string.title_activity_ict4_dnews_detail
+    override fun getToolbarTitleResId(): Int = -1
 
     override fun getLayoutId(): Int = R.layout.fragment_ict4_dnews_detail
 

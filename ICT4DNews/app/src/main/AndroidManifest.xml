@@ -24,7 +24,6 @@
         <activity android:name=".screens.MainNavigationActivity"/>
         <activity
             android:name=".screens.news.detail.ICT4DNewsDetailActivity"
-            android:label="@string/title_activity_ict4_dnews_detail"
             android:parentActivityName=".screens.MainNavigationActivity"
             android:theme="@style/AppTheme">
             <meta-data

@@ -48,4 +48,6 @@ interface IPersistenceManager {
     fun getAllActiveBlogs(): List<Blog>
 
     fun getBlogURLByFuzzyURL(fuzzyURL: String): String?
+
+    fun getBlogByURL(url: String): LiveData<Blog>
 }
