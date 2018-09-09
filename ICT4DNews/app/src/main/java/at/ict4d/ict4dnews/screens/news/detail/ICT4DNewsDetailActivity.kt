@@ -7,15 +7,13 @@ import android.view.Menu
 import android.view.MenuItem
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
+import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.extensions.extractDate
 import at.ict4d.ict4dnews.extensions.loadImage
 import at.ict4d.ict4dnews.extensions.visible
-import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_ict4_dnews_detail.*
-import kotlinx.android.synthetic.main.content_ict4_dnews_detail.*
-import at.ict4d.ict4dnews.extensions.browseCustomTab
 import org.jetbrains.anko.share
+import timber.log.Timber
 
 const val KEY_NEWS_LIST_MODEL = "news_list_model"
 
@@ -27,29 +25,39 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fab.setOnClickListener { view ->
-            var postModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
-            var postTitle = postModelList.title
-            var postDate = postModelList.publishedDate?.extractDate()
-            var postLink = postModelList.link
-            var post = "$postTitle by ${author_name.text} - $postDate \n $postLink"
-            share(post)
-        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
-        val newsModelList = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL)
-
-        if (newsModelList != null) {
-            model.authorDetails(newsModelList.authorID).observe(this, Observer {
-                author_name.text = it?.name ?: ""
-            })
+        model.selectedNews = intent.getParcelableExtra(KEY_NEWS_LIST_MODEL)
+        if (model.selectedNews == null) {
+            Timber.e("Selected news must not be NULL")
+            finish()
         }
 
-        blog_title.text = newsModelList.title
-        post_text.text = newsModelList.description
-        article_date.text = newsModelList.publishedDate?.extractDate()
+        Timber.d("Model: ${model.selectedNews?.mediaFeaturedURL}")
+        binding.appbarImage.loadImage(model.selectedNews?.mediaFeaturedURL)
 
-        binding.appbarImage.loadImage(newsModelList.mediaFeaturedURL)
+        var detailsFragment: ICT4DNewsDetailFragment? =
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
+
+        if (detailsFragment == null) {
+            detailsFragment = ICT4DNewsDetailFragment.newInstance()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, detailsFragment).commit()
+        }
+
+        binding.fab.setOnClickListener { _ ->
+
+            model.selectedNews?.authorID?.let {
+                model.authorDetails(it).observe(this, Observer { author ->
+                    author?.name.let { authorName ->
+                        share(String.format(getString(R.string.news_detail_share),
+                            model.selectedNews?.title,
+                            authorName,
+                            model.selectedNews?.publishedDate?.extractDate(),
+                            model.selectedNews?.link))
+                    }
+                })
+            }
+        }
     }
 
     override fun onResume() {
@@ -79,8 +87,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             }
 
             R.id.action_open -> {
-                var url = intent.getParcelableExtra<News>(KEY_NEWS_LIST_MODEL).link
-                browseCustomTab(url)
+                browseCustomTab(model.selectedNews?.link ?: "")
             }
         }
         return super.onOptionsItemSelected(item)
