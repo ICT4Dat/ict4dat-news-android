@@ -10,7 +10,7 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 
 class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4DnewsDetailBinding>() {
 
-    override fun getToolbarTitleResId(): Int = R.string.title_activity_ict4_dnews_detail
+    override fun getToolbarTitleResId(): Int = -1
 
     override fun getLayoutId(): Int = R.layout.fragment_ict4_dnews_detail
 
@@ -18,15 +18,15 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.postText.text = model.selectedNews?.description
+
         if (model.selectedNews != null && model.selectedNews?.authorID != null) {
             model.authorDetails(model.selectedNews?.authorID!!).observe(this, Observer {
                 binding.authorName.text = it?.name ?: ""
             })
         }
         binding.blogTitle.text = model.selectedNews?.title
-        binding.postText.text = model.selectedNews?.description
         binding.articleDate.text = model.selectedNews?.publishedDate?.extractDate()
+        binding.webview.loadData("<style>img{display: inline;height: auto;max-width: 100%;}</style>${model.selectedNews?.description}", "text/html; charset=utf-8", "UTF-8")
     }
 
     companion object {

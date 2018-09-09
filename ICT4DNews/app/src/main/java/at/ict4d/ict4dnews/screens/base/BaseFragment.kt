@@ -78,7 +78,9 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
 
         val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar?.title = getString(getToolbarTitleResId())
+        if (getToolbarTitleResId() != -1) {
+            actionBar?.title = getString(getToolbarTitleResId())
+        }
 
         return binding.root
     }

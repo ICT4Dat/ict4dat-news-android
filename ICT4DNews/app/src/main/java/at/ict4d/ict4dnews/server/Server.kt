@@ -1,7 +1,6 @@
 package at.ict4d.ict4dnews.server
 
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.extensions.toLocalDateTimeFromRFCString
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
@@ -152,9 +151,6 @@ class Server @Inject constructor(
             val news = serverResultBlog.map { News((it as SelfHostedWPPost)) }
             val media = serverMedia.map { Media(it) }
 
-            // Strip HTML
-            stripHTMLof(news, media)
-
             Timber.d("$serverResultBlog")
             Timber.d("$serverAuthors")
             Timber.d("$serverMedia")
@@ -230,28 +226,9 @@ class Server @Inject constructor(
 
                 Timber.d("$mediaList")
 
-                stripHTMLof(newsList, mediaList)
-
                 persistenceManager.insertAuthor(author)
                 persistenceManager.insertAllNews(newsList)
                 persistenceManager.insertAllMedia(mediaList)
-            }
-        }
-    }
-
-    private fun stripHTMLof(news: List<News>, media: List<Media>) {
-        news.map { n ->
-            n.title?.let {
-                n.title = it.stripHtml()
-            }
-            n.description?.let {
-                n.description = it.stripHtml()
-            }
-        }
-
-        media.map { m ->
-            m.description?.let {
-                m.description = it.stripHtml()
             }
         }
     }

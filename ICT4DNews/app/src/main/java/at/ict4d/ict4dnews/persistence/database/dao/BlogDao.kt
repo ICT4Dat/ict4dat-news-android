@@ -27,4 +27,7 @@ abstract class BlogDao {
 
     @Query("SELECT $BLOG_TABLE_URL FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_URL LIKE :fuzzyURL")
     abstract fun getBlogURLByFuzzyURL(fuzzyURL: String): String?
+
+    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_URL = :url")
+    abstract fun getBlogByURL(url: String): LiveData<Blog>
 }

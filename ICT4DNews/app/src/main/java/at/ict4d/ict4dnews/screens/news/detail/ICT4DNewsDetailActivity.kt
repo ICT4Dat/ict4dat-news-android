@@ -33,15 +33,19 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             finish()
         }
 
-        Timber.d("Model: ${model.selectedNews?.mediaFeaturedURL}")
         binding.appbarImage.loadImage(model.selectedNews?.mediaFeaturedURL)
+        model.selectedNews?.blogID?.let { blogID ->
+            model.getBlogBy(blogID).observe(this, Observer { blog ->
+                blog?.let {
+                    binding.toolbarLayout.title = it.name
+                }
+            })
+        }
 
-        var detailsFragment: ICT4DNewsDetailFragment? =
-            supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
+        val detailsFragment: ICT4DNewsDetailFragment? = supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
 
         if (detailsFragment == null) {
-            detailsFragment = ICT4DNewsDetailFragment.newInstance()
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, detailsFragment).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ICT4DNewsDetailFragment.newInstance()).commit()
         }
 
         binding.fab.setOnClickListener { _ ->

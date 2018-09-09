@@ -8,7 +8,6 @@ import android.databinding.BindingAdapter
 import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import at.ict4d.ict4dnews.R
@@ -51,15 +50,6 @@ fun ImageView.loadImage(imageUrl: String?) {
 
 fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
-}
-
-@Suppress("DEPRECATION")
-fun String.stripHtml(): String {
-    return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY).toString()
-    } else {
-        Html.fromHtml(this).toString()
-    }
 }
 
 /**
