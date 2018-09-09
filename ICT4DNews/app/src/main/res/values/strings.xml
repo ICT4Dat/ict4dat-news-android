@@ -18,4 +18,5 @@
     <string name="send_to">Share with</string>
     <string name="splash_headline">ICT4D.at</string>
     <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
+    <string name="open_in_browser">Open in a Browser</string>
 </resources>
