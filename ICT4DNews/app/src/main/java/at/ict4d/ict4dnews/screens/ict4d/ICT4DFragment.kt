@@ -27,7 +27,6 @@ class ICT4DFragment : BaseNavigationFragment<ICT4DViewModel, FragmentIct4dBindin
     }
 
     fun ict4dWikipedia() {
-        // TODO("open ict4d wiki link in browser")
         context?.browseCustomTab(getString(R.string.ict4d_wikipedia))
     }
 

@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/text_margin"
-        tools:context=".screens.ict4dat.ICT4DatFragment">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+    <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="We can put here a about us, projects, buy us a coffee..." />
+            tools:context=".screens.ict4dat.ICT4DatFragment">
 
-    </FrameLayout>
+        <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/ict4d_at_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingTop="40dp"
+                app:srcCompat="@drawable/ict4d_logo"/>
+
+    </android.support.constraint.ConstraintLayout>
+
 </layout>
