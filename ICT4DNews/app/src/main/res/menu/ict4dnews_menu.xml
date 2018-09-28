@@ -43,4 +43,10 @@
             android:id="@+id/menu_refresh"
             android:title="@string/refresh"
             app:showAsAction="never"/>
+
+    <!--TODO("Move this item to more fragment menu")-->
+    <item
+            android:id="@+id/menu_licences"
+            android:title="@string/licenses"
+            app:showAsAction="never"/>
 </menu>

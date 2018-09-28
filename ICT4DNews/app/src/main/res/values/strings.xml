@@ -19,4 +19,6 @@
     <string name="splash_headline">ICT4D.at</string>
     <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
     <string name="open_in_browser">Open in a Browser</string>
+    <string name="open_source_licences_title">Open source licences</string>
+    <string name="licenses">Licenses</string>
 </resources>

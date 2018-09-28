@@ -18,10 +18,11 @@ import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity
 import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-
+import org.jetbrains.anko.intentFor
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -136,6 +137,13 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
 
             R.id.menu_refresh -> {
                 model.requestToLoadFeedsFromServers()
+                return true
+            }
+
+            // TODO("Move this call to More fragment when we have that fragment")
+            R.id.menu_licences -> {
+                activity?.let { startActivity(it.intentFor<OssLicensesMenuActivity>()) }
+                OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_licences_title))
                 return true
             }
             else -> super.onOptionsItemSelected(item)
