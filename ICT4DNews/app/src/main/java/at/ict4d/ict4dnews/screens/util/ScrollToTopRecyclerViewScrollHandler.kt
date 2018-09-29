@@ -1,10 +1,11 @@
-package at.ict4d.ict4dnews.screens.news.list
+package at.ict4d.ict4dnews.screens.util
 
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 
-class ICT4DNewsRecyclerViewScrollHandler(private val quickMoveView: View) : RecyclerView.OnScrollListener() {
+class ScrollToTopRecyclerViewScrollHandler(private val quickMoveView: View) : RecyclerView.OnScrollListener() {
     private var swipeUpTime = 0L
     private val visibleItemsRequireToShowQuickMoveView = 5
     private val switchEventTimeThresholdDuration = 200 // ms
@@ -16,13 +17,26 @@ class ICT4DNewsRecyclerViewScrollHandler(private val quickMoveView: View) : Recy
             val position = layoutManager.findFirstCompletelyVisibleItemPosition()
             if (position >= visibleItemsRequireToShowQuickMoveView && dy < 0) {
                 swipeUpTime = System.currentTimeMillis()
-                quickMoveView.visibility = View.VISIBLE
+
+                if (quickMoveView is FloatingActionButton) {
+                    quickMoveView.show()
+                } else {
+                    quickMoveView.visibility = View.VISIBLE
+                }
             } else {
                 if (System.currentTimeMillis() - swipeUpTime >= switchEventTimeThresholdDuration) {
-                    quickMoveView.visibility = View.GONE
+                    if (quickMoveView is FloatingActionButton) {
+                        quickMoveView.hide()
+                    } else {
+                        quickMoveView.visibility = View.GONE
+                    }
                 } else {
                     if (position < visibleItemsRequireToShowQuickMoveView) {
-                        quickMoveView.visibility = View.GONE
+                        if (quickMoveView is FloatingActionButton) {
+                            quickMoveView.hide()
+                        } else {
+                            quickMoveView.visibility = View.GONE
+                        }
                     }
                 }
             }

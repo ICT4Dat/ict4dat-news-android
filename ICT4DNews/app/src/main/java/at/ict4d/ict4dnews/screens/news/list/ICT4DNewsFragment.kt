@@ -18,6 +18,7 @@ import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity
 import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
+import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -77,7 +78,11 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
         })
 
         binding.quickScroll.setOnClickListener { binding.recyclerview.smoothScrollToPosition(0) }
-        binding.recyclerview.addOnScrollListener(ICT4DNewsRecyclerViewScrollHandler(binding.quickScroll))
+        binding.recyclerview.addOnScrollListener(
+            ScrollToTopRecyclerViewScrollHandler(
+                binding.quickScroll
+            )
+        )
 
         return view
     }
