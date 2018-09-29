@@ -27,18 +27,22 @@ fun Context.browseCustomTab(url: String) {
 
 fun LocalDateTime.extractDate(): String = this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
 
-fun String.toLocalDateTimeFromRFCString(): LocalDateTime? = LocalDateTime.parse(this, DateTimeFormatter.RFC_1123_DATE_TIME) ?: null
+fun String.toLocalDateTimeFromRFCString(): LocalDateTime? =
+    LocalDateTime.parse(this, DateTimeFormatter.RFC_1123_DATE_TIME) ?: null
 
 @BindingAdapter("loadCircularImage")
 fun ImageView.loadCircularImage(imageUrl: String?) {
-    imageUrl?.let {
-        // TODO(Change error and placeholder image)
-        val requestOptions = RequestOptions().placeholder(R.mipmap.ic_launcher).error(R.drawable.ic_error_black_24dp)
-            .apply(RequestOptions.circleCropTransform())
-        Glide.with(this.context).load(it)
-            .apply(requestOptions)
-            .into(this)
-    }
+
+    // TODO(Change error and placeholder image)
+    val requestOptions = RequestOptions()
+        .placeholder(R.mipmap.ic_launcher)
+        .error(R.drawable.ic_error_black_24dp)
+        .apply(RequestOptions.circleCropTransform())
+
+    Glide.with(this.context)
+        .load(imageUrl)
+        .apply(requestOptions)
+        .into(this)
 }
 
 @BindingAdapter("loadImage")
