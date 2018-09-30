@@ -36,11 +36,12 @@ class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickLi
 }
 
 class NewsListDiffCallback : DiffUtil.ItemCallback<News>() {
-    override fun areItemsTheSame(oldItem: News?, newItem: News?): Boolean {
-        return oldItem?.link == newItem?.link
+
+    override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
+        return oldItem.link == newItem.link
     }
 
-    override fun areContentsTheSame(oldItem: News?, newItem: News?): Boolean {
+    override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
         return oldItem == newItem
     }
 }
