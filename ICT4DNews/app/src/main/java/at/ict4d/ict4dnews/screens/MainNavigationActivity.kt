@@ -6,11 +6,9 @@ import android.support.v4.app.Fragment
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
 import at.ict4d.ict4dnews.screens.base.BaseActivity
-import at.ict4d.ict4dnews.screens.ict4d.ICT4DFragment
-import at.ict4d.ict4dnews.screens.ict4dat.ICT4DatFragment
+import at.ict4d.ict4dnews.screens.ict4d.TabbedICT4DFragment
 import at.ict4d.ict4dnews.screens.more.MoreFragment
 import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsFragment
-import java.lang.IllegalArgumentException
 
 class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMainNavigationBinding>() {
 
@@ -25,11 +23,7 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_ict4d -> {
-                showFragment(ICT4DFragment::class.java.simpleName, true)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_ict4dat -> {
-                showFragment(ICT4DatFragment::class.java.simpleName, true)
+                showFragment(TabbedICT4DFragment::class.java.simpleName, true)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_more -> {
@@ -64,8 +58,7 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
             if (fragment == null) {
                 fragment = when (fragmentTag) {
                     ICT4DNewsFragment::class.java.simpleName -> ICT4DNewsFragment.newInstance()
-                    ICT4DFragment::class.java.simpleName -> ICT4DFragment.newInstance()
-                    ICT4DatFragment::class.java.simpleName -> ICT4DatFragment()
+                    TabbedICT4DFragment::class.java.simpleName -> TabbedICT4DFragment.newInstance()
                     MoreFragment::class.java.simpleName -> MoreFragment()
                     else -> throw IllegalArgumentException("Fragment Tag unknown.")
                 }

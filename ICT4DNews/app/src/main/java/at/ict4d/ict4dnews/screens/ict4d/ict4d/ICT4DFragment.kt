@@ -1,4 +1,4 @@
-package at.ict4d.ict4dnews.screens.ict4d
+package at.ict4d.ict4dnews.screens.ict4d.ict4d
 
 import android.content.Context
 import android.os.Bundle
@@ -11,12 +11,11 @@ import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4dBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
-import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
+import at.ict4d.ict4dnews.screens.base.BaseFragment
+import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
 import org.jetbrains.anko.share
 
-class ICT4DFragment : BaseNavigationFragment<ICT4DViewModel, FragmentIct4dBinding>() {
-
-    override fun getMenuItemId(): Int = R.id.navigation_ict4d
+class ICT4DFragment : BaseFragment<ICT4DViewModel, FragmentIct4dBinding>() {
 
     override fun getToolbarTitleResId(): Int = R.string.nav_ict4d
 

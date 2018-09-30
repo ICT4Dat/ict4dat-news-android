@@ -7,7 +7,7 @@
 
         <variable
                 name="fragment"
-                type="at.ict4d.ict4dnews.screens.ict4d.ICT4DFragment"/>
+                type="at.ict4d.ict4dnews.screens.ict4d.ict4d.ICT4DFragment"/>
     </data>
 
     <ScrollView

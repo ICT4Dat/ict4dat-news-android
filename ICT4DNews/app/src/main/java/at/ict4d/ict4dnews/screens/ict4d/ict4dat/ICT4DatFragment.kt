@@ -1,4 +1,4 @@
-package at.ict4d.ict4dnews.screens.ict4dat
+package at.ict4d.ict4dnews.screens.ict4d.ict4dat
 
 import android.content.Context
 import android.os.Bundle
@@ -11,18 +11,17 @@ import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4datBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
-import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
+import at.ict4d.ict4dnews.screens.base.BaseFragment
+import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
 import org.jetbrains.anko.share
 
-class ICT4DatFragment : BaseNavigationFragment<ICT4DatViewModel, FragmentIct4datBinding>() {
-
-    override fun getMenuItemId(): Int = R.id.navigation_ict4dat
+class ICT4DatFragment : BaseFragment<ICT4DViewModel, FragmentIct4datBinding>() {
 
     override fun getToolbarTitleResId(): Int = R.string.nav_ict4dat
 
     override fun getLayoutId(): Int = R.layout.fragment_ict4dat
 
-    override fun getViewModel(): Class<ICT4DatViewModel> = ICT4DatViewModel::class.java
+    override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

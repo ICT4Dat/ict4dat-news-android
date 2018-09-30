@@ -7,7 +7,7 @@
 
         <variable
                 name="fragment"
-                type="at.ict4d.ict4dnews.screens.ict4dat.ICT4DatFragment"/>
+                type="at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment"/>
     </data>
 
     <ScrollView
@@ -18,7 +18,7 @@
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".screens.ict4dat.ICT4DatFragment">
+                tools:context=".screens.ict4d.ict4dat.ICT4DatFragment">
 
             <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/imageView"
