@@ -45,6 +45,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginStart="16dp"
+                    style="@style/ict4d_news_button"
                     android:text="@string/ict4d_at_wikipedia"
                     android:textAllCaps="false"
                     app:layout_constraintEnd_toEndOf="parent"
