@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4datBinding
+import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
 
 class ICT4DatFragment : BaseNavigationFragment<ICT4DatViewModel, FragmentIct4datBinding>() {
@@ -23,7 +24,23 @@ class ICT4DatFragment : BaseNavigationFragment<ICT4DatViewModel, FragmentIct4dat
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val rootView = super.onCreateView(inflater, container, savedInstanceState)
+
+        binding.fragment = this
+
+        return rootView
+    }
+
+    fun openProjects() {
+        context?.browseCustomTab(getString(R.string.url_ict4dat_projects))
+    }
+
+    fun openAboutUs() {
+        context?.browseCustomTab(getString(R.string.url_ict4dat_about_us))
+    }
+
+    fun openDonate() {
+        context?.browseCustomTab(getString(R.string.url_ict4dat_donate))
     }
 
     companion object {

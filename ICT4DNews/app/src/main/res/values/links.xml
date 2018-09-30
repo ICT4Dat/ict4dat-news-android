@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ict4d_wikipedia">https://en.wikipedia.org/wiki/Information_and_communication_technologies_for_development</string>
+    <string name="url_ict4d_wikipedia">https://en.wikipedia.org/wiki/Information_and_communication_technologies_for_development</string>
+    <string name="url_ict4dat_donate">https://www.paypal.com/donate/?token=ifgy-ytwtZohc0Hehe7iQ6hsitnhoWHyBueey0ulDxhCDuE6BqmvdxHbin5ke-VxsHEws0&amp;country.x=US&amp;locale.x=US</string>
+    <string name="url_ict4dat_projects">http://www.ict4d.at/projects/</string>
+    <string name="url_ict4dat_about_us">http://www.ict4d.at/about/</string>
 </resources>

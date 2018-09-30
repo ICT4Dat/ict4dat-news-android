@@ -27,7 +27,7 @@ class ICT4DFragment : BaseNavigationFragment<ICT4DViewModel, FragmentIct4dBindin
     }
 
     fun ict4dWikipedia() {
-        context?.browseCustomTab(getString(R.string.ict4d_wikipedia))
+        context?.browseCustomTab(getString(R.string.url_ict4d_wikipedia))
     }
 
     fun otherIct4dSource() {
