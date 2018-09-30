@@ -10,33 +10,32 @@ class ScrollToTopRecyclerViewScrollHandler(private val quickMoveView: View) : Re
     private val visibleItemsRequireToShowQuickMoveView = 5
     private val switchEventTimeThresholdDuration = 200 // ms
 
-    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        recyclerView?.let {
-            val layoutManager = it.layoutManager as LinearLayoutManager
-            val position = layoutManager.findFirstCompletelyVisibleItemPosition()
-            if (position >= visibleItemsRequireToShowQuickMoveView && dy < 0) {
-                swipeUpTime = System.currentTimeMillis()
 
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        val position = layoutManager.findFirstCompletelyVisibleItemPosition()
+        if (position >= visibleItemsRequireToShowQuickMoveView && dy < 0) {
+            swipeUpTime = System.currentTimeMillis()
+
+            if (quickMoveView is FloatingActionButton) {
+                quickMoveView.show()
+            } else {
+                quickMoveView.visibility = View.VISIBLE
+            }
+        } else {
+            if (System.currentTimeMillis() - swipeUpTime >= switchEventTimeThresholdDuration) {
                 if (quickMoveView is FloatingActionButton) {
-                    quickMoveView.show()
+                    quickMoveView.hide()
                 } else {
-                    quickMoveView.visibility = View.VISIBLE
+                    quickMoveView.visibility = View.GONE
                 }
             } else {
-                if (System.currentTimeMillis() - swipeUpTime >= switchEventTimeThresholdDuration) {
+                if (position < visibleItemsRequireToShowQuickMoveView) {
                     if (quickMoveView is FloatingActionButton) {
                         quickMoveView.hide()
                     } else {
                         quickMoveView.visibility = View.GONE
-                    }
-                } else {
-                    if (position < visibleItemsRequireToShowQuickMoveView) {
-                        if (quickMoveView is FloatingActionButton) {
-                            quickMoveView.hide()
-                        } else {
-                            quickMoveView.visibility = View.GONE
-                        }
                     }
                 }
             }
