@@ -39,7 +39,7 @@ class TabbedICT4DFragment : BaseNavigationFragment<ICT4DViewModel, FragmentTabbe
         sectionsPagerAdapter = TabbedICT4DSectionsPagerAdapter(childFragmentManager)
 
         binding.viewpager.adapter = sectionsPagerAdapter
-        
+
         binding.viewpager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout))
         binding.tabLayout.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(binding.viewpager))
 
