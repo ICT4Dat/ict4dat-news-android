@@ -1,9 +1,7 @@
 package at.ict4d.ict4dnews.screens.news.list
 
 import android.arch.lifecycle.Observer
-import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
@@ -12,12 +10,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.models.News
-import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
-import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity
-import at.ict4d.ict4dnews.screens.news.detail.KEY_NEWS_LIST_MODEL
+import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
@@ -27,10 +24,8 @@ import org.jetbrains.anko.intentFor
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(),
+class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(),
     ICT4DNewsRecyclerViewAdapter.OnICT4DNewsListClickListener {
-
-    override fun getMenuItemId(): Int = R.id.navigation_news
 
     override fun getToolbarTitleResId(): Int = R.string.app_name
 
@@ -159,12 +154,8 @@ class ICT4DNewsFragment : BaseNavigationFragment<ICT4DNewsViewModel, FragmentIct
     }
 
     override fun onListItemClicked(item: News, view: View) {
-        activity?.let {
-            val intent = Intent(it, ICT4DNewsDetailActivity::class.java)
-            intent.putExtra(KEY_NEWS_LIST_MODEL, item)
-            val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(it, view, "post_image")
-            startActivity(intent, optionsCompat.toBundle())
-        }
+        val action = ICT4DNewsFragmentDirections.ActionActionNewsToICT4DNewsDetailActivity(item)
+        view.findNavController().navigate(action)
     }
 
     companion object {

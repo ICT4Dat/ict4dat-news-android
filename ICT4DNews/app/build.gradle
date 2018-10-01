@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply plugin: "androidx.navigation.safeargs"
 apply from: 'tasks.gradle' // contains supporting tasks e.g ktlint
 
 android {
@@ -153,4 +154,6 @@ dependencies {
 
     // 3rd Party licenses
     implementation "com.google.android.gms:play-services-oss-licenses:16.0.0"
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06' // use -ktx for Kotlin
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06' // use -ktx for Kotlin
 }

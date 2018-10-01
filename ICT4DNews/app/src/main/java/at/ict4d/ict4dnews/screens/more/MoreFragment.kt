@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentMoreBinding
-import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
+import at.ict4d.ict4dnews.screens.base.BaseFragment
 
-class MoreFragment : BaseNavigationFragment<MoreViewModel, FragmentMoreBinding>() {
-
-    override fun getMenuItemId(): Int = R.id.navigation_more
+class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
 
     override fun getToolbarTitleResId(): Int = R.string.nav_more
 
