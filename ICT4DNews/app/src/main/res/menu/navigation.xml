@@ -13,11 +13,6 @@
         android:title="@string/nav_ict4d" />
 
     <item
-        android:id="@+id/navigation_ict4dat"
-        android:icon="@drawable/ic_group_work_black_24dp"
-        android:title="@string/nav_ict4dat" />
-
-    <item
         android:id="@+id/navigation_more"
         android:icon="@drawable/ic_more_horiz_black_24dp"
         android:title="@string/nav_more" />
