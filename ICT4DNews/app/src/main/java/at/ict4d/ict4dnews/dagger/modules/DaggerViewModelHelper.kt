@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import at.ict4d.ict4dnews.screens.MainNavigationViewModel
 import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
-import at.ict4d.ict4dnews.screens.ict4dat.ICT4DatViewModel
 import at.ict4d.ict4dnews.screens.more.MoreViewModel
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailViewModel
 import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsViewModel
@@ -37,11 +36,6 @@ abstract class ViewModelFactoryModule {
     @IntoMap
     @ViewModelKey(MoreViewModel::class)
     abstract fun bindsMoreViewModel(viewModel: MoreViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(ICT4DatViewModel::class)
-    abstract fun bindsICT4DatViewModel(viewModel: ICT4DatViewModel): ViewModel
 
     @Binds
     @IntoMap

@@ -4,8 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import at.ict4d.ict4dnews.dagger.scopes.PerActivity
 import at.ict4d.ict4dnews.dagger.scopes.PerFragment
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
-import at.ict4d.ict4dnews.screens.ict4d.ICT4DFragment
-import at.ict4d.ict4dnews.screens.ict4dat.ICT4DatFragment
+import at.ict4d.ict4dnews.screens.ict4d.TabbedICT4DFragment
+import at.ict4d.ict4dnews.screens.ict4d.ict4d.ICT4DFragment
+import at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment
 import at.ict4d.ict4dnews.screens.more.MoreFragment
 import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsFragment
 import dagger.Binds
@@ -31,6 +32,10 @@ abstract class MainNavigationActivityModule {
     @PerFragment
     @ContributesAndroidInjector
     abstract fun ict4dAtFragmentInjector(): ICT4DatFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun tabbedICT4DFragmentInjector(): TabbedICT4DFragment
 
     @Binds
     @PerActivity

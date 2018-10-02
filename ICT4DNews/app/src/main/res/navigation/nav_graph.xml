@@ -11,13 +11,9 @@
                 app:destination="@id/ICT4DNewsDetailActivity"/>
     </fragment>
 
-    <fragment android:id="@+id/actionIct4d" android:name="at.ict4d.ict4dnews.screens.ict4d.ICT4DFragment"
-              tools:layout="@layout/fragment_ict4d"
+    <fragment android:id="@+id/actionIct4d" android:name="at.ict4d.ict4dnews.screens.ict4d.TabbedICT4DFragment"
+              tools:layout="@layout/fragment_tabbed_ict4d"
               android:label="ICT4DFragment"/>
-
-    <fragment android:id="@+id/actionIct4dat" android:name="at.ict4d.ict4dnews.screens.ict4dat.ICT4DatFragment"
-              tools:layout="@layout/fragment_ict4dat"
-              android:label="ICT4DatFragment"/>
 
     <fragment android:id="@+id/actionMore" android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"
               tools:layout="@layout/fragment_more"

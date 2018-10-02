@@ -10,15 +10,38 @@
     <string name="news_search_hint">Search for News…</string>
     <string name="title_activity_ict4_dnews_detail">ICT4D News</string>
     <string name="action_settings">Settings</string>
-    <string name="ict4d_at_wikipedia">ICT4D at Wikipedia</string>
-    <string name="other_ict4d_source">Other ICT4D Source…</string>
+    <string name="ict4d_at_wikipedia">Continue reading on Wikipedia</string>
     <string name="ict4d_logo">ICT4D logo</string>
+    <string name="ict4d_at_logo">ICT4D.at logo</string>
     <string name="http_exception_error_message">Unable to connect</string>
     <string name="server_error_message">Server is not responding at this moment</string>
     <string name="send_to">Share with</string>
     <string name="splash_headline">ICT4D.at</string>
     <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
     <string name="open_in_browser">Open in a Browser</string>
+    <string name="description_ict4d">
+        <b>Information and Communication Technologies for Development (ICT4D)</b>
+        refers to the application of information and communication technologies (ICT) toward social, economic, and
+        political development, with a particular emphasis on helping poor and marginalized people and communities. It
+        aims to help in international development by bridging the digital divide and providing equitable access to
+        technologies. ICT4D is grounded in the notions of "development", "growth", "progress" and "globalization" and is
+        often interpreted as the use of technology to deliver a greater good. Another similar term used in the
+        literature is "digital development". ICT4D draws on theories and frameworks from many disciplines, including
+        sociology, economics, development studies, library, information science, and communication
+        studies.\n\n-Wikipedia
+    </string>
+    <string name="ict4dat_vision">ICT4D.at believes in the <b>empowerment of people through ICTs.</b>\n\nWe cooperate
+        and collaborate with grassroots organizations in the fields of science, arts, education, media and open source
+        software to improve the lives of those in lesser developed countries.
+    </string>
+    <string name="ict4dat_donate">Support us!</string>
+    <string name="ict4dat_projects">Our Projects</string>
+    <string name="ict4dat_about">About us &amp; Members</string>
     <string name="open_source_licences_title">Open Source Licences</string>
     <string name="licenses">Licenses</string>
+    <string name="share">Share</string>
+    <string name="share_ict4d">ICT4D - Information and Communication Technologies for Development\n\n%1$s</string>
+    <string name="share_ict4dat">ICT4D.at - The Austrian Network for Information and Communication Technologies for
+        Development\n\n%1$s
+    </string>
 </resources>
