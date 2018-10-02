@@ -15,8 +15,6 @@ import at.ict4d.ict4dnews.screens.base.BaseActivity
 import org.jetbrains.anko.share
 import timber.log.Timber
 
-const val KEY_NEWS_LIST_MODEL = "news_list_model"
-
 class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityIct4DnewsDetailBinding>() {
 
     override fun getLayoutId(): Int = R.layout.activity_ict4_dnews_detail

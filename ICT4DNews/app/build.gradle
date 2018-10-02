@@ -136,6 +136,10 @@ dependencies {
     // RxJava support for Room
     implementation "android.arch.persistence.room:rxjava2:$room_version"
 
+    // Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06" // use -ktx for Kotlin
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06" // use -ktx for Kotlin
+
     // Stetho for debug
     implementation "com.facebook.stetho:stetho:1.5.0"
     implementation "com.facebook.stetho:stetho-okhttp3:1.5.0"
@@ -154,6 +158,4 @@ dependencies {
 
     // 3rd Party licenses
     implementation "com.google.android.gms:play-services-oss-licenses:16.0.0"
-    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06' // use -ktx for Kotlin
-    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06' // use -ktx for Kotlin
 }
