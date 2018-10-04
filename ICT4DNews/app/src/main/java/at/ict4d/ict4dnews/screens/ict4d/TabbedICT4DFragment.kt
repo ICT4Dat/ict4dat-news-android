@@ -11,13 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentTabbedIct4dBinding
-import at.ict4d.ict4dnews.screens.base.BaseNavigationFragment
+import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.ict4d.ict4d.ICT4DFragment
 import at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment
 
-class TabbedICT4DFragment : BaseNavigationFragment<ICT4DViewModel, FragmentTabbedIct4dBinding>() {
-
-    override fun getMenuItemId(): Int = R.id.navigation_ict4d
+class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBinding>() {
 
     override fun getToolbarTitleResId(): Int = R.string.nav_ict4d
 

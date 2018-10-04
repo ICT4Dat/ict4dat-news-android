@@ -15,8 +15,6 @@ import at.ict4d.ict4dnews.screens.base.BaseActivity
 import org.jetbrains.anko.share
 import timber.log.Timber
 
-const val KEY_NEWS_LIST_MODEL = "news_list_model"
-
 class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityIct4DnewsDetailBinding>() {
 
     override fun getLayoutId(): Int = R.layout.activity_ict4_dnews_detail
@@ -27,7 +25,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         super.onCreate(savedInstanceState)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
-        model.selectedNews = intent.getParcelableExtra(KEY_NEWS_LIST_MODEL)
+        intent.extras?.let { model.selectedNews = ICT4DNewsDetailActivityArgs.fromBundle(it).newsItem }
         if (model.selectedNews == null) {
             Timber.e("Selected news must not be NULL")
             finish()
@@ -42,10 +40,12 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             })
         }
 
-        val detailsFragment: ICT4DNewsDetailFragment? = supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
+        val detailsFragment: ICT4DNewsDetailFragment? =
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
 
         if (detailsFragment == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ICT4DNewsDetailFragment.newInstance()).commit()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, ICT4DNewsDetailFragment.newInstance()).commit()
         }
 
         binding.fab.setOnClickListener { _ ->
@@ -53,11 +53,15 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             model.selectedNews?.authorID?.let {
                 model.authorDetails(it).observe(this, Observer { author ->
                     author?.name.let { authorName ->
-                        share(String.format(getString(R.string.news_detail_share),
-                            model.selectedNews?.title,
-                            authorName,
-                            model.selectedNews?.publishedDate?.extractDate(),
-                            model.selectedNews?.link))
+                        share(
+                            String.format(
+                                getString(R.string.news_detail_share),
+                                model.selectedNews?.title,
+                                authorName,
+                                model.selectedNews?.publishedDate?.extractDate(),
+                                model.selectedNews?.link
+                            )
+                        )
                     }
                 })
             }
