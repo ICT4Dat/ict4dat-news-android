@@ -58,9 +58,7 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
-        if (context is AppCompatActivity) {
-            model = ViewModelProviders.of(context, viewModelFactory).get(getViewModel())
-        }
+        model = ViewModelProviders.of(this, viewModelFactory).get(getViewModel())
         lifecycle.addObserver(RXLifecycleObserver(compositeDisposable))
 
         if (BuildConfig.DEBUG) {

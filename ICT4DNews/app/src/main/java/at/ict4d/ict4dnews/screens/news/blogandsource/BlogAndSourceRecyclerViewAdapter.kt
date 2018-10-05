@@ -10,13 +10,16 @@ import at.ict4d.ict4dnews.databinding.BlogAndSourceItemBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.models.Blog
 
-class BlogAndSourceRecyclerViewAdapter(private val blogOnClickHandler: (Blog, CheckBox) -> Unit) :
+class BlogAndSourceRecyclerViewAdapter(
+    private val blogOnClickHandler: (Blog, CheckBox) -> Unit,
+    private val contextualHandler: (Blog) -> Unit
+) :
     ListAdapter<Blog, BlogAndSourceRecyclerViewAdapter.ViewHolder>(BlogListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             BlogAndSourceItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            blogOnClickHandler
+            blogOnClickHandler, contextualHandler
         )
     }
 
@@ -26,10 +29,12 @@ class BlogAndSourceRecyclerViewAdapter(private val blogOnClickHandler: (Blog, Ch
 
     class ViewHolder(
         private val binding: BlogAndSourceItemBinding,
-        private val onClickHandler: (Blog, CheckBox) -> Unit
+        private val onClickHandler: (Blog, CheckBox) -> Unit,
+        private val onContextualHandler: (Blog) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun setNewsItem(blog: Blog) {
             binding.blog = blog
+            binding.root.setOnLongClickListener { onContextualHandler(blog); true }
             binding.activeBlogCheckBox.setOnClickListener { onClickHandler(blog, binding.activeBlogCheckBox) }
             binding.root.setOnClickListener { onClickHandler(blog, binding.activeBlogCheckBox) }
             binding.activeBlogReadMoreButton.setOnClickListener { it.context.browseCustomTab(blog.url) }
