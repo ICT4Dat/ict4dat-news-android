@@ -8,7 +8,6 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
-import timber.log.Timber
 import javax.inject.Inject
 
 class BlogAndSourceViewModel @Inject constructor(
@@ -27,7 +26,6 @@ class BlogAndSourceViewModel @Inject constructor(
 
         compositeDisposable.add(Completable.fromAction {
             blogDao.insertAll(blogList)
-            allBlogsList = blogDao.getAll()
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe { contextualToolbarHandler.disableContextualMode() })
     }
@@ -35,7 +33,6 @@ class BlogAndSourceViewModel @Inject constructor(
     /*CONTEXTUAL RELATED*/
     fun handleContextualRequest(blog: Blog, isLongClickRequest: Boolean = false) {
         if (!contextualToolbarHandler.isContextualModeEnable()) {
-            Timber.d("XXX:Going to enable contextual request")
             contextualToolbarHandler.enableContextualMode()
         }
 
