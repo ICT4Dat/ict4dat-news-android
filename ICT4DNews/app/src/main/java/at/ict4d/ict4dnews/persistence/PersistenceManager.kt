@@ -9,6 +9,7 @@ import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import io.reactivex.Single
 import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
@@ -61,4 +62,6 @@ class PersistenceManager @Inject constructor(
     override fun getBlogURLByFuzzyURL(fuzzyURL: String) = blogsDao.getBlogURLByFuzzyURL(fuzzyURL)
 
     override fun getBlogByURL(url: String): LiveData<Blog> = blogsDao.getBlogByURL(url)
+
+    override fun getBlogsCount(): Single<Int> = blogsDao.getAllBlogsCount()
 }

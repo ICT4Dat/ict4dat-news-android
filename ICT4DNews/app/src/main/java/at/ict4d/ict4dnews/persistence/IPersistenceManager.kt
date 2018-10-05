@@ -5,6 +5,7 @@ import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
+import io.reactivex.Single
 import org.threeten.bp.LocalDateTime
 
 interface IPersistenceManager {
@@ -50,4 +51,6 @@ interface IPersistenceManager {
     fun getBlogURLByFuzzyURL(fuzzyURL: String): String?
 
     fun getBlogByURL(url: String): LiveData<Blog>
+
+    fun getBlogsCount(): Single<Int>
 }

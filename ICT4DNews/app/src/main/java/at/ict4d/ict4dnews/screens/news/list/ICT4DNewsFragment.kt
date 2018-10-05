@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.models.News
@@ -140,6 +141,11 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
             R.id.menu_refresh -> {
                 model.requestToLoadFeedsFromServers()
+                return true
+            }
+
+            R.id.menu_filter -> {
+                findNavController().navigate(R.id.blogAndSourceFragment)
                 return true
             }
 

@@ -44,4 +44,7 @@
     <string name="share_ict4dat">ICT4D.at - The Austrian Network for Information and Communication Technologies for
         Development\n\n%1$s
     </string>
+    <string name="read_more">Read more</string>
+    <string name="blog_logo">Blog logo</string>
+    <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Sources</string>
 </resources>

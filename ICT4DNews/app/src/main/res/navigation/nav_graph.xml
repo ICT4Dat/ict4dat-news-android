@@ -25,4 +25,8 @@
         <argument android:name="newsItem"
                   app:argType="at.ict4d.ict4dnews.models.News"/>
     </activity>
+    <fragment android:id="@+id/blogAndSourceFragment"
+              tools:layout="@layout/fragment_blog_and_sources"
+              android:name="at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceFragment"
+              android:label="BlogAndSourceFragment"/>
 </navigation>
