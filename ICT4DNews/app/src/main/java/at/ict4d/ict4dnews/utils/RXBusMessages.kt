@@ -8,4 +8,4 @@ class NewsRefreshDoneMessage
 
 class BlogsRefreshDoneMessage
 
-class BlogsAndSourceSubtitleUpdateMessage(val selectedBlogsSize : Int)
+class BlogsAndSourceSubtitleUpdateMessage(val selectedBlogsSize: Int)

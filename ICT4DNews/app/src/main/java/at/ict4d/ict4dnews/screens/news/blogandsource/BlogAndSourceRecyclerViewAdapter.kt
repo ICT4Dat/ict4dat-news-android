@@ -36,7 +36,7 @@ class BlogAndSourceRecyclerViewAdapter(
             binding.blog = blog
             binding.isBlogSelectedForContextualMenu = contextualToolbarHandler.isContextualModeEnable() && contextualToolbarHandler.isBlogAlreadySelected(blog)
 
-            binding.root.setOnLongClickListener { contextualToolbarHandler.handleContextualRequest(blog,binding.root, true); true }
+            binding.root.setOnLongClickListener { contextualToolbarHandler.handleContextualRequest(blog, binding.root, true); true }
 
             binding.activeBlogCheckBox.setOnClickListener {
                 if (!contextualToolbarHandler.isContextualModeEnable()) {
