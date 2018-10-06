@@ -10,6 +10,7 @@ import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import at.ict4d.ict4dnews.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -27,29 +28,38 @@ fun Context.browseCustomTab(url: String) {
 
 fun LocalDateTime.extractDate(): String = this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
 
+@BindingAdapter("showDate")
+fun TextView.showDate(localDateTime: LocalDateTime?) {
+    text = localDateTime?.extractDate()
+}
+
 fun String.toLocalDateTimeFromRFCString(): LocalDateTime? =
     LocalDateTime.parse(this, DateTimeFormatter.RFC_1123_DATE_TIME) ?: null
 
 @BindingAdapter("loadCircularImage")
 fun ImageView.loadCircularImage(imageUrl: String?) {
+    loadImageHelper(imageUrl, true)
+}
 
+@BindingAdapter(value = ["loadImage", "enableRoundImage"], requireAll = true)
+fun ImageView.loadImage(imageUrl: String?, enableRoundImage: Boolean = false) {
+    loadImageHelper(imageUrl, enableRoundImage)
+}
+
+fun ImageView.loadImageHelper(imageUrl: String?, enableRoundImage: Boolean = true) {
     // TODO(Change error and placeholder image)
-    val requestOptions = RequestOptions()
-        .placeholder(R.mipmap.ic_launcher)
-        .error(R.drawable.ic_error_black_24dp)
-        .apply(RequestOptions.circleCropTransform())
 
+    var requestOptions = RequestOptions()
+        .placeholder(R.mipmap.ic_launcher)
+        .error(R.drawable.ic_broken_image_black_24dp)
+
+    if (enableRoundImage) {
+        requestOptions = requestOptions.apply(RequestOptions.circleCropTransform())
+    }
     Glide.with(this.context)
         .load(imageUrl)
         .apply(requestOptions)
         .into(this)
-}
-
-@BindingAdapter("loadImage")
-fun ImageView.loadImage(imageUrl: String?) {
-    imageUrl?.let {
-        Glide.with(this.context).load(it).into(this)
-    }
 }
 
 fun View.visible(visible: Boolean) {
