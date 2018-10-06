@@ -12,14 +12,14 @@ import at.ict4d.ict4dnews.models.Blog
 
 class BlogAndSourceRecyclerViewAdapter(
     private val blogOnClickHandler: (Blog, CheckBox) -> Unit,
-    private val contextualHandler: (Blog) -> Unit
+    private val contextualToolbarHandler: ContextualToolbarHandler
 ) :
     ListAdapter<Blog, BlogAndSourceRecyclerViewAdapter.ViewHolder>(BlogListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             BlogAndSourceItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            blogOnClickHandler, contextualHandler
+            blogOnClickHandler, contextualToolbarHandler
         )
     }
 
@@ -30,13 +30,28 @@ class BlogAndSourceRecyclerViewAdapter(
     class ViewHolder(
         private val binding: BlogAndSourceItemBinding,
         private val onClickHandler: (Blog, CheckBox) -> Unit,
-        private val onContextualHandler: (Blog) -> Unit
+        private val contextualToolbarHandler: ContextualToolbarHandler
     ) : RecyclerView.ViewHolder(binding.root) {
         fun setNewsItem(blog: Blog) {
             binding.blog = blog
-            binding.root.setOnLongClickListener { onContextualHandler(blog); true }
-            binding.activeBlogCheckBox.setOnClickListener { onClickHandler(blog, binding.activeBlogCheckBox) }
-            binding.root.setOnClickListener { onClickHandler(blog, binding.activeBlogCheckBox) }
+            binding.isBlogSelectedForContextualMenu = contextualToolbarHandler.isContextualModeEnable() && contextualToolbarHandler.isBlogAlreadySelected(blog)
+
+            binding.root.setOnLongClickListener { contextualToolbarHandler.handleContextualRequest(blog,binding.root, true); true }
+
+            binding.activeBlogCheckBox.setOnClickListener {
+                if (!contextualToolbarHandler.isContextualModeEnable()) {
+                    onClickHandler(blog, binding.activeBlogCheckBox)
+                }
+            }
+
+            binding.root.setOnClickListener {
+                if (!contextualToolbarHandler.isContextualModeEnable()) {
+                    onClickHandler(blog, binding.activeBlogCheckBox)
+                } else {
+                    contextualToolbarHandler.handleContextualRequest(blog, binding.root)
+                }
+            }
+
             binding.activeBlogReadMoreButton.setOnClickListener { it.context.browseCustomTab(blog.url) }
         }
     }

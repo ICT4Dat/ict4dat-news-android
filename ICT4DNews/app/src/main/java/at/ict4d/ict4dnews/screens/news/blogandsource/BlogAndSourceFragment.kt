@@ -15,6 +15,7 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentBlogAndSourcesBinding
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.screens.base.BaseFragment
+import at.ict4d.ict4dnews.utils.BlogsAndSourceSubtitleUpdateMessage
 
 class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogAndSourcesBinding>() {
     override fun getToolbarTitleResId(): Int = R.string.ict4d_blogs_and_sources
@@ -29,25 +30,25 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         NavigationUI.setupWithNavController(binding.blogsAndSourceToolbar.toolbar, findNavController())
+
+        compositeDisposable.add(rxEventBus.filteredObservable(BlogsAndSourceSubtitleUpdateMessage::class.java).subscribe {
+            model.createSubtitleForContextualMenu(it.selectedBlogsSize, resources)
+        })
+
+        model.contextualMenuSubtitle.observe(this, Observer {
+            binding.blogsAndSourceToolbar.toolbar.subtitle = it
+        })
+
         blogAndSourceAdapter =
-            BlogAndSourceRecyclerViewAdapter({ blog, checkBox -> handleOnClickOnBlogsAndSources(blog, checkBox) },
-                { handleContextualBlogsAndSources(it) })
+            BlogAndSourceRecyclerViewAdapter({ blog, checkBox ->
+                handleOnClickOnBlogsAndSources(blog, checkBox)
+            }, model.getContextualToolbarHandler())
         setUpNewsAndSourceRecyclerView()
 
         model.allBlogsList.observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
                 blogAndSourceAdapter.submitList(it)
                 blogAndSourceAdapter.notifyDataSetChanged()
-            }
-        })
-
-        model.getContextualBlogsLiveData().observe(this, Observer { it ->
-            it?.let {
-                binding.blogsAndSourceToolbar.toolbar.subtitle = if (it.size > 0) {
-                    String.format(getString(R.string.contextual_selection), it.size, if (it.size == 1) "" else "s")
-                } else {
-                    null
-                }
             }
         })
 
@@ -78,11 +79,8 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.actionCheckBlogsAndSources -> {
-                val selectedList = model.getContextualBlogsLiveData().value
-                selectedList?.let {
-                    model.updateBlogsActiveStatus(it)
-                    activity?.invalidateOptionsMenu()
-                }
+                model.updateBlogsActiveStatus(model.getContextualBlogsLiveData())
+                activity?.invalidateOptionsMenu()
                 return true
             }
         }
@@ -91,20 +89,13 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
 
     private fun setUpNewsAndSourceRecyclerView() {
         binding.newsAndSourcesRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.newsAndSourcesRecyclerView.setHasFixedSize(true)
         binding.newsAndSourcesRecyclerView.adapter = blogAndSourceAdapter
     }
 
     private fun handleOnClickOnBlogsAndSources(blog: Blog, checkBox: CheckBox) {
-        if (!model.isContextualRequestEnable()) {
-            blog.active = !blog.active
-            checkBox.isChecked = blog.active
-            model.updateBlogActiveStatus(blog)
-        } else {
-            model.handleContextualRequest(blog)
-        }
-    }
-
-    private fun handleContextualBlogsAndSources(blog: Blog) {
-        model.handleContextualRequest(blog, true)
+        blog.active = !blog.active
+        checkBox.isChecked = blog.active
+        model.updateBlogActiveStatus(blog)
     }
 }

@@ -6,6 +6,7 @@
 
     <data>
         <variable name="blog" type="at.ict4d.ict4dnews.models.Blog"/>
+        <variable name="isBlogSelectedForContextualMenu" type="boolean"/>
     </data>
 
     <android.support.v7.widget.CardView
@@ -13,6 +14,7 @@
             app:elevation="8dp" android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            app:cardBackgroundColor="@{isBlogSelectedForContextualMenu ? @color/light_grey : @color/white}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

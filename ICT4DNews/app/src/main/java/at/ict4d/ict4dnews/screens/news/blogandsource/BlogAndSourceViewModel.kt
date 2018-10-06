@@ -1,6 +1,9 @@
 package at.ict4d.ict4dnews.screens.news.blogandsource
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import android.content.res.Resources
+import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
@@ -15,6 +18,7 @@ class BlogAndSourceViewModel @Inject constructor(
     private val contextualToolbarHandler: ContextualToolbarHandler
 ) : BaseViewModel() {
     var allBlogsList: LiveData<List<Blog>> = blogDao.getAll()
+    var contextualMenuSubtitle: MutableLiveData<String> = MutableLiveData()
 
     fun updateBlogActiveStatus(blog: Blog) {
         doAsync { blogDao.updateBlogActiveFlag(blog) }
@@ -30,22 +34,25 @@ class BlogAndSourceViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread()).subscribe { contextualToolbarHandler.disableContextualMode() })
     }
 
-    /*CONTEXTUAL RELATED*/
-    fun handleContextualRequest(blog: Blog, isLongClickRequest: Boolean = false) {
-        if (!contextualToolbarHandler.isContextualModeEnable()) {
-            contextualToolbarHandler.enableContextualMode()
-        }
-
-        if (isLongClickRequest && contextualToolbarHandler.isContextualListEmpty()) { // first long click to enable contextual
-            contextualToolbarHandler.addBlogToContextualList(blog)
-        } else if (!isLongClickRequest) { // condition for normal click after contextual mode enable
-            contextualToolbarHandler.addBlogToContextualList(blog)
+    fun createSubtitleForContextualMenu(selectedBlogs: Int, resources: Resources) {
+        contextualMenuSubtitle.value = if (selectedBlogs > 0) {
+            String.format(
+                resources.getString(R.string.contextual_selection),
+                selectedBlogs,
+                if (selectedBlogs == 1) "" else "s"
+            )
+        } else {
+            null
         }
     }
 
+    /*CONTEXTUAL RELATED*/
+
     fun isContextualRequestEnable(): Boolean = contextualToolbarHandler.isContextualModeEnable()
 
-    fun getContextualBlogsLiveData() = contextualToolbarHandler.getContextualList()
+    fun getContextualBlogsLiveData(): List<Blog> = contextualToolbarHandler.getContextualList()
 
     fun shouldShowCheckSelected(): LiveData<Boolean> = contextualToolbarHandler.shouldShowCheckSelected()
+
+    fun getContextualToolbarHandler() = contextualToolbarHandler
 }
