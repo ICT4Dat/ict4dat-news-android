@@ -28,8 +28,6 @@ import java.util.concurrent.TimeUnit
 class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(),
     ICT4DNewsRecyclerViewAdapter.OnICT4DNewsListClickListener {
 
-    override fun getToolbarTitleResId(): Int = R.string.app_name
-
     override fun getLayoutId(): Int = R.layout.fragment_ictdnews_list
 
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
@@ -43,11 +41,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         model.isRefreshing.observe(this, Observer {
@@ -145,7 +139,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             }
 
             R.id.menu_filter -> {
-                findNavController().navigate(R.id.blogAndSourceFragment)
+                findNavController().navigate(ICT4DNewsFragmentDirections.actionActionNewsToBlogAndSourceFragment())
                 return true
             }
 

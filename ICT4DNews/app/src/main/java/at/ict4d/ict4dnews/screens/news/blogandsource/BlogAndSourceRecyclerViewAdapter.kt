@@ -5,54 +5,42 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CheckBox
 import at.ict4d.ict4dnews.databinding.BlogAndSourceItemBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.models.Blog
 
-class BlogAndSourceRecyclerViewAdapter(
-    private val blogOnClickHandler: (Blog, CheckBox) -> Unit,
-    private val contextualToolbarHandler: ContextualToolbarHandler
-) :
-    ListAdapter<Blog, BlogAndSourceRecyclerViewAdapter.ViewHolder>(BlogListDiffCallback()) {
+class BlogAndSourceRecyclerViewAdapter(private val clickHandler: (Blog) -> Unit) : ListAdapter<Blog, BlogAndSourceRecyclerViewAdapter.ViewHolder>(BlogListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            BlogAndSourceItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            blogOnClickHandler, contextualToolbarHandler
-        )
+        return ViewHolder(BlogAndSourceItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setNewsItem(getItem(position))
+        holder.setItem(getItem(position))
     }
 
-    class ViewHolder(
-        private val binding: BlogAndSourceItemBinding,
-        private val onClickHandler: (Blog, CheckBox) -> Unit,
-        private val contextualToolbarHandler: ContextualToolbarHandler
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun setNewsItem(blog: Blog) {
+    inner class ViewHolder(private val binding: BlogAndSourceItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun setItem(blog: Blog) {
             binding.blog = blog
-            binding.isBlogSelectedForContextualMenu = contextualToolbarHandler.isContextualModeEnable() && contextualToolbarHandler.isBlogAlreadySelected(blog)
-
-            binding.root.setOnLongClickListener { contextualToolbarHandler.handleContextualRequest(blog, binding.root, true); true }
-
-            binding.activeBlogCheckBox.setOnClickListener {
-                if (!contextualToolbarHandler.isContextualModeEnable()) {
-                    onClickHandler(blog, binding.activeBlogCheckBox)
-                }
-            }
 
             binding.root.setOnClickListener {
-                if (!contextualToolbarHandler.isContextualModeEnable()) {
-                    onClickHandler(blog, binding.activeBlogCheckBox)
-                } else {
-                    contextualToolbarHandler.handleContextualRequest(blog, binding.root)
-                }
+                handleClick(blog)
             }
 
-            binding.activeBlogReadMoreButton.setOnClickListener { it.context.browseCustomTab(blog.url) }
+            binding.activeBlogCheckBox.setOnClickListener {
+                handleClick(blog)
+            }
+
+            binding.activeBlogReadMoreButton.setOnClickListener {
+                it.context.browseCustomTab(blog.url)
+            }
+        }
+
+        private fun handleClick(blog: Blog) {
+            val isActive = !binding.activeBlogCheckBox.isChecked
+            binding.activeBlogCheckBox.isChecked = isActive
+            blog.active = isActive
+            clickHandler(blog)
         }
     }
 }
@@ -60,7 +48,7 @@ class BlogAndSourceRecyclerViewAdapter(
 class BlogListDiffCallback : DiffUtil.ItemCallback<Blog>() {
 
     override fun areItemsTheSame(oldItem: Blog, newItem: Blog): Boolean {
-        return oldItem.url == newItem.url
+        return oldItem.feed_url == newItem.feed_url
     }
 
     override fun areContentsTheSame(oldItem: Blog, newItem: Blog): Boolean {

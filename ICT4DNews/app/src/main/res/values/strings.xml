@@ -47,6 +47,5 @@
     <string name="read_more">Read more</string>
     <string name="blog_logo">Blog logo</string>
     <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Sources</string>
-    <string name="select_or_un_select">Select or Un Select</string>
-    <string name="contextual_selection">%d blog%s chosen</string>
+    <string name="contextual_selection">%d/%d blogs chosen</string>
 </resources>

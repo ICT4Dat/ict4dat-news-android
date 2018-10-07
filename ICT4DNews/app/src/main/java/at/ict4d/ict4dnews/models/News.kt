@@ -33,7 +33,7 @@ const val NEWS_TABLE_BLOG_ID = "blog_id"
         ),
         ForeignKey(
             entity = Blog::class,
-            parentColumns = [BLOG_TABLE_URL],
+            parentColumns = [BLOG_TABLE_FEED_URL],
             childColumns = [NEWS_TABLE_BLOG_ID]
         )],
 

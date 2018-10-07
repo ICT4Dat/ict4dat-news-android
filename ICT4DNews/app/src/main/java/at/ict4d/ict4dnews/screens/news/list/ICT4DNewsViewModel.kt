@@ -12,7 +12,6 @@ import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
-import timber.log.Timber
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
@@ -21,7 +20,7 @@ class ICT4DNewsViewModel @Inject constructor(
     rxEventBus: RxEventBus
 ) : BaseViewModel() {
 
-    val newsList: LiveData<List<News>> = persistenceManager.getAllOrderedByPublishedDate()
+    val newsList: LiveData<List<News>> = persistenceManager.getAllActiveNews()
     val searchedNewsList: MutableLiveData<List<News>> = MutableLiveData()
     var searchQuery: String? = null
 
@@ -40,23 +39,7 @@ class ICT4DNewsViewModel @Inject constructor(
                 isRefreshing.value = false
             })
 
-        compositeDisposable.add(
-            persistenceManager.getBlogsCount().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(
-                    Schedulers.io()
-                ).subscribe { count ->
-                    if (count <= 0) {
-                        Timber.d("Requesting blogs download request")
-                        compositeDisposable.add(server.loadBlogs())
-                    } else {
-                        Timber.d("Blogs are already there")
-                    }
-                }
-        )
-
-        // TODO: delete, just for testing
-//        compositeDisposable.add(server.loadBlogs())
-        // requestToLoadFeedsFromServers()
+        compositeDisposable.add(server.loadBlogs())
     }
 
     fun requestToLoadFeedsFromServers() {

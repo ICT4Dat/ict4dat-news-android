@@ -17,8 +17,6 @@ import org.jetbrains.anko.share
 
 class ICT4DatFragment : BaseFragment<ICT4DViewModel, FragmentIct4datBinding>() {
 
-    override fun getToolbarTitleResId(): Int = R.string.nav_ict4dat
-
     override fun getLayoutId(): Int = R.layout.fragment_ict4dat
 
     override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java

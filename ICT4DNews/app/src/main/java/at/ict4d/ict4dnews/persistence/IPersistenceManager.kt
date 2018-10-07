@@ -5,7 +5,6 @@ import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
-import io.reactivex.Single
 import org.threeten.bp.LocalDateTime
 
 interface IPersistenceManager {
@@ -30,6 +29,8 @@ interface IPersistenceManager {
 
     fun getLatestNewsPublishedDate(blogID: String): LocalDateTime
 
+    fun getAllActiveNews(): LiveData<List<News>>
+
     // Media
 
     fun insertMedia(media: Media)
@@ -44,7 +45,9 @@ interface IPersistenceManager {
 
     fun insertAll(blogs: List<Blog>)
 
-    fun getAll(): LiveData<List<Blog>>
+    fun getAllBlogs(): LiveData<List<Blog>>
+
+    fun getAllBlogsAsList(): List<Blog>
 
     fun getAllActiveBlogs(): List<Blog>
 
@@ -52,5 +55,5 @@ interface IPersistenceManager {
 
     fun getBlogByURL(url: String): LiveData<Blog>
 
-    fun getBlogsCount(): Single<Int>
+    fun updateBlog(blog: Blog)
 }

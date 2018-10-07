@@ -9,7 +9,6 @@ import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
-import io.reactivex.Single
 import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
@@ -41,6 +40,8 @@ class PersistenceManager @Inject constructor(
     override fun getLatestNewsPublishedDate(blogID: String): LocalDateTime = newsDao.getLatestBlogPublishedDate(blogID)
         ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
 
+    override fun getAllActiveNews(): LiveData<List<News>> = newsDao.getAllActiveNews()
+
     // Media
 
     override fun insertMedia(media: Media) = mediaDao.insert(media)
@@ -55,7 +56,9 @@ class PersistenceManager @Inject constructor(
 
     override fun insertAll(blogs: List<Blog>) = blogsDao.insertAll(blogs)
 
-    override fun getAll(): LiveData<List<Blog>> = blogsDao.getAll()
+    override fun getAllBlogs(): LiveData<List<Blog>> = blogsDao.getAll()
+
+    override fun getAllBlogsAsList(): List<Blog> = blogsDao.getAllBlogsAsList()
 
     override fun getAllActiveBlogs(): List<Blog> = blogsDao.getAllActiveBlogs()
 
@@ -63,5 +66,5 @@ class PersistenceManager @Inject constructor(
 
     override fun getBlogByURL(url: String): LiveData<Blog> = blogsDao.getBlogByURL(url)
 
-    override fun getBlogsCount(): Single<Int> = blogsDao.getAllBlogsCount()
+    override fun updateBlog(blog: Blog) = blogsDao.updateBlog(blog)
 }
