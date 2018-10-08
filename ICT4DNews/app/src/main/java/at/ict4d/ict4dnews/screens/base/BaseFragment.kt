@@ -8,9 +8,7 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,12 +39,6 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
     /**
      * return the layout id associated with the Activity
      */
-    @StringRes
-    abstract fun getToolbarTitleResId(): Int
-
-    /**
-     * return the layout id associated with the Activity
-     */
     @LayoutRes
     abstract fun getLayoutId(): Int
 
@@ -58,9 +50,7 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
-        if (context is AppCompatActivity) {
-            model = ViewModelProviders.of(context, viewModelFactory).get(getViewModel())
-        }
+        model = ViewModelProviders.of(this, viewModelFactory).get(getViewModel())
         lifecycle.addObserver(RXLifecycleObserver(compositeDisposable))
 
         if (BuildConfig.DEBUG) {
@@ -70,17 +60,8 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
-
-        val actionBar = (activity as AppCompatActivity).supportActionBar
-        if (getToolbarTitleResId() != -1) {
-            actionBar?.title = getString(getToolbarTitleResId())
-        }
 
         return binding.root
     }

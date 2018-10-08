@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import at.ict4d.ict4dnews.screens.MainNavigationViewModel
 import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
 import at.ict4d.ict4dnews.screens.more.MoreViewModel
+import at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceViewModel
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailViewModel
 import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsViewModel
 import dagger.Binds
@@ -46,6 +47,11 @@ abstract class ViewModelFactoryModule {
     @IntoMap
     @ViewModelKey(MainNavigationViewModel::class)
     abstract fun bindsMainNavigationViewModelViewModel(viewModel: MainNavigationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BlogAndSourceViewModel::class)
+    abstract fun bindsBlogAndSourceViewModel(viewModel: BlogAndSourceViewModel): ViewModel
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -57,8 +63,8 @@ class DaggerViewModelFactory
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val creator = creators[modelClass]
-                ?: creators.asIterable().firstOrNull { modelClass.isAssignableFrom(it.key) }?.value
-                ?: throw IllegalArgumentException("unknown model class " + modelClass)
+            ?: creators.asIterable().firstOrNull { modelClass.isAssignableFrom(it.key) }?.value
+            ?: throw IllegalArgumentException("unknown model class " + modelClass)
 
         return try {
             creator.get() as T

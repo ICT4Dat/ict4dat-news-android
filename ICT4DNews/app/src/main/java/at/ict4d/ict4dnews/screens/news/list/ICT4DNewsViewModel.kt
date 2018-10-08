@@ -20,7 +20,7 @@ class ICT4DNewsViewModel @Inject constructor(
     rxEventBus: RxEventBus
 ) : BaseViewModel() {
 
-    val newsList: LiveData<List<News>> = persistenceManager.getAllOrderedByPublishedDate()
+    val newsList: LiveData<List<News>> = persistenceManager.getAllActiveNews()
     val searchedNewsList: MutableLiveData<List<News>> = MutableLiveData()
     var searchQuery: String? = null
 
@@ -39,9 +39,7 @@ class ICT4DNewsViewModel @Inject constructor(
                 isRefreshing.value = false
             })
 
-        // TODO: delete, just for testing
         compositeDisposable.add(server.loadBlogs())
-        // requestToLoadFeedsFromServers()
     }
 
     fun requestToLoadFeedsFromServers() {

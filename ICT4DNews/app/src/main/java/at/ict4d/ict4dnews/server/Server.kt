@@ -42,17 +42,17 @@ class Server @Inject constructor(
         val requests = ArrayList<Single<*>>()
         blogs.forEach { blog ->
             if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
-                Timber.d(blog.url)
+                Timber.d(blog.feed_url)
                 requests.add(apiJsonSelfHostedWPService.getJsonNewsOfURL(
-                    blog.url + "wp-json/wp/v2/posts",
-                    newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.url).format(
+                    blog.feed_url + "wp-json/wp/v2/posts",
+                    newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
                         DateTimeFormatter.ISO_LOCAL_DATE_TIME
                     )
                     )
                     .onErrorReturn { emptyList() }
                 )
             } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
-                requests.add(apiRSSService.getRssNews(blog.url)
+                requests.add(apiRSSService.getRssNews(blog.feed_url)
                     .onErrorReturn { RSSFeed(null) }
                 )
             }
@@ -88,15 +88,15 @@ class Server @Inject constructor(
 
             // set blog URL
             val dbBlog =
-                databaseBlogList.find { dbBlog -> (serverResultBlog.first() as SelfHostedWPPost).link.contains(dbBlog.url) }
-            serverResultBlog.map { b -> (b as SelfHostedWPPost).blogLink = dbBlog?.url ?: "" }
+                databaseBlogList.find { dbBlog -> (serverResultBlog.first() as SelfHostedWPPost).link.contains(dbBlog.feed_url) }
+            serverResultBlog.map { b -> (b as SelfHostedWPPost).blogLink = dbBlog?.feed_url ?: "" }
 
             // Query for the authors
             val serverAuthors: MutableList<WordpressAuthor> = mutableListOf()
             serverResultBlog.distinctBy { (it as SelfHostedWPPost).serverAuthorID }.forEach { post ->
                 try {
                     val author =
-                        apiJsonSelfHostedWPService.getJsonNewsAuthorByID(dbBlog?.url + "wp-json/wp/v2/users/${(post as SelfHostedWPPost).serverAuthorID}/")
+                        apiJsonSelfHostedWPService.getJsonNewsAuthorByID(dbBlog?.feed_url + "wp-json/wp/v2/users/${(post as SelfHostedWPPost).serverAuthorID}/")
                             .execute().body()
 
                     author?.let {
@@ -114,7 +114,7 @@ class Server @Inject constructor(
             serverResultBlog.forEach {
                 try {
                     val postMedia =
-                        apiJsonSelfHostedWPService.getJsonNewsMediaForPost(dbBlog?.url + "wp-json/wp/v2/media?parent=${(it as SelfHostedWPPost).serverID}")
+                        apiJsonSelfHostedWPService.getJsonNewsMediaForPost(dbBlog?.feed_url + "wp-json/wp/v2/media?parent=${(it as SelfHostedWPPost).serverID}")
                             .execute().body()
 
                     if (postMedia != null) {
@@ -170,7 +170,7 @@ class Server @Inject constructor(
 
             databaseBlogList.find { dbBlog ->
                 rssFeed.channel?.feedItems?.first()?.link?.substring(0, endIndex)?.equals(
-                    dbBlog.url.substring(0, endIndex)
+                    dbBlog.feed_url.substring(0, endIndex)
                 ) ?: false
             }?.let { blog ->
 
@@ -192,7 +192,7 @@ class Server @Inject constructor(
                                     item.title,
                                     item.description,
                                     item.pubDate?.toLocalDateTimeFromRFCString(),
-                                    blog.url
+                                    blog.feed_url
                                 )
                             )
 
@@ -240,11 +240,18 @@ class Server @Inject constructor(
         return apiICT4DatNews.getBlogs()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
-            .subscribe({
+            .subscribe({ newBlogs ->
 
-                Timber.d("downloaded ${it.size} blogs from ICT4D.at")
-                it.map { blog -> blog.active = true }
-                persistenceManager.insertAll(it)
+                newBlogs.map { blog -> if (blog.logoURL == "null") blog.logoURL = null }
+
+                val oldBlogs = persistenceManager.getAllBlogsAsList()
+                newBlogs.map { blog ->
+                    blog.active = oldBlogs.find { blog.feed_url == it.feed_url }?.active ?: true
+                }
+
+                persistenceManager.insertAll(newBlogs)
+
+                Timber.d("downloaded ${newBlogs.size} blogs from ICT4D.at")
             }, {
                 Timber.e(it, "Error in Blogs Call")
                 handleError(it, BlogsRefreshDoneMessage())

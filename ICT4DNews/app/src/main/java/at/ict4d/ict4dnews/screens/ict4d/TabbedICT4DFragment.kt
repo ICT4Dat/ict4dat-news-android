@@ -17,8 +17,6 @@ import at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment
 
 class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBinding>() {
 
-    override fun getToolbarTitleResId(): Int = R.string.nav_ict4d
-
     override fun getLayoutId(): Int = R.layout.fragment_tabbed_ict4d
 
     override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java
