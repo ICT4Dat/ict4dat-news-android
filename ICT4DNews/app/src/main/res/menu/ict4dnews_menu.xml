@@ -15,29 +15,29 @@
             android:id="@+id/menu_filter"
             android:icon="@drawable/ic_filter_list_white_24dp"
             android:title="@string/filter"
-            app:showAsAction="always">
+            app:showAsAction="ifRoom"/>
 
-        <menu> <!-- TODO: replace with real menu items -->
+        <!--<menu> &lt;!&ndash; TODO: replace with real menu items &ndash;&gt;-->
 
-            <item
-                    android:id="@+id/menu_filter_ict4dat"
-                    android:checkable="true"
-                    android:title="ICT4D.at's Blog"
-                    app:showAsAction="never"/>
+            <!--<item-->
+                    <!--android:id="@+id/menu_filter_ict4dat"-->
+                    <!--android:checkable="true"-->
+                    <!--android:title="ICT4D.at's Blog"-->
+                    <!--app:showAsAction="never"/>-->
 
-            <item
-                    android:id="@+id/menu_filter_unwin"
-                    android:checkable="true"
-                    android:title="Tim Unwin's Blog"
-                    app:showAsAction="never"/>
+            <!--<item-->
+                    <!--android:id="@+id/menu_filter_unwin"-->
+                    <!--android:checkable="true"-->
+                    <!--android:title="Tim Unwin's Blog"-->
+                    <!--app:showAsAction="never"/>-->
 
-            <item
-                    android:id="@+id/menu_filter_dotdotdot"
-                    android:checkable="true"
-                    android:title="..."
-                    app:showAsAction="never"/>
-        </menu>
-    </item>
+            <!--<item-->
+                    <!--android:id="@+id/menu_filter_dotdotdot"-->
+                    <!--android:checkable="true"-->
+                    <!--android:title="..."-->
+                    <!--app:showAsAction="never"/>-->
+        <!--</menu>-->
+    <!--</item>-->
 
     <item
             android:id="@+id/menu_refresh"

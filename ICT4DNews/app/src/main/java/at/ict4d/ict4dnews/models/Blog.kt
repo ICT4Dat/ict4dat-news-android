@@ -8,13 +8,15 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 const val BLOG_TABLE_TABLE_NAME = "blogs"
-const val BLOG_TABLE_URL = "url"
-const val BLOG_TABLE_NAME = "name"
-const val BLOG_TABLE_DESCRIPTION = "description"
-const val BLOG_TABLE_FEED_TYPE = "feed_type"
-const val BLOG_TABLE_LOGO_URL = "logo_url"
-const val BLOG_TABLE_ACTIVE = "active"
+const val BLOG_TABLE_FEED_URL = "blog_feed_url"
+const val BLOG_TABLE_URL = "blog_url"
+const val BLOG_TABLE_NAME = "blog_name"
+const val BLOG_TABLE_DESCRIPTION = "blog_description"
+const val BLOG_TABLE_FEED_TYPE = "blog_feed_type"
+const val BLOG_TABLE_LOGO_URL = "blog_logo_url"
+const val BLOG_TABLE_ACTIVE = "blog_active"
 
+const val BLOG_SERIALIZED_FEED_URL = "feed_url"
 const val BLOG_SERIALIZED_URL = "url"
 const val BLOG_SERIALIZED_NAME = "name"
 const val BLOG_SERIALIZED_DESCRIPTION = "description"
@@ -26,6 +28,10 @@ const val BLOG_SERIALIZED_LOGO_URL = "logo_url"
 data class Blog(
 
     @PrimaryKey
+    @ColumnInfo(name = BLOG_TABLE_FEED_URL)
+    @SerializedName(BLOG_SERIALIZED_FEED_URL)
+    val feed_url: String,
+
     @ColumnInfo(name = BLOG_TABLE_URL)
     @SerializedName(BLOG_SERIALIZED_URL)
     val url: String,
@@ -44,7 +50,7 @@ data class Blog(
 
     @ColumnInfo(name = BLOG_TABLE_LOGO_URL)
     @SerializedName(BLOG_SERIALIZED_LOGO_URL)
-    val logoURL: String?,
+    var logoURL: String?,
 
     @ColumnInfo(name = BLOG_TABLE_ACTIVE)
     var active: Boolean = true

@@ -10,8 +10,6 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 
 class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
 
-    override fun getToolbarTitleResId(): Int = R.string.nav_more
-
     override fun getLayoutId(): Int = R.layout.fragment_more
 
     override fun getViewModel(): Class<MoreViewModel> = MoreViewModel::class.java

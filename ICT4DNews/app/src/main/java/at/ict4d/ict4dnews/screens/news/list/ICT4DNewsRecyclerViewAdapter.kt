@@ -9,11 +9,10 @@ import android.view.ViewGroup
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsItemBinding
 import at.ict4d.ict4dnews.models.News
 
-class ICT4DNewsRecyclerViewAdapter(private val mListener: OnICT4DNewsListClickListener) :
-    ListAdapter<News, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+class ICT4DNewsRecyclerViewAdapter(private val listener: OnICT4DNewsListClickListener) : ListAdapter<News, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(FragmentIctdnewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), mListener)
+        return ViewHolder(FragmentIctdnewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable name="blog" type="at.ict4d.ict4dnews.models.Blog"/>
+        <variable name="isBlogSelectedForContextualMenu" type="boolean"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+            android:background="?android:attr/selectableItemBackground"
+            app:elevation="8dp" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@{isBlogSelectedForContextualMenu ? @color/light_grey : @color/white}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/activeBlogCheckBox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:checked="@{blog.active}"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="@+id/activeBlogTextView"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:padding="4dp"
+                    tools:text="Blog Name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/activeBlogTextView"
+                    app:layout_constraintStart_toEndOf="@+id/activeBlogCheckBox"
+                    android:layout_marginLeft="8dp"
+                    android:text="@{blog.name}"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/activeBlogImageView"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:padding="4dp"
+                    tools:text="Blog Description"
+                    android:layout_width="0dp"
+                    android:text="@{blog.description}"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/activeBlogDescription"
+                    app:layout_constraintTop_toBottomOf="@+id/activeBlogTextView"
+                    app:layout_constraintStart_toStartOf="@+id/activeBlogTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/activeBlogTextView"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                    android:contentDescription="@string/blog_logo"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    app:loadImage="@{blog.logoURL}"
+                    android:visibility="@{blog.logoURL == null ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/activeBlogImageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:srcCompat="@tools:sample/avatars"/>
+
+            <android.support.v7.widget.AppCompatButton
+                    android:text="@string/read_more"
+                    android:layout_width="0dp"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/activeBlogReadMoreButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:padding="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/activeBlogDescription"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</layout>
