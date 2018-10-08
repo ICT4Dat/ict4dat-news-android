@@ -5,17 +5,23 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.databinding.BindingAdapter
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.support.annotation.DrawableRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import at.ict4d.ict4dnews.R
-import com.bumptech.glide.Glide
+import at.ict4d.ict4dnews.utils.GlideApp
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import timber.log.Timber
 import java.util.Locale
 
 fun Context.browseCustomTab(url: String) {
@@ -36,29 +42,55 @@ fun TextView.showDate(localDateTime: LocalDateTime?) {
 fun String.toLocalDateTimeFromRFCString(): LocalDateTime? =
     LocalDateTime.parse(this, DateTimeFormatter.RFC_1123_DATE_TIME) ?: null
 
-@BindingAdapter("loadCircularImage")
-fun ImageView.loadCircularImage(imageUrl: String?) {
-    loadImageHelper(imageUrl, true)
-}
+@BindingAdapter(value = ["loadFromURL", "placeholder", "error", "round"], requireAll = false)
+fun ImageView.loadFromURL(
+    url: String,
+    @DrawableRes
+    placeholder: Int = R.drawable.ic_refresh_black_24dp,
+    @DrawableRes
+    error: Int = R.drawable.ic_broken_image_black_24dp,
+    round: Boolean = false
+) {
+    val glide = GlideApp.with(context).load(url)
 
-@BindingAdapter(value = ["loadImage", "enableRoundImage"], requireAll = true)
-fun ImageView.loadImage(imageUrl: String?, enableRoundImage: Boolean = false) {
-    loadImageHelper(imageUrl, enableRoundImage)
-}
-
-fun ImageView.loadImageHelper(imageUrl: String?, enableRoundImage: Boolean = true) {
-    // TODO(Change error and placeholder image)
-
-    var requestOptions = RequestOptions()
-        .placeholder(R.drawable.ic_refresh_black_24dp)
-        .error(R.drawable.ic_broken_image_black_24dp)
-
-    if (enableRoundImage) {
-        requestOptions = requestOptions.apply(RequestOptions.circleCropTransform())
+    if (round) {
+        glide.apply(RequestOptions.circleCropTransform())
     }
-    Glide.with(this.context)
-        .load(imageUrl)
-        .apply(requestOptions)
+
+    var imagePlaceholder = placeholder
+    if (imagePlaceholder == 0) { // is 0 when not set through XML
+        imagePlaceholder = R.drawable.ic_refresh_black_24dp
+    }
+
+    var imageErrorPlaceholder = error
+    if (imageErrorPlaceholder == 0) { // is 0 when not set through XML
+        imageErrorPlaceholder = R.drawable.ic_broken_image_black_24dp
+    }
+
+    glide
+        .placeholder(imagePlaceholder)
+        .error(imageErrorPlaceholder)
+        .listener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: com.bumptech.glide.request.target.Target<Drawable>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                if (model != null && model.toString().isNotEmpty()) {
+                    Timber.w(e, "Failed to load image with $model")
+                }
+                return false
+            }
+
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: com.bumptech.glide.request.target.Target<Drawable>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
+            ): Boolean = false
+        })
         .into(this)
 }
 

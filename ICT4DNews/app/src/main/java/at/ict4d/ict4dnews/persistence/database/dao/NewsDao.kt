@@ -13,6 +13,7 @@ import at.ict4d.ict4dnews.models.NEWS_TABLE_PUBLISHED_DATE
 import at.ict4d.ict4dnews.models.NEWS_TABLE_TABLE_NAME
 
 import at.ict4d.ict4dnews.models.News
+import io.reactivex.Flowable
 import org.threeten.bp.LocalDateTime
 
 @Dao
@@ -32,4 +33,7 @@ abstract class NewsDao {
 
     @Query("SELECT * FROM $NEWS_TABLE_TABLE_NAME INNER JOIN $BLOG_TABLE_TABLE_NAME ON $NEWS_TABLE_TABLE_NAME.$NEWS_TABLE_BLOG_ID = $BLOG_TABLE_TABLE_NAME.$BLOG_TABLE_URL WHERE $BLOG_TABLE_TABLE_NAME.$BLOG_TABLE_ACTIVE = 1 ORDER BY datetime($NEWS_TABLE_TABLE_NAME.$NEWS_TABLE_PUBLISHED_DATE) DESC")
     abstract fun getAllActiveNews(): LiveData<List<News>>
+
+    @Query("SELECT * FROM $NEWS_TABLE_TABLE_NAME INNER JOIN $BLOG_TABLE_TABLE_NAME ON $NEWS_TABLE_TABLE_NAME.$NEWS_TABLE_BLOG_ID = $BLOG_TABLE_TABLE_NAME.$BLOG_TABLE_URL WHERE $BLOG_TABLE_TABLE_NAME.$BLOG_TABLE_ACTIVE = 1 ORDER BY datetime($NEWS_TABLE_TABLE_NAME.$NEWS_TABLE_PUBLISHED_DATE) DESC")
+    abstract fun getAllActiveNewsAsFlowable(): Flowable<List<News>>
 }

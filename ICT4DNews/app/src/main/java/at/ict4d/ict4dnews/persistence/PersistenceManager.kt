@@ -9,6 +9,7 @@ import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import io.reactivex.Flowable
 import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
@@ -42,6 +43,8 @@ class PersistenceManager @Inject constructor(
 
     override fun getAllActiveNews(): LiveData<List<News>> = newsDao.getAllActiveNews()
 
+    override fun getAllActiveNewsAsFlowable(): Flowable<List<News>> = newsDao.getAllActiveNewsAsFlowable()
+
     // Media
 
     override fun insertMedia(media: Media) = mediaDao.insert(media)
@@ -67,4 +70,6 @@ class PersistenceManager @Inject constructor(
     override fun getBlogByURL(url: String): LiveData<Blog> = blogsDao.getBlogByURL(url)
 
     override fun updateBlog(blog: Blog) = blogsDao.updateBlog(blog)
+
+    override fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>> = blogsDao.getAllActiveBlogsAsFlowable()
 }
