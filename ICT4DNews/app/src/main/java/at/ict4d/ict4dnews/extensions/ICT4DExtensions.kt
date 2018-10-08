@@ -50,7 +50,7 @@ fun ImageView.loadImageHelper(imageUrl: String?, enableRoundImage: Boolean = tru
     // TODO(Change error and placeholder image)
 
     var requestOptions = RequestOptions()
-        .placeholder(R.mipmap.ic_launcher)
+        .placeholder(R.drawable.ic_refresh_black_24dp)
         .error(R.drawable.ic_broken_image_black_24dp)
 
     if (enableRoundImage) {
