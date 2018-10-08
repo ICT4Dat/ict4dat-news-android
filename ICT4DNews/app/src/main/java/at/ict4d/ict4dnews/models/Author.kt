@@ -51,7 +51,7 @@ data class Author(
     }
 
     constructor(blog: Blog, channel: Channel): this(
-        blog.url,
+        blog.feed_url,
         0,
         channel.title,
         channel.image?.url,

@@ -5,6 +5,9 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
+import at.ict4d.ict4dnews.models.BLOG_TABLE_ACTIVE
+import at.ict4d.ict4dnews.models.BLOG_TABLE_TABLE_NAME
+import at.ict4d.ict4dnews.models.BLOG_TABLE_URL
 import at.ict4d.ict4dnews.models.NEWS_TABLE_BLOG_ID
 import at.ict4d.ict4dnews.models.NEWS_TABLE_PUBLISHED_DATE
 import at.ict4d.ict4dnews.models.NEWS_TABLE_TABLE_NAME
@@ -26,4 +29,7 @@ abstract class NewsDao {
 
     @Query("SELECT $NEWS_TABLE_PUBLISHED_DATE FROM $NEWS_TABLE_TABLE_NAME WHERE $NEWS_TABLE_BLOG_ID = :blogID ORDER BY datetime($NEWS_TABLE_PUBLISHED_DATE) DESC LIMIT 1")
     abstract fun getLatestBlogPublishedDate(blogID: String): LocalDateTime?
+
+    @Query("SELECT * FROM $NEWS_TABLE_TABLE_NAME INNER JOIN $BLOG_TABLE_TABLE_NAME ON $NEWS_TABLE_TABLE_NAME.$NEWS_TABLE_BLOG_ID = $BLOG_TABLE_TABLE_NAME.$BLOG_TABLE_URL WHERE $BLOG_TABLE_TABLE_NAME.$BLOG_TABLE_ACTIVE = 1 ORDER BY datetime($NEWS_TABLE_TABLE_NAME.$NEWS_TABLE_PUBLISHED_DATE) DESC")
+    abstract fun getAllActiveNews(): LiveData<List<News>>
 }

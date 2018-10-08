@@ -29,6 +29,8 @@ interface IPersistenceManager {
 
     fun getLatestNewsPublishedDate(blogID: String): LocalDateTime
 
+    fun getAllActiveNews(): LiveData<List<News>>
+
     // Media
 
     fun insertMedia(media: Media)
@@ -43,11 +45,15 @@ interface IPersistenceManager {
 
     fun insertAll(blogs: List<Blog>)
 
-    fun getAll(): LiveData<List<Blog>>
+    fun getAllBlogs(): LiveData<List<Blog>>
+
+    fun getAllBlogsAsList(): List<Blog>
 
     fun getAllActiveBlogs(): List<Blog>
 
     fun getBlogURLByFuzzyURL(fuzzyURL: String): String?
 
     fun getBlogByURL(url: String): LiveData<Blog>
+
+    fun updateBlog(blog: Blog)
 }

@@ -25,7 +25,8 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         super.onCreate(savedInstanceState)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
-        intent.extras?.let { model.selectedNews = ICT4DNewsDetailActivityArgs.fromBundle(it).newsItem }
+        model.selectedNews = ICT4DNewsDetailActivityArgs.fromBundle(intent.extras).newsItem
+
         if (model.selectedNews == null) {
             Timber.e("Selected news must not be NULL")
             finish()
@@ -40,12 +41,10 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             })
         }
 
-        val detailsFragment: ICT4DNewsDetailFragment? =
-            supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
+        val detailsFragment: ICT4DNewsDetailFragment? = supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
 
         if (detailsFragment == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, ICT4DNewsDetailFragment.newInstance()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ICT4DNewsDetailFragment.newInstance(model.selectedNews)).commit()
         }
 
         binding.fab.setOnClickListener { _ ->
