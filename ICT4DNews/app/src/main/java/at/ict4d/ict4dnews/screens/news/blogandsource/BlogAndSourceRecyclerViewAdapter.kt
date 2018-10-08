@@ -37,9 +37,8 @@ class BlogAndSourceRecyclerViewAdapter(private val clickHandler: (Blog) -> Unit)
         }
 
         private fun handleClick(blog: Blog) {
-            val isActive = !binding.activeBlogCheckBox.isChecked
-            binding.activeBlogCheckBox.isChecked = isActive
-            blog.active = isActive
+            blog.active = !blog.active
+            binding.activeBlogCheckBox.isChecked = blog.active
             clickHandler(blog)
         }
     }
