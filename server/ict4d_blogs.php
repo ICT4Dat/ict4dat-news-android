@@ -37,7 +37,7 @@ $array = array(
 		"url" => "http://www.ict4d.at/",
 		"feed_url" => "http://www.ict4d.at/",
 		"feed_type" => 0,
-		"logo_url" => "http://www.ict4d.at/wp-content/themes/ict4d.at/images/header_logo.png"),
+		"logo_url" => "http://www.ict4d.at/ict4dnews/ict4d_logo.png"),
 
 	array("name" => "Tim Unwin's Blog",  
 		"description" => "Blog from Tim Unwin, UNESCO Chair in ICT4D and Emeritus Professor of Geography at Royal Holloway, University of London.", 

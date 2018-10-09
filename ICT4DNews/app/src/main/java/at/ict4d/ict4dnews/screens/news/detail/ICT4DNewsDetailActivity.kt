@@ -9,7 +9,7 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.extensions.extractDate
-import at.ict4d.ict4dnews.extensions.loadImage
+import at.ict4d.ict4dnews.extensions.loadFromURL
 import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import org.jetbrains.anko.share
@@ -32,7 +32,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             finish()
         }
 
-        binding.appbarImage.loadImage(model.selectedNews?.mediaFeaturedURL)
+        binding.appbarImage.loadFromURL(model.selectedNews?.mediaFeaturedURL ?: "")
         model.selectedNews?.blogID?.let { blogID ->
             model.getBlogBy(blogID).observe(this, Observer { blog ->
                 blog?.let {
@@ -41,10 +41,12 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
             })
         }
 
-        val detailsFragment: ICT4DNewsDetailFragment? = supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
+        val detailsFragment: ICT4DNewsDetailFragment? =
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as ICT4DNewsDetailFragment?
 
         if (detailsFragment == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ICT4DNewsDetailFragment.newInstance(model.selectedNews)).commit()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, ICT4DNewsDetailFragment.newInstance(model.selectedNews)).commit()
         }
 
         binding.fab.setOnClickListener { _ ->
