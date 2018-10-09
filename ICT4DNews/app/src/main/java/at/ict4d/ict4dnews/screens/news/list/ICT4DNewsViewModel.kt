@@ -60,19 +60,20 @@ class ICT4DNewsViewModel @Inject constructor(
                 newsList.postValue(resultList)
             })
 
-        if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth) {
-            compositeDisposable.add(server.loadBlogs())
-            requestToLoadFeedsFromServers()
+        doAsync {
+            if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
+                persistenceManager.getCountOfNews() == 0) {
+                compositeDisposable.add(server.loadBlogs())
+                requestToLoadFeedsFromServers()
+            }
         }
     }
 
     fun requestToLoadFeedsFromServers() {
         if (isRefreshing.value == null || isRefreshing.value == false) {
-            isRefreshing.value = true
+            isRefreshing.postValue(true)
 
-            doAsync {
-                compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
-            }
+            compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
         }
     }
 

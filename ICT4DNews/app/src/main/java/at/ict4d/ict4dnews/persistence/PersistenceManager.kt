@@ -51,6 +51,8 @@ class PersistenceManager @Inject constructor(
 
     override fun getAllActiveNewsAsFlowable(): Flowable<List<News>> = newsDao.getAllActiveNewsAsFlowable()
 
+    override fun getCountOfNews(): Int = newsDao.getCountOfNews()
+
     // Media
 
     override fun insertMedia(media: Media) = mediaDao.insert(media)
