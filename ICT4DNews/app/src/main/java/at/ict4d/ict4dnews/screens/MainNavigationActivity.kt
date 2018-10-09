@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.screens
 
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment.findNavController
@@ -12,6 +13,7 @@ import at.ict4d.ict4dnews.screens.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 
 class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMainNavigationBinding>(),
+
     NavController.OnNavigatedListener {
 
     override fun getViewModel(): Class<MainNavigationViewModel> = MainNavigationViewModel::class.java
@@ -22,6 +24,7 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
         super.onCreate(savedInstanceState)
         val navController = findNavController(navHostController)
         navigation.setupWithNavController(navController)
+        setupActionBarWithNavController(navController)
         navController.addOnNavigatedListener(this)
     }
 
@@ -33,9 +36,13 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
             supportActionBar?.subtitle = ""
         }
 
-        if (destination.id != R.id.splashFragment && destination.id != R.id.actionNews) {
-            setupActionBarWithNavController(controller)
+        if (destination.id == R.id.splashFragment) {
             controller.graph.startDestination = R.id.actionNews
+            supportActionBar?.hide()
+            binding.navigation.visibility = View.GONE
+        } else {
+            supportActionBar?.show()
+            binding.navigation.visibility = View.VISIBLE
         }
     }
 }
