@@ -20,6 +20,7 @@ import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.HttpException
 import timber.log.Timber
@@ -71,6 +72,7 @@ class Server @Inject constructor(
                     handleRSSList(blogs, it)
                 }
             }
+            persistenceManager.getLastAutomaticNewsUpdateLocalDate().set(LocalDate.now())
             rxEventBus.post(NewsRefreshDoneMessage())
         }
             .subscribeOn(Schedulers.io())

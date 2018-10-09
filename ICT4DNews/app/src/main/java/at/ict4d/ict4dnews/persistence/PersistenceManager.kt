@@ -10,16 +10,23 @@ import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
+import io.reactivex.Flowable
 import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
 class PersistenceManager @Inject constructor(
     private val database: AppDatabase,
+    private val sharedPrefs: ISharedPrefs,
     private val authorDao: AuthorDao,
     private val newsDao: NewsDao,
     private val mediaDao: MediaDao,
     private val blogsDao: BlogDao
 ) : IPersistenceManager {
+
+    // Shared Preferences
+
+    override fun getLastAutomaticNewsUpdateLocalDate() = sharedPrefs.lastAutomaticNewsUpdateLocalDate
 
     // Authors
 
@@ -43,6 +50,10 @@ class PersistenceManager @Inject constructor(
         ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
 
     override fun getAllActiveNews(): LiveData<List<News>> = newsDao.getAllActiveNews()
+
+    override fun getAllActiveNewsAsFlowable(): Flowable<List<News>> = newsDao.getAllActiveNewsAsFlowable()
+
+    override fun getCountOfNews(): Int = newsDao.getCountOfNews()
 
     // Media
 
@@ -69,6 +80,8 @@ class PersistenceManager @Inject constructor(
     override fun getBlogByURL(url: String): LiveData<Blog> = blogsDao.getBlogByURL(url)
 
     override fun updateBlog(blog: Blog) = blogsDao.updateBlog(blog)
+
+    override fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>> = blogsDao.getAllActiveBlogsAsFlowable()
 
     // Transactions
 

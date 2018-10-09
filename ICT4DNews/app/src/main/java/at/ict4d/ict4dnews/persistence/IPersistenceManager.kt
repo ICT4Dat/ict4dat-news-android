@@ -5,9 +5,16 @@ import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
+import com.f2prateek.rx.preferences2.Preference
+import io.reactivex.Flowable
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 
 interface IPersistenceManager {
+
+    // Shared Preferences
+
+    fun getLastAutomaticNewsUpdateLocalDate(): Preference<LocalDate>
 
     // Authors
 
@@ -30,6 +37,10 @@ interface IPersistenceManager {
     fun getLatestNewsPublishedDate(blogID: String): LocalDateTime
 
     fun getAllActiveNews(): LiveData<List<News>>
+
+    fun getAllActiveNewsAsFlowable(): Flowable<List<News>>
+
+    fun getCountOfNews(): Int
 
     // Media
 
@@ -56,6 +67,8 @@ interface IPersistenceManager {
     fun getBlogByURL(url: String): LiveData<Blog>
 
     fun updateBlog(blog: Blog)
+
+    fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>>
 
     // Transactions
 

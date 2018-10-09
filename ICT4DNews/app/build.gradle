@@ -157,5 +157,8 @@ dependencies {
     ktlint "com.github.shyiko:ktlint:0.24.0"
 
     // 3rd Party licenses
-    implementation "com.google.android.gms:play-services-oss-licenses:16.0.0"
+    implementation "com.google.android.gms:play-services-oss-licenses:16.0.1"
+
+    // Rx Preferences
+    implementation "com.f2prateek.rx.preferences2:rx-preferences:2.0.0"
 }

@@ -11,6 +11,7 @@ import at.ict4d.ict4dnews.models.BLOG_TABLE_NAME
 import at.ict4d.ict4dnews.models.BLOG_TABLE_TABLE_NAME
 import at.ict4d.ict4dnews.models.BLOG_TABLE_URL
 import at.ict4d.ict4dnews.models.Blog
+import io.reactivex.Flowable
 
 @Dao
 abstract class BlogDao {
@@ -38,4 +39,7 @@ abstract class BlogDao {
 
     @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME ORDER BY $BLOG_TABLE_NAME")
     abstract fun getAllBlogsAsList(): List<Blog>
+
+    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_ACTIVE = 1 ORDER BY $BLOG_TABLE_NAME")
+    abstract fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>>
 }
