@@ -24,7 +24,6 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
         super.onCreate(savedInstanceState)
         val navController = findNavController(navHostController)
         navigation.setupWithNavController(navController)
-        setupActionBarWithNavController(navController)
         navController.addOnNavigatedListener(this)
     }
 
@@ -36,8 +35,12 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
             supportActionBar?.subtitle = ""
         }
 
-        if (destination.id == R.id.splashFragment) {
+        if (destination.id != R.id.splashFragment && destination.id != R.id.actionNews) {
+            setupActionBarWithNavController(controller)
             controller.graph.startDestination = R.id.actionNews
+        }
+
+        if (destination.id == R.id.splashFragment) {
             supportActionBar?.hide()
             binding.navigation.visibility = View.GONE
         } else {
