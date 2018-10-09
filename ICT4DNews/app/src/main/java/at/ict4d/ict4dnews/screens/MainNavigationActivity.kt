@@ -11,7 +11,8 @@ import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
 import at.ict4d.ict4dnews.screens.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 
-class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMainNavigationBinding>(), NavController.OnNavigatedListener {
+class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMainNavigationBinding>(),
+    NavController.OnNavigatedListener {
 
     override fun getViewModel(): Class<MainNavigationViewModel> = MainNavigationViewModel::class.java
 
@@ -21,7 +22,6 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
         super.onCreate(savedInstanceState)
         val navController = findNavController(navHostController)
         navigation.setupWithNavController(navController)
-        setupActionBarWithNavController(navController)
         navController.addOnNavigatedListener(this)
     }
 
@@ -31,6 +31,11 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
         // resets subtitle of Toolbar
         if (destination.id != R.id.blogAndSourceFragment) {
             supportActionBar?.subtitle = ""
+        }
+
+        if (destination.id != R.id.splashFragment && destination.id != R.id.actionNews) {
+            setupActionBarWithNavController(controller)
+            controller.graph.startDestination = R.id.actionNews
         }
     }
 }

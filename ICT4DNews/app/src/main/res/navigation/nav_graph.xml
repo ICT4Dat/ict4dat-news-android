@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nav_graph"
-            app:startDestination="@id/actionNews">
+            app:startDestination="@id/splashFragment">
 
     <fragment android:id="@+id/actionNews"
               android:name="at.ict4d.ict4dnews.screens.news.list.ICT4DNewsFragment"
@@ -36,4 +36,13 @@
               tools:layout="@layout/fragment_blog_and_sources"
               android:name="at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceFragment"
               android:label="@string/ict4d_blogs_and_sources"/>
+
+    <fragment android:id="@+id/splashFragment" android:name="at.ict4d.ict4dnews.screens.splashscreen.SplashFragment"
+              tools:layout="@layout/fragment_splash"
+              android:label="SplashFragment">
+        <action android:id="@+id/action_splashFragment_to_blogAndSourceFragment"
+                app:popUpTo="@id/splashFragment"
+                app:popUpToInclusive="true"
+                app:destination="@id/actionNews"/>
+    </fragment>
 </navigation>
