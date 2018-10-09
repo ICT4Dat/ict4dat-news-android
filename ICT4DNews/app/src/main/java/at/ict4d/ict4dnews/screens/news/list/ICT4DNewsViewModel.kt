@@ -13,6 +13,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
@@ -59,8 +60,10 @@ class ICT4DNewsViewModel @Inject constructor(
                 newsList.postValue(resultList)
             })
 
-        compositeDisposable.add(server.loadBlogs())
-        requestToLoadFeedsFromServers()
+        if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth) {
+            compositeDisposable.add(server.loadBlogs())
+            requestToLoadFeedsFromServers()
+        }
     }
 
     fun requestToLoadFeedsFromServers() {
