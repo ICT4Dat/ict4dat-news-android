@@ -39,9 +39,10 @@ class RoomModule {
     @Singleton
     @Provides
     fun providesPersistentManager(
+        database: AppDatabase,
         authorDao: AuthorDao,
         newsDao: NewsDao,
         mediaDao: MediaDao,
         blogDao: BlogDao
-    ): IPersistenceManager = PersistenceManager(authorDao, newsDao, mediaDao, blogDao)
+    ): IPersistenceManager = PersistenceManager(database, authorDao, newsDao, mediaDao, blogDao)
 }

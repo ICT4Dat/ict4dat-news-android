@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.server
 
 import at.ict4d.ict4dnews.R
+import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.extensions.toLocalDateTimeFromRFCString
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
@@ -155,9 +156,7 @@ class Server @Inject constructor(
             Timber.d("$serverAuthors")
             Timber.d("$serverMedia")
 
-            persistenceManager.insertAllAuthors(authors)
-            persistenceManager.insertAllNews(news)
-            persistenceManager.insertAllMedia(media)
+            persistenceManager.insertAuthorsNewsAndMedia(authors, news, media)
         }
     }
 
@@ -189,7 +188,7 @@ class Server @Inject constructor(
                                     author.link,
                                     0,
                                     channel.image?.url,
-                                    item.title,
+                                    item.title?.stripHtml(),
                                     item.description,
                                     item.pubDate?.toLocalDateTimeFromRFCString(),
                                     blog.feed_url
@@ -225,10 +224,7 @@ class Server @Inject constructor(
                 }
 
                 Timber.d("$mediaList")
-
-                persistenceManager.insertAuthor(author)
-                persistenceManager.insertAllNews(newsList)
-                persistenceManager.insertAllMedia(mediaList)
+                persistenceManager.insertAuthorsNewsAndMedia(listOf(author), newsList, mediaList)
             }
         }
     }

@@ -8,6 +8,7 @@ import android.databinding.BindingAdapter
 import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
+import android.support.v4.text.HtmlCompat
 import android.view.View
 import android.widget.ImageView
 import at.ict4d.ict4dnews.R
@@ -55,6 +56,8 @@ fun ImageView.loadImage(imageUrl: String?) {
 fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }
+
+fun String.stripHtml(): String = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
 
 /**
  * LiveData that propagates only distinct emissions.
