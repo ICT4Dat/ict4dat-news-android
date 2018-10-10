@@ -6,6 +6,7 @@ import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
+import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.wordpress.SELF_HOSTED_WP_POST_SERIALIZED_RENDERED
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import kotlinx.android.parcel.Parcelize
@@ -73,7 +74,7 @@ data class News(
         selfHostedWPPost.authorLink,
         selfHostedWPPost.serverID,
         selfHostedWPPost.featuredMediaLink,
-        selfHostedWPPost.title[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED],
+        selfHostedWPPost.title[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED]?.stripHtml(),
         selfHostedWPPost.content[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED],
         selfHostedWPPost.date,
         selfHostedWPPost.blogLink
