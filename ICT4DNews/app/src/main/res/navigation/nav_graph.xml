@@ -40,7 +40,7 @@
     <fragment android:id="@+id/splashFragment" android:name="at.ict4d.ict4dnews.screens.splashscreen.SplashFragment"
               tools:layout="@layout/fragment_splash"
               android:label="SplashFragment">
-        <action android:id="@+id/action_splashFragment_to_blogAndSourceFragment"
+        <action android:id="@+id/action_splashFragment_to_news_fragment"
                 app:popUpTo="@id/splashFragment"
                 app:popUpToInclusive="true"
                 app:destination="@id/actionNews"/>

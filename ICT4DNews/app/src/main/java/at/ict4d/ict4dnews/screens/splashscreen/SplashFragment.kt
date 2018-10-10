@@ -26,13 +26,13 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
 
         compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java).subscribe {
             if (findNavController().currentDestination?.id == R.id.splashFragment) {
-                findNavController().navigate(R.id.action_splashFragment_to_blogAndSourceFragment)
+                findNavController().navigate(R.id.action_splashFragment_to_news_fragment)
             }
         })
 
         model.allBlogs.observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
-                findNavController().navigate(R.id.action_splashFragment_to_blogAndSourceFragment)
+                findNavController().navigate(R.id.action_splashFragment_to_news_fragment)
             }
         })
         return view
