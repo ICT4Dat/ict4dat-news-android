@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.content.Context
+import android.content.Intent
 import android.databinding.BindingAdapter
 import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
@@ -56,6 +57,13 @@ fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
+fun Context.contactDevelopers(email: String) {
+    val intent = Intent(Intent.ACTION_SENDTO)
+    val subject = "Feedback from ICT4d.at News App"
+    intent.data = Uri.parse("mailto:" + email)
+    intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+    startActivity(Intent.createChooser(intent, "Send email via: "))
+}
 /**
  * LiveData that propagates only distinct emissions.
  * @see https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1

@@ -5,4 +5,11 @@
     <string name="url_ict4dat_projects">http://www.ict4d.at/projects/</string>
     <string name="url_ict4dat_about_us">http://www.ict4d.at/about/</string>
     <string name="url_ict4dat">http://www.ict4d.at/</string>
+    <string name="url_github_project">https://github.com/ICT4Dat/ict4dat-news-android</string>
+    <string name="url_contact_us">ict4d_news_app@ict4d.at</string>
+    <string name="url_paul">https://www.facebook.com/paul.spiesberger</string>
+    <string name="url_raja">https://www.facebook.com/raja.saboor1</string>
+    <string name="url_noah">https://www.facebook.com/noahalorwu</string>
+    <string name="url_chloe">https://www.facebook.com/chloe.zimmermann1</string>
+
 </resources>
