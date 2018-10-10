@@ -80,4 +80,6 @@ class PersistenceManager @Inject constructor(
     override fun updateBlog(blog: Blog) = blogsDao.updateBlog(blog)
 
     override fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>> = blogsDao.getAllActiveBlogsAsFlowable()
+
+    override fun isBlogExist(): Boolean = blogsDao.isBlogExist()
 }

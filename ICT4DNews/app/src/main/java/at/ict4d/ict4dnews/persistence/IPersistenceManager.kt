@@ -69,4 +69,6 @@ interface IPersistenceManager {
     fun updateBlog(blog: Blog)
 
     fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>>
+
+    fun isBlogExist(): Boolean
 }

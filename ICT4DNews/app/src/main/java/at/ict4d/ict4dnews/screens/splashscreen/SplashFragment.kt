@@ -1,7 +1,7 @@
 package at.ict4d.ict4dnews.screens.splashscreen
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,18 +9,13 @@ import androidx.navigation.fragment.findNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentSplashBinding
 import at.ict4d.ict4dnews.screens.base.BaseFragment
+import at.ict4d.ict4dnews.utils.RxEventBus
+import at.ict4d.ict4dnews.utils.ServerErrorMessage
+import javax.inject.Inject
 
 class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
-    private val delayHandler = Handler()
-    private val splashDelay: Long = 1500
-
-    private val runnable: Runnable = Runnable {
-        activity?.let {
-            if (!it.isFinishing) {
-                findNavController().navigate(R.id.action_splashFragment_to_blogAndSourceFragment)
-            }
-        }
-    }
+    @Inject
+    protected lateinit var rxEventBus: RxEventBus
 
     override fun getLayoutId(): Int = R.layout.fragment_splash
 
@@ -28,13 +23,18 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-        delayHandler.postDelayed(runnable, splashDelay)
 
+        compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java).subscribe {
+            if (findNavController().currentDestination?.id == R.id.splashFragment) {
+                findNavController().navigate(R.id.action_splashFragment_to_blogAndSourceFragment)
+            }
+        })
+
+        model.allBlogs.observe(this, Observer {
+            if (it != null && it.isNotEmpty()) {
+                findNavController().navigate(R.id.action_splashFragment_to_blogAndSourceFragment)
+            }
+        })
         return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        delayHandler.removeCallbacks(runnable)
     }
 }
