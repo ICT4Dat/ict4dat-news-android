@@ -248,8 +248,8 @@ class Server @Inject constructor(
                 }
 
                 persistenceManager.insertAll(newBlogs)
-
                 Timber.d("downloaded ${newBlogs.size} blogs from ICT4D.at")
+                rxEventBus.post(BlogsRefreshDoneMessage())
             }, {
                 Timber.e(it, "Error in Blogs Call")
                 handleError(it, BlogsRefreshDoneMessage())
@@ -261,6 +261,5 @@ class Server @Inject constructor(
             is HttpException -> rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, error))
             else -> rxEventBus.post(ServerErrorMessage(R.string.server_error_message, error))
         }
-        rxEventBus.post(message)
     }
 }
