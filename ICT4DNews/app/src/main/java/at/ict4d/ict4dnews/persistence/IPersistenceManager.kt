@@ -69,4 +69,8 @@ interface IPersistenceManager {
     fun updateBlog(blog: Blog)
 
     fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>>
+
+    // Transactions
+
+    fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>)
 }
