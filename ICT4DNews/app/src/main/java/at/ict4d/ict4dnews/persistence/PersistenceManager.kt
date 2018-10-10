@@ -5,6 +5,7 @@ import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
+import at.ict4d.ict4dnews.persistence.database.AppDatabase
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
@@ -15,6 +16,7 @@ import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
 class PersistenceManager @Inject constructor(
+    private val database: AppDatabase,
     private val sharedPrefs: ISharedPrefs,
     private val authorDao: AuthorDao,
     private val newsDao: NewsDao,
@@ -82,4 +84,13 @@ class PersistenceManager @Inject constructor(
     override fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>> = blogsDao.getAllActiveBlogsAsFlowable()
 
     override fun isBlogExist(): Boolean = blogsDao.isBlogExist()
+
+    // Transactions
+    override fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>) {
+        database.runInTransaction {
+            authorDao.insertAll(authors)
+            newsDao.insertAll(news)
+            mediaDao.insertAll(media)
+        }
+    }
 }
