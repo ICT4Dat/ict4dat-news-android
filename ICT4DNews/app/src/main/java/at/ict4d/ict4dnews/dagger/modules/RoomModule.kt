@@ -9,6 +9,7 @@ import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -39,9 +40,10 @@ class RoomModule {
     @Singleton
     @Provides
     fun providesPersistentManager(
+        sharedPrefs: ISharedPrefs,
         authorDao: AuthorDao,
         newsDao: NewsDao,
         mediaDao: MediaDao,
         blogDao: BlogDao
-    ): IPersistenceManager = PersistenceManager(authorDao, newsDao, mediaDao, blogDao)
+    ): IPersistenceManager = PersistenceManager(sharedPrefs, authorDao, newsDao, mediaDao, blogDao)
 }
