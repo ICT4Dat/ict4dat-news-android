@@ -14,7 +14,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
-import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
@@ -23,14 +22,16 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(),
-    ICT4DNewsRecyclerViewAdapter.OnICT4DNewsListClickListener {
+class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>() {
 
     override fun getLayoutId(): Int = R.layout.fragment_ictdnews_list
 
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
-    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter(this)
+    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter { pair, view ->
+        val action = ICT4DNewsFragmentDirections.ActionActionNewsToICT4DNewsDetailActivity(pair.first)
+        view.findNavController().navigate(action)
+    }
 
     private var menu: Menu? = null
 
@@ -94,7 +95,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             }, { e ->
                 Timber.e("$e")
             }, {
-                Timber.d("serach complete")
+                Timber.d("search complete")
             })
         )
 
@@ -143,17 +144,5 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onListItemClicked(item: News, view: View) {
-        val action = ICT4DNewsFragmentDirections.ActionActionNewsToICT4DNewsDetailActivity(item)
-        view.findNavController().navigate(action)
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance() =
-            ICT4DNewsFragment()
     }
 }
