@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ict4d_wikipedia">https://en.wikipedia.org/wiki/Information_and_communication_technologies_for_development</string>
+    <string name="url_ict4d_wikipedia">https://en.wikipedia.org/wiki/Information_and_communication_technologies_for_development</string>
 </resources>

@@ -9,6 +9,7 @@ import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.support.annotation.DrawableRes
+import android.support.annotation.StringRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.support.v4.text.HtmlCompat
@@ -26,12 +27,14 @@ import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import java.util.Locale
 
-fun Context.browseCustomTab(url: String) {
-    CustomTabsIntent
-        .Builder()
-        .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
-        .build()
-        .launchUrl(this, Uri.parse(url))
+fun Context.browseCustomTab(url: String?) {
+    url?.let {
+        CustomTabsIntent
+            .Builder()
+            .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            .build()
+            .launchUrl(this, Uri.parse(it))
+    }
 }
 
 fun LocalDateTime.extractDate(): String = this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
@@ -98,14 +101,6 @@ fun ImageView.loadFromURL(
 
 fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
-}
-
-fun Context.contactDevelopers(email: String) {
-    val intent = Intent(Intent.ACTION_SENDTO)
-    val subject = "Feedback from ICT4d.at News App"
-    intent.data = Uri.parse("mailto:" + email)
-    intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-    startActivity(Intent.createChooser(intent, "Send email via: "))
 }
 
 fun String.stripHtml(): String = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="url_ict4d_wikipedia">https://en.wikipedia.org/wiki/Information_and_communication_technologies_for_development</string>
-    <string name="url_ict4dat_donate">https://www.paypal.com/donate/?token=ifgy-ytwtZohc0Hehe7iQ6hsitnhoWHyBueey0ulDxhCDuE6BqmvdxHbin5ke-VxsHEws0&amp;country.x=US&amp;locale.x=US</string>
-    <string name="url_ict4dat_projects">http://www.ict4d.at/projects/</string>
-    <string name="url_ict4dat_about_us">http://www.ict4d.at/about/</string>
-    <string name="url_ict4dat">http://www.ict4d.at/</string>
-    <string name="url_github_project">https://github.com/ICT4Dat/ict4dat-news-android</string>
-    <string name="url_contact_us">ict4d_news_app@ict4d.at</string>
-    <string name="url_paul">https://www.facebook.com/paul.spiesberger</string>
-    <string name="url_raja">https://www.facebook.com/raja.saboor1</string>
-    <string name="url_noah">https://www.facebook.com/noahalorwu</string>
-    <string name="url_chloe">https://www.facebook.com/chloe.zimmermann1</string>
+    <string name="url_ict4dat_donate" translatable="false">https://www.paypal.me/ict4dat</string>
+    <string name="url_ict4dat_projects" translatable="false">http://www.ict4d.at/projects/</string>
+    <string name="url_ict4dat_about_us" translatable="false">http://www.ict4d.at/about/</string>
+    <string name="url_ict4dat" translatable="false">http://www.ict4d.at/</string>
+    <string name="url_github_project" translatable="false">https://github.com/ICT4Dat/ict4dat-news-android</string>
+    <string name="contact_email" translatable="false">ict4d_news_app@ict4d.at</string>
+    <string name="url_paul" translatable="false">https://twitter.com/spipau</string>
+    <string name="url_raja" translatable="false">https://www.facebook.com/raja.saboor1</string>
+    <string name="url_noah" translatable="false">https://www.facebook.com/noahalorwu</string>
+    <string name="url_chloe" translatable="false">https://www.facebook.com/chloe.zimmermann1</string>
 
 </resources>

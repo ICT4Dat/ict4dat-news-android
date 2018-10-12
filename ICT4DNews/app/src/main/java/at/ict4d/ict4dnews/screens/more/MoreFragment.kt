@@ -1,6 +1,11 @@
 package at.ict4d.ict4dnews.screens.more
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -10,9 +15,9 @@ import android.view.ViewGroup
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentMoreBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
-import at.ict4d.ict4dnews.extensions.contactDevelopers
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import org.jetbrains.anko.email
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.share
 
@@ -21,8 +26,6 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
     override fun getLayoutId(): Int = R.layout.fragment_more
 
     override fun getViewModel(): Class<MoreViewModel> = MoreViewModel::class.java
-
-    private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +36,11 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
         // Inflate the layout for this fragment
         val view = super.onCreateView(inflater, container, savedInstanceState)
         binding.fragment = this
+        binding.headline.text = getString(R.string.headline_more, String(Character.toChars(0x2764)))
         return view
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        this.menu = menu
         inflater?.inflate(R.menu.menu_more_settings, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -55,39 +58,40 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
     }
 
     fun rateApplication() {
+        val uri = Uri.parse("market://details?id=${context?.packageName}")
+
+        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+        } else {
+            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+        }
+
+        try {
+            startActivity(goToMarket)
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=${context?.packageName}")
+                )
+            )
+        }
     }
 
     fun shareApplication() {
-        activity?.share("", "")
+        activity?.share(getString(R.string.share_app_text, "http://play.google.com/store/apps/details?id=${context?.packageName}"), getString(R.string.app_name))
+    }
+
+    fun openUrlInCustomTab(@StringRes stringRes: Int) {
+        context?.browseCustomTab(getString(stringRes))
     }
 
     fun contactUs() {
-        context?.contactDevelopers(getString(R.string.url_contact_us))
-    }
-
-    fun githubProject() {
-        context?.browseCustomTab(getString(R.string.url_github_project))
-    }
-
-    fun paul() {
-        context?.browseCustomTab(getString(R.string.url_paul))
-    }
-
-    fun raja() {
-        context?.browseCustomTab(getString(R.string.url_raja))
-    }
-
-    fun noah() {
-        context?.browseCustomTab(getString(R.string.url_noah))
-    }
-
-    fun chloe() {
-        context?.browseCustomTab(getString(R.string.url_chloe))
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance() = MoreFragment()
+        context?.email(
+            getString(R.string.contact_email),
+            getString(R.string.contact_mail_subject),
+            getString(R.string.contact_mail_text)
+        )
     }
 }

@@ -34,7 +34,7 @@
         and collaborate with grassroots organizations in the fields of science, arts, education, media and open source
         software to improve the lives of those in lesser developed countries.
     </string>
-    <string name="ict4dat_donate">Support us!</string>
+    <string name="ict4dat_donate">Support our work!</string>
     <string name="ict4dat_projects">Our Projects</string>
     <string name="ict4dat_about">About us &amp; Members</string>
     <string name="open_source_licences_title">Open Source Licences</string>
@@ -48,10 +48,10 @@
     <string name="blog_logo">Blog logo</string>
     <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Sources</string>
     <string name="contextual_selection">%d/%d blogs chosen</string>
-    <string name="about_developers">This FOSS Application was developed with Love by the NGO ICT4D.at and the following main developers:</string>
-    <string name="rate_application">Rate this Application</string>
-    <string name="share_application">Share the Application</string>
-    <string name="contact_us">Contact Us</string>
+    <string name="about_developers">This FOSS Android application was developed with Love by the NGO ICT4D.at and the following main developers and designers:</string>
+    <string name="rate_application">Rate this application</string>
+    <string name="share_application">Share this application</string>
+    <string name="contact_us">Contact us</string>
     <string name="github_project">Open Github Project</string>
     <string name="paul_spiesberger">Paul Spiesberger</string>
     <string name="software_developer">Software Developer</string>
@@ -59,4 +59,8 @@
     <string name="designer">Designer</string>
     <string name="noah_alorwu">Noah Alorwu</string>
     <string name="chlo_zimmermann">Chloé Zimmermann</string>
+    <string name="contact_mail_subject">ICT4D.at Android News App</string>
+    <string name="contact_mail_text">Dear ICT4D.at,\n\n</string>
+    <string name="share_app_text">Hi,\nI am using ICT4D.at\'s Android ICT4D-News App. You can download it from here:\n\n %1$s</string>
+    <string name="headline_more">With %1$s from ICT4D.at</string>
 </resources>
