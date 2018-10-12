@@ -11,6 +11,7 @@ import android.net.Uri
 import android.support.annotation.DrawableRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
+import android.support.v4.text.HtmlCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -106,6 +107,9 @@ fun Context.contactDevelopers(email: String) {
     intent.putExtra(Intent.EXTRA_SUBJECT, subject)
     startActivity(Intent.createChooser(intent, "Send email via: "))
 }
+
+fun String.stripHtml(): String = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+
 /**
  * LiveData that propagates only distinct emissions.
  * @see https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1
