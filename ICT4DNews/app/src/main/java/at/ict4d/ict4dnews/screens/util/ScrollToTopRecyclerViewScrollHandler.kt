@@ -1,11 +1,12 @@
 package at.ict4d.ict4dnews.screens.util
 
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ScrollToTopRecyclerViewScrollHandler(private val quickMoveView: View) : RecyclerView.OnScrollListener() {
+
     private var swipeUpTime = 0L
     private val visibleItemsRequireToShowQuickMoveView = 5
     private val switchEventTimeThresholdDuration = 200 // ms

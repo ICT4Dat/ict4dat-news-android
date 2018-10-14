@@ -1,7 +1,7 @@
 package at.ict4d.ict4dnews.persistence.sharedpreferences
 
 import android.content.SharedPreferences
-import android.support.v7.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.R
 import com.f2prateek.rx.preferences2.Preference
