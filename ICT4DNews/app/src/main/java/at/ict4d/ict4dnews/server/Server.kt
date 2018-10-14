@@ -261,6 +261,5 @@ class Server @Inject constructor(
             is HttpException -> rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, error))
             else -> rxEventBus.post(ServerErrorMessage(R.string.server_error_message, error))
         }
-        rxEventBus.post(message)
     }
 }

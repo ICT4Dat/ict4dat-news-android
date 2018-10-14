@@ -6,6 +6,7 @@ import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.IServer
+import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
@@ -17,7 +18,7 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
-    persistenceManager: IPersistenceManager,
+    private val persistenceManager: IPersistenceManager,
     private val server: IServer,
     rxEventBus: RxEventBus
 ) : BaseViewModel() {
@@ -60,20 +61,42 @@ class ICT4DNewsViewModel @Inject constructor(
                 newsList.postValue(resultList)
             })
 
-        doAsync {
-            if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
-                persistenceManager.getCountOfNews() == 0) {
-                compositeDisposable.add(server.loadBlogs())
+        compositeDisposable.add(
+            rxEventBus.filteredObservable(BlogsRefreshDoneMessage::class.java).observeOn(
+                AndroidSchedulers.mainThread()
+            ).subscribeOn(AndroidSchedulers.mainThread()).subscribe {
+                isRefreshing.value = false
                 requestToLoadFeedsFromServers()
-            }
-        }
+            })
+
+        requestToLoadFeedsFromServers()
     }
 
-    fun requestToLoadFeedsFromServers() {
+    fun requestToLoadFeedsFromServers(forceRefresh: Boolean = false) {
         if (isRefreshing.value == null || isRefreshing.value == false) {
             isRefreshing.postValue(true)
 
-            compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
+            doAsync {
+                if (forceRefresh) {
+                    if (!persistenceManager.isBlogsExist()) {
+                        compositeDisposable.add(server.loadBlogs())
+                    } else {
+                        compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
+                    }
+                } else {
+                    if (persistenceManager.isBlogsExist()) {
+                        if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
+                            persistenceManager.getCountOfNews() == 0
+                        ) {
+                            compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
+                        } else {
+                            isRefreshing.postValue(false)
+                        }
+                    } else {
+                        compositeDisposable.add(server.loadBlogs())
+                    }
+                }
+            }
         }
     }
 
