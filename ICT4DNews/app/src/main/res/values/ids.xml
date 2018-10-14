@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="developers_text" type="id" />
+    <item name="more_contact_us" type="id" />
+    <item name="more_share_application" type="id" />
+    <item name="more_rate_application" type="id" />
+    <item name="more_developer_1" type="id" />
+    <item name="more_paul" type="id" />
+    <item name="more_developer_2" type="id" />
+    <item name="more_developer_3" type="id" />
+    <item name="more_developer_4" type="id" />
+    <item name="more_chloe" type="id" />
+    <item name="more_role_raja" type="id" />
+    <item name="more_role_paul" type="id" />
+    <item name="more_role_chloe" type="id" />
+</resources>
