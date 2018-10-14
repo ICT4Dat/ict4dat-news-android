@@ -4,12 +4,10 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Observer
 import android.content.Context
-import android.content.Intent
 import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.support.v4.text.HtmlCompat
