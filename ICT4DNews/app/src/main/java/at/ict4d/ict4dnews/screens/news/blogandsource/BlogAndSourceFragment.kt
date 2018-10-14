@@ -28,6 +28,12 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
         binding.newsAndSourcesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.newsAndSourcesRecyclerView.adapter = blogAndSourceAdapter
 
+        model.isRefreshing.observe(this, Observer {
+            binding.swiperefresh.isRefreshing = it ?: false
+        })
+
+        binding.swiperefresh.setOnRefreshListener { model.refreshBlogs() }
+
         model.allBlogsList.observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
                 blogAndSourceAdapter.submitList(it)

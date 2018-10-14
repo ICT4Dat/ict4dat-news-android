@@ -248,8 +248,8 @@ class Server @Inject constructor(
                 }
 
                 persistenceManager.insertAll(newBlogs)
-                Timber.d("downloaded ${newBlogs.size} blogs from ICT4D.at")
                 rxEventBus.post(BlogsRefreshDoneMessage())
+                Timber.d("downloaded ${newBlogs.size} blogs from ICT4D.at")
             }, {
                 Timber.e(it, "Error in Blogs Call")
                 handleError(it, BlogsRefreshDoneMessage())
