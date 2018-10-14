@@ -7,6 +7,7 @@ import at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment
 import at.ict4d.ict4dnews.screens.more.MoreFragment
 import at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceFragment
 import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsFragment
+import at.ict4d.ict4dnews.screens.splashscreen.SplashFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -37,4 +38,8 @@ abstract class MainNavigationActivityModule {
     @PerFragment
     @ContributesAndroidInjector
     abstract fun blogAndSourceFragmentInjector(): BlogAndSourceFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun splashFragmentFragmentInjector(): SplashFragment
 }
