@@ -53,12 +53,8 @@
     <string name="share_application">Share this application</string>
     <string name="contact_us">Contact us</string>
     <string name="github_project">Open Github Project</string>
-    <string name="paul_spiesberger">Paul Spiesberger</string>
     <string name="software_developer">Software Developer</string>
-    <string name="raja_saboor_ali">Raja Saboor Ali</string>
     <string name="designer">Designer</string>
-    <string name="noah_alorwu">Noah Alorwu</string>
-    <string name="chlo_zimmermann">Chloé Zimmermann</string>
     <string name="contact_mail_subject">ICT4D.at Android News App</string>
     <string name="contact_mail_text">Dear ICT4D.at,\n\n</string>
     <string name="share_app_text">Hi,\nI am using ICT4D.at\'s Android ICT4D-News App. You can download it from here:\n\n %1$s</string>

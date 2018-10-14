@@ -12,4 +12,8 @@
     <string name="url_noah" translatable="false">https://www.facebook.com/noahalorwu</string>
     <string name="url_chloe" translatable="false">https://www.facebook.com/chloe.zimmermann1</string>
 
+    <string name="paul_spiesberger" translatable="false">Paul Spiesberger</string>
+    <string name="raja_saboor_ali" translatable="false">Raja Saboor Ali</string>
+    <string name="noah_alorwu" translatable="false">Noah Alorwu</string>
+    <string name="chlo_zimmermann" translatable="false">Chloé Zimmermann</string>
 </resources>

@@ -18,6 +18,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.utils.GlideApp
+import at.ict4d.ict4dnews.utils.GlideRequest
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -47,6 +48,17 @@ fun TextView.showDate(localDateTime: LocalDateTime?) {
 fun String.toLocalDateTimeFromRFCString(): LocalDateTime? =
     LocalDateTime.parse(this, DateTimeFormatter.RFC_1123_DATE_TIME) ?: null
 
+@BindingAdapter(value = ["loadFromRes", "placeholder", "error", "round"], requireAll = false)
+fun ImageView.loadFromURL(
+    @DrawableRes
+    drawableRes: Int,
+    @DrawableRes
+    placeholder: Int = R.drawable.ic_refresh_black_24dp,
+    @DrawableRes
+    error: Int = R.drawable.ic_broken_image_black_24dp,
+    round: Boolean = false
+) = setUpGlideAndLoad(this, GlideApp.with(context).load(drawableRes), placeholder, error, round)
+
 @BindingAdapter(value = ["loadFromURL", "placeholder", "error", "round"], requireAll = false)
 fun ImageView.loadFromURL(
     url: String,
@@ -55,9 +67,17 @@ fun ImageView.loadFromURL(
     @DrawableRes
     error: Int = R.drawable.ic_broken_image_black_24dp,
     round: Boolean = false
-) {
-    val glide = GlideApp.with(context).load(url)
+) = setUpGlideAndLoad(this, GlideApp.with(context).load(url), placeholder, error, round)
 
+private fun setUpGlideAndLoad(
+    imageView: ImageView,
+    glide: GlideRequest<Drawable>,
+    @DrawableRes
+    placeholder: Int = R.drawable.ic_refresh_black_24dp,
+    @DrawableRes
+    error: Int = R.drawable.ic_broken_image_black_24dp,
+    round: Boolean
+) {
     if (round) {
         glide.apply(RequestOptions.circleCropTransform())
     }
@@ -96,7 +116,7 @@ fun ImageView.loadFromURL(
                 isFirstResource: Boolean
             ): Boolean = false
         })
-        .into(this)
+        .into(imageView)
 }
 
 fun View.visible(visible: Boolean) {

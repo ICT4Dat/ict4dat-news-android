@@ -26,7 +26,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/headline"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:textStyle="bold"
@@ -49,20 +49,24 @@
                     android:text="@string/about_developers"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toBottomOf="@+id/headline"/>
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintTop_toBottomOf="@+id/headline"
+            />
 
             <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/more_developer_1"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
+                    app:loadFromRes="@{R.drawable.paul}"
+                    app:round="@{true}"
                     android:contentDescription="@string/paul_spiesberger"
                     android:onClick="@{()->fragment.openUrlInCustomTab(R.string.url_paul)}"
                     app:layout_constraintTop_toBottomOf="@id/developers_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintEnd_toStartOf="@+id/more_developer_2"
-                    app:srcCompat="@drawable/paul"/>
+                    tools:srcCompat="@drawable/paul"/>
 
             <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/more_paul"
@@ -129,7 +133,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintEnd_toStartOf="@+id/more_developer_4"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@+id/more_role_paul"
                     tools:srcCompat="@tools:sample/avatars"/>
 
@@ -165,8 +169,10 @@
                     app:layout_constraintStart_toEndOf="@+id/more_developer_3"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:loadFromRes="@{R.drawable.chloe}"
+                    app:round="@{true}"
                     app:layout_constraintTop_toTopOf="@+id/more_developer_3"
-                    tools:srcCompat="@tools:sample/avatars"/>
+                    tools:srcCompat="@drawable/chloe"/>
 
             <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/more_chloe"
@@ -221,7 +227,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/donate"/>
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/donate"/>
 
             <android.support.v7.widget.AppCompatButton
                     android:id="@+id/more_share_application"
@@ -278,5 +285,4 @@
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-
 </layout>
