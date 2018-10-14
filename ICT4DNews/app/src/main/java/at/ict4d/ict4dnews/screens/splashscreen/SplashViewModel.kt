@@ -12,6 +12,7 @@ class SplashViewModel @Inject constructor(
     private val persistenceManager: IPersistenceManager,
     private val server: IServer
 ) : BaseViewModel() {
+
     val allBlogs: LiveData<List<Blog>> = persistenceManager.getAllBlogs()
 
     init {
@@ -19,7 +20,7 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun downloadBlogsIfNotExist() {
-        if (!persistenceManager.isBlogExist()) {
+        if (!persistenceManager.isBlogsExist()) {
             server.loadBlogs()
         }
     }

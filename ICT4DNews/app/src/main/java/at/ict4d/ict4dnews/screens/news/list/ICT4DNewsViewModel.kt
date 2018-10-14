@@ -78,13 +78,13 @@ class ICT4DNewsViewModel @Inject constructor(
 
             doAsync {
                 if (forceRefresh) {
-                    if (!persistenceManager.isBlogExist()) {
+                    if (!persistenceManager.isBlogsExist()) {
                         compositeDisposable.add(server.loadBlogs())
                     } else {
                         compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
                     }
                 } else {
-                    if (persistenceManager.isBlogExist()) {
+                    if (persistenceManager.isBlogsExist()) {
                         if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
                             persistenceManager.getCountOfNews() == 0
                         ) {

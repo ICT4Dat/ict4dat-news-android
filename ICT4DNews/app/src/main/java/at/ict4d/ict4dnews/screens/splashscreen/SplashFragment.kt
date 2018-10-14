@@ -14,6 +14,7 @@ import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import javax.inject.Inject
 
 class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
+
     @Inject
     protected lateinit var rxEventBus: RxEventBus
 

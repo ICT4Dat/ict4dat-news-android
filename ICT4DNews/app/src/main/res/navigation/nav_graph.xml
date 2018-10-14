@@ -37,7 +37,8 @@
               android:name="at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceFragment"
               android:label="@string/ict4d_blogs_and_sources"/>
 
-    <fragment android:id="@+id/splashFragment" android:name="at.ict4d.ict4dnews.screens.splashscreen.SplashFragment"
+    <fragment android:id="@+id/splashFragment"
+              android:name="at.ict4d.ict4dnews.screens.splashscreen.SplashFragment"
               tools:layout="@layout/fragment_splash"
               android:label="SplashFragment">
         <action android:id="@+id/action_splashFragment_to_news_fragment"
