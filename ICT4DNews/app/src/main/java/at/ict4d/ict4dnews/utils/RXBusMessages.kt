@@ -7,5 +7,3 @@ class ServerErrorMessage(@StringRes val message: Int, val throwable: Throwable?)
 class NewsRefreshDoneMessage
 
 class BlogsRefreshDoneMessage
-
-class BlogsAndSourceSubtitleUpdateMessage(val selectedBlogsSize: Int)

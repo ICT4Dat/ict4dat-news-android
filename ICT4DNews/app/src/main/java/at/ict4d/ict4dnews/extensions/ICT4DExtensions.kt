@@ -61,7 +61,7 @@ fun ImageView.loadFromURL(
 
 @BindingAdapter(value = ["loadFromURL", "placeholder", "error", "round"], requireAll = false)
 fun ImageView.loadFromURL(
-    url: String,
+    url: String?,
     @DrawableRes
     placeholder: Int = R.drawable.ic_refresh_black_24dp,
     @DrawableRes
