@@ -48,7 +48,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         })
 
         binding.swiperefresh.setOnRefreshListener {
-            model.requestToLoadFeedsFromServers()
+            model.requestToLoadFeedsFromServers(true)
         }
 
         model.searchedNewsList.observe(this, Observer {
@@ -133,7 +133,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         return when (item?.itemId) {
 
             R.id.menu_refresh -> {
-                model.requestToLoadFeedsFromServers()
+                model.requestToLoadFeedsFromServers(true)
                 return true
             }
 

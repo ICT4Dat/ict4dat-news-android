@@ -42,4 +42,9 @@ abstract class BlogDao {
 
     @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_ACTIVE = 1 ORDER BY $BLOG_TABLE_NAME")
     abstract fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>>
+
+    @Query("SELECT COUNT(*) FROM $BLOG_TABLE_TABLE_NAME")
+    protected abstract fun getBlogsCount(): Int
+
+    fun isBlogsExist(): Boolean = getBlogsCount() >= 1
 }
