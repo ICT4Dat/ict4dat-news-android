@@ -11,6 +11,11 @@ This Android application is developed by [ICT4D.at](http://www.ict4d.at) and is 
 * [Paul Spiesberger](https://github.com/spipau)
 * [Raja Saboor Ali](https://github.com/rajasone)
 
+## Current UI Wireframes
+
+<p align="center">
+    <img src="http://www.ict4d.at/ict4dnews/github_readme/wireframes.png" alt="Wireframes" />
+</p>
 
 ## Supported News Feeds and Sources
 
