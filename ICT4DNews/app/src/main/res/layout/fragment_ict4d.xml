@@ -15,12 +15,12 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:context=".screens.more.MoreFragment">
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ict4d_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/ict4d_wikipedia_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -54,6 +54,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/ict4d_text"
                     android:layout_marginTop="16dp"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

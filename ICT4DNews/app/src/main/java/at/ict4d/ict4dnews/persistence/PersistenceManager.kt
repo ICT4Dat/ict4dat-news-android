@@ -1,6 +1,6 @@
 package at.ict4d.ict4dnews.persistence
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media

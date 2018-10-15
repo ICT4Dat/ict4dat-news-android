@@ -16,12 +16,12 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:context=".screens.more.MoreFragment">
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     tools:text="@string/headline_more"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/developers_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/headline"
             />
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/more_developer_1"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
@@ -68,7 +68,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/more_developer_2"
                     tools:srcCompat="@drawable/paul"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_paul"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/more_developer_1"
                     android:layout_marginTop="8dp"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_role_paul"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/more_paul"
                     app:layout_constraintTop_toBottomOf="@+id/more_paul"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/more_developer_2"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
@@ -102,7 +102,7 @@
                     app:layout_constraintTop_toTopOf="@+id/more_developer_1"
                     tools:srcCompat="@tools:sample/avatars"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_raja"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/more_developer_2"
                     android:layout_marginTop="8dp"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_role_raja"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
                     app:layout_constraintStart_toStartOf="@+id/more_raja"
                     app:layout_constraintEnd_toEndOf="@+id/more_raja"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/more_developer_3"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
@@ -137,7 +137,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/more_role_paul"
                     tools:srcCompat="@tools:sample/avatars"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_noah"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                     app:layout_constraintStart_toStartOf="@+id/more_developer_3"
                     android:layout_marginTop="8dp"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_role_noah"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                     app:layout_constraintHorizontal_bias="0.523"
                     app:layout_constraintTop_toBottomOf="@+id/more_noah"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/more_developer_4"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
@@ -174,7 +174,7 @@
                     app:layout_constraintTop_toTopOf="@+id/more_developer_3"
                     tools:srcCompat="@drawable/chloe"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_chloe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/more_developer_4"
                     android:layout_marginTop="8dp"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_role_chloe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                     app:layout_constraintStart_toStartOf="@+id/more_chloe"
                     app:layout_constraintEnd_toEndOf="@+id/more_chloe"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/donate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/more_role_chloe"
                     android:layout_marginTop="24dp"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/more_rate_application"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -230,7 +230,7 @@
                     android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/donate"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/more_share_application"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -247,7 +247,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/more_rate_application"
                     android:layout_marginTop="16dp"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/more_contact_us"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -264,7 +264,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/more_share_application"
                     android:layout_marginTop="16dp"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/more_github"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -283,6 +283,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="16dp"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

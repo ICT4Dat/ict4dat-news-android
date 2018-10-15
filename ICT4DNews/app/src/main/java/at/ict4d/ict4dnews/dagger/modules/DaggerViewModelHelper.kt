@@ -1,7 +1,7 @@
 package at.ict4d.ict4dnews.dagger.modules
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import at.ict4d.ict4dnews.screens.MainNavigationViewModel
 import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
 import at.ict4d.ict4dnews.screens.more.MoreViewModel

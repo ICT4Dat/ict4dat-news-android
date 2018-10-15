@@ -1,8 +1,8 @@
 package at.ict4d.ict4dnews.lifecycle
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.OnLifecycleEvent
-import android.support.v7.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.appcompat.app.AppCompatActivity
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
