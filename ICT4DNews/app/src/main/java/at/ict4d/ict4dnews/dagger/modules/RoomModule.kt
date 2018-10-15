@@ -1,6 +1,6 @@
 package at.ict4d.ict4dnews.dagger.modules
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.persistence.PersistenceManager

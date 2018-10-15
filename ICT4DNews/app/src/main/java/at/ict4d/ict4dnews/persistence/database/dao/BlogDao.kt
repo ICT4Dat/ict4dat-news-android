@@ -1,11 +1,11 @@
 package at.ict4d.ict4dnews.persistence.database.dao
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Update
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import at.ict4d.ict4dnews.models.BLOG_TABLE_ACTIVE
 import at.ict4d.ict4dnews.models.BLOG_TABLE_NAME
 import at.ict4d.ict4dnews.models.BLOG_TABLE_TABLE_NAME

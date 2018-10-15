@@ -1,6 +1,6 @@
 package at.ict4d.ict4dnews.screens.splashscreen
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel

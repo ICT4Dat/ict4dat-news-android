@@ -1,6 +1,6 @@
 package at.ict4d.ict4dnews.screens.news.list
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager

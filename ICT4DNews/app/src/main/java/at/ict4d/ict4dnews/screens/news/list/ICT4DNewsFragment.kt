@@ -1,17 +1,16 @@
 package at.ict4d.ict4dnews.screens.news.list
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.screens.base.BaseFragment
@@ -142,7 +141,8 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             }
 
             R.id.menu_filter -> {
-                findNavController().navigate(ICT4DNewsFragmentDirections.actionActionNewsToBlogAndSourceFragment())
+                view?.findNavController()
+                    ?.navigate(ICT4DNewsFragmentDirections.actionActionNewsToBlogAndSourceFragment())
                 return true
             }
 

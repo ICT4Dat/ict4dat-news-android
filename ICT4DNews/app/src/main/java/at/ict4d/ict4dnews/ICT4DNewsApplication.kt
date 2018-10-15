@@ -2,7 +2,7 @@ package at.ict4d.ict4dnews
 
 import android.app.Activity
 import android.content.Context
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
 import com.facebook.stetho.Stetho

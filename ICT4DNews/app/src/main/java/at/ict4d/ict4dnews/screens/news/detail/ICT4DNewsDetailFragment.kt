@@ -1,7 +1,7 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
 import android.annotation.TargetApi
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.os.Build
 import android.os.Bundle

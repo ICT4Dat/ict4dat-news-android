@@ -1,10 +1,10 @@
 package at.ict4d.ict4dnews.models
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.Index
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import android.os.Parcelable
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.wordpress.SELF_HOSTED_WP_POST_SERIALIZED_RENDERED
