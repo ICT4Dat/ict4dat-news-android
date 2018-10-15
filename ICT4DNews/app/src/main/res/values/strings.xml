@@ -1,26 +1,23 @@
 <resources>
     <string name="app_name">ICT4D News</string>
     <string name="nav_news">News</string>
-    <string name="nav_ict4dat">ICT4D.at</string>
-    <string name="nav_ict4d">ICT4D</string>
+    <string name="nav_ict4dat" translatable="false">ICT4D.at</string>
+    <string name="nav_ict4d" translatable="false">ICT4D</string>
     <string name="nav_more">More</string>
     <string name="refresh">Refresh</string>
     <string name="search">Search</string>
     <string name="filter">Filter</string>
     <string name="news_search_hint">Search for News…</string>
     <string name="title_activity_ict4_dnews_detail">ICT4D News</string>
-    <string name="action_settings">Settings</string>
     <string name="ict4d_at_wikipedia">Continue reading on Wikipedia</string>
     <string name="ict4d_logo">ICT4D logo</string>
     <string name="ict4d_at_logo">ICT4D.at logo</string>
     <string name="http_exception_error_message">Unable to connect</string>
     <string name="server_error_message">Server is not responding at this moment</string>
     <string name="send_to">Share with</string>
-    <string name="splash_headline">ICT4D.at</string>
     <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
     <string name="open_in_browser">Open in a Browser</string>
-    <string name="description_ict4d">
-        <b>Information and Communication Technologies for Development (ICT4D)</b>
+    <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
         refers to the application of information and communication technologies (ICT) toward social, economic, and
         political development, with a particular emphasis on helping poor and marginalized people and communities. It
         aims to help in international development by bridging the digital divide and providing equitable access to
@@ -30,7 +27,7 @@
         sociology, economics, development studies, library, information science, and communication
         studies.\n\n-Wikipedia
     </string>
-    <string name="ict4dat_vision">ICT4D.at believes in the <b>empowerment of people through ICTs.</b>\n\nWe cooperate
+    <string name="ict4dat_vision">ICT4D.at believes in the empowerment of people through ICTs.\n\nWe cooperate
         and collaborate with grassroots organizations in the fields of science, arts, education, media and open source
         software to improve the lives of those in lesser developed countries.
     </string>
@@ -40,7 +37,7 @@
     <string name="open_source_licences_title">Open Source Licences</string>
     <string name="licenses">Licenses</string>
     <string name="share">Share</string>
-    <string name="share_ict4d">ICT4D - Information and Communication Technologies for Development\n\n%1$s</string>
+    <string name="share_ict4d" translatable="false">ICT4D - Information and Communication Technologies for Development\n\n%1$s</string>
     <string name="share_ict4dat">ICT4D.at - The Austrian Network for Information and Communication Technologies for
         Development\n\n%1$s
     </string>
@@ -59,4 +56,5 @@
     <string name="contact_mail_text">Dear ICT4D.at,\n\n</string>
     <string name="share_app_text">Hi,\nI am using ICT4D.at\'s Android ICT4D-News App. You can download it from here:\n\n %1$s</string>
     <string name="headline_more">With %1$s from ICT4D.at</string>
+    <string name="ict4d_headline">What is ICT4D?</string>
 </resources>

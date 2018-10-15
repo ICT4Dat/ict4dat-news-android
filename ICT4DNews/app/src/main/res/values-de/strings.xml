@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ICT4D News</string>
-    <string name="nav_news">Neugikeiten</string>
-    <string name="nav_ict4dat">ICT4D.at</string>
+    <string name="app_name">ICT4D Neuigkeiten</string>
+    <string name="nav_news">Neuigkeiten</string>
     <string name="nav_more">Mehr</string>
     <string name="refresh">Aktualisieren</string>
     <string name="search">Suchen</string>
     <string name="filter">Filtern</string>
     <string name="news_search_hint">Suche nach Neuigkeiten…</string>
-
+    <string name="title_activity_ict4_dnews_detail">ICT4D Neuigkeiten</string>
+    <string name="ict4d_at_wikipedia">Lese weiter auf Wikipedia</string>
+    <string name="ict4d_logo">ICT4D Logo</string>
+    <string name="ict4d_at_logo">ICT4D.at Logo</string>
+    <string name="http_exception_error_message">Die Verbindung konnte nicht hergestellt werden.</string>
+    <string name="server_error_message">Der Server antwortet zur Zeit nicht.</string>
+    <string name="send_to">Teile mit</string>
+    <string name="news_detail_share">%1$s\n\von %2$s - %3$s\n\n%4$s</string>
+    <string name="open_in_browser">In einem Browser öffnen</string>
+    <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
+        refers to the application of information and communication technologies (ICT) toward social, economic, and
+        political development, with a particular emphasis on helping poor and marginalized people and communities. It
+        aims to help in international development by bridging the digital divide and providing equitable access to
+        technologies. ICT4D is grounded in the notions of "development", "growth", "progress" and "globalization" and is
+        often interpreted as the use of technology to deliver a greater good. Another similar term used in the
+        literature is "digital development". ICT4D draws on theories and frameworks from many disciplines, including
+        sociology, economics, development studies, library, information science, and communication
+        studies.\n\n-Wikipedia
+    </string>
+    <string name="ict4dat_vision">ICT4D.at believes in the empowerment of people through ICTs.\n\nWe cooperate
+        and collaborate with grassroots organizations in the fields of science, arts, education, media and open source
+        software to improve the lives of those in lesser developed countries.
+    </string>
+    <string name="ict4dat_donate">Unterstütze unsere Arbeit!</string>
+    <string name="ict4dat_projects">Unsere Projekte</string>
+    <string name="ict4dat_about">Über uns &amp; Mitglieder</string>
+    <string name="open_source_licences_title">Open Source Lizenzen</string>
+    <string name="licenses">Lizenzen</string>
+    <string name="share">Teilen</string>
+    <string name="share_ict4d">ICT4D - Informations- und Kommunikationstechnologien für Entwicklungszusammenarbeit\n\n%1$s</string>
+    <string name="share_ict4dat">ICT4D.at - Das Österreichische Netzwerk für Informations- und Kommunikationstechnologien für Entwicklungszusammenarbeit\n\n%1$s</string>
+    <string name="read_more">Weiterlesen</string>
+    <string name="blog_logo">Blog Logo</string>
+    <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Quellen</string>
+    <string name="contextual_selection">%d/%d Blogs ausgewählt</string>
+    <string name="about_developers">Diese FOSS Android Applikation wurde mit Liebe von der NRO ICT4D.at und den folgenden Entwicklern und Gestalterinnen entwickelt:</string>
+    <string name="rate_application">Bewerte diese Applikation</string>
+    <string name="share_application">Teile diese Applikation</string>
+    <string name="contact_us">Kontaktiere uns</string>
+    <string name="github_project">Öffne das Github Project</string>
+    <string name="software_developer">Software Entwickler</string>
+    <string name="designer">Gestalterin</string>
+    <string name="contact_mail_subject">ICT4D.at Android News App</string>
+    <string name="contact_mail_text">Liebes ICT4D.at,\n\n</string>
+    <string name="share_app_text">Hi,\nich verwende die ICT4D.at Android ICT4D-News App. Du kannst sie hier herunterladen:\n\n %1$s</string>
+    <string name="headline_more">Mit %1$s von ICT4D.at</string>
+    <string name="ict4d_headline">Was ist ICT4D?</string>
 </resources>
