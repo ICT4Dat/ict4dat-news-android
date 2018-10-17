@@ -32,12 +32,9 @@ android {
 
     buildTypes {
         release {
-            // TODO: set up signing configs
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
         debug {
             minifyEnabled false
             versionNameSuffix "-debug"
@@ -66,7 +63,7 @@ configurations.all { config ->
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Android Support Libs
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
@@ -90,7 +87,7 @@ dependencies {
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-common:0.9.1"
+    implementation "org.jetbrains.anko:anko-common:0.10.7"
 
     // Logging
     implementation "com.jakewharton.timber:timber:4.7.1"
@@ -114,28 +111,33 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // ThreeTenABP - java.time backport
-    implementation "com.jakewharton.threetenabp:threetenabp:1.1.0"
+    implementation "com.jakewharton.threetenabp:threetenabp:1.1.1"
 
     // *** Android Architecture Components ***
+
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
     // Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
+
     // ReactiveStreams support for LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
     // Test helpers for Room
     testImplementation "androidx.room:room-testing:$room_version"
+
     // RxJava support for Room
     implementation "androidx.room:room-rxjava2:$room_version"
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06" // use -ktx for Kotlin
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06" // use -ktx for Kotlin
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06"
 
     // Stetho for debug
     implementation "com.facebook.stetho:stetho:1.5.0"
@@ -147,11 +149,11 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-beta02"
 
     // Leak Canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.5.4"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.5.4"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.2"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.2"
 
     //KLint
-    ktlint "com.github.shyiko:ktlint:0.24.0"
+    ktlint "com.github.shyiko:ktlint:0.29.0"
 
     // 3rd Party licenses
     implementation "com.google.android.gms:play-services-oss-licenses:16.0.1"

@@ -18,7 +18,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".screens.more.MoreFragment">
+                tools:context=".screens.more.MoreFragment"
+                android:paddingBottom="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ict4d_text"
@@ -32,7 +33,8 @@
                     android:text="@string/description_ict4d"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toBottomOf="@+id/textView"/>
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
             <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/ict4d_wikipedia_button"
