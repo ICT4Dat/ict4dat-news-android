@@ -31,11 +31,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:textStyle="bold"
                     android:textSize="24sp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginStart="19dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"/>
+                    android:layout_marginEnd="19dp"
+                    android:layout_marginRight="19dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/developers_text"

@@ -3,13 +3,12 @@
 
     <item
         android:id="@id/actionNews"
-        android:icon="@drawable/ic_fiber_new_black_24dp"
+        android:icon="@drawable/ic_news"
         android:title="@string/nav_news" />
 
-    <!--TODO change the navigation_ict4d icon-->
     <item
         android:id="@id/actionIct4d"
-        android:icon="@drawable/ic_group_work_black_24dp"
+        android:icon="@drawable/ic_ict4d_black"
         android:title="@string/nav_ict4d" />
 
     <item
