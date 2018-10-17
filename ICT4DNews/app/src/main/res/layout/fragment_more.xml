@@ -93,6 +93,8 @@
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/more_developer_2"
                     android:layout_width="72dp"
+                    app:loadFromRes="@{R.drawable.raja}"
+                    app:round="@{true}"
                     android:layout_height="72dp"
                     android:onClick="@{()->fragment.openUrlInCustomTab(R.string.url_raja)}"
                     android:contentDescription="@string/raja_saboor_ali"
@@ -100,7 +102,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/more_developer_1"
-                    tools:srcCompat="@tools:sample/avatars"/>
+                    tools:srcCompat="@drawable/raja"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_raja"
