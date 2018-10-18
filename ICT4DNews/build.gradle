@@ -2,6 +2,8 @@
 
 buildscript {
 
+    ext.versionCode = 2
+
     ext.kotlin_version = "1.2.71"
     ext.glide_version = "4.8.0"
     ext.dagger_version = "2.16"
@@ -18,7 +20,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.android.gms:oss-licenses-plugin:0.9.3"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha06"
-
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

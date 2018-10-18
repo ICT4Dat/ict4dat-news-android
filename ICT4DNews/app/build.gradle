@@ -12,8 +12,8 @@ android {
         applicationId "at.ict4d.ict4dnews"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.ext.versionCode
+        versionName "version 1.0 (${getCheckedOutGitCommitHash()}.${rootProject.ext.versionCode})"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
