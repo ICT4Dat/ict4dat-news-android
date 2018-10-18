@@ -62,10 +62,6 @@ class ICT4DatFragment : BaseFragment<ICT4DViewModel, FragmentIct4datBinding>() {
         context?.browseCustomTab(getString(R.string.url_ict4dat_about_us))
     }
 
-    fun openDonate() {
-        context?.browseCustomTab(getString(R.string.url_ict4dat_donate))
-    }
-
     companion object {
 
         @JvmStatic
