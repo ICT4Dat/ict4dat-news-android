@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentSplashBinding
+import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
@@ -34,6 +35,9 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
         model.allBlogs.observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
                 view?.findNavController()?.navigate(R.id.action_splashFragment_to_news_fragment)
+            } else {
+                binding.splashProgressBar.visible(true)
+                binding.ict4datLogo.visible(true)
             }
         })
         return view
