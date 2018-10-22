@@ -12,6 +12,8 @@ import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
@@ -26,11 +28,16 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java).subscribe {
-            if (view?.findNavController()?.currentDestination?.id == R.id.splashFragment) {
-                view.findNavController().navigate(R.id.action_splashFragment_to_news_fragment)
-            }
-        })
+        compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                if (view?.findNavController()?.currentDestination?.id == R.id.splashFragment) {
+                    view?.let {
+                        it.findNavController().navigate(R.id.action_splashFragment_to_news_fragment)
+                    }
+                }
+            })
 
         model.allBlogs.observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
