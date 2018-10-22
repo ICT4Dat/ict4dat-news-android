@@ -77,6 +77,8 @@ class Server @Inject constructor(
         }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
+            .doOnError { Timber.e(it, "error in updating blogs") }
+            .onErrorReturn { emptyList<Blog>() }
             .subscribe({
                 Timber.d("**** done: $it")
             }, {

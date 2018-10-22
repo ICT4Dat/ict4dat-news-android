@@ -107,8 +107,8 @@ class ICT4DNewsViewModel @Inject constructor(
         val query = searchQuery.toLowerCase().trim()
 
         searchedNewsList.postValue(newsList.value?.filter { pair ->
-            pair.first.title?.toLowerCase()?.contains(query) ?: false ||
-                pair.second.name.toLowerCase().contains(query)
+            pair.first.title?.contains(query, true) ?: false ||
+                pair.second.name.contains(query, true)
         })
     }
 }

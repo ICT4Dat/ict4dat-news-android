@@ -44,7 +44,7 @@
     <string name="blog_logo">Blog logo</string>
     <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Sources</string>
     <string name="contextual_selection">%d/%d blogs chosen</string>
-    <string name="about_developers">This FOSS Android application was developed with Love by the NGO ICT4D.at and the following main developers and designers:</string>
+    <string name="about_developers">This Open Source Android application was developed with Love by the NGO ICT4D.at and the following main developers and designers:</string>
     <string name="rate_application">Rate this application</string>
     <string name="share_application">Share this application</string>
     <string name="contact_us">Contact us</string>
