@@ -20,6 +20,7 @@ import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.jsoup.Jsoup
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.HttpException
@@ -50,7 +51,7 @@ class Server @Inject constructor(
                     newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
                         DateTimeFormatter.ISO_LOCAL_DATE_TIME
                     )
-                    )
+                )
                     .onErrorReturn { emptyList() }
                 )
             } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
@@ -160,6 +161,8 @@ class Server @Inject constructor(
             Timber.d("$serverAuthors")
             Timber.d("$serverMedia")
 
+            streamLineElementsInContent(news)
+
             persistenceManager.insertAuthorsNewsAndMedia(authors, news, media)
         }
     }
@@ -227,8 +230,27 @@ class Server @Inject constructor(
                     }
                 }
 
+                streamLineElementsInContent(newsList)
+
                 Timber.d("$mediaList")
                 persistenceManager.insertAuthorsNewsAndMedia(listOf(author), newsList, mediaList)
+            }
+        }
+    }
+
+    /**
+     * Parses HTML and sets width of elements like images or iframes to the width of the phone
+     */
+    private fun streamLineElementsInContent(news: List<News>) {
+        news.forEach { oneNewsItem ->
+            oneNewsItem.description?.let { html ->
+                val doc = Jsoup.parse(html)
+
+                doc.select("img").attr("width", "100%")
+                doc.select("figure").attr("style", "width: 80%")
+                doc.select("iframe").attr("style", "width: 100%")
+
+                oneNewsItem.description = doc.html()
             }
         }
     }

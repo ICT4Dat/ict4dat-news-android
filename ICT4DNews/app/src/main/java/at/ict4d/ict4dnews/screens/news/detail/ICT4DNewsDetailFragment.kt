@@ -1,7 +1,6 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
 import android.annotation.TargetApi
-import androidx.lifecycle.Observer
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.lifecycle.Observer
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
@@ -42,11 +42,17 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
         binding.blogTitle.text = model.selectedNews?.title
         binding.articleDate.text = model.selectedNews?.publishedDate?.extractDate()
 
-        binding.webview.loadData(
-            "<style>img{display: inline;height: auto;max-width: 100%;}</style>${model.selectedNews?.description}",
-            "text/html; charset=utf-8",
-            "UTF-8"
-        )
+        model.selectedNews?.description?.let { html ->
+
+            // enables JS for youtube videos
+            binding.webview.settings.javaScriptEnabled = true
+
+            binding.webview.loadData(
+                "$html<style>img{display: inline;height: auto;max-width: 100%;}</style>",
+                "text/html; charset=utf-8",
+                "UTF-8"
+            )
+        }
 
         binding.webview.webViewClient = object : WebViewClient() {
 
