@@ -18,7 +18,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:tabIndicatorColor="@color/colorAccent"
                 android:background="@color/colorPrimary"
-                app:tabTextColor="@color/light_grey"
+                app:tabTextColor="@color/white_75_transparent"
                 app:tabSelectedTextColor="@color/white" >
 
             <com.google.android.material.tabs.TabItem

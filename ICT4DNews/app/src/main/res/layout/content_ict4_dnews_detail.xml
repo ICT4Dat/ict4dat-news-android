@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/blog_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/author_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/article_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 app:layout_constraintStart_toEndOf="@+id/author_name"
                 app:layout_constraintBaseline_toBaselineOf="@+id/author_name"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/post_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

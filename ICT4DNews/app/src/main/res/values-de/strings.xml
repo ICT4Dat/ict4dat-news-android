@@ -27,22 +27,28 @@
         sociology, economics, development studies, library, information science, and communication
         studies.\n\n-Wikipedia
     </string>
-    <string name="ict4dat_vision">ICT4D.at believes in the empowerment of people through ICTs.\n\nWe cooperate
-        and collaborate with grassroots organizations in the fields of science, arts, education, media and open source
-        software to improve the lives of those in lesser developed countries.
+    <string name="ict4dat_vision">ICT4D.at believes in the empowerment of people through Information and Communication
+        Technologies.\n\nWe cooperate and collaborate with grassroots organizations in the fields of science, arts,
+        education, media and open source software to improve the lives of those in lesser developed countries.
     </string>
     <string name="ict4dat_projects">Unsere Projekte</string>
     <string name="ict4dat_about">Über uns &amp; Mitglieder</string>
-    <string name="open_source_licences_title">Open Source Lizenzen</string>
+    <string name="open_source_licences_title">Quelleoffene Software Lizenzen</string>
     <string name="licenses">Lizenzen</string>
     <string name="share">Teilen</string>
-    <string name="share_ict4d">ICT4D - Informations- und Kommunikationstechnologien für Entwicklungszusammenarbeit\n\n%1$s</string>
-    <string name="share_ict4dat">ICT4D.at - Das Österreichische Netzwerk für Informations- und Kommunikationstechnologien für Entwicklungszusammenarbeit\n\n%1$s</string>
+    <string name="share_ict4d">ICT4D - Informations- und Kommunikationstechnologien für
+        Entwicklungszusammenarbeit\n\n%1$s
+    </string>
+    <string name="share_ict4dat">ICT4D.at - Das Österreichische Netzwerk für Informations- und
+        Kommunikationstechnologien für Entwicklungszusammenarbeit\n\n%1$s
+    </string>
     <string name="read_more">Weiterlesen</string>
     <string name="blog_logo">Blog Logo</string>
     <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Quellen</string>
     <string name="contextual_selection">%d/%d Blogs ausgewählt</string>
-    <string name="about_developers">Diese FOSS Android Applikation wurde mit Liebe von der NRO ICT4D.at und den folgenden Entwicklern und Gestalterinnen entwickelt:</string>
+    <string name="about_developers">Diese quelloffene Android Applikation wurde mit Liebe von der NRO ICT4D.at und den
+        folgenden Entwicklern und Gestalterinnen erstellt:
+    </string>
     <string name="rate_application">Bewerte diese Applikation</string>
     <string name="share_application">Teile diese Applikation</string>
     <string name="contact_us">Kontaktiere uns</string>
@@ -51,7 +57,9 @@
     <string name="designer">Gestalterin</string>
     <string name="contact_mail_subject">ICT4D.at Android News App</string>
     <string name="contact_mail_text">Liebes ICT4D.at,\n\n</string>
-    <string name="share_app_text">Hi,\nich verwende die ICT4D.at Android ICT4D-News App. Du kannst sie hier herunterladen:\n\n %1$s</string>
+    <string name="share_app_text">Hi,\nich verwende die Android ICT4D-News App von ICT4D.at. Du kannst sie hier
+        herunterladen:\n\n %1$s
+    </string>
     <string name="headline_more">Mit %1$s von ICT4D.at</string>
     <string name="ict4d_headline">Was ist ICT4D?</string>
 </resources>

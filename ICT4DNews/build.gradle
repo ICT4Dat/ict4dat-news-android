@@ -2,7 +2,7 @@
 
 buildscript {
 
-    ext.versionCode = 2
+    ext.versionCode = 3
 
     ext.kotlin_version = "1.2.71"
     ext.glide_version = "4.8.0"
