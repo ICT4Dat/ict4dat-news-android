@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/ict4dat/ict4dat-news-android/develop/ICT4DNews/app/src/main/res/drawable-xhdpi/ict4d_logo.png" alt="ICT4D.at Logo" />
+    <a href="http://www.ict4d.at" target="_blank"><img src="https://raw.githubusercontent.com/ict4dat/ict4dat-news-android/develop/ICT4DNews/app/src/main/res/drawable-xhdpi/ict4d_logo.png" alt="ICT4D.at Logo" /></a>
 </p>
 
 
@@ -10,6 +10,13 @@ This Android application is developed by [ICT4D.at](http://www.ict4d.at) and is 
 * [Noah Alorwu](https://github.com/noahalorwu)
 * [Paul Spiesberger](https://github.com/spipau)
 * [Raja Saboor Ali](https://github.com/rajasone)
+
+## Now in Beta!
+Become a Beta-Tester and download our preview from the Play Store:
+
+<p align="center">
+    <a href='https://play.google.com/store/apps/details?id=at.ict4d.ict4dnews&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width=270/></a>
+</p>
 
 ## Current UI Wireframes
 
