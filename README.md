@@ -11,8 +11,8 @@ This Android application is developed by [ICT4D.at](http://www.ict4d.at) and is 
 * [Paul Spiesberger](https://github.com/spipau)
 * [Raja Saboor Ali](https://github.com/rajasone)
 
-## Now in Beta!
-Become a Beta-Tester and download our preview from the Play Store:
+## Download Now!
+Download our first release from the Play Store:
 
 <p align="center">
     <a href='https://play.google.com/store/apps/details?id=at.ict4d.ict4dnews&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width=270/></a>
