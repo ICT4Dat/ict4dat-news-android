@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@id/actionNews"
+        android:icon="@drawable/ic_news"
+        android:title="@string/nav_news" />
+
+    <item
+        android:id="@id/actionIct4d"
+        android:icon="@drawable/ic_ict4d_black"
+        android:title="@string/nav_ict4d" />
+
+    <item
+        android:id="@id/actionMore"
+        android:icon="@drawable/ic_more_horiz_black_24dp"
+        android:title="@string/nav_more" />
+
+</menu>

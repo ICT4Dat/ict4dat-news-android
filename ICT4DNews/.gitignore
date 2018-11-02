@@ -1,8 +1,6 @@
 # Custom
 
 .idea/assetWizardSettings.xml
-.idea/caches/build_file_checksums.ser
-ICT4DNews/.idea/navEditor.xml
 
 # Created by GitLab
 
@@ -16,7 +14,7 @@ ICT4DNews/.idea/navEditor.xml
 google-services.json
 
 
-# Created by https://www.gitignore.io/api/java,macos,linux,kotlin,android,windows,intellij,androidstudio
+# Created by https://www.gitignore.io/api/java,macos,linux,gradle,kotlin,android,windows,intellij,androidstudio
 
 ### Android ###
 # Built application files
@@ -325,5 +323,24 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+### Gradle ###
+**/build/
 
-# End of https://www.gitignore.io/api/java,macos,linux,kotlin,android,windows,intellij,androidstudio
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+
+# End of https://www.gitignore.io/api/java,macos,linux,gradle,kotlin,android,windows,intellij,androidstudio
+
+# For Travis CI
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties

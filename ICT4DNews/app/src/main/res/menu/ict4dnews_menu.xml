@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--don't change app:showAsAction="always" because Android 7.1 is hiding the search view on orientation change-->
+    <item
+            android:id="@+id/menu_search"
+            android:icon="@drawable/ic_search_white_24dp"
+            android:title="@string/search"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"
+            app:showAsAction="collapseActionView|always"/>
+
+    <!--don't change app:showAsAction="always" because Android 7.1 is hiding the search view on orientation change-->
+    <item
+            android:id="@+id/menu_filter"
+            android:icon="@drawable/ic_filter_list_white_24dp"
+            android:title="@string/filter"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/menu_refresh"
+            android:title="@string/refresh"
+            app:showAsAction="never"/>
+</menu>

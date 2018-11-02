@@ -1,2 +1,59 @@
-# ict4dat-news-android
-ICT4D.at's App to combine all ICT4D news into one Android application
+<p align="center">
+    <a href="http://www.ict4d.at" target="_blank"><img src="https://raw.githubusercontent.com/ict4dat/ict4dat-news-android/develop/ICT4DNews/app/src/main/res/drawable-xhdpi/ict4d_logo.png" alt="ICT4D.at Logo" /></a>
+</p>
+
+
+# [ICT4D.at](http://www.ict4d.at) News Android Application
+
+This Android application combines ICT4D news from various sources into one single application. It conects to Wordpress APIs and RSS feeds to presents the results in one streamlined list. The goal is to unify all ICT4D news into one application. 
+This Android application is developed by [ICT4D.at](http://www.ict4d.at) and is open to anyone for participation. Main developers in alphabetical order are:
+* [Noah Alorwu](https://github.com/noahalorwu)
+* [Paul Spiesberger](https://github.com/spipau)
+* [Raja Saboor Ali](https://github.com/rajasone)
+
+## Download Now!
+Download our first release from the Play Store:
+
+<p align="center">
+    <a href='https://play.google.com/store/apps/details?id=at.ict4d.ict4dnews&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width=270/></a>
+</p>
+
+## Current UI Wireframes
+
+<p align="center">
+    <img src="http://www.ict4d.at/ict4dnews/github_readme/wireframes.png" alt="Wireframes" />
+</p>
+
+## Supported News Feeds and Sources
+
+The following alphabetically orded list of news sources is included in the application:
+
+* [Appropriating Technology](http://appropriatingtechnology.org/) - Blog from Tony Roberts, fellow in the Digital & Technology team at the Institute for Development Studies at the University of Sussex in the UK.
+* [Chris Blattman](https://chrisblattman.com/) - Blog from Chris Blattman, development economist at the Harris School of Public Policy at the University of Chicago. Focus is on development, but he's young and hip and offers great perspective on local technology interventions.
+* [CIPES](https://cipesa.org/) - Promoting Effective and Inclusive ICT Policy in Africa.
+* [Digital@DAI](https://dai-global-digital.com/) - A relatively new but well-written blog covering recent technologies, experiments with tech solutions, and reviews.
+* [EduTech](https://blogs.worldbank.org/edutech/) - One of the best blogs on ICT, with a focus on education, from Mike Trucano of the World Bank.
+* [GSMA Newsroom](https://www.gsma.com/newsroom/category/press-release/) - Blog for the trade union of 800 mobile operators and 300 companies around the world.
+* [Guardian Project Blog](https://guardianproject.info/) - Blog for the non-profit group creating apps and promoting libraries and devices that protect data and communications.
+* [ICT Ethics](https://ictdethics.wordpress.com/) - Analyzing, clustering and summarizing the ethical debates in ICTD.
+* [ICT4D.at](http://www.ict4d.at) - Austrian Network for Information and Comunication Technologies for Development.
+* [ICT4D Views from the Field](https://ict4dviewsfromthefield.wordpress.com/) - Blog about ICT4D projects from Dr. Laura Hosman, at the School for the Future of Innovation in Society and at The Polytechnic School at Arizona State University.
+* [ICT4Peace Blog](https://ict4peace.wordpress.com/) - Conflict resolution and ICT4D blog.
+* [ICTLogy Blog](http://ictlogy.net/) - From Ismael Peña-López, one of the longest-running ICT sites and blogs.
+* [ICTs for Development](https://ict4dblog.wordpress.com/feed/) - Blog associated with University of Manchester's Centre for Development Informatics Blog associated with University of Manchester's Centre for Development Informatics. Richard Heeks is a must-follow.
+* [ICTWorks](https://www.ictworks.org/) - ICTworks is the premier community for international development professionals committed to utilizing new and emerging technologies to magnify the intent of communities to accelerate their social and economic development.
+* [iRevolutions](https://irevolutions.org/) - Hacking emerging technologies to solve emerging aid & development problems.
+* [IT for Change](https://www.itforchange.net/) - Bridging Development Realities and Technological Possibilities.
+* [kiwanja.net](http://www.kiwanja.net/) - Blog from Ken Banks, one of ICT4D's most recognized practitioners.
+* [Linnet Taylor](https://linnettaylor.wordpress.com/) - Doubt wisely, and never lose your penguin.
+* [Many Possibilities](https://manypossibilities.net/) - My name is Steve Song.  I am the Founder of Village Telco, a social enterprise that builds low-cost WiFi mesh VoIP technologies to deliver affordable voice and Internet in underserviced areas.
+* [Matt Haikin Blog](https://matthaikin.com/) - Matt Haikin, ICT4D practitioner, researcher and consultant. Exploring participatory approaches to ICT, and technologies to enable participation.
+* [Mobile for Development (GSMA) Blog](https://www.gsma.com/mobilefordevelopment/) - Blog for the team within GSMA that focuses on emerging markets.
+* [My heart's in Accra](http://www.ethanzuckerman.com/) - Personal blog from Ethan Zuckerman, director of the Center for Civic.
+* [Open Knowledge International Blog](http://blog.okfn.org/) - Open Knowledge International is a global non-profit organisation focused on realising open data’s value to society by helping civil society groups access and use data to take action on social problems.
+* [Tim Unwin's Blog](https://unwin.wordpress.com/) - Blog from Tim Unwin, UNESCO Chair in ICT4D and Emeritus Professor of Geography at Royal Holloway, University of London.
+* [UNICEF Stories](http://unicefstories.org/) - Stories and Innovation.
+
+## Travis CI Status
+
+[![Build Status](https://travis-ci.org/ICT4Dat/ict4dat-news-android.svg?branch=develop)](https://travis-ci.org/ICT4Dat/ict4dat-news-android)

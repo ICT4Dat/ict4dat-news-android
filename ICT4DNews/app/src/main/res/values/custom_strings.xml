@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="url_ict4d_wikipedia">https://en.wikipedia.org/wiki/Information_and_communication_technologies_for_development</string>
+    <string name="url_ict4dat_projects" translatable="false">http://www.ict4d.at/projects/</string>
+    <string name="url_ict4dat_about_us" translatable="false">http://www.ict4d.at/about/</string>
+    <string name="url_ict4dat" translatable="false">http://www.ict4d.at/</string>
+    <string name="url_github_project" translatable="false">https://github.com/ICT4Dat/ict4dat-news-android</string>
+    <string name="contact_email" translatable="false">news.app@ict4d.at</string>
+    <string name="url_paul" translatable="false">https://twitter.com/spipau</string>
+    <string name="url_raja" translatable="false">https://www.facebook.com/raja.saboor1</string>
+    <string name="url_noah" translatable="false">https://www.facebook.com/noahalorwu</string>
+    <string name="url_chloe" translatable="false">https://www.facebook.com/chloe.zimmermann1</string>
+
+    <string name="paul_spiesberger" translatable="false">Paul Spiesberger</string>
+    <string name="raja_saboor_ali" translatable="false">Raja Saboor Ali</string>
+    <string name="noah_alorwu" translatable="false">Noah Alorwu</string>
+    <string name="chlo_zimmermann" translatable="false">Chloé Zimmermann</string>
+</resources>

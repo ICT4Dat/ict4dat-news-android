@@ -1,0 +1,166 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply plugin: "androidx.navigation.safeargs"
+apply from: 'tasks.gradle' // contains supporting tasks e.g ktlint
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "at.ict4d.ict4dnews"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode rootProject.ext.versionCode
+        versionName "version 1.0 (${getCheckedOutGitCommitHash()}.${rootProject.ext.versionCode})"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/room_schemas".toString())
+            }
+        }
+
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            versionNameSuffix "-debug"
+        }
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+// Exclude LeakCanary in tests
+// Ensure the no-op dependency is always used in JVM tests.
+configurations.all { config ->
+    if (config.name.contains('UnitTest') || config.name.contains('AndroidTest')) {
+        config.resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.squareup.leakcanary' && details.requested.name == 'leakcanary-android') {
+                details.useTarget(group: details.requested.group, name: 'leakcanary-android-no-op', version: details.requested.version)
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // Android Support Libs
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha2"
+    implementation "androidx.vectordrawable:vectordrawable:1.0.0"
+    implementation "androidx.preference:preference:1.0.0"
+    implementation "androidx.annotation:annotation:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.browser:browser:1.0.0"
+    implementation "androidx.multidex:multidex:2.0.0"
+    implementation "androidx.core:core-ktx:1.0.0"
+
+    // Dagger 2
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.anko:anko-common:0.10.7"
+
+    // Logging
+    implementation "com.jakewharton.timber:timber:4.7.1"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:2.2.2"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+    implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.2.0"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version@aar"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
+    implementation "com.squareup.retrofit2:converter-simplexml:2.3.0"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // ThreeTenABP - java.time backport
+    implementation "com.jakewharton.threetenabp:threetenabp:1.1.1"
+
+    // *** Android Architecture Components ***
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    // Test helpers for LiveData
+    testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
+
+    // ReactiveStreams support for LiveData
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // Test helpers for Room
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    // RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    // Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06"
+
+    // Stetho for debug
+    implementation "com.facebook.stetho:stetho:1.5.0"
+    implementation "com.facebook.stetho:stetho-okhttp3:1.5.0"
+
+    // Testing
+    testImplementation "junit:junit:4.12"
+    androidTestImplementation "androidx.test:runner:1.1.0-beta02"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-beta02"
+
+    // Leak Canary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.2"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.2"
+
+    //KLint
+    ktlint "com.github.shyiko:ktlint:0.29.0"
+
+    // 3rd Party licenses
+    implementation "com.google.android.gms:play-services-oss-licenses:16.0.1"
+
+    // Rx Preferences
+    implementation "com.f2prateek.rx.preferences2:rx-preferences:2.0.0"
+
+    // Jsoup
+    implementation 'org.jsoup:jsoup:1.11.3'
+}
