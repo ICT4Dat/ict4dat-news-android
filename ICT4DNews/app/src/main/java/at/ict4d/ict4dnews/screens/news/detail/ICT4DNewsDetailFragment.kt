@@ -4,35 +4,77 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.lifecycle.Observer
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.databinding.FragmentIct4DnewsDetailBinding
+import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailNewBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.extensions.extractDate
+import at.ict4d.ict4dnews.extensions.loadFromURL
+import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseFragment
+import org.jetbrains.anko.share
 
 const val ARG_NEWS_ITEM = "news_item"
 
-class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4DnewsDetailBinding>() {
+class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4dNewsDetailNewBinding>() {
 
-    override fun getLayoutId(): Int = R.layout.fragment_ict4_dnews_detail
+    override fun getLayoutId(): Int = R.layout.fragment_ict4d_news_detail_new
 
     override fun getViewModel(): Class<ICT4DNewsDetailViewModel> = ICT4DNewsDetailViewModel::class.java
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        arguments?.getParcelable<News>(ARG_NEWS_ITEM)?.let {
-            model.selectedNews = it
-        }
+        model.selectedNews = ICT4DNewsDetailFragmentArgs.fromBundle(arguments).newsItem
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        Handler().postDelayed({
+            binding.fab.show()
+        }, 700)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+
+        binding.fab.setOnClickListener { _ ->
+
+            model.selectedNews?.authorID?.let {
+                model.authorDetails(it).observe(this, Observer { author ->
+                    author?.name.let { authorName ->
+                        context?.share(
+                            String.format(
+                                getString(R.string.news_detail_share),
+                                model.selectedNews?.title,
+                                authorName,
+                                model.selectedNews?.publishedDate?.extractDate(),
+                                model.selectedNews?.link
+                            )
+                        )
+                    }
+                })
+            }
+        }
+
+        binding.appbarImage.loadFromURL(model.selectedNews?.mediaFeaturedURL ?: "")
+
+        model.selectedNews?.blogID?.let { blogID ->
+            model.getBlogBy(blogID).observe(this, Observer { blog ->
+                blog?.let { binding.toolbarLayout.title = it.name }
+            })
+        }
 
         if (model.selectedNews != null && model.selectedNews?.authorID != null) {
             model.authorDetails(model.selectedNews?.authorID!!).observe(this, Observer {
@@ -77,6 +119,25 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_ict4_dnews_detail, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                binding.fab.visible(false)
+                activity?.supportFinishAfterTransition()
+                return true
+            }
+
+            R.id.action_open -> {
+                activity?.browseCustomTab(model.selectedNews?.link ?: "")
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

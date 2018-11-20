@@ -1,10 +1,10 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.Observer
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityIct4DnewsDetailBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
@@ -25,7 +25,7 @@ class ICT4DNewsDetailActivity : BaseActivity<ICT4DNewsDetailViewModel, ActivityI
         super.onCreate(savedInstanceState)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO: refactor to base Activity
-        model.selectedNews = ICT4DNewsDetailActivityArgs.fromBundle(intent.extras).newsItem
+//        model.selectedNews = ICT4DNewsDetailActivityArgs.fromBundle(intent.extras).newsItem
 
         if (model.selectedNews == null) {
             Timber.e("Selected news must not be NULL")

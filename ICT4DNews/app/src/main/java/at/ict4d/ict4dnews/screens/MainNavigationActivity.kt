@@ -43,6 +43,8 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
         if (destination.id == R.id.splashFragment) {
             supportActionBar?.hide()
             binding.navigation.visibility = View.GONE
+        } else if (destination.id == R.id.ICT4DNewsDetailFragment) {
+            supportActionBar?.hide()
         } else {
             supportActionBar?.show()
             binding.navigation.visibility = View.VISIBLE

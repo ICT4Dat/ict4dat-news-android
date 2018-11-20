@@ -1,14 +1,14 @@
 package at.ict4d.ict4dnews.screens.base
 
+import android.os.Bundle
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import android.os.Bundle
-import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.lifecycle.RXErrorEventBusLifecycleObserver
 import at.ict4d.ict4dnews.utils.RxEventBus
