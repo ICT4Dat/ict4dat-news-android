@@ -19,19 +19,16 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailNewBinding
+import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.extensions.extractDate
 import at.ict4d.ict4dnews.extensions.loadFromURL
-import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import org.jetbrains.anko.share
 
-const val ARG_NEWS_ITEM = "news_item"
+class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4dNewsDetailBinding>() {
 
-class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4dNewsDetailNewBinding>() {
-
-    override fun getLayoutId(): Int = R.layout.fragment_ict4d_news_detail_new
+    override fun getLayoutId(): Int = R.layout.fragment_ict4d_news_detail
 
     override fun getViewModel(): Class<ICT4DNewsDetailViewModel> = ICT4DNewsDetailViewModel::class.java
 
@@ -138,18 +135,8 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_open -> {
-                activity?.browseCustomTab(model.selectedNews?.link ?: "")
-            }
+            R.id.action_open -> activity?.browseCustomTab(model.selectedNews?.link ?: "")
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    companion object {
-        fun newInstance(news: News?): ICT4DNewsDetailFragment = ICT4DNewsDetailFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(ARG_NEWS_ITEM, news)
-            }
-        }
     }
 }

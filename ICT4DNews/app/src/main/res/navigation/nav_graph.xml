@@ -42,7 +42,7 @@
     </fragment>
 
     <fragment android:id="@+id/ICT4DNewsDetailFragment"
-              tools:layout="@layout/fragment_ict4d_news_detail_new"
+              tools:layout="@layout/fragment_ict4d_news_detail"
               android:name="at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailFragment"
               android:label="ICT4DNewsDetailFragment">
         <argument android:name="newsItem" app:argType="at.ict4d.ict4dnews.models.News"/>
