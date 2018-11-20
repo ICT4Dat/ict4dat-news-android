@@ -5,20 +5,24 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailNewBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.extensions.extractDate
 import at.ict4d.ict4dnews.extensions.loadFromURL
-import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import org.jetbrains.anko.share
@@ -36,7 +40,6 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
         model.selectedNews = ICT4DNewsDetailFragmentArgs.fromBundle(arguments).newsItem
     }
 
-
     override fun onResume() {
         super.onResume()
 
@@ -45,9 +48,17 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
         }, 700)
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        NavigationUI.setupWithNavController(binding.toolbar, findNavController())
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        setHasOptionsMenu(true)
+
+        return view
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
 
         binding.fab.setOnClickListener { _ ->
 
@@ -127,12 +138,6 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {
-                binding.fab.visible(false)
-                activity?.supportFinishAfterTransition()
-                return true
-            }
-
             R.id.action_open -> {
                 activity?.browseCustomTab(model.selectedNews?.link ?: "")
             }

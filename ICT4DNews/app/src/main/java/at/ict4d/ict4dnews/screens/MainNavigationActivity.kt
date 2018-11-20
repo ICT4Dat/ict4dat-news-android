@@ -46,6 +46,7 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
         } else if (destination.id == R.id.ICT4DNewsDetailFragment) {
             supportActionBar?.hide()
         } else {
+            setSupportActionBar(binding.include.toolbar)
             supportActionBar?.show()
             binding.navigation.visibility = View.VISIBLE
         }
