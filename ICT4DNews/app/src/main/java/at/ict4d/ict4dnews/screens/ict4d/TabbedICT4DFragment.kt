@@ -1,25 +1,27 @@
 package at.ict4d.ict4dnews.screens.ict4d
 
 import android.os.Bundle
-import androidx.annotation.IntRange
-import com.google.android.material.tabs.TabLayout
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IntRange
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentTabbedIct4dBinding
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.ict4d.ict4d.ICT4DFragment
 import at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment
+import com.google.android.material.tabs.TabLayout
 
 class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBinding>() {
 
     override fun getLayoutId(): Int = R.layout.fragment_tabbed_ict4d
 
     override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java
+
+    override fun isFragmentContainToolbar(): Boolean = true
 
     private var sectionsPagerAdapter: TabbedICT4DSectionsPagerAdapter? = null
 

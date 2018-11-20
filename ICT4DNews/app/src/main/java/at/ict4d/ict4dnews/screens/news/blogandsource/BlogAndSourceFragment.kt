@@ -1,10 +1,10 @@
 package at.ict4d.ict4dnews.screens.news.blogandsource
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentBlogAndSourcesBinding
 import at.ict4d.ict4dnews.screens.base.BaseFragment
@@ -14,6 +14,8 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
     override fun getLayoutId(): Int = R.layout.fragment_blog_and_sources
 
     override fun getViewModel(): Class<BlogAndSourceViewModel> = BlogAndSourceViewModel::class.java
+
+    override fun isFragmentContainToolbar(): Boolean = true
 
     private lateinit var blogAndSourceAdapter: BlogAndSourceRecyclerViewAdapter
 

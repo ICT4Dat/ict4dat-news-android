@@ -14,10 +14,7 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
@@ -31,6 +28,8 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
     override fun getLayoutId(): Int = R.layout.fragment_ict4d_news_detail
 
     override fun getViewModel(): Class<ICT4DNewsDetailViewModel> = ICT4DNewsDetailViewModel::class.java
+
+    override fun isFragmentContainToolbar(): Boolean = true
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -47,8 +46,6 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-        NavigationUI.setupWithNavController(binding.toolbar, findNavController())
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         setHasOptionsMenu(true)
 
         return view

@@ -25,6 +25,8 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
 
     override fun getViewModel(): Class<SplashViewModel> = SplashViewModel::class.java
 
+    override fun isFragmentContainToolbar(): Boolean = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 

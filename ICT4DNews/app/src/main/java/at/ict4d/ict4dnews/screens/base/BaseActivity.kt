@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.lifecycle.RXErrorEventBusLifecycleObserver
 import at.ict4d.ict4dnews.utils.RxEventBus
 import dagger.android.AndroidInjection
@@ -52,8 +51,6 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding> : AppCompatActiv
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayoutId())
         model = ViewModelProviders.of(this, viewModelFactory).get(getViewModel())
-
-        setSupportActionBar(binding.root.findViewById(R.id.toolbar))
         lifecycle.addObserver(RXErrorEventBusLifecycleObserver(this, compositeDisposable, rxEventBus))
     }
 

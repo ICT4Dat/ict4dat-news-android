@@ -27,6 +27,8 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
+    override fun isFragmentContainToolbar(): Boolean = true
+
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter { pair, view ->
         val action = ICT4DNewsFragmentDirections.ActionActionNewsToICT4DNewsDetailFragment(pair.first)
         view.findNavController().navigate(action)

@@ -5,7 +5,6 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
@@ -30,24 +29,9 @@ class MainNavigationActivity : BaseActivity<MainNavigationViewModel, ActivityMai
     override fun onSupportNavigateUp() = findNavController(navHostController).navigateUp()
 
     override fun onNavigated(controller: NavController, destination: NavDestination) {
-        // resets subtitle of Toolbar
-        if (destination.id != R.id.blogAndSourceFragment) {
-            supportActionBar?.subtitle = ""
-        }
-
-        if (destination.id != R.id.splashFragment && destination.id != R.id.actionNews) {
-            setupActionBarWithNavController(controller)
-            controller.graph.startDestination = R.id.actionNews
-        }
-
         if (destination.id == R.id.splashFragment) {
-            supportActionBar?.hide()
             binding.navigation.visibility = View.GONE
-        } else if (destination.id == R.id.ICT4DNewsDetailFragment) {
-            supportActionBar?.hide()
         } else {
-            setSupportActionBar(binding.include.toolbar)
-            supportActionBar?.show()
             binding.navigation.visibility = View.VISIBLE
         }
     }

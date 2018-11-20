@@ -4,7 +4,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar" android:id="@+id/include"/>
 
         <fragment
                 android:id="@+id/navHostController"
@@ -14,9 +13,9 @@
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/nav_graph"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/include"
                 app:layout_constraintBottom_toTopOf="@id/navigation"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/navigation"

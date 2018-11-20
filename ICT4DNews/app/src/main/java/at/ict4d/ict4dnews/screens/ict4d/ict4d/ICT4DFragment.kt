@@ -21,6 +21,8 @@ class ICT4DFragment : BaseFragment<ICT4DViewModel, FragmentIct4dBinding>() {
 
     override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java
 
+    override fun isFragmentContainToolbar(): Boolean = false
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         setHasOptionsMenu(true)

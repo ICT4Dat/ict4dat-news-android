@@ -5,13 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.StringRes
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentMoreBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
@@ -26,6 +26,8 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
     override fun getLayoutId(): Int = R.layout.fragment_more
 
     override fun getViewModel(): Class<MoreViewModel> = MoreViewModel::class.java
+
+    override fun isFragmentContainToolbar(): Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
