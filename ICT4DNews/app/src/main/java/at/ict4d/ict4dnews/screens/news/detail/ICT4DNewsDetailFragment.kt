@@ -77,7 +77,7 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
 
         model.selectedNews?.blogID?.let { blogID ->
             model.getBlogBy(blogID).observe(this, Observer { blog ->
-                blog?.let { binding.toolbarLayout.title = it.name }
+                binding.toolbarLayout.title = blog?.name ?: getString(R.string.app_name)
             })
         }
 
