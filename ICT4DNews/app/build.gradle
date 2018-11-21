@@ -163,4 +163,7 @@ dependencies {
 
     // Jsoup
     implementation 'org.jsoup:jsoup:1.11.3'
+
+    // WorkManager
+    implementation "android.arch.work:work-runtime-ktx:$work_version"
 }

@@ -11,6 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.WorkManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.screens.base.BaseFragment
@@ -41,6 +42,15 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
+
+        // TODO(delete these lines of code when implementation is finish)
+        model.getNewsServiceId()?.let {
+            WorkManager.getInstance().getWorkInfoByIdLiveData(it).observe(this, Observer { workInfo ->
+                if (workInfo != null) {
+                    Timber.d("State is ----> ${workInfo.state.name}")
+                }
+            })
+        }
 
         model.isRefreshing.observe(this, Observer {
             binding.swiperefresh.isRefreshing = it ?: false
