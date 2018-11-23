@@ -16,14 +16,13 @@ import io.reactivex.rxkotlin.Flowables
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
 import org.threeten.bp.LocalDate
-import java.util.UUID
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
     private val persistenceManager: IPersistenceManager,
     private val server: IServer,
     rxEventBus: RxEventBus,
-    private val newsServiceHandler: NewsServiceHandler
+    newsServiceHandler: NewsServiceHandler
 ) : BaseViewModel() {
 
     val newsList = MutableLiveData<List<Pair<News, Blog>>>()
@@ -117,5 +116,8 @@ class ICT4DNewsViewModel @Inject constructor(
         })
     }
 
-    fun getNewsServiceId(): UUID? = newsServiceHandler.newsWorkId
+    // TODO(delete these lines of code when implementation is finish)
+
+    fun getNewsServiceId(): String? =
+        if (persistenceManager.getNewsServiceId().get().isNotEmpty()) persistenceManager.getNewsServiceId().get() else null
 }

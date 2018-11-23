@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import at.ict4d.ict4dnews.ICT4DNewsApplication
+import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
 import at.ict4d.ict4dnews.server.IServer
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
@@ -21,6 +22,9 @@ class NewsWorker(context: Context, workParams: WorkerParameters) : Worker(contex
     @Inject
     protected lateinit var rxEventBus: RxEventBus
 
+    @Inject
+    protected lateinit var sharedPrefs: ISharedPrefs
+
     private val compositeDisposable = CompositeDisposable()
 
     private var isNewsLoadedSuccessfully: Boolean = false
@@ -34,6 +38,7 @@ class NewsWorker(context: Context, workParams: WorkerParameters) : Worker(contex
 
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java).subscribe {
             isNewsLoadedSuccessfully = true
+            sharedPrefs.newsServiceId.delete()
             Timber.d("News updated successfully latch count is ----> ${countDownLatch.count}")
             countDownLatch.countDown()
         })

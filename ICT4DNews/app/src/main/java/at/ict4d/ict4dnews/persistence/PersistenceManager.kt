@@ -11,6 +11,7 @@ import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
+import com.f2prateek.rx.preferences2.Preference
 import io.reactivex.Flowable
 import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
@@ -27,6 +28,8 @@ class PersistenceManager @Inject constructor(
     // Shared Preferences
 
     override fun getLastAutomaticNewsUpdateLocalDate() = sharedPrefs.lastAutomaticNewsUpdateLocalDate
+
+    override fun getNewsServiceId(): Preference<String> = sharedPrefs.newsServiceId
 
     // Authors
 

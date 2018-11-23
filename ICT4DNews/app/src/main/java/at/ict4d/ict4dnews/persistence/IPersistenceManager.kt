@@ -16,6 +16,8 @@ interface IPersistenceManager {
 
     fun getLastAutomaticNewsUpdateLocalDate(): Preference<LocalDate>
 
+    fun getNewsServiceId(): Preference<String>
+
     // Authors
 
     fun insertAuthor(author: Author)

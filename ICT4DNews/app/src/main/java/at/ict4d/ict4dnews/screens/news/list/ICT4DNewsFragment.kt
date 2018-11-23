@@ -20,6 +20,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>() {
@@ -45,10 +46,8 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
         // TODO(delete these lines of code when implementation is finish)
         model.getNewsServiceId()?.let {
-            WorkManager.getInstance().getWorkInfoByIdLiveData(it).observe(this, Observer { workInfo ->
-                if (workInfo != null) {
-                    Timber.d("State is ----> ${workInfo.state.name}")
-                }
+            WorkManager.getInstance().getWorkInfoByIdLiveData(UUID.fromString(it)).observe(this, Observer { workInfo ->
+                Timber.e("State is ----> ${workInfo.state.name}")
             })
         }
 
