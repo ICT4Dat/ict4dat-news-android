@@ -25,6 +25,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.HttpException
 import timber.log.Timber
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class Server @Inject constructor(
@@ -56,7 +57,7 @@ class Server @Inject constructor(
                 )
             } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
                 requests.add(apiRSSService.getRssNews(blog.feed_url)
-                    .onErrorReturn { RSSFeed(null) }
+                    .doOnError { return@doOnError }
                 )
             }
         }
@@ -73,15 +74,13 @@ class Server @Inject constructor(
                     handleRSSList(blogs, it)
                 }
             }
-            persistenceManager.getLastAutomaticNewsUpdateLocalDate().set(LocalDate.now())
-            rxEventBus.post(NewsRefreshDoneMessage())
         }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
-            .doOnError { Timber.e(it, "error in updating blogs") }
-            .onErrorReturn { emptyList<Blog>() }
             .subscribe({
                 Timber.d("**** done: $it")
+                persistenceManager.getLastAutomaticNewsUpdateLocalDate().set(LocalDate.now())
+                rxEventBus.post(NewsRefreshDoneMessage())
             }, {
                 Timber.e(it, "**** Error in downloading news from all active posts")
                 handleError(it, NewsRefreshDoneMessage())
@@ -110,8 +109,7 @@ class Server @Inject constructor(
                     }
                 } catch (e: Throwable) {
                     Timber.e(e, "Error in downloading an author from a self-hosted Wordpress blog")
-                    rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
-                    return
+                    throw UnknownHostException(e.message)
                 }
             }
 
@@ -128,8 +126,7 @@ class Server @Inject constructor(
                     }
                 } catch (e: Throwable) {
                     Timber.e(e, "Error in downloading media from a self-hosted Wordpress blog")
-                    rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
-                    return
+                    throw UnknownHostException(e.message)
                 }
             }
 

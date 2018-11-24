@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.syncservice
 
 import android.content.Context
+import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import at.ict4d.ict4dnews.ICT4DNewsApplication
@@ -11,6 +12,7 @@ import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
+import java.util.UUID
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
@@ -25,6 +27,9 @@ class NewsWorker(context: Context, workParams: WorkerParameters) : Worker(contex
     @Inject
     protected lateinit var sharedPrefs: ISharedPrefs
 
+    @Inject
+    protected lateinit var workManager: WorkManager
+
     private val compositeDisposable = CompositeDisposable()
 
     private var isNewsLoadedSuccessfully: Boolean = false
@@ -37,10 +42,17 @@ class NewsWorker(context: Context, workParams: WorkerParameters) : Worker(contex
         ICT4DNewsApplication.instance.component.inject(this)
 
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java).subscribe {
-            isNewsLoadedSuccessfully = true
-            sharedPrefs.newsServiceId.delete()
-            Timber.d("News updated successfully latch count is ----> ${countDownLatch.count}")
-            countDownLatch.countDown()
+            val serviceId = sharedPrefs.newsServiceId.get()
+            Timber.d("Service id is ----> $serviceId")
+
+            if (serviceId.isNotEmpty()) {
+                Timber.d("Service status is ----> ${workManager.getWorkInfoById(UUID.fromString(serviceId)).isDone}")
+                workManager.cancelWorkById(UUID.fromString(serviceId))
+                sharedPrefs.newsServiceId.delete()
+                Timber.d("News updated successfully latch count is ----> ${countDownLatch.count}")
+                isNewsLoadedSuccessfully = true
+                countDownLatch.countDown()
+            }
         })
 
         compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java).subscribe {

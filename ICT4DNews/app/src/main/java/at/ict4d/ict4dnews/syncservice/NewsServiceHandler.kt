@@ -36,14 +36,16 @@ class NewsServiceHandler @Inject constructor(
         }
     }
 
-    private fun isLastDownloadTimeIsDayAgo(): Boolean {
+    private fun isLastNewsDownloadWasDayAgo(): Boolean {
         return persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().isLastUpdateIsDayAgo()
     }
 
     fun requestToRunService() {
-        if (isServiceAlreadyEnqueued() || isLastDownloadTimeIsDayAgo()) {
+        if (isServiceAlreadyEnqueued() || !isLastNewsDownloadWasDayAgo()) {
             Timber.d("Service is already running or enqueued or blocked or last update is less than a day")
             return
+        } else {
+            Timber.d("Requesting server")
         }
         val newsWork = PeriodicWorkRequestBuilder<NewsWorker>(1, TimeUnit.DAYS)
             .setConstraints(getConstraintsForNewsSyncService())
