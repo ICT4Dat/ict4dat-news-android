@@ -64,6 +64,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
                 Timber.d("list in fragment: ${it.size}")
                 adapter.submitList(it)
+                model.getNewDownloadedNews(it.map { it.first })
             }
         })
 

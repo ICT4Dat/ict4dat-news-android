@@ -20,7 +20,8 @@ import javax.inject.Inject
 class ICT4DNewsViewModel @Inject constructor(
     private val persistenceManager: IPersistenceManager,
     private val server: IServer,
-    rxEventBus: RxEventBus
+    rxEventBus: RxEventBus,
+    private val newNewsHandler: NewNewsHandler
 ) : BaseViewModel() {
 
     val newsList = MutableLiveData<List<Pair<News, Blog>>>()
@@ -72,8 +73,11 @@ class ICT4DNewsViewModel @Inject constructor(
         requestToLoadFeedsFromServers()
     }
 
+    fun getNewDownloadedNews(allNews: List<News>) = newNewsHandler.getNewNews(allNews)
+
     fun requestToLoadFeedsFromServers(forceRefresh: Boolean = false) {
         if (isRefreshing.value == null || isRefreshing.value == false) {
+            newNewsHandler.getExistingNewsFromDatabase()
             isRefreshing.postValue(true)
 
             doAsync {
