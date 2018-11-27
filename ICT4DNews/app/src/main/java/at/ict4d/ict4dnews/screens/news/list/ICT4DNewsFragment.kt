@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
+import at.ict4d.ict4dnews.extensions.moveToTop
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
@@ -64,10 +65,13 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
                 Timber.d("list in fragment: ${it.size}")
                 adapter.submitList(it)
+                if (model.isRefreshing.value == false) {
+                    binding.recyclerview.moveToTop()
+                }
             }
         })
 
-        binding.quickScroll.setOnClickListener { binding.recyclerview.smoothScrollToPosition(0) }
+        binding.quickScroll.setOnClickListener { binding.recyclerview.moveToTop() }
         binding.recyclerview.addOnScrollListener(
             ScrollToTopRecyclerViewScrollHandler(
                 binding.quickScroll
