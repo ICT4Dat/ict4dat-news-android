@@ -6,6 +6,7 @@
     <data>
         <import type="at.ict4d.ict4dnews.R"/>
         <import type="at.ict4d.ict4dnews.extensions.ICT4DExtensionsKt"/>
+        <import type="android.view.View"/>
 
         <variable
                 name="newsItem"
@@ -14,6 +15,8 @@
         <variable
                 name="blog"
                 type="at.ict4d.ict4dnews.models.Blog"/>
+
+        <variable name="isNewNews" type="boolean"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -24,6 +27,14 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="UnusedAttribute">
 
+        <ImageView
+                android:layout_gravity="end"
+                android:layout_width="16dp"
+                android:visibility="@{isNewNews ? View.VISIBLE : View.GONE}"
+                android:contentDescription="@string/new_news_badge"
+                android:layout_height="16dp" app:srcCompat="@drawable/ic_bookmark_black_24dp"
+                android:id="@+id/imageView2"
+                android:layout_margin="4dp"/>
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,8 +58,7 @@
                     tools:srcCompat="@tools:sample/avatars"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.51"/>
-
+                    app:layout_constraintVertical_bias="0.51" android:layout_marginTop="4dp"/>
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/headline2"
                     android:layout_width="0dp"
@@ -82,7 +92,7 @@
                     app:layout_constraintStart_toEndOf="@+id/postImage"
                     android:text="@{blog.name}"
                     tools:text="Blog Name"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="4dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/postDate"
