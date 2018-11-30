@@ -13,11 +13,13 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
+import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -50,6 +52,19 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             model.requestToLoadFeedsFromServers(true)
         }
 
+        model.activeBlogsCount.observe(this, Observer {
+            val updateText = String.format(getString(R.string.connecting_text), it)
+
+            if (model.isRefreshing.value == true) {
+                activity?.toast(updateText)
+
+                if (model.newsList.value == null || model.newsList.value?.isEmpty() == true) {
+                    binding.progressTextView.text = updateText
+                    binding.progressTextView.visible(true)
+                }
+            }
+        })
+
         model.searchedNewsList.observe(this, Observer {
             if (it != null) {
                 Timber.d("Search result size is ----> ${it.size} and query is ----> ${model.searchQuery}")
@@ -63,6 +78,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         model.newsList.observe(this, Observer {
             if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
                 Timber.d("list in fragment: ${it.size}")
+                binding.progressTextView.visible(false)
                 adapter.submitList(it)
             }
         })

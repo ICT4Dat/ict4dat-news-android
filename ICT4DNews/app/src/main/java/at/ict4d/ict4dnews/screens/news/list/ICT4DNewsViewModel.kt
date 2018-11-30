@@ -15,6 +15,7 @@ import io.reactivex.rxkotlin.Flowables
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
 import org.threeten.bp.LocalDate
+import timber.log.Timber
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
@@ -26,6 +27,7 @@ class ICT4DNewsViewModel @Inject constructor(
     val newsList = MutableLiveData<List<Pair<News, Blog>>>()
     val searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
     var searchQuery: String? = null
+    val activeBlogsCount: MutableLiveData<Int> = MutableLiveData()
 
     init {
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
@@ -72,9 +74,18 @@ class ICT4DNewsViewModel @Inject constructor(
         requestToLoadFeedsFromServers()
     }
 
+    private fun getActiveBlogsCount() {
+        compositeDisposable.add(persistenceManager.getActiveBlogsCount().subscribeOn(Schedulers.io()).subscribe({
+            activeBlogsCount.postValue(it)
+        }, {
+            Timber.e(it)
+        }))
+    }
+
     fun requestToLoadFeedsFromServers(forceRefresh: Boolean = false) {
         if (isRefreshing.value == null || isRefreshing.value == false) {
             isRefreshing.postValue(true)
+            getActiveBlogsCount()
 
             doAsync {
                 if (forceRefresh) {

@@ -12,6 +12,7 @@ import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
 import io.reactivex.Flowable
+import io.reactivex.Single
 import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
@@ -46,7 +47,8 @@ class PersistenceManager @Inject constructor(
 
     override fun getAllOrderedByPublishedDate(): LiveData<List<News>> = newsDao.getAllOrderedByPublishedDate()
 
-    override fun getLatestNewsPublishedDate(blogID: String): LocalDateTime = newsDao.getLatestBlogPublishedDate(blogID) ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
+    override fun getLatestNewsPublishedDate(blogID: String): LocalDateTime = newsDao.getLatestBlogPublishedDate(blogID)
+        ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
 
     override fun getAllActiveNews(): LiveData<List<News>> = newsDao.getAllActiveNews()
 
@@ -83,6 +85,8 @@ class PersistenceManager @Inject constructor(
     override fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>> = blogsDao.getAllActiveBlogsAsFlowable()
 
     override fun isBlogsExist(): Boolean = blogsDao.isBlogsExist()
+
+    override fun getActiveBlogsCount(): Single<Int> = blogsDao.getActiveBlogsCount()
 
     // Transactions
     override fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>) {

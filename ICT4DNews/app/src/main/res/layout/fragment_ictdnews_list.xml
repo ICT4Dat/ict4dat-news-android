@@ -31,6 +31,14 @@
                     tools:visibility="visible"
                     android:layout_gravity="bottom|center"
                     app:elevation="4dp"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:padding="8dp"
+                      tools:visibility="visible"
+                      android:visibility="gone"
+                      android:id="@+id/progress_text_view"
+                      android:layout_gravity="center"
+                      android:text="@string/connecting_text" android:layout_height="wrap_content"/>
         </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
