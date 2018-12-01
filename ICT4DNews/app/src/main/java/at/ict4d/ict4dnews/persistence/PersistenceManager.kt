@@ -5,11 +5,13 @@ import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
+import at.ict4d.ict4dnews.models.ReadNews
 import at.ict4d.ict4dnews.persistence.database.AppDatabase
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import at.ict4d.ict4dnews.persistence.database.dao.ReadNewsDao
 import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
 import io.reactivex.Flowable
 import org.threeten.bp.LocalDateTime
@@ -21,7 +23,8 @@ class PersistenceManager @Inject constructor(
     private val authorDao: AuthorDao,
     private val newsDao: NewsDao,
     private val mediaDao: MediaDao,
-    private val blogsDao: BlogDao
+    private val blogsDao: BlogDao,
+    private val readNewsDao: ReadNewsDao
 ) : IPersistenceManager {
 
     // Shared Preferences
@@ -46,7 +49,8 @@ class PersistenceManager @Inject constructor(
 
     override fun getAllOrderedByPublishedDate(): LiveData<List<News>> = newsDao.getAllOrderedByPublishedDate()
 
-    override fun getLatestNewsPublishedDate(blogID: String): LocalDateTime = newsDao.getLatestBlogPublishedDate(blogID) ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
+    override fun getLatestNewsPublishedDate(blogID: String): LocalDateTime = newsDao.getLatestBlogPublishedDate(blogID)
+        ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
 
     override fun getAllActiveNews(): LiveData<List<News>> = newsDao.getAllActiveNews()
 
@@ -83,6 +87,12 @@ class PersistenceManager @Inject constructor(
     override fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>> = blogsDao.getAllActiveBlogsAsFlowable()
 
     override fun isBlogsExist(): Boolean = blogsDao.isBlogsExist()
+
+    override fun addReadNews(readNews: ReadNews) = readNewsDao.insert(readNews)
+
+    override fun deleteAllReadNews() = readNewsDao.deleteAll()
+
+    override fun getAllReadNews(): LiveData<List<ReadNews>> = readNewsDao.getAll()
 
     // Transactions
     override fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>) {

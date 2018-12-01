@@ -10,10 +10,12 @@ import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.FeedType
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
+import at.ict4d.ict4dnews.models.ReadNews
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import at.ict4d.ict4dnews.persistence.database.dao.ReadNewsDao
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.LocalDateTime
@@ -21,7 +23,7 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.Collections.emptyList
 import javax.inject.Inject
 
-@Database(entities = [News::class, Author::class, Media::class, Blog::class], version = 1)
+@Database(entities = [News::class, Author::class, Media::class, Blog::class, ReadNews::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -32,6 +34,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun mediaDao(): MediaDao
 
     abstract fun blogDao(): BlogDao
+
+    abstract fun readNewsDao(): ReadNewsDao
 
     companion object {
         const val DATABASE_NAME = "ict4d_news_database"

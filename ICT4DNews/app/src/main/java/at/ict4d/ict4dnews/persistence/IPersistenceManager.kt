@@ -5,6 +5,7 @@ import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
+import at.ict4d.ict4dnews.models.ReadNews
 import com.f2prateek.rx.preferences2.Preference
 import io.reactivex.Flowable
 import org.threeten.bp.LocalDate
@@ -71,6 +72,13 @@ interface IPersistenceManager {
     fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>>
 
     fun isBlogsExist(): Boolean
+
+    // Read News
+    fun addReadNews(readNews: ReadNews)
+
+    fun deleteAllReadNews()
+
+    fun getAllReadNews(): LiveData<List<ReadNews>>
 
     // Transactions
     fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>)

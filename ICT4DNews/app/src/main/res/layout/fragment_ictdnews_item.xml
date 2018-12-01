@@ -14,6 +14,8 @@
         <variable
                 name="blog"
                 type="at.ict4d.ict4dnews.models.Blog"/>
+
+        <variable name="isItemAlreadyRead" type="boolean"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -57,7 +59,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/black"
+                    android:textColor="@{isItemAlreadyRead? @color/read_news_state : @color/normal_news_state}"
                     android:textSize="16sp"
                     android:text="@{newsItem.title}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +77,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/black"
+                    android:textColor="@{isItemAlreadyRead? @color/read_news_state : @color/normal_news_state}"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +94,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/light_grey"
+                    android:textColor="@{isItemAlreadyRead? @color/read_news_state : @color/normal_news_state}"
                     android:textSize="12sp"
                     app:showDate="@{newsItem.publishedDate}"
                     app:layout_constraintEnd_toEndOf="parent"

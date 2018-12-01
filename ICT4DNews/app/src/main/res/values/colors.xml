@@ -8,4 +8,6 @@
     <color name="white">#ffffff</color>
     <color name="white_75_transparent">#a4ffffff</color>
     <color name="light_grey">#a3a3a3</color>
+    <color name="read_news_state">#a3a3a3</color>
+    <color name="normal_news_state">#000</color>
 </resources>

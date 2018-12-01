@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0b063bf6ea1bc6b8bb05bfd45b5ba80c",
+    "identityHash": "b81cc682fa9354d118738e24bf8a40a8",
     "entities": [
       {
         "tableName": "news",
@@ -313,11 +313,31 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "read_news",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`news_url` TEXT NOT NULL, PRIMARY KEY(`news_url`))",
+        "fields": [
+          {
+            "fieldPath": "newsUrl",
+            "columnName": "news_url",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "news_url"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0b063bf6ea1bc6b8bb05bfd45b5ba80c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b81cc682fa9354d118738e24bf8a40a8\")"
     ]
   }
 }

@@ -1,16 +1,20 @@
 package at.ict4d.ict4dnews.screens.news.list
 
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsItemBinding
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
+import at.ict4d.ict4dnews.models.ReadNews
 
-class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, view: View) -> Unit) : ListAdapter<Pair<News, Blog>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, view: View) -> Unit) :
+    ListAdapter<Pair<News, Blog>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+
+    private val readNewsList: MutableList<ReadNews> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(FragmentIctdnewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -20,11 +24,23 @@ class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, 
         holder.setNewsItem(getItem(position))
     }
 
+    fun submitList(pair: List<Pair<News, Blog>>?, readNewsList: List<ReadNews> = listOf()) {
+        super.submitList(pair)
+        this.readNewsList.clear()
+        this.readNewsList.addAll(readNewsList)
+    }
+
     inner class ViewHolder(private val binding: FragmentIctdnewsItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun setNewsItem(pair: Pair<News, Blog>) {
             binding.newsItem = pair.first
             binding.blog = pair.second
-            binding.root.setOnClickListener { clickHandler(pair, binding.postImage) }
+            binding.isItemAlreadyRead = readNewsList.any { it.newsUrl == pair.first.link }
+
+            binding.root.setOnClickListener {
+                readNewsList.add(ReadNews(pair.first.link))
+                notifyItemChanged(adapterPosition)
+                clickHandler(pair, binding.postImage)
+            }
         }
     }
 }
