@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+            android:defaultValue="2"
+            app:iconSpaceReserved="false"
+            android:title="@string/sync_news_after" android:entries="@array/news_update_time_entries"
+            android:dialogTitle="@string/news_update_dialog_title"
+            android:entryValues="@array/news_update_time_values"
+            android:summary="%s"
+            android:key="@string/news_update_time_key"/>
+
+    <PreferenceCategory>
+        <EditTextPreference
+                android:title="@string/current_app_version"
+                app:iconSpaceReserved="false"
+                android:enabled="false"
+                android:key="@string/current_app_version_key"
+                android:id="@+id/settings_app_version"/>
+    </PreferenceCategory>
+</PreferenceScreen>

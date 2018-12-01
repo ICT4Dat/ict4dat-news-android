@@ -23,7 +23,10 @@
     <fragment android:id="@+id/actionMore"
               android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"
               tools:layout="@layout/fragment_more"
-              android:label="@string/nav_more"/>
+              android:label="@string/nav_more">
+        <action android:id="@+id/action_actionMore_to_settingsFragment"
+                app:destination="@id/settingsFragment"/>
+    </fragment>
 
     <activity android:id="@+id/ICT4DNewsDetailActivity"
               android:name="at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailActivity"
@@ -46,4 +49,6 @@
                 app:popUpToInclusive="true"
                 app:destination="@id/actionNews"/>
     </fragment>
+    <fragment android:id="@+id/settingsFragment" android:name="at.ict4d.ict4dnews.screens.more.SettingsFragment"
+              android:label="@string/settings"/>
 </navigation>

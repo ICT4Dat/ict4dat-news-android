@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="news_update_time_entries">
+        <item>12 hours</item>
+        <item>24 hours</item>
+        <item>Never</item>
+    </string-array>
+
+    <string-array name="news_update_time_values">
+        <item>0</item>
+        <item>1</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="news_update_time_key" translatable="false">news_update_time_key</string>
+    <string name="current_app_version_key" translatable="false">current_app_version_key</string>
+    <string name="sync_news_after">Sync News After</string>
+    <string name="sync_news_after_summary">Auto update news</string>
+    <string name="news_update_dialog_title">Select news update time</string>
+    <string name="current_app_version">App Version</string>
+</resources>
