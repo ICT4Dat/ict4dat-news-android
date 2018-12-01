@@ -28,7 +28,7 @@ class ICT4DNewsViewModel @Inject constructor(
     val newsList = MutableLiveData<List<Pair<News, Blog>>>()
     val searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
     var searchQuery: String? = null
-    val readNewsLiveData : LiveData<List<ReadNews>> = persistenceManager.getAllReadNews()
+    val readNewsLiveData: LiveData<List<ReadNews>> = persistenceManager.getAllReadNews()
 
     init {
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
