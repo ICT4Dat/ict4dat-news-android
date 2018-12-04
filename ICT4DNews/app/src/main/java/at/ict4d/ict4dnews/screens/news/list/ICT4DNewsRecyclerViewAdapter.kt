@@ -25,9 +25,9 @@ class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, 
     }
 
     fun submitList(pair: List<Pair<News, Blog>>?, readNewsList: List<ReadNews> = listOf()) {
-        super.submitList(pair)
         this.readNewsList.clear()
         this.readNewsList.addAll(readNewsList)
+        super.submitList(pair)
     }
 
     inner class ViewHolder(private val binding: FragmentIctdnewsItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -37,8 +37,7 @@ class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, 
             binding.isItemAlreadyRead = readNewsList.any { it.newsUrl == pair.first.link }
 
             binding.root.setOnClickListener {
-                readNewsList.add(ReadNews(pair.first.link))
-                notifyItemChanged(adapterPosition)
+                binding.isItemAlreadyRead = true
                 clickHandler(pair, binding.postImage)
             }
         }
