@@ -60,11 +60,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         })
 
         model.readNewsLiveData.observe(this, Observer {
-            if (!model.isSearchRequested()) {
-                adapter.submitList(model.newsList.value, it)
-            } else {
-                adapter.submitList(model.searchedNewsList.value, it)
-            }
+            adapter.submitList(model.getNewsListBasedOnSearchRequest(), it)
         })
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)

@@ -120,4 +120,12 @@ class ICT4DNewsViewModel @Inject constructor(
     }
 
     fun isSearchRequested(): Boolean = !searchQuery.isNullOrEmpty()
+
+    fun getNewsListBasedOnSearchRequest(): List<Pair<News, Blog>>? {
+        return if (!isSearchRequested()) {
+            newsList.value
+        } else {
+            searchedNewsList.value
+        }
+    }
 }
