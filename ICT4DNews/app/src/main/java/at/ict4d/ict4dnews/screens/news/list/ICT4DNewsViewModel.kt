@@ -118,4 +118,6 @@ class ICT4DNewsViewModel @Inject constructor(
     fun insertReadNews(newsUrl: String) {
         doAsync { persistenceManager.addReadNews(ReadNews(newsUrl = newsUrl)) }
     }
+
+    fun isSearchRequested(): Boolean = !searchQuery.isNullOrEmpty()
 }

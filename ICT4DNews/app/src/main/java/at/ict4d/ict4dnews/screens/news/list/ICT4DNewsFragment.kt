@@ -60,14 +60,18 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         })
 
         model.readNewsLiveData.observe(this, Observer {
-            adapter.submitList(model.newsList.value, it)
+            if (!model.isSearchRequested()) {
+                adapter.submitList(model.newsList.value, it)
+            } else {
+                adapter.submitList(model.searchedNewsList.value, it)
+            }
         })
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
         model.newsList.observe(this, Observer {
-            if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
+            if (it != null && it.isNotEmpty() && !model.isSearchRequested()) {
                 Timber.d("list in fragment: ${it.size}")
                 adapter.submitList(it)
             }
