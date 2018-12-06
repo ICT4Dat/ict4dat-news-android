@@ -1,12 +1,13 @@
 package at.ict4d.ict4dnews.screens.news.blogandsource
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentBlogAndSourcesBinding
+import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 
 class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogAndSourcesBinding>() {
@@ -36,6 +37,7 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
 
         model.allBlogsList.observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
+                binding.noBlogFoundTextview.visible(false)
                 blogAndSourceAdapter.submitList(it)
                 (activity as? AppCompatActivity)?.supportActionBar?.subtitle = getString(
                     R.string.contextual_selection,
