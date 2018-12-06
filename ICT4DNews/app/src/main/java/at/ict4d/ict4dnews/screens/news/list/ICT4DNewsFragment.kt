@@ -53,15 +53,12 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         }
 
         model.activeBlogsCount.observe(this, Observer {
-            val updateText = String.format(getString(R.string.connecting_text), it)
+            val updateText = model.getNewsLoadingText(it.peekContent(), resources)
+            it.getContentIfNotHandled()?.let { _ -> activity?.toast(updateText) }
 
-            if (model.isRefreshing.value == true) {
-                activity?.toast(updateText)
-
-                if (model.newsList.value == null || model.newsList.value?.isEmpty() == true) {
-                    binding.progressTextView.text = updateText
-                    binding.progressTextView.visible(true)
-                }
+            if (model.newsList.value == null || model.newsList.value?.isEmpty() == true) {
+                binding.progressTextView.text = updateText
+                binding.progressTextView.visible(true)
             }
         })
 

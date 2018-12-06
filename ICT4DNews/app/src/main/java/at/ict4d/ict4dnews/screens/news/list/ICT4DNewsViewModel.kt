@@ -1,6 +1,9 @@
 package at.ict4d.ict4dnews.screens.news.list
 
+import android.content.res.Resources
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
@@ -8,6 +11,7 @@ import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.IServer
 import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
+import at.ict4d.ict4dnews.utils.OnceEvent
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,10 +28,17 @@ class ICT4DNewsViewModel @Inject constructor(
     rxEventBus: RxEventBus
 ) : BaseViewModel() {
 
-    val newsList = MutableLiveData<List<Pair<News, Blog>>>()
-    val searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
+    private val _newsList = MutableLiveData<List<Pair<News, Blog>>>()
+    private val _searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
+    private val _activeBlogsCount: MutableLiveData<OnceEvent<Int>> = MutableLiveData()
     var searchQuery: String? = null
-    val activeBlogsCount: MutableLiveData<Int> = MutableLiveData()
+
+    val newsList: LiveData<List<Pair<News, Blog>>>
+        get() = _newsList
+    val searchedNewsList: LiveData<List<Pair<News, Blog>>>
+        get() = _searchedNewsList
+    val activeBlogsCount: LiveData<OnceEvent<Int>>
+        get() = _activeBlogsCount
 
     init {
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
@@ -60,7 +71,7 @@ class ICT4DNewsViewModel @Inject constructor(
                         resultList.add(Pair(news, b))
                     }
                 }
-                newsList.postValue(resultList)
+                _newsList.postValue(resultList)
             })
 
         compositeDisposable.add(
@@ -76,7 +87,7 @@ class ICT4DNewsViewModel @Inject constructor(
 
     private fun getActiveBlogsCount() {
         compositeDisposable.add(persistenceManager.getActiveBlogsCount().subscribeOn(Schedulers.io()).subscribe({
-            activeBlogsCount.postValue(it)
+            _activeBlogsCount.postValue(OnceEvent(it))
         }, {
             Timber.e(it)
         }))
@@ -117,9 +128,17 @@ class ICT4DNewsViewModel @Inject constructor(
 
         val query = searchQuery.toLowerCase().trim()
 
-        searchedNewsList.postValue(newsList.value?.filter { pair ->
+        _searchedNewsList.postValue(_newsList.value?.filter { pair ->
             pair.first.title?.contains(query, true) ?: false ||
                 pair.second.name.contains(query, true)
         })
+    }
+
+    fun getNewsLoadingText(blogCount: Int, resources: Resources): String {
+        return if (blogCount == 0) {
+            resources.getString(R.string.no_blog_found)
+        } else {
+            String.format(resources.getString(R.string.connecting_text), blogCount)
+        }
     }
 }
