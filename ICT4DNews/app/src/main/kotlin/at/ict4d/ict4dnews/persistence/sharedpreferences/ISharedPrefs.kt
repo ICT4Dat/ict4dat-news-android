@@ -6,6 +6,4 @@ import org.threeten.bp.LocalDate
 interface ISharedPrefs {
 
     var lastAutomaticNewsUpdateLocalDate: Preference<LocalDate>
-
-    var newsServiceId: Preference<String>
 }

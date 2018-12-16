@@ -19,6 +19,8 @@ interface IServer {
      */
     fun loadAllNewsFromAllActiveBlogs(): Disposable
 
+    fun loadAllNewsFromAllActiveBlogsSynchronous()
+
     /**
      * Loads all available blogs in the application.
      *

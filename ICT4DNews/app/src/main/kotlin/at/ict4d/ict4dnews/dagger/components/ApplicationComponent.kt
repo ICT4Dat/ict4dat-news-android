@@ -7,7 +7,7 @@ import at.ict4d.ict4dnews.dagger.modules.HelperModule
 import at.ict4d.ict4dnews.dagger.modules.RoomModule
 import at.ict4d.ict4dnews.dagger.modules.ViewModelFactoryModule
 import at.ict4d.ict4dnews.persistence.database.Converters
-import at.ict4d.ict4dnews.syncservice.NewsWorker
+import at.ict4d.ict4dnews.background.UpdateNewsWorker
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -22,5 +22,5 @@ interface ApplicationComponent : AndroidInjector<ICT4DNewsApplication> {
 
     fun inject(converters: Converters)
 
-    fun inject(newsWorker: NewsWorker)
+    fun inject(updateNewsWorker: UpdateNewsWorker)
 }

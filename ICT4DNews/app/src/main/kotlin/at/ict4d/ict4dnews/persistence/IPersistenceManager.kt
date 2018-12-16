@@ -16,8 +16,6 @@ interface IPersistenceManager {
 
     fun getLastAutomaticNewsUpdateLocalDate(): Preference<LocalDate>
 
-    fun getNewsServiceId(): Preference<String>
-
     // Authors
 
     fun insertAuthor(author: Author)
@@ -37,6 +35,8 @@ interface IPersistenceManager {
     fun getAllOrderedByPublishedDate(): LiveData<List<News>>
 
     fun getLatestNewsPublishedDate(blogID: String): LocalDateTime
+
+    fun getLatestNewsPublishedDate(): LocalDateTime
 
     fun getAllActiveNews(): LiveData<List<News>>
 

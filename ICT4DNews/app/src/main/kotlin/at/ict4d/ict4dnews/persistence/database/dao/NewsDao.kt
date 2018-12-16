@@ -28,7 +28,10 @@ abstract class NewsDao {
     abstract fun getAllOrderedByPublishedDate(): LiveData<List<News>>
 
     @Query("SELECT $NEWS_TABLE_PUBLISHED_DATE FROM $NEWS_TABLE_TABLE_NAME WHERE $NEWS_TABLE_BLOG_ID = :blogID ORDER BY datetime($NEWS_TABLE_PUBLISHED_DATE) DESC LIMIT 1")
-    abstract fun getLatestBlogPublishedDate(blogID: String): LocalDateTime?
+    abstract fun getLatestBlogPublishedDateOfBlog(blogID: String): LocalDateTime?
+
+    @Query("SELECT $NEWS_TABLE_PUBLISHED_DATE FROM $NEWS_TABLE_TABLE_NAME ORDER BY datetime($NEWS_TABLE_PUBLISHED_DATE) DESC LIMIT 1")
+    abstract fun getLatestNewsPublishedDate(): LocalDateTime?
 
     @Query("SELECT * FROM $NEWS_TABLE_TABLE_NAME INNER JOIN $BLOG_TABLE_TABLE_NAME ON $NEWS_TABLE_TABLE_NAME.$NEWS_TABLE_BLOG_ID = $BLOG_TABLE_TABLE_NAME.$BLOG_TABLE_FEED_URL WHERE $BLOG_TABLE_TABLE_NAME.$BLOG_TABLE_ACTIVE = 1 ORDER BY datetime($NEWS_TABLE_TABLE_NAME.$NEWS_TABLE_PUBLISHED_DATE) DESC")
     abstract fun getAllActiveNews(): LiveData<List<News>>

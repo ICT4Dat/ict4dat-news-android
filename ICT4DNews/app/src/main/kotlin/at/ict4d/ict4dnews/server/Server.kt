@@ -47,7 +47,7 @@ class Server @Inject constructor(
         blogs.forEach { blog ->
             if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
                 Timber.d(blog.feed_url)
-                requests.add(apiJsonSelfHostedWPService.getJsonNewsOfURL(
+                requests.add(apiJsonSelfHostedWPService.getJsonNewsOfUrl(
                     blog.feed_url + "wp-json/wp/v2/posts",
                     newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
                         DateTimeFormatter.ISO_LOCAL_DATE_TIME
@@ -85,6 +85,34 @@ class Server @Inject constructor(
                 Timber.e(it, "**** Error in downloading news from all active posts")
                 handleError(it, NewsRefreshDoneMessage())
             })
+    }
+
+    override fun loadAllNewsFromAllActiveBlogsSynchronous() {
+        val activeBlogs = persistenceManager.getAllActiveBlogs()
+        activeBlogs.forEach { blog ->
+            if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
+                val call = apiJsonSelfHostedWPService.getJsonNewsOfUrlAsCall(
+                    blog.feed_url + "wp-json/wp/v2/posts",
+                    newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
+                        DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                    )
+                )
+                val result = call.execute()
+                if (result.isSuccessful) {
+                    result.body()?.let {
+                        handleSelfHostedWPBlogList(activeBlogs, it)
+                    }
+                }
+            } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
+                val call = apiRSSService.getRssNewsAsCall(blog.feed_url)
+                val result = call.execute()
+                if (result.isSuccessful) {
+                    result.body()?.let {
+                        handleRSSList(activeBlogs, it)
+                    }
+                }
+            }
+        }
     }
 
     private fun handleSelfHostedWPBlogList(databaseBlogList: List<Blog>, serverResultBlog: List<*>) {

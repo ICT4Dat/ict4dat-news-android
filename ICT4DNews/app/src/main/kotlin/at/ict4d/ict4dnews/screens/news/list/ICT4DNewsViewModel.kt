@@ -6,7 +6,6 @@ import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.IServer
-import at.ict4d.ict4dnews.syncservice.NewsServiceHandler
 import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
@@ -21,8 +20,7 @@ import javax.inject.Inject
 class ICT4DNewsViewModel @Inject constructor(
     private val persistenceManager: IPersistenceManager,
     private val server: IServer,
-    rxEventBus: RxEventBus,
-    newsServiceHandler: NewsServiceHandler
+    rxEventBus: RxEventBus
 ) : BaseViewModel() {
 
     val newsList = MutableLiveData<List<Pair<News, Blog>>>()
@@ -30,7 +28,6 @@ class ICT4DNewsViewModel @Inject constructor(
     var searchQuery: String? = null
 
     init {
-        newsServiceHandler.requestToRunService()
 
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
             .observeOn(AndroidSchedulers.mainThread())
@@ -115,9 +112,4 @@ class ICT4DNewsViewModel @Inject constructor(
                 pair.second.name.contains(query, true)
         })
     }
-
-    // TODO(delete these lines of code when implementation is finish)
-
-    fun getNewsServiceId(): String? =
-        if (persistenceManager.getNewsServiceId().get().isNotEmpty()) persistenceManager.getNewsServiceId().get() else null
 }

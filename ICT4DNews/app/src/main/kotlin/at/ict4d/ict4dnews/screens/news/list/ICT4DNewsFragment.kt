@@ -11,7 +11,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.WorkManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.screens.base.BaseFragment
@@ -20,7 +19,6 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>() {
@@ -43,13 +41,6 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-
-        // TODO(delete these lines of code when implementation is finish)
-        model.getNewsServiceId()?.let {
-            WorkManager.getInstance().getWorkInfoByIdLiveData(UUID.fromString(it)).observe(this, Observer { workInfo ->
-                Timber.e("State is ----> ${workInfo.state.name}")
-            })
-        }
 
         model.isRefreshing.observe(this, Observer {
             binding.swiperefresh.isRefreshing = it ?: false
