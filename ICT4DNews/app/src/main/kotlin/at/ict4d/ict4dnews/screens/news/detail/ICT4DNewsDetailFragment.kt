@@ -29,7 +29,7 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
 
     override fun getViewModel(): Class<ICT4DNewsDetailViewModel> = ICT4DNewsDetailViewModel::class.java
 
-    override fun isFragmentContainToolbar(): Boolean = true
+    override fun isFragmentContainingToolbar(): Boolean = true
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

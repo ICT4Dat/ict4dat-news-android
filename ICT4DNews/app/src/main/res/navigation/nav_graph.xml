@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nav_graph"
-            app:startDestination="@id/splashFragment">
+            app:startDestination="@id/actionNews">
 
     <fragment android:id="@+id/actionNews"
               android:name="at.ict4d.ict4dnews.screens.news.list.ICT4DNewsFragment"
@@ -13,6 +13,8 @@
                 app:destination="@id/blogAndSourceFragment"/>
         <action android:id="@+id/action_actionNews_to_ICT4DNewsDetailFragment"
                 app:destination="@id/ICT4DNewsDetailFragment"/>
+        <action android:id="@+id/action_actionNews_to_splashFragment"
+                app:destination="@id/splashFragment"/>
     </fragment>
 
     <fragment android:id="@+id/actionIct4d"
@@ -21,7 +23,6 @@
               android:label="@string/nav_ict4d"/>
 
     <fragment android:id="@+id/actionMore"
-
               android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"
               tools:layout="@layout/fragment_more"
               android:label="@string/nav_more"/>
@@ -35,16 +36,13 @@
               android:name="at.ict4d.ict4dnews.screens.splashscreen.SplashFragment"
               tools:layout="@layout/fragment_splash"
               android:label="SplashFragment">
-        <action android:id="@+id/action_splashFragment_to_news_fragment"
-                app:popUpTo="@id/splashFragment"
-                app:popUpToInclusive="true"
-                app:destination="@id/actionNews"/>
     </fragment>
 
     <fragment android:id="@+id/ICT4DNewsDetailFragment"
               tools:layout="@layout/fragment_ict4d_news_detail"
               android:name="at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailFragment"
               android:label="ICT4DNewsDetailFragment">
-        <argument android:name="newsItem" app:argType="at.ict4d.ict4dnews.models.News"/>
+        <argument android:name="newsItem"
+                  app:argType="at.ict4d.ict4dnews.models.News"/>
     </fragment>
 </navigation>

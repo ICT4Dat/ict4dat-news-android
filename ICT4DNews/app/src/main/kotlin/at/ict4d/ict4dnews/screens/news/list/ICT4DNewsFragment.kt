@@ -27,7 +27,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
-    override fun isFragmentContainToolbar(): Boolean = true
+    override fun isFragmentContainingToolbar(): Boolean = true
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter { pair, view ->
         val action = ICT4DNewsFragmentDirections.ActionActionNewsToICT4DNewsDetailFragment(pair.first)
@@ -44,38 +44,46 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        model.isRefreshing.observe(this, Observer {
-            binding.swiperefresh.isRefreshing = it ?: false
-        })
+        model.blogsCount.observe(this, Observer { blogsCount ->
 
-        binding.swiperefresh.setOnRefreshListener {
-            model.requestToLoadFeedsFromServers(true)
-        }
+            if (blogsCount == 0 && model.isSplashNotStartedOnce) { // no Blogs exist yet --> show Splash to download them
+                model.isSplashNotStartedOnce = false
+                view?.findNavController()?.navigate(ICT4DNewsFragmentDirections.actionActionNewsToSplashFragment())
+            } else {
 
-        model.searchedNewsList.observe(this, Observer {
-            if (it != null) {
-                Timber.d("Search result size is ----> ${it.size} and query is ----> ${model.searchQuery}")
-                adapter.submitList(it)
+                model.isRefreshing.observe(this, Observer {
+                    binding.swiperefresh.isRefreshing = it ?: false
+                })
+
+                binding.swiperefresh.setOnRefreshListener {
+                    model.requestToLoadFeedsFromServers(true)
+                }
+
+                model.searchedNewsList.observe(this, Observer {
+                    if (it != null) {
+                        Timber.d("Search result size is ----> ${it.size} and query is ----> ${model.searchQuery}")
+                        adapter.submitList(it)
+                    }
+                })
+
+                binding.recyclerview.layoutManager = LinearLayoutManager(context)
+                binding.recyclerview.adapter = adapter
+
+                model.newsList.observe(this, Observer {
+                    if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
+                        Timber.d("list in fragment: ${it.size}")
+                        adapter.submitList(it)
+                    }
+                })
+
+                binding.quickScroll.setOnClickListener { binding.recyclerview.smoothScrollToPosition(0) }
+                binding.recyclerview.addOnScrollListener(
+                    ScrollToTopRecyclerViewScrollHandler(
+                        binding.quickScroll
+                    )
+                )
             }
         })
-
-        binding.recyclerview.layoutManager = LinearLayoutManager(context)
-        binding.recyclerview.adapter = adapter
-
-        model.newsList.observe(this, Observer {
-            if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
-                Timber.d("list in fragment: ${it.size}")
-                adapter.submitList(it)
-            }
-        })
-
-        binding.quickScroll.setOnClickListener { binding.recyclerview.smoothScrollToPosition(0) }
-        binding.recyclerview.addOnScrollListener(
-            ScrollToTopRecyclerViewScrollHandler(
-                binding.quickScroll
-            )
-        )
-
         return view
     }
 

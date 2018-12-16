@@ -7,6 +7,7 @@ import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.IServer
 import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
+import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
@@ -22,6 +23,13 @@ class BlogAndSourceViewModel @Inject constructor(
 
     init {
         compositeDisposable.add(rxEventBus.filteredObservable(BlogsRefreshDoneMessage::class.java)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                isRefreshing.value = false
+            })
+
+        compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe {

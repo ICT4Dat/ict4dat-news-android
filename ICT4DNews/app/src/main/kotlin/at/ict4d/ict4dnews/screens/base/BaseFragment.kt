@@ -29,7 +29,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), HasSupportFragmentInjector,
-    NavController.OnNavigatedListener {
+    NavController.OnDestinationChangedListener {
 
     protected lateinit var binding: B
 
@@ -58,7 +58,7 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
     /**
      * Some fragments don't have toolbar such as {@link at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment}
      */
-    abstract fun isFragmentContainToolbar(): Boolean
+    abstract fun isFragmentContainingToolbar(): Boolean
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -73,7 +73,7 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
-        findNavController().addOnNavigatedListener(this)
+        findNavController().addOnDestinationChangedListener(this)
 
         return binding.root
     }
@@ -83,8 +83,8 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
      */
     override fun supportFragmentInjector() = childFragmentInjector
 
-    override fun onNavigated(controller: NavController, destination: NavDestination) {
-        if (activity is AppCompatActivity && isFragmentContainToolbar()) {
+    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+        if (activity is AppCompatActivity && isFragmentContainingToolbar()) {
             val appCompatActivity: AppCompatActivity
             try {
                 appCompatActivity = activity as AppCompatActivity
@@ -93,29 +93,14 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
                 throw IllegalStateException("Activity is not of AppCompactActivity Type")
             }
             appCompatActivity.setSupportActionBar(binding.root.findViewById(R.id.toolbar))
-
-            // resets subtitle of Toolbar
-            if (destination.id != R.id.blogAndSourceFragment) {
-                appCompatActivity.supportActionBar?.subtitle = ""
-            }
-
-            if (destination.id != R.id.splashFragment && destination.id != R.id.actionNews) {
-                appCompatActivity.setupActionBarWithNavController(controller)
-                controller.graph.startDestination = R.id.actionNews
-            }
-
-            if (destination.id == R.id.splashFragment) {
-                appCompatActivity.supportActionBar?.hide()
-            } else {
-                appCompatActivity.supportActionBar?.show()
-            }
+            appCompatActivity.setupActionBarWithNavController(controller)
         } else {
-            Timber.e("Activity is not of type AppCompact")
+            Timber.e("Activity is not of type AppCompact or Fragment has no Toolbar")
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        findNavController().removeOnNavigatedListener(this)
+        findNavController().removeOnDestinationChangedListener(this)
     }
 }

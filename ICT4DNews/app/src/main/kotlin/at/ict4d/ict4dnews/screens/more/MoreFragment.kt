@@ -27,7 +27,7 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
 
     override fun getViewModel(): Class<MoreViewModel> = MoreViewModel::class.java
 
-    override fun isFragmentContainToolbar(): Boolean = true
+    override fun isFragmentContainingToolbar(): Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

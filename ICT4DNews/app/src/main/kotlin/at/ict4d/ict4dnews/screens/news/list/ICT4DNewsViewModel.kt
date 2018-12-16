@@ -23,6 +23,8 @@ class ICT4DNewsViewModel @Inject constructor(
     rxEventBus: RxEventBus
 ) : BaseViewModel() {
 
+    val blogsCount = persistenceManager.getBlogsCountAsLiveData()
+    var isSplashNotStartedOnce = true
     val newsList = MutableLiveData<List<Pair<News, Blog>>>()
     val searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
     var searchQuery: String? = null
