@@ -124,9 +124,7 @@ fun View.visible(visible: Boolean) {
 
 fun String.stripHtml(): String = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
 
-fun RecyclerView.moveToTop(moveToPosition: Int = 0) {
-    smoothScrollToPosition(moveToPosition)
-}
+fun RecyclerView.moveToTop(moveToPosition: Int = 0) = smoothScrollToPosition(moveToPosition)
 
 /**
  * LiveData that propagates only distinct emissions.
