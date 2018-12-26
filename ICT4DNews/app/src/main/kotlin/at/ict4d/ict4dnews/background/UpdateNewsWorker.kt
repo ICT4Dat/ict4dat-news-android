@@ -7,6 +7,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.NOTIFICATION_CHANNEL_ID
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
@@ -15,6 +16,7 @@ import at.ict4d.ict4dnews.server.IServer
 import javax.inject.Inject
 
 const val NEWS_WORKER_TAG = "NEWS_UPDATE_TASK"
+const val NEWS_WORKER_NOTIFICATION_ID = 99
 
 class UpdateNewsWorker(val context: Context, workParams: WorkerParameters) : Worker(context, workParams) {
 
@@ -23,6 +25,10 @@ class UpdateNewsWorker(val context: Context, workParams: WorkerParameters) : Wor
 
     @Inject
     protected lateinit var persistenceManager: IPersistenceManager
+
+    init {
+        ICT4DNewsApplication.instance.component.inject(this)
+    }
 
     override fun doWork(): Result {
 
@@ -44,7 +50,7 @@ class UpdateNewsWorker(val context: Context, workParams: WorkerParameters) : Wor
             .setContentIntent(pendingIntent)
         with(NotificationManagerCompat.from(context)) {
             // notificationId is a unique int for each notification that you must define
-            notify(0, notificationBuilder.build())
+            notify(NEWS_WORKER_NOTIFICATION_ID, notificationBuilder.build())
         }
 
         return Result.success()

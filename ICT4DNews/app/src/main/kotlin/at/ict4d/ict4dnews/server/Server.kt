@@ -78,11 +78,11 @@ class Server @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({
-                Timber.d("**** done: $it")
+                Timber.d("done: $it")
                 persistenceManager.getLastAutomaticNewsUpdateLocalDate().set(LocalDate.now())
                 rxEventBus.post(NewsRefreshDoneMessage())
             }, {
-                Timber.e(it, "**** Error in downloading news from all active posts")
+                Timber.e(it, "Error in downloading news from all active posts")
                 handleError(it, NewsRefreshDoneMessage())
             })
     }
