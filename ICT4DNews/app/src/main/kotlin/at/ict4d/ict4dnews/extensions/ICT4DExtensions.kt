@@ -14,6 +14,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.utils.GlideApp
 import at.ict4d.ict4dnews.utils.GlideRequest
@@ -125,6 +126,8 @@ fun View.visible(visible: Boolean) {
 fun String.stripHtml(): String = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
 
 fun LocalDate.isLastUpdateIsDayAgo(): Boolean = this.dayOfMonth != LocalDate.now().dayOfMonth
+
+fun RecyclerView.moveToTop(moveToPosition: Int = 0) = smoothScrollToPosition(moveToPosition)
 
 /**
  * LiveData that propagates only distinct emissions.
