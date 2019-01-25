@@ -13,6 +13,7 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
 import at.ict4d.ict4dnews.server.IServer
+import timber.log.Timber
 import javax.inject.Inject
 
 const val NEWS_WORKER_TAG = "NEWS_UPDATE_TASK"
@@ -33,26 +34,34 @@ class UpdateNewsWorker(val context: Context, workParams: WorkerParameters) : Wor
     override fun doWork(): Result {
 
         val latestNewsDate = persistenceManager.getLatestNewsPublishedDate()
-        server.loadAllNewsFromAllActiveBlogsSynchronous()
+        val downloadStatus = server.loadAllNewsFromAllActiveBlogsSynchronous()
 
         // TODO: get all News which are older than 'latestNewsDate'
+        val newNews = persistenceManager.requestLatestNewsByDate(latestNewsDate)
         // TODO: if >0 then create a notification and display the results
-        val intent = Intent(context, MainNavigationActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        Timber.e("Size sda is ----> $newNews")
+        if (newNews > 0) {
+            val intent = Intent(context, MainNavigationActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+            val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(context.getString(R.string.news_update_complete))
+                .setContentText(
+                    String.format(
+                        context.getString(R.string.news_update_notification_content_text),
+                        newNews
+                    )
+                )
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+            with(NotificationManagerCompat.from(context)) {
+                // notificationId is a unique int for each notification that you must define
+                notify(NEWS_WORKER_NOTIFICATION_ID, notificationBuilder.build())
+            }
         }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-        val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle("News Update Complete")
-            .setContentText("Jipi... we updated ?? news for you, read them now")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-        with(NotificationManagerCompat.from(context)) {
-            // notificationId is a unique int for each notification that you must define
-            notify(NEWS_WORKER_NOTIFICATION_ID, notificationBuilder.build())
-        }
-
-        return Result.success()
+        return if (downloadStatus) Result.success() else Result.failure()
     }
 }

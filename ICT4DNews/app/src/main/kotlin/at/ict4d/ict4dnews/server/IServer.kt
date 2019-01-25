@@ -19,7 +19,7 @@ interface IServer {
      */
     fun loadAllNewsFromAllActiveBlogs(): Disposable
 
-    fun loadAllNewsFromAllActiveBlogsSynchronous()
+    fun loadAllNewsFromAllActiveBlogsSynchronous() : Boolean
 
     /**
      * Loads all available blogs in the application.

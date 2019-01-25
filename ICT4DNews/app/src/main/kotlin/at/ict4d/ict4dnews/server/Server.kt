@@ -87,32 +87,42 @@ class Server @Inject constructor(
             })
     }
 
-    override fun loadAllNewsFromAllActiveBlogsSynchronous() {
+    override fun loadAllNewsFromAllActiveBlogsSynchronous() : Boolean {
         val activeBlogs = persistenceManager.getAllActiveBlogs()
+        var requestStatus = false
+
         activeBlogs.forEach { blog ->
-            if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
-                val call = apiJsonSelfHostedWPService.getJsonNewsOfUrlAsCall(
-                    blog.feed_url + "wp-json/wp/v2/posts",
-                    newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
-                        DateTimeFormatter.ISO_LOCAL_DATE_TIME
+            try {
+                if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
+                    val call = apiJsonSelfHostedWPService.getJsonNewsOfUrlAsCall(
+                        blog.feed_url + "wp-json/wp/v2/posts",
+                        newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
+                            DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                        )
                     )
-                )
-                val result = call.execute()
-                if (result.isSuccessful) {
-                    result.body()?.let {
-                        handleSelfHostedWPBlogList(activeBlogs, it)
+                    val result = call.execute()
+                    if (result.isSuccessful) {
+                        result.body()?.let {
+                            handleSelfHostedWPBlogList(activeBlogs, it)
+                            requestStatus = true
+                        }
+                    }
+                } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
+                    val call = apiRSSService.getRssNewsAsCall(blog.feed_url)
+                    val result = call.execute()
+                    if (result.isSuccessful) {
+                        result.body()?.let {
+                            handleRSSList(activeBlogs, it)
+                            requestStatus = true
+                        }
                     }
                 }
-            } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
-                val call = apiRSSService.getRssNewsAsCall(blog.feed_url)
-                val result = call.execute()
-                if (result.isSuccessful) {
-                    result.body()?.let {
-                        handleRSSList(activeBlogs, it)
-                    }
-                }
+            }catch (e : Exception){
+                Timber.e("Something went wrong in loadAllNewsFromAllActiveBlogsSynchronous ----> ${e.message}")
+                requestStatus = false
             }
         }
+        return requestStatus
     }
 
     private fun handleSelfHostedWPBlogList(databaseBlogList: List<Blog>, serverResultBlog: List<*>) {

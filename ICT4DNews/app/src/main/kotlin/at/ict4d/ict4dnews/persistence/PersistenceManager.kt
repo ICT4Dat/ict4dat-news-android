@@ -50,6 +50,8 @@ class PersistenceManager @Inject constructor(
 
     override fun getLatestNewsPublishedDate(): LocalDateTime = newsDao.getLatestNewsPublishedDate() ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
 
+    override fun requestLatestNewsByDate(recentNewsDate: LocalDateTime) = newsDao.getLatestNewsByDate(recentNewsDate)
+
     override fun getAllActiveNews(): LiveData<List<News>> = newsDao.getAllActiveNews()
 
     override fun getAllActiveNewsAsFlowable(): Flowable<List<News>> = newsDao.getAllActiveNewsAsFlowable()
