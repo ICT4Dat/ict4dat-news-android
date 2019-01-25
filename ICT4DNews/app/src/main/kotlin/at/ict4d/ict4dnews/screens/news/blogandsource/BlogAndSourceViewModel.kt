@@ -22,14 +22,12 @@ class BlogAndSourceViewModel @Inject constructor(
     var allBlogsList: LiveData<List<Blog>> = persistenceManager.getAllBlogs()
 
     init {
-        compositeDisposable.add(rxEventBus.filteredObservable(BlogsRefreshDoneMessage::class.java)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe {
-                isRefreshing.value = false
-            })
+        registerRxEventMessage(rxEventBus, BlogsRefreshDoneMessage::class.java)
+        registerRxEventMessage(rxEventBus, ServerErrorMessage::class.java)
+    }
 
-        compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)
+    private fun <T> registerRxEventMessage(rxEventBus: RxEventBus, messageClass: Class<T>) {
+        compositeDisposable.add(rxEventBus.filteredObservable(messageClass)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe {
