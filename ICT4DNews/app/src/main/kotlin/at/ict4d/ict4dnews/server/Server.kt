@@ -87,7 +87,7 @@ class Server @Inject constructor(
             })
     }
 
-    override fun loadAllNewsFromAllActiveBlogsSynchronous() : Boolean {
+    override fun loadAllNewsFromAllActiveBlogsSynchronous(): Boolean {
         val activeBlogs = persistenceManager.getAllActiveBlogs()
         var requestStatus = false
 
@@ -117,7 +117,7 @@ class Server @Inject constructor(
                         }
                     }
                 }
-            }catch (e : Exception){
+            } catch (e: Exception) {
                 Timber.e("Something went wrong in loadAllNewsFromAllActiveBlogsSynchronous ----> ${e.message}")
                 requestStatus = false
             }
