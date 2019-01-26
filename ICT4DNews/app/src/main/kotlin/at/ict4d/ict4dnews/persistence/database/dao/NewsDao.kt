@@ -42,6 +42,6 @@ abstract class NewsDao {
     @Query("SELECT COUNT() FROM $NEWS_TABLE_TABLE_NAME")
     abstract fun getCountOfNews(): Int
 
-    @Query("SELECT COUNT(*) FROM $NEWS_TABLE_TABLE_NAME WHERE datetime($NEWS_TABLE_PUBLISHED_DATE) > :recentNewsDate")
-    abstract fun getLatestNewsByDate(recentNewsDate: LocalDateTime): Int
+    @Query("SELECT * FROM $NEWS_TABLE_TABLE_NAME WHERE datetime($NEWS_TABLE_PUBLISHED_DATE) > :recentNewsDate")
+    abstract fun getLatestNewsByDate(recentNewsDate: LocalDateTime): List<News>
 }

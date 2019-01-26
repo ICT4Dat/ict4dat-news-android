@@ -58,8 +58,6 @@
     <string name="ict4d_headline">What is ICT4D?</string>
     <string name="notification_channel_name">ICT4D News Notifications</string>
     <string name="notification_channel_description">Notifications of the ICT4D News application to keep you up with changes within our application.</string>
-
-    <!--TODO update the text-->
-    <string name="news_update_complete">News Update Complete</string>
-    <string name="news_update_notification_content_text">Jipi... we updated %d news for you, read them now</string>
+    <string name="news_update_complete">ICT4D News Update</string>
+    <string name="news_update_notification_content_text">%d new article/s available, read them now.</string>
 </resources>

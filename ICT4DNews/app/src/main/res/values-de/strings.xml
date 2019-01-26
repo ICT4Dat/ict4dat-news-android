@@ -64,4 +64,6 @@
     <string name="ict4d_headline">Was ist ICT4D?</string>
     <string name="notification_channel_name">ICT4D News Benachrichtigungen</string>
     <string name="notification_channel_description">Benachrichtigungen der ICT4D News-App, um Dich über Änderungen in unserer Anwendung auf dem Laufenden zu halten.</string>
+    <string name="news_update_complete">ICT4D News Aktualisierung</string>
+    <string name="news_update_notification_content_text">%d neue/r Artikel verfügbar, lies sie jetzt.</string>
 </resources>

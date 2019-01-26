@@ -40,7 +40,7 @@ interface IPersistenceManager {
 
     fun getAllActiveNews(): LiveData<List<News>>
 
-    fun requestLatestNewsByDate(recentNewsDate: LocalDateTime): Int
+    fun requestLatestNewsByDate(recentNewsDate: LocalDateTime): List<News>
 
     fun getAllActiveNewsAsFlowable(): Flowable<List<News>>
 
