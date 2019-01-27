@@ -21,7 +21,7 @@ abstract class NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(news: News)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertAll(news: List<News>)
 
     @Query("SELECT * FROM $NEWS_TABLE_TABLE_NAME ORDER BY datetime($NEWS_TABLE_PUBLISHED_DATE) DESC")
