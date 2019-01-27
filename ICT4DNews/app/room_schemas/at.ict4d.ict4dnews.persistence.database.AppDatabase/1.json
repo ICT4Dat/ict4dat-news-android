@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b81cc682fa9354d118738e24bf8a40a8",
+    "identityHash": "f86ae8ebd95440840f181bc1b64d8335",
     "entities": [
       {
         "tableName": "news",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT, `server_id` INTEGER NOT NULL, `featured_media` TEXT, `title` TEXT, `description` TEXT, `published_date` TEXT, `blog_id` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`blog_id`) REFERENCES `blogs`(`blog_feed_url`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT, `server_id` INTEGER NOT NULL, `featured_media` TEXT, `title` TEXT, `description` TEXT, `published_date` TEXT, `blog_id` TEXT, `news_read_State` INTEGER NOT NULL, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`blog_id`) REFERENCES `blogs`(`blog_feed_url`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "link",
@@ -55,6 +55,12 @@
             "columnName": "blog_id",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "readState",
+            "columnName": "news_read_State",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -313,31 +319,11 @@
         },
         "indices": [],
         "foreignKeys": []
-      },
-      {
-        "tableName": "read_news",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`news_url` TEXT NOT NULL, PRIMARY KEY(`news_url`))",
-        "fields": [
-          {
-            "fieldPath": "newsUrl",
-            "columnName": "news_url",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "news_url"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b81cc682fa9354d118738e24bf8a40a8\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f86ae8ebd95440840f181bc1b64d8335\")"
     ]
   }
 }

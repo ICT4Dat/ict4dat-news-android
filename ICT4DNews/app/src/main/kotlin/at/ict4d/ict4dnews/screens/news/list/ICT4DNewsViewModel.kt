@@ -1,10 +1,8 @@
 package at.ict4d.ict4dnews.screens.news.list
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
-import at.ict4d.ict4dnews.models.ReadNews
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.IServer
@@ -28,7 +26,6 @@ class ICT4DNewsViewModel @Inject constructor(
     val newsList = MutableLiveData<List<Pair<News, Blog>>>()
     val searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
     var searchQuery: String? = null
-    val readNewsLiveData: LiveData<List<ReadNews>> = persistenceManager.getAllReadNews()
 
     init {
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
@@ -115,8 +112,8 @@ class ICT4DNewsViewModel @Inject constructor(
         })
     }
 
-    fun insertReadNews(newsUrl: String) {
-        doAsync { persistenceManager.addReadNews(ReadNews(newsUrl = newsUrl)) }
+    fun insertReadNews(newNews: News) {
+        doAsync { persistenceManager.insertNews(newNews) }
     }
 
     fun isSearchRequested(): Boolean = !searchQuery.isNullOrEmpty()

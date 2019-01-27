@@ -28,10 +28,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
     private val adapter: ICT4DNewsRecyclerViewAdapter =
-        ICT4DNewsRecyclerViewAdapter { pair, view ->
-            model.insertReadNews(pair.first.link)
-            val action = ICT4DNewsFragmentDirections.ActionActionNewsToICT4DNewsDetailActivity(pair.first)
-            view.findNavController().navigate(action)
+        ICT4DNewsRecyclerViewAdapter { selectedNews, view ->
+            model.insertReadNews(selectedNews)
+            view.findNavController()
+                .navigate(ICT4DNewsFragmentDirections.ActionActionNewsToICT4DNewsDetailActivity(selectedNews))
         }
 
     private var menu: Menu? = null
@@ -57,10 +57,6 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                 Timber.d("Search result size is ----> ${it.size} and query is ----> ${model.searchQuery}")
                 adapter.submitList(it)
             }
-        })
-
-        model.readNewsLiveData.observe(this, Observer {
-            adapter.submitList(model.getNewsListBasedOnSearchRequest(), it)
         })
 
         binding.recyclerview.layoutManager = LinearLayoutManager(context)

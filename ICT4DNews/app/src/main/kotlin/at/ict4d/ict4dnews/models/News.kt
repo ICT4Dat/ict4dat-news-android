@@ -1,11 +1,11 @@
 package at.ict4d.ict4dnews.models
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import android.os.Parcelable
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.wordpress.SELF_HOSTED_WP_POST_SERIALIZED_RENDERED
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
@@ -21,6 +21,7 @@ const val NEWS_TABLE_FEATURED_MEDIA = "featured_media"
 const val NEWS_TABLE_SERVER_ID = "server_id"
 const val NEWS_TABLE_PUBLISHED_DATE = "published_date"
 const val NEWS_TABLE_BLOG_ID = "blog_id"
+const val NEWS_TABLE_NEWS_READ_STATE = "news_read_State"
 
 @Parcelize
 @Entity(
@@ -66,7 +67,10 @@ data class News(
     val publishedDate: LocalDateTime? = null,
 
     @ColumnInfo(name = NEWS_TABLE_BLOG_ID)
-    val blogID: String?
+    val blogID: String?,
+
+    @ColumnInfo(name = NEWS_TABLE_NEWS_READ_STATE)
+    val readState: Boolean = false
 ) : Parcelable {
 
     constructor(selfHostedWPPost: SelfHostedWPPost) : this(
