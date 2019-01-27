@@ -44,6 +44,8 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
+        binding.recyclerview.layoutManager = LinearLayoutManager(context)
+        binding.recyclerview.adapter = adapter
 
         model.blogsCount.observe(this, Observer { blogsCount ->
 
@@ -67,25 +69,19 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                     }
                 })
 
-                binding.recyclerview.layoutManager = LinearLayoutManager(context)
-                binding.recyclerview.adapter = adapter
-
                 model.newsList.observe(this, Observer {
                     if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
                         Timber.d("list in fragment: ${it.size}")
                         adapter.submitList(it)
-                        if (model.isRefreshing.value == false) {
+                        if (model.shouldMoveScrollToTop){
                             binding.recyclerview.moveToTop()
+                            model.shouldMoveScrollToTop = false
                         }
                     }
                 })
 
                 binding.quickScroll.setOnClickListener { binding.recyclerview.moveToTop() }
-                binding.recyclerview.addOnScrollListener(
-                    ScrollToTopRecyclerViewScrollHandler(
-                        binding.quickScroll
-                    )
-                )
+                binding.recyclerview.addOnScrollListener(ScrollToTopRecyclerViewScrollHandler(binding.quickScroll))
             }
         })
 
