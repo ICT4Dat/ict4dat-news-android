@@ -21,13 +21,14 @@
                 android:layout_height="wrap_content"
                 tools:context=".screens.more.MoreFragment">
 
+            <include layout="@layout/toolbar" android:id="@+id/include"/>
+
+
             <androidx.appcompat.widget.AppCompatTextView
                     tools:text="@string/headline_more"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/headline"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:textStyle="bold"
                     android:textSize="24sp"
@@ -35,7 +36,8 @@
                     android:layout_marginStart="19dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="19dp"
-                    android:layout_marginRight="19dp"/>
+                    android:layout_marginRight="19dp" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/include"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/developers_text"

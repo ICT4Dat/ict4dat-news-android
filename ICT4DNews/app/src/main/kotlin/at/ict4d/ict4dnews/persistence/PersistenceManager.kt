@@ -88,6 +88,8 @@ class PersistenceManager @Inject constructor(
 
     override fun isBlogsExist(): Boolean = blogsDao.isBlogsExist()
 
+    override fun getBlogsCountAsLiveData(): LiveData<Int> = blogsDao.getBlogsCountAsLiveData()
+
     // Transactions
     override fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>) {
         database.runInTransaction {

@@ -76,6 +76,8 @@ interface IPersistenceManager {
 
     fun isBlogsExist(): Boolean
 
+    fun getBlogsCountAsLiveData(): LiveData<Int>
+
     // Transactions
     fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>)
 }
