@@ -16,7 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
+class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(hasToolbar = false) {
 
     @Inject
     protected lateinit var rxEventBus: RxEventBus
@@ -24,8 +24,6 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
     override fun getLayoutId(): Int = R.layout.fragment_splash
 
     override fun getViewModel(): Class<SplashViewModel> = SplashViewModel::class.java
-
-    override fun isFragmentContainingToolbar(): Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)

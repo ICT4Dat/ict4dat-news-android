@@ -28,7 +28,7 @@ import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
-abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), HasSupportFragmentInjector,
+abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(private val hasToolbar: Boolean = true) : Fragment(), HasSupportFragmentInjector,
     NavController.OnDestinationChangedListener {
 
     protected lateinit var binding: B
@@ -55,11 +55,6 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
      */
     abstract fun getViewModel(): Class<V>
 
-    /**
-     * Some fragments don't have toolbar such as {@link at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment}
-     */
-    abstract fun isFragmentContainingToolbar(): Boolean
-
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
@@ -84,7 +79,7 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding> : Fragment(), Ha
     override fun supportFragmentInjector() = childFragmentInjector
 
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
-        if (activity is AppCompatActivity && isFragmentContainingToolbar()) {
+        if (activity is AppCompatActivity && hasToolbar) {
             val appCompatActivity: AppCompatActivity
             try {
                 appCompatActivity = activity as AppCompatActivity

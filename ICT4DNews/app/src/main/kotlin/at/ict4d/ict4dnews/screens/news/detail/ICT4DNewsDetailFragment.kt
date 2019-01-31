@@ -1,5 +1,6 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
@@ -29,11 +30,11 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
 
     override fun getViewModel(): Class<ICT4DNewsDetailViewModel> = ICT4DNewsDetailViewModel::class.java
 
-    override fun isFragmentContainingToolbar(): Boolean = true
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        model.selectedNews = ICT4DNewsDetailFragmentArgs.fromBundle(arguments).newsItem
+        arguments?.let {
+            model.selectedNews = ICT4DNewsDetailFragmentArgs.fromBundle(it).newsItem
+        }
     }
 
     override fun onResume() {
@@ -51,6 +52,7 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
         return view
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

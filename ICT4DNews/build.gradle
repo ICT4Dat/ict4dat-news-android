@@ -4,20 +4,20 @@ buildscript {
 
     ext.versionCode = 3
 
-    ext.kotlin_version = "1.3.11"
+    ext.kotlin_version = "1.3.20"
     ext.glide_version = "4.8.0"
     ext.dagger_version = "2.16"
     ext.room_version = "2.0.0"
     ext.lifecycle_version = "2.0.0"
     ext.retrofit_version = "2.4.0"
-    ext.navigation_version = "1.0.0-alpha08"
+    ext.navigation_version = "1.0.0-alpha11"
 
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "com.android.tools.build:gradle:3.3.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.android.gms:oss-licenses-plugin:0.9.4"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$navigation_version"

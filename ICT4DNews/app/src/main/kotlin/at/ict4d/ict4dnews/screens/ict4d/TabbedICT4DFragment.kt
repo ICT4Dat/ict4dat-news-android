@@ -21,8 +21,6 @@ class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBind
 
     override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java
 
-    override fun isFragmentContainingToolbar(): Boolean = true
-
     private var sectionsPagerAdapter: TabbedICT4DSectionsPagerAdapter? = null
 
     companion object {

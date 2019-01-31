@@ -15,8 +15,6 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
 
     override fun getViewModel(): Class<BlogAndSourceViewModel> = BlogAndSourceViewModel::class.java
 
-    override fun isFragmentContainingToolbar(): Boolean = true
-
     private lateinit var blogAndSourceAdapter: BlogAndSourceRecyclerViewAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
