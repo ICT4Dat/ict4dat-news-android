@@ -3,34 +3,40 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swiperefresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:orientation="vertical">
 
-        <FrameLayout android:layout_width="match_parent"
-                     android:layout_height="match_parent">
+        <include layout="@layout/toolbar" android:id="@+id/include"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:name="at.ict4d.ict4dnews.screens.news.ICTDNewsFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="LinearLayoutManager"
-                    tools:context=".screens.news.list.ICT4DNewsFragment"
-                    tools:listitem="@layout/fragment_ictdnews_item"/>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:visibility="gone"
-                    app:backgroundTint="@color/white"
-                    android:id="@+id/quickScroll"
-                    android:layout_marginBottom="24dp"
-                    tools:visibility="visible"
-                    android:layout_gravity="bottom|center"
-                    app:elevation="4dp"/>
-        </FrameLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <FrameLayout android:layout_width="match_parent"
+                         android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview"
+                        android:name="at.ict4d.ict4dnews.screens.news.ICTDNewsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layoutManager="LinearLayoutManager"
+                        tools:context=".screens.news.list.ICT4DNewsFragment"
+                        tools:listitem="@layout/fragment_ictdnews_item"/>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:visibility="gone"
+                        app:backgroundTint="@color/white"
+                        android:id="@+id/quickScroll"
+                        android:layout_marginBottom="24dp"
+                        tools:visibility="visible"
+                        android:layout_gravity="bottom|center"
+                        app:elevation="4dp"/>
+            </FrameLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </layout>

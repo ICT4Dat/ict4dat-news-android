@@ -9,17 +9,19 @@
             tools:showIn="@layout/activity_main_navigation"
             tools:context=".screens.ict4d.TabbedICT4DFragment">
 
+        <include layout="@layout/toolbar" android:id="@+id/include"/>
+
         <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:tabIndicatorColor="@color/colorAccent"
                 android:background="@color/colorPrimary"
                 app:tabTextColor="@color/white_75_transparent"
-                app:tabSelectedTextColor="@color/white" >
+                app:tabSelectedTextColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/include">
 
             <com.google.android.material.tabs.TabItem
                     android:id="@+id/tabItem1"

@@ -23,9 +23,12 @@ class ICT4DNewsViewModel @Inject constructor(
     rxEventBus: RxEventBus
 ) : BaseViewModel() {
 
+    val blogsCount = persistenceManager.getBlogsCountAsLiveData()
+    var isSplashNotStartedOnce = true
     val newsList = MutableLiveData<List<Pair<News, Blog>>>()
     val searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
     var searchQuery: String? = null
+    var shouldMoveScrollToTop: Boolean = false
 
     init {
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
@@ -33,6 +36,7 @@ class ICT4DNewsViewModel @Inject constructor(
             .subscribeOn(Schedulers.io())
             .subscribe {
                 isRefreshing.value = false
+                shouldMoveScrollToTop = true
             })
 
         compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)

@@ -73,17 +73,17 @@ dependencies {
 
     // Android Support Libs
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "com.google.android.material:material:1.0.0"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha2"
-    implementation "androidx.vectordrawable:vectordrawable:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
+    implementation "androidx.vectordrawable:vectordrawable:1.0.1"
     implementation "androidx.preference:preference:1.0.0"
-    implementation "androidx.annotation:annotation:1.0.0"
+    implementation "androidx.annotation:annotation:1.0.1"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.browser:browser:1.0.0"
-    implementation "androidx.multidex:multidex:2.0.0"
-    implementation "androidx.core:core-ktx:1.0.0"
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "androidx.core:core-ktx:1.0.1"
 
     // Dagger 2
     implementation "com.google.dagger:dagger-android:$dagger_version"
@@ -142,8 +142,8 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room_version"
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06"
+    implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
 
     // Stetho for debug
     implementation "com.facebook.stetho:stetho:1.5.0"
@@ -151,8 +151,8 @@ dependencies {
 
     // Testing
     testImplementation "junit:junit:4.12"
-    androidTestImplementation "androidx.test:runner:1.1.0-beta02"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-beta02"
+    androidTestImplementation "androidx.test:runner:1.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
 
     // Leak Canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.2"
@@ -162,7 +162,7 @@ dependencies {
     ktlint "com.github.shyiko:ktlint:0.29.0"
 
     // 3rd Party licenses
-    implementation "com.google.android.gms:play-services-oss-licenses:16.0.1"
+    implementation "com.google.android.gms:play-services-oss-licenses:16.0.2"
 
     // Rx Preferences
     implementation "com.f2prateek.rx.preferences2:rx-preferences:2.0.0"
