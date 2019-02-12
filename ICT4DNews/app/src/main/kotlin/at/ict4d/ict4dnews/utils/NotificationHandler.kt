@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.NOTIFICATION_CHANNEL_ID
@@ -14,7 +15,6 @@ import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
-import org.jetbrains.anko.bundleOf
 import javax.inject.Inject
 
 const val NEWS_WORKER_SUMMARY_NOTIFICATION_ID = 1
@@ -32,11 +32,10 @@ class NotificationHandler @Inject constructor(private val persistenceManager: IP
 
             newsList.forEach { news ->
 
-//                 TODO Check why this is not working
                 val pendingIntent = NavDeepLinkBuilder(context)
                     .setGraph(R.navigation.nav_graph)
                     .setDestination(R.id.ICT4DNewsDetailFragment)
-                    .setArguments(bundleOf("newsItem" to news))
+                    .setArguments(bundleOf(Pair("newsItem", news)))
                     .createPendingIntent()
 
                 notifications.add(
@@ -49,7 +48,7 @@ class NotificationHandler @Inject constructor(private val persistenceManager: IP
                         .setContentText(news.title ?: "")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setAutoCancel(true)
-                         .setContentIntent(pendingIntent) // TODO: add this line
+                        .setContentIntent(pendingIntent)
                         .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
                         .setStyle(
                             NotificationCompat.BigTextStyle()
@@ -103,9 +102,7 @@ class NotificationHandler @Inject constructor(private val persistenceManager: IP
                 .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
                 .build()
 
-            with(NotificationManagerCompat.from(context)) {
-                notify(999, debugNotification)
-            }
+            with(NotificationManagerCompat.from(context)) { notify(999, debugNotification) }
         }
     }
 }

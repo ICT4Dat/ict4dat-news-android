@@ -15,7 +15,6 @@
                 app:destination="@id/ICT4DNewsDetailFragment"/>
         <action android:id="@+id/action_actionNews_to_splashFragment"
                 app:destination="@id/splashFragment"/>
-        <deepLink android:id="@+id/deepLink" app:uri="www.example.com/{newsItem}" android:autoVerify="true"/>
     </fragment>
 
     <fragment android:id="@+id/actionIct4d"
