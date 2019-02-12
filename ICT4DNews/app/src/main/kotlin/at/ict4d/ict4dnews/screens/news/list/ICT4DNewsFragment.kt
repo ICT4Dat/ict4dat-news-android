@@ -86,7 +86,13 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                         if (it.size > 2) {
                             context?.let { c ->
                                 doAsync {
-                                    notificationHandler.displayNewsNotifications(listOf(it.first().first, it[1].first, it[2].first), c)
+                                    notificationHandler.displayNewsNotifications(
+                                        listOf(
+                                            it.first().first,
+                                            it[1].first,
+                                            it[2].first
+                                        ), c
+                                    )
                                 }
                             }
                         }
