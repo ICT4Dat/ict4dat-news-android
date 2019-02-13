@@ -16,7 +16,7 @@
     <string name="sync_news_after">Sync News After</string>
     <string name="sync_news_after_summary">Auto update news</string>
     <string name="news_update_dialog_title">Select news update time</string>
-    <string name="current_app_version">App Version</string>
+    <string name="current_app_version">Current Version</string>
     <string name="should_allow_sync_service">Allow Sync Service</string>
     <string name="sync_service_category">Sync Service</string>
     <string name="last_news_update_key">last_news_update_key</string>
