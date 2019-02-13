@@ -1,8 +1,7 @@
 package at.ict4d.ict4dnews
 
-import android.app.Activity
 import android.content.Context
-import androidx.multidex.MultiDexApplication
+import androidx.multidex.MultiDex
 import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
 import com.facebook.stetho.Stetho
@@ -10,15 +9,11 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.support.DaggerApplication
 import timber.log.Timber
 import javax.inject.Inject
 
-class ICT4DNewsApplication : MultiDexApplication(), HasActivityInjector {
-
-    @Inject
-    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+class ICT4DNewsApplication : DaggerApplication() {
 
     @Inject
     lateinit var component: ApplicationComponent
@@ -59,5 +54,11 @@ class ICT4DNewsApplication : MultiDexApplication(), HasActivityInjector {
         }
     }
 
-    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+        DaggerApplicationComponent.builder().create(this)
 }
