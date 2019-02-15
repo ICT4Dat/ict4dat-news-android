@@ -1,11 +1,11 @@
 package at.ict4d.ict4dnews.lifecycle
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
-import androidx.appcompat.app.AppCompatActivity
+import at.ict4d.ict4dnews.extensions.filterObservableAndSetThread
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -22,16 +22,14 @@ class RXErrorEventBusLifecycleObserver(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun registerEventBus() {
-        eventBusObserver = eventBus.filteredObservable(ServerErrorMessage::class.java)
-                .subscribeOn(Schedulers.single())
-                .observeOn(AndroidSchedulers.mainThread())
+        eventBusObserver =
+            eventBus.filterObservableAndSetThread<ServerErrorMessage>(subscribeThread = Schedulers.single())
                 .subscribe {
                     if (!activity.isFinishing && !activity.isChangingConfigurations) {
                         activity.toast(it.message)
                     }
                     Timber.e(it.throwable)
                 }
-
         compositeDisposable.add(eventBusObserver as Disposable)
     }
 
