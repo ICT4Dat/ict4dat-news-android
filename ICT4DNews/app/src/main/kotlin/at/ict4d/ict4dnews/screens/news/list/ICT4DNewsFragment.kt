@@ -16,23 +16,17 @@ import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.extensions.moveToTop
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
-import at.ict4d.ict4dnews.utils.NotificationHandler
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.doAsync
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>() {
 
     override fun getLayoutId(): Int = R.layout.fragment_ictdnews_list
 
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
-
-    @Inject
-    protected lateinit var notificationHandler: NotificationHandler // TODO: remove
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter { pair, view ->
         val action = ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
@@ -80,21 +74,6 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                         if (model.shouldMoveScrollToTop) {
                             binding.recyclerview.moveToTop()
                             model.shouldMoveScrollToTop = false
-                        }
-
-                        // TODO: remove
-                        if (it.size > 2) {
-                            context?.let { c ->
-                                doAsync {
-                                    notificationHandler.displayNewsNotifications(
-                                        listOf(
-                                            it.first().first,
-                                            it[1].first,
-                                            it[2].first
-                                        ), c
-                                    )
-                                }
-                            }
                         }
                     }
                 })
