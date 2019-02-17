@@ -37,7 +37,7 @@ class Server @Inject constructor(
 ) : IServer {
 
     /**
-     * @see IServer
+     * @see IServer.loadAllNewsFromAllActiveBlogs
      */
     override fun loadAllNewsFromAllActiveBlogs(): Disposable {
 
@@ -87,6 +87,9 @@ class Server @Inject constructor(
             })
     }
 
+    /**
+     * @see IServer.loadAllNewsFromAllActiveBlogsSynchronous
+     */
     override fun loadAllNewsFromAllActiveBlogsSynchronous(): Boolean {
         val activeBlogs = persistenceManager.getAllActiveBlogs()
         var requestStatus = false
@@ -291,7 +294,7 @@ class Server @Inject constructor(
     }
 
     /**
-     * @see IServer
+     * @see IServer.loadBlogs
      */
     override fun loadBlogs(): Disposable {
         return apiICT4DatNews.getBlogs()

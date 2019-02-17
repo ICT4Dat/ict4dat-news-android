@@ -125,8 +125,6 @@ fun View.visible(visible: Boolean) {
 
 fun String.stripHtml(): String = Jsoup.parse(this).text()
 
-fun LocalDate.isLastUpdateIsDayAgo(): Boolean = this.dayOfMonth != LocalDate.now().dayOfMonth
-
 fun RecyclerView.moveToTop(moveToPosition: Int = 0) = smoothScrollToPosition(moveToPosition)
 
 /**

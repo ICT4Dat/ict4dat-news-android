@@ -11,20 +11,27 @@ import io.reactivex.disposables.Disposable
 interface IServer {
 
     /**
-     * Loads all *Blog Posts* from *Blogs* in the database
-     * from the respected servers and stores the result into the database.
+     * Loads all active [blogs][at.ict4d.ict4dnews.models.Blog] from the respected servers and stores the result
+     * into the database.
      * Trigger this function for an update and subscribe to the database for changes.
      *
-     * @return The RXJava Disposable to dispose this call when not needed anymore.
+     * @return The RXJava [Disposable] to dispose this call when not needed anymore.
      */
     fun loadAllNewsFromAllActiveBlogs(): Disposable
 
+    /**
+     * Loads all active [blogs][at.ict4d.ict4dnews.models.Blog] from the respected servers and stores the result
+     * into the database. This call is synchronous and will block the thread on which it got called.
+     * Trigger this function for an update and subscribe to the database for changes.
+     *
+     * @return True if the operation was successful, otherwise false.
+     */
     fun loadAllNewsFromAllActiveBlogsSynchronous(): Boolean
 
     /**
-     * Loads all available blogs in the application.
+     * Loads all available [blogs][at.ict4d.ict4dnews.models.Blog] in the application.
      *
-     * @return The RXJava Disposable to dispose this call when not needed anymore.
+     * @return The RXJava [Disposable] to dispose this call when not needed anymore.
      */
     fun loadBlogs(): Disposable
 }
