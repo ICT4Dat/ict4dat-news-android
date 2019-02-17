@@ -25,6 +25,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.HttpException
 import timber.log.Timber
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class Server @Inject constructor(
@@ -36,7 +37,7 @@ class Server @Inject constructor(
 ) : IServer {
 
     /**
-     * @see IServer
+     * @see IServer.loadAllNewsFromAllActiveBlogs
      */
     override fun loadAllNewsFromAllActiveBlogs(): Disposable {
 
@@ -46,7 +47,7 @@ class Server @Inject constructor(
         blogs.forEach { blog ->
             if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
                 Timber.d(blog.feed_url)
-                requests.add(apiJsonSelfHostedWPService.getJsonNewsOfURL(
+                requests.add(apiJsonSelfHostedWPService.getJsonNewsOfUrl(
                     blog.feed_url + "wp-json/wp/v2/posts",
                     newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
                         DateTimeFormatter.ISO_LOCAL_DATE_TIME
@@ -56,7 +57,7 @@ class Server @Inject constructor(
                 )
             } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
                 requests.add(apiRSSService.getRssNews(blog.feed_url)
-                    .onErrorReturn { RSSFeed(null) }
+                    .doOnError { return@doOnError }
                 )
             }
         }
@@ -73,19 +74,58 @@ class Server @Inject constructor(
                     handleRSSList(blogs, it)
                 }
             }
-            persistenceManager.getLastAutomaticNewsUpdateLocalDate().set(LocalDate.now())
-            rxEventBus.post(NewsRefreshDoneMessage())
         }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
-            .doOnError { Timber.e(it, "error in updating blogs") }
-            .onErrorReturn { emptyList<Blog>() }
             .subscribe({
-                Timber.d("**** done: $it")
+                Timber.d("done: $it")
+                persistenceManager.getLastAutomaticNewsUpdateLocalDate().set(LocalDate.now())
+                rxEventBus.post(NewsRefreshDoneMessage())
             }, {
-                Timber.e(it, "**** Error in downloading news from all active posts")
+                Timber.e(it, "Error in downloading news from all active posts")
                 handleError(it, NewsRefreshDoneMessage())
             })
+    }
+
+    /**
+     * @see IServer.loadAllNewsFromAllActiveBlogsSynchronous
+     */
+    override fun loadAllNewsFromAllActiveBlogsSynchronous(): Boolean {
+        val activeBlogs = persistenceManager.getAllActiveBlogs()
+        var requestStatus = false
+
+        activeBlogs.forEach { blog ->
+            try {
+                if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
+                    val call = apiJsonSelfHostedWPService.getJsonNewsOfUrlAsCall(
+                        blog.feed_url + "wp-json/wp/v2/posts",
+                        newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
+                            DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                        )
+                    )
+                    val result = call.execute()
+                    if (result.isSuccessful) {
+                        result.body()?.let {
+                            handleSelfHostedWPBlogList(activeBlogs, it)
+                            requestStatus = true
+                        }
+                    }
+                } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
+                    val call = apiRSSService.getRssNewsAsCall(blog.feed_url)
+                    val result = call.execute()
+                    if (result.isSuccessful) {
+                        result.body()?.let {
+                            handleRSSList(activeBlogs, it)
+                            requestStatus = true
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e("Something went wrong in loadAllNewsFromAllActiveBlogsSynchronous ----> ${e.message}")
+                requestStatus = false
+            }
+        }
+        return requestStatus
     }
 
     private fun handleSelfHostedWPBlogList(databaseBlogList: List<Blog>, serverResultBlog: List<*>) {
@@ -110,8 +150,7 @@ class Server @Inject constructor(
                     }
                 } catch (e: Throwable) {
                     Timber.e(e, "Error in downloading an author from a self-hosted Wordpress blog")
-                    rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
-                    return
+                    throw UnknownHostException(e.message)
                 }
             }
 
@@ -128,8 +167,7 @@ class Server @Inject constructor(
                     }
                 } catch (e: Throwable) {
                     Timber.e(e, "Error in downloading media from a self-hosted Wordpress blog")
-                    rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, e))
-                    return
+                    throw UnknownHostException(e.message)
                 }
             }
 
@@ -256,7 +294,7 @@ class Server @Inject constructor(
     }
 
     /**
-     * @see IServer
+     * @see IServer.loadBlogs
      */
     override fun loadBlogs(): Disposable {
         return apiICT4DatNews.getBlogs()
