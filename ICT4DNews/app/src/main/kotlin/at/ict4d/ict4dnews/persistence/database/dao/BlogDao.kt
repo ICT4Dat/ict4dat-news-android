@@ -12,7 +12,6 @@ import at.ict4d.ict4dnews.models.BLOG_TABLE_TABLE_NAME
 import at.ict4d.ict4dnews.models.BLOG_TABLE_URL
 import at.ict4d.ict4dnews.models.Blog
 import io.reactivex.Flowable
-import io.reactivex.Single
 
 @Dao
 abstract class BlogDao {

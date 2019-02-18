@@ -7,7 +7,6 @@ import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
 import com.f2prateek.rx.preferences2.Preference
 import io.reactivex.Flowable
-import io.reactivex.Single
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 
