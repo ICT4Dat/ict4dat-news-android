@@ -15,6 +15,7 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
         <activity android:name=".screens.MainNavigationActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
