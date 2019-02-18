@@ -58,4 +58,8 @@
     <string name="ict4d_headline">What is ICT4D?</string>
     <string name="connecting_text">We are connecting you with %d blogs, this may take a while</string>
     <string name="no_blog_found">No blog found</string>
+    <string name="notification_channel_name">ICT4D News Notifications</string>
+    <string name="notification_channel_description">Notifications of the ICT4D News application to keep you up with changes within our application.</string>
+    <string name="news_update_complete">ICT4D News Update</string>
+    <string name="news_update_notification_content_text">%d new article/s available, read them now.</string>
 </resources>

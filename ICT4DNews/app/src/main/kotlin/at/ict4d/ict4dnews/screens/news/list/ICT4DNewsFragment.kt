@@ -31,7 +31,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter { pair, view ->
-        val action = ICT4DNewsFragmentDirections.ActionActionNewsToICT4DNewsDetailActivity(pair.first)
+        val action = ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
         view.findNavController().navigate(action)
     }
 
@@ -44,52 +44,59 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-
-        model.isRefreshing.observe(this, Observer {
-            binding.swiperefresh.isRefreshing = it ?: false
-        })
-
-        binding.swiperefresh.setOnRefreshListener {
-            model.requestToLoadFeedsFromServers(true)
-        }
-
-        model.activeBlogsCount.observe(this, Observer {
-            val updateText = model.getNewsLoadingText(it.peekContent(), resources)
-            it.getContentIfNotHandled()?.let { _ -> activity?.toast(updateText) }
-
-            if (model.newsList.value == null || model.newsList.value?.isEmpty() == true) {
-                binding.progressTextView.text = updateText
-                binding.progressTextView.visible(true)
-            }
-        })
-
-        model.searchedNewsList.observe(this, Observer {
-            if (it != null) {
-                Timber.d("Search result size is ----> ${it.size} and query is ----> ${model.searchQuery}")
-                adapter.submitList(it)
-            }
-        })
-
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
-        model.newsList.observe(this, Observer {
-            if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
-                Timber.d("list in fragment: ${it.size}")
-                binding.progressTextView.visible(false)
-                adapter.submitList(it)
-                if (model.isRefreshing.value == false) {
-                    binding.recyclerview.moveToTop()
-                }
+        model.blogsCount.observe(this, Observer { blogsCount ->
+
+            if (blogsCount == 0 && model.isSplashNotStartedOnce) { // no Blogs exist yet --> show Splash to download them
+                model.isSplashNotStartedOnce = false
+                view?.findNavController()?.navigate(ICT4DNewsFragmentDirections.actionActionNewsToSplashFragment())
+            } else {
+
+                model.isRefreshing.observe(this, Observer {
+                    binding.swiperefresh.isRefreshing = it ?: false
+
+                    if (it) {
+                        val updateText = model.getNewsLoadingText(blogsCount, resources)
+                        if (model.newsList.value?.isEmpty() == true) {
+                            binding.progressTextView.visible(true)
+                        }
+                        activity?.toast(updateText)
+                    }
+                })
+
+                binding.swiperefresh.setOnRefreshListener { model.requestToLoadFeedsFromServers(true) }
+
+                model.searchedNewsList.observe(this, Observer {
+                    if (it != null) {
+                        Timber.d("Search result size is ----> ${it.size} and query is ----> ${model.searchQuery}")
+                        adapter.submitList(it)
+                    }
+                })
+
+                model.newsList.observe(this, Observer {
+                    if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
+                        Timber.d("list in fragment: ${it.size}")
+                        binding.recyclerview.visible(true)
+                        binding.progressTextView.visible(false)
+                        adapter.submitList(it)
+                        if (model.shouldMoveScrollToTop) {
+                            binding.recyclerview.moveToTop()
+                            model.shouldMoveScrollToTop = false
+                        }
+                    } else {
+                        val updateText = model.getNewsLoadingText(blogsCount, resources)
+                        binding.progressTextView.text = updateText
+                        binding.progressTextView.visible(true)
+                        binding.recyclerview.visible(false)
+                    }
+                })
+
+                binding.quickScroll.setOnClickListener { binding.recyclerview.moveToTop() }
+                binding.recyclerview.addOnScrollListener(ScrollToTopRecyclerViewScrollHandler(binding.quickScroll))
             }
         })
-
-        binding.quickScroll.setOnClickListener { binding.recyclerview.moveToTop() }
-        binding.recyclerview.addOnScrollListener(
-            ScrollToTopRecyclerViewScrollHandler(
-                binding.quickScroll
-            )
-        )
 
         return view
     }

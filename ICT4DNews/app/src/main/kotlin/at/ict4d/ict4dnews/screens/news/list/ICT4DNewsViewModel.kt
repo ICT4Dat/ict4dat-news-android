@@ -11,7 +11,6 @@ import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.IServer
 import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
-import at.ict4d.ict4dnews.utils.OnceEvent
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +18,6 @@ import io.reactivex.rxkotlin.Flowables
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
 import org.threeten.bp.LocalDate
-import timber.log.Timber
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
@@ -30,22 +28,22 @@ class ICT4DNewsViewModel @Inject constructor(
 
     private val _newsList = MutableLiveData<List<Pair<News, Blog>>>()
     private val _searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
-    private val _activeBlogsCount: MutableLiveData<OnceEvent<Int>> = MutableLiveData()
+    val blogsCount = persistenceManager.getBlogsCountAsLiveData()
+    var isSplashNotStartedOnce = true
     var searchQuery: String? = null
+    var shouldMoveScrollToTop: Boolean = false
 
-    val newsList: LiveData<List<Pair<News, Blog>>>
-        get() = _newsList
-    val searchedNewsList: LiveData<List<Pair<News, Blog>>>
-        get() = _searchedNewsList
-    val activeBlogsCount: LiveData<OnceEvent<Int>>
-        get() = _activeBlogsCount
+    val newsList: LiveData<List<Pair<News, Blog>>> = _newsList
+    val searchedNewsList: LiveData<List<Pair<News, Blog>>> = _searchedNewsList
 
     init {
+
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe {
                 isRefreshing.value = false
+                shouldMoveScrollToTop = true
             })
 
         compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)
@@ -85,18 +83,9 @@ class ICT4DNewsViewModel @Inject constructor(
         requestToLoadFeedsFromServers()
     }
 
-    private fun getActiveBlogsCount() {
-        compositeDisposable.add(persistenceManager.getActiveBlogsCount().subscribeOn(Schedulers.io()).subscribe({
-            _activeBlogsCount.postValue(OnceEvent(it))
-        }, {
-            Timber.e(it)
-        }))
-    }
-
     fun requestToLoadFeedsFromServers(forceRefresh: Boolean = false) {
         if (isRefreshing.value == null || isRefreshing.value == false) {
             isRefreshing.postValue(true)
-            getActiveBlogsCount()
 
             doAsync {
                 if (forceRefresh) {

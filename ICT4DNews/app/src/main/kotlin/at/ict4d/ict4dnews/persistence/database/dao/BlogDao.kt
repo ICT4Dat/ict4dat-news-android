@@ -49,6 +49,6 @@ abstract class BlogDao {
 
     fun isBlogsExist(): Boolean = getBlogsCount() >= 1
 
-    @Query("SELECT COUNT(*) FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_ACTIVE = 1")
-    abstract fun getActiveBlogsCount(): Single<Int>
+    @Query("SELECT COUNT(*) FROM $BLOG_TABLE_TABLE_NAME")
+    abstract fun getBlogsCountAsLiveData(): LiveData<Int>
 }
