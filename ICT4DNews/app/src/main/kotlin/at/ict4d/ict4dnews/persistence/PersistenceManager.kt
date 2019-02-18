@@ -46,7 +46,11 @@ class PersistenceManager @Inject constructor(
 
     override fun getAllOrderedByPublishedDate(): LiveData<List<News>> = newsDao.getAllOrderedByPublishedDate()
 
-    override fun getLatestNewsPublishedDate(blogID: String): LocalDateTime = newsDao.getLatestBlogPublishedDate(blogID) ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
+    override fun getLatestNewsPublishedDate(blogID: String): LocalDateTime = newsDao.getLatestBlogPublishedDateOfBlog(blogID) ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
+
+    override fun getLatestNewsPublishedDate(): LocalDateTime = newsDao.getLatestNewsPublishedDate() ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
+
+    override fun requestLatestNewsByDate(recentNewsDate: LocalDateTime) = newsDao.getLatestNewsByDate(recentNewsDate)
 
     override fun getAllActiveNews(): LiveData<List<News>> = newsDao.getAllActiveNews()
 
@@ -83,6 +87,8 @@ class PersistenceManager @Inject constructor(
     override fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>> = blogsDao.getAllActiveBlogsAsFlowable()
 
     override fun isBlogsExist(): Boolean = blogsDao.isBlogsExist()
+
+    override fun getBlogsCountAsLiveData(): LiveData<Int> = blogsDao.getBlogsCountAsLiveData()
 
     // Transactions
     override fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>) {

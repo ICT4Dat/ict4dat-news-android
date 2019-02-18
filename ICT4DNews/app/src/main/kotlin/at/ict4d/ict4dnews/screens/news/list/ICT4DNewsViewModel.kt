@@ -24,16 +24,21 @@ class ICT4DNewsViewModel @Inject constructor(
     private val newNewsHandler: NewNewsHandler
 ) : BaseViewModel() {
 
+    val blogsCount = persistenceManager.getBlogsCountAsLiveData()
+    var isSplashNotStartedOnce = true
     val newsList = MutableLiveData<List<Pair<News, Blog>>>()
     val searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
     var searchQuery: String? = null
+    var shouldMoveScrollToTop: Boolean = false
 
     init {
+
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe {
                 isRefreshing.value = false
+                shouldMoveScrollToTop = true
             })
 
         compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)

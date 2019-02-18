@@ -16,7 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
+class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(hasToolbar = false) {
 
     @Inject
     protected lateinit var rxEventBus: RxEventBus
@@ -33,15 +33,15 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>() {
             .subscribeOn(Schedulers.io())
             .subscribe {
                 if (view?.findNavController()?.currentDestination?.id == R.id.splashFragment) {
-                    view?.let {
-                        it.findNavController().navigate(R.id.action_splashFragment_to_news_fragment)
+                    view.let { v ->
+                        v.findNavController().popBackStack()
                     }
                 }
             })
 
         model.allBlogs.observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
-                view?.findNavController()?.navigate(R.id.action_splashFragment_to_news_fragment)
+                view?.findNavController()?.popBackStack()
             } else {
                 binding.splashProgressBar.visible(true)
                 binding.ict4datLogo.visible(true)

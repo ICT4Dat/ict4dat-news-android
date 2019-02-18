@@ -12,11 +12,18 @@ import retrofit2.http.Url
 interface ApiJsonSelfHostedWPService {
 
     @GET
-    fun getJsonNewsOfURL(
+    fun getJsonNewsOfUrl(
         @Url url: String,
         @Query("per_page") numberOfNewsToRequest: Int = 5, // get 5 news posts per default
         @Query("after") newsAfterDate: String
     ): Single<List<SelfHostedWPPost>>
+
+    @GET
+    fun getJsonNewsOfUrlAsCall(
+        @Url url: String,
+        @Query("per_page") numberOfNewsToRequest: Int = 5, // get 5 news posts per default
+        @Query("after") newsAfterDate: String
+    ): Call<List<SelfHostedWPPost>>
 
     @GET
     fun getJsonNewsAuthorByID(
