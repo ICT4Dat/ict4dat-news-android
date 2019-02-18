@@ -31,6 +31,7 @@ class ICT4DNewsViewModel @Inject constructor(
     var shouldMoveScrollToTop: Boolean = false
 
     init {
+
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())

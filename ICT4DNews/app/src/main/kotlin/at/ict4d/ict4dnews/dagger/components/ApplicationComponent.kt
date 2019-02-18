@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.dagger.components
 
 import at.ict4d.ict4dnews.ICT4DNewsApplication
+import at.ict4d.ict4dnews.background.UpdateNewsWorker
 import at.ict4d.ict4dnews.dagger.modules.ApiServiceModule
 import at.ict4d.ict4dnews.dagger.modules.ApplicationModule
 import at.ict4d.ict4dnews.dagger.modules.HelperModule
@@ -23,4 +24,6 @@ interface ApplicationComponent : AndroidInjector<ICT4DNewsApplication> {
     fun inject(converters: Converters)
 
     fun inject(settingsFragment: SettingsFragment)
+
+    fun inject(updateNewsWorker: UpdateNewsWorker)
 }
