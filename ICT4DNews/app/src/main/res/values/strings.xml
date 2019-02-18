@@ -56,4 +56,8 @@
     <string name="share_app_text">Hi,\nI am using ICT4D.at\'s Android ICT4D-News App. You can download it from here:\n\n %1$s</string>
     <string name="headline_more">With %1$s from ICT4D.at</string>
     <string name="ict4d_headline">What is ICT4D?</string>
+    <string name="notification_channel_name">ICT4D News Notifications</string>
+    <string name="notification_channel_description">Notifications of the ICT4D News application to keep you up with changes within our application.</string>
+    <string name="news_update_complete">ICT4D News Update</string>
+    <string name="news_update_notification_content_text">%d new article/s available, read them now.</string>
 </resources>

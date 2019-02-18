@@ -15,19 +15,12 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
         <activity android:name=".screens.MainNavigationActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity
-                android:name=".screens.news.detail.ICT4DNewsDetailActivity"
-                android:parentActivityName=".screens.MainNavigationActivity"
-                android:theme="@style/AppTheme">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="at.ict4d.ict4dnews.screens.MainNavigationActivity"/>
         </activity>
 
         <!--Style is require to show a toolbar on OssLicensesMenuActivity And OssLicensesActivity-->
