@@ -1,7 +1,10 @@
 package at.ict4d.ict4dnews
 
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 import androidx.multidex.MultiDexApplication
 import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
@@ -14,6 +17,8 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import timber.log.Timber
 import javax.inject.Inject
+
+const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 
 class ICT4DNewsApplication : MultiDexApplication(), HasActivityInjector {
 
@@ -57,7 +62,29 @@ class ICT4DNewsApplication : MultiDexApplication(), HasActivityInjector {
             Timber.plant(Timber.DebugTree())
             Stetho.initializeWithDefaults(this)
         }
+
+        createNotificationChannel()
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = activityInjector
+
+    /**
+     * @see https://developer.android.com/training/notify-user/build-notification
+     */
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.notification_channel_name)
+            val descriptionText = getString(R.string.notification_channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 }
