@@ -1,9 +1,6 @@
 package at.ict4d.ict4dnews.screens.news.list
 
-import android.content.res.Resources
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
@@ -26,15 +23,14 @@ class ICT4DNewsViewModel @Inject constructor(
     rxEventBus: RxEventBus
 ) : BaseViewModel() {
 
-    private val _newsList = MutableLiveData<List<Pair<News, Blog>>>()
-    private val _searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
     val blogsCount = persistenceManager.getBlogsCountAsLiveData()
+    val activeBlogsCount = persistenceManager.getActiveBlogsCountAsLiveData()
     var isSplashNotStartedOnce = true
     var searchQuery: String? = null
     var shouldMoveScrollToTop: Boolean = false
 
-    val newsList: LiveData<List<Pair<News, Blog>>> = _newsList
-    val searchedNewsList: LiveData<List<Pair<News, Blog>>> = _searchedNewsList
+    val newsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
+    val searchedNewsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
 
     init {
 
@@ -69,7 +65,7 @@ class ICT4DNewsViewModel @Inject constructor(
                         resultList.add(Pair(news, b))
                     }
                 }
-                _newsList.postValue(resultList)
+                newsList.postValue(resultList)
             })
 
         compositeDisposable.add(
@@ -117,17 +113,9 @@ class ICT4DNewsViewModel @Inject constructor(
 
         val query = searchQuery.toLowerCase().trim()
 
-        _searchedNewsList.postValue(_newsList.value?.filter { pair ->
+        searchedNewsList.postValue(newsList.value?.filter { pair ->
             pair.first.title?.contains(query, true) ?: false ||
                 pair.second.name.contains(query, true)
         })
-    }
-
-    fun getNewsLoadingText(blogCount: Int, resources: Resources): String {
-        return if (blogCount == 0) {
-            resources.getString(R.string.no_blog_found)
-        } else {
-            String.format(resources.getString(R.string.connecting_text), blogCount)
-        }
     }
 }

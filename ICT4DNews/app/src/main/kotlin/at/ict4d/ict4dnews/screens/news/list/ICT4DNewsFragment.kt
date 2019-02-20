@@ -37,6 +37,8 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     private var menu: Menu? = null
 
+    private var activeBlogCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -46,6 +48,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         val view = super.onCreateView(inflater, container, savedInstanceState)
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
+
+        model.activeBlogsCount.observe(this, Observer { activeBlogCount ->
+            this.activeBlogCount = activeBlogCount
+        })
 
         model.blogsCount.observe(this, Observer { blogsCount ->
 
@@ -58,7 +64,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                     binding.swiperefresh.isRefreshing = it ?: false
 
                     if (it) {
-                        val updateText = model.getNewsLoadingText(blogsCount, resources)
+                        val updateText = getNewsLoadingText(activeBlogCount)
                         if (model.newsList.value?.isEmpty() == true) {
                             binding.progressTextView.visible(true)
                         }
@@ -86,7 +92,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                             model.shouldMoveScrollToTop = false
                         }
                     } else {
-                        val updateText = model.getNewsLoadingText(blogsCount, resources)
+                        val updateText = getNewsLoadingText(activeBlogCount)
                         binding.progressTextView.text = updateText
                         binding.progressTextView.visible(true)
                         binding.recyclerview.visible(false)
@@ -154,6 +160,14 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
     private fun enableRefreshMenuItem(enable: Boolean) {
         menu?.findItem(R.id.menu_refresh)?.isEnabled = enable
         binding.swiperefresh.isEnabled = enable
+    }
+
+    private fun getNewsLoadingText(blogCount: Int): String {
+        return if (blogCount == 0) {
+            getString(R.string.no_blog_found)
+        } else {
+            String.format(getString(R.string.connecting_text), blogCount)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

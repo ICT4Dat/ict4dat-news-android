@@ -37,15 +37,16 @@
                         android:layout_gravity="bottom|center"
                         app:elevation="4dp"/>
 
-                <TextView android:layout_width="match_parent"
-                          android:padding="8dp"
-                          android:textAlignment="center"
-                          tools:visibility="visible"
-                          android:visibility="gone"
-                          android:id="@+id/progress_text_view"
-                          android:layout_gravity="center"
-                          android:text="@string/connecting_text"
-                          android:layout_height="wrap_content"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:padding="16dp"
+                        android:textAlignment="center"
+                        tools:visibility="visible"
+                        android:visibility="gone"
+                        android:id="@+id/progress_text_view"
+                        android:layout_gravity="center"
+                        android:text="@string/connecting_text"
+                        android:layout_height="wrap_content"/>
             </FrameLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
