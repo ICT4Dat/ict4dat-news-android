@@ -63,6 +63,8 @@
     <string name="headline_more">With %1$s from ICT4D.at</string>
     <string name="ict4d_headline">What is ICT4D?</string>
     <string name="new_news_badge" translatable="false">New News</string>
+    <string name="connecting_text">We are connecting you with %1$d blogs, this may take a while.</string>
+    <string name="no_blog_found">No ICT4D News found</string>
     <string name="notification_channel_name">ICT4D News Notifications</string>
     <string name="notification_channel_description">Notifications of the ICT4D News application to keep you up with
         changes within our application.
