@@ -50,4 +50,7 @@ abstract class BlogDao {
 
     @Query("SELECT COUNT(*) FROM $BLOG_TABLE_TABLE_NAME")
     abstract fun getBlogsCountAsLiveData(): LiveData<Int>
+
+    @Query("SELECT COUNT(*) FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_ACTIVE = 1")
+    abstract fun getActiveBlogsCountAsLiveData(): LiveData<Int>
 }
