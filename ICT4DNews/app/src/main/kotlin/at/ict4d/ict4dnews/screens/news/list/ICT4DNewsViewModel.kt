@@ -24,11 +24,13 @@ class ICT4DNewsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val blogsCount = persistenceManager.getBlogsCountAsLiveData()
+    val activeBlogsCount = persistenceManager.getActiveBlogsCountAsLiveData()
     var isSplashNotStartedOnce = true
-    val newsList = MutableLiveData<List<Pair<News, Blog>>>()
-    val searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
     var searchQuery: String? = null
     var shouldMoveScrollToTop: Boolean = false
+
+    val newsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
+    val searchedNewsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
 
     init {
         compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
