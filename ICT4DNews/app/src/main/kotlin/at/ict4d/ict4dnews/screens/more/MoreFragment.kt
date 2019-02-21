@@ -17,9 +17,7 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentMoreBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.screens.base.BaseFragment
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import org.jetbrains.anko.email
-import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.share
 
 class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
@@ -48,12 +46,6 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
-            R.id.menu_licences -> {
-                activity?.let { startActivity(it.intentFor<OssLicensesMenuActivity>()) }
-                OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_licences_title))
-                return true
-            }
             R.id.menu_settings -> findNavController().navigate(R.id.action_actionMore_to_settingsFragment)
         }
         return super.onOptionsItemSelected(item)
