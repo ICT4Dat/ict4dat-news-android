@@ -78,6 +78,8 @@ interface IPersistenceManager {
 
     fun getBlogsCountAsLiveData(): LiveData<Int>
 
+    fun getActiveBlogsCountAsLiveData(): LiveData<Int>
+
     // Transactions
     fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>)
 }

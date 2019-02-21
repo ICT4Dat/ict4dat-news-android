@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.extensions.moveToTop
+import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -35,6 +37,8 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     private var menu: Menu? = null
 
+    private var activeBlogCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -45,6 +49,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
+        model.activeBlogsCount.observe(this, Observer { activeBlogCount ->
+            this.activeBlogCount = activeBlogCount
+        })
+
         model.blogsCount.observe(this, Observer { blogsCount ->
 
             if (blogsCount == 0 && model.isSplashNotStartedOnce) { // no Blogs exist yet --> show Splash to download them
@@ -54,11 +62,17 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
                 model.isRefreshing.observe(this, Observer {
                     binding.swiperefresh.isRefreshing = it ?: false
+
+                    if (it) {
+                        val updateText = getNewsLoadingText(activeBlogCount)
+                        if (model.newsList.value?.isEmpty() == true) {
+                            binding.progressTextView.visible(true)
+                        }
+                        activity?.toast(updateText)
+                    }
                 })
 
-                binding.swiperefresh.setOnRefreshListener {
-                    model.requestToLoadFeedsFromServers(true)
-                }
+                binding.swiperefresh.setOnRefreshListener { model.requestToLoadFeedsFromServers(true) }
 
                 model.searchedNewsList.observe(this, Observer {
                     if (it != null) {
@@ -70,11 +84,18 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                 model.newsList.observe(this, Observer {
                     if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
                         Timber.d("list in fragment: ${it.size}")
+                        binding.recyclerview.visible(true)
+                        binding.progressTextView.visible(false)
                         adapter.submitList(it)
                         if (model.shouldMoveScrollToTop) {
                             binding.recyclerview.moveToTop()
                             model.shouldMoveScrollToTop = false
                         }
+                    } else {
+                        val updateText = getNewsLoadingText(activeBlogCount)
+                        binding.progressTextView.text = updateText
+                        binding.progressTextView.visible(true)
+                        binding.recyclerview.visible(false)
                     }
                 })
 
@@ -139,6 +160,14 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
     private fun enableRefreshMenuItem(enable: Boolean) {
         menu?.findItem(R.id.menu_refresh)?.isEnabled = enable
         binding.swiperefresh.isEnabled = enable
+    }
+
+    private fun getNewsLoadingText(blogCount: Int): String {
+        return if (blogCount == 0) {
+            getString(R.string.no_blog_found)
+        } else {
+            String.format(getString(R.string.connecting_text), blogCount)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
