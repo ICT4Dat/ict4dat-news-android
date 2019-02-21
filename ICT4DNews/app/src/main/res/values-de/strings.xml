@@ -62,4 +62,11 @@
     </string>
     <string name="headline_more">Mit %1$s von ICT4D.at</string>
     <string name="ict4d_headline">Was ist ICT4D?</string>
+    <string name="connecting_text">Wir verbinden Dich mit %1$d Blogs, dies kann eine Weile dauern.</string>
+    <string name="no_blog_found">Keine ICT4D News gefunden</string>
+    <string name="notification_channel_name">ICT4D News Benachrichtigungen</string>
+    <string name="notification_channel_description">Benachrichtigungen der ICT4D News-App, um Dich über Änderungen in unserer Anwendung auf dem Laufenden zu halten.</string>
+    <string name="news_update_complete">ICT4D News Aktualisierung</string>
+    <string name="news_update_notification_content_text">%d neue/r Artikel verfügbar, lies sie jetzt.</string>
+
 </resources>

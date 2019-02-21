@@ -36,7 +36,11 @@ interface IPersistenceManager {
 
     fun getLatestNewsPublishedDate(blogID: String): LocalDateTime
 
+    fun getLatestNewsPublishedDate(): LocalDateTime
+
     fun getAllActiveNews(): LiveData<List<News>>
+
+    fun requestLatestNewsByDate(recentNewsDate: LocalDateTime): List<News>
 
     fun getAllActiveNewsAsFlowable(): Flowable<List<News>>
 
@@ -73,6 +77,8 @@ interface IPersistenceManager {
     fun isBlogsExist(): Boolean
 
     fun getBlogsCountAsLiveData(): LiveData<Int>
+
+    fun getActiveBlogsCountAsLiveData(): LiveData<Int>
 
     // Transactions
     fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>)

@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
-apply plugin: "androidx.navigation.safeargs"
+apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: 'tasks.gradle' // contains supporting tasks e.g ktlint
 
 android {
@@ -169,4 +169,7 @@ dependencies {
 
     // Jsoup
     implementation 'org.jsoup:jsoup:1.11.3'
+
+    // WorkManager
+    implementation "android.arch.work:work-runtime-ktx:$work_version"
 }
