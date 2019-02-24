@@ -17,10 +17,14 @@ import androidx.recyclerview.widget.RecyclerView
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.utils.GlideApp
 import at.ict4d.ict4dnews.utils.GlideRequest
+import at.ict4d.ict4dnews.utils.RxEventBus
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import org.jsoup.Jsoup
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -150,3 +154,8 @@ fun <T> LiveData<T>.getDistinct(): LiveData<T> {
     })
     return distinctLiveData
 }
+
+inline fun <reified T> RxEventBus.filterObservableAndSetThread(
+    observeThread: Scheduler = AndroidSchedulers.mainThread(),
+    subscribeThread: Scheduler = AndroidSchedulers.mainThread()
+): Observable<T> = filteredObservable(T::class.java).observeOn(observeThread).subscribeOn(subscribeThread)
