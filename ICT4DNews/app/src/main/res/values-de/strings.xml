@@ -63,12 +63,26 @@
     <string name="headline_more">Mit %1$s von ICT4D.at</string>
     <string name="ict4d_headline">Was ist ICT4D?</string>
     <string name="settings">Einstellungen</string>
-    <string name="app_version">App</string>
+    <string name="app_version">Information</string>
     <string name="connecting_text">Wir verbinden Dich mit %1$d Blogs, dies kann eine Weile dauern.</string>
     <string name="no_blog_found">Keine ICT4D News gefunden</string>
     <string name="notification_channel_name">ICT4D News Benachrichtigungen</string>
     <string name="notification_channel_description">Benachrichtigungen der ICT4D News-App, um Dich über Änderungen in unserer Anwendung auf dem Laufenden zu halten.</string>
     <string name="news_update_complete">ICT4D News Aktualisierung</string>
     <string name="news_update_notification_content_text">%d neue/r Artikel verfügbar, lies sie jetzt.</string>
+    <string name="never">Niemals</string>
+    <string name="last_news_update">Letzte Aktualisierung</string>
+    <string name="sync_service_category">Aktualisierungen</string>
+    <string name="current_app_version">Version</string>
+    <string name="sync_news_after">Zeitintervall</string>
+    <string name="news_update_dialog_title">Wähle den Zeitintervall aus</string>
+    <string name="should_allow_sync_service">Automatische Aktualisierungen</string>
+    <string name="should_allow_snyc_service_summary">Die aktuellesten ICT4D News werden automatisch im Hintergurnd heruntergeladen.</string>
+
+    <string-array name="news_update_time_entries">
+        <item>Täglich</item>
+        <item>Alle 3 Tage</item>
+        <item>Wöchentlich</item>
+    </string-array>
 
 </resources>

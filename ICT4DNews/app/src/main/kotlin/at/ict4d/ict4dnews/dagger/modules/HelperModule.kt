@@ -10,22 +10,15 @@ import dagger.Reusable
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
-import org.threeten.bp.LocalDate
-
 @Module
 class HelperModule {
 
     @Provides
     fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
 
-    @Singleton
-    @Provides
-    fun provideDefaultLastAutomaticNewsUpdateDate() = LocalDate.now().minusYears(20)
-
     @Provides
     @Reusable
-    fun providesSharedPreferences(application: ICT4DNewsApplication, lastUpdateDate: LocalDate): ISharedPrefs =
-        SharedPrefs(application, lastUpdateDate)
+    fun providesSharedPreferences(application: ICT4DNewsApplication): ISharedPrefs = SharedPrefs(application)
 
     @Provides
     @Singleton

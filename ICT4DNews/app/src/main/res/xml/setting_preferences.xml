@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+>
 
-    <PreferenceCategory android:title="@string/sync_service_category">
-        <SwitchPreference android:defaultValue="true"
-                          android:title="@string/should_allow_sync_service"
-                          android:key="@string/should_allow_sync_service_on_key"/>
+    <PreferenceCategory
+            android:title="@string/sync_service_category">
+
+        <SwitchPreference
+                android:defaultValue="true"
+                android:title="@string/should_allow_sync_service"
+                android:key="@string/should_allow_sync_service_on_key"
+                android:summary="@string/should_allow_snyc_service_summary"/>
 
         <ListPreference
                 android:dependency="@string/should_allow_sync_service_on_key"
@@ -19,6 +23,7 @@
         <Preference
                 android:title="@string/last_news_update"
                 android:key="@string/last_news_update_key"
+                android:enabled="false"
                 android:id="@+id/last_news_update"/>
     </PreferenceCategory>
 
@@ -26,6 +31,7 @@
         <Preference
                 android:title="@string/current_app_version"
                 android:key="@string/current_app_version_key"
+                android:enabled="false"
                 android:id="@+id/settings_app_version"/>
 
         <Preference

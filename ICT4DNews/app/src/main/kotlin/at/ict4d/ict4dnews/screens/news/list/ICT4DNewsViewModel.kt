@@ -14,7 +14,7 @@ import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
-import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
@@ -83,7 +83,7 @@ class ICT4DNewsViewModel @Inject constructor(
                     }
                 } else {
                     if (persistenceManager.isBlogsExist()) {
-                        if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
+                        if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDateTime.now().dayOfMonth ||
                             persistenceManager.getCountOfNews() == 0
                         ) {
                             compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
