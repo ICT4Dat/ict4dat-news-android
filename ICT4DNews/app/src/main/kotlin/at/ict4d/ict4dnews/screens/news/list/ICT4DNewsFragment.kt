@@ -35,8 +35,6 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         view.findNavController().navigate(action)
     }
 
-    private var menu: Menu? = null
-
     private var activeBlogCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,7 +108,6 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        this.menu = menu
         inflater?.inflate(R.menu.ict4dnews_menu, menu)
         val menuItem = menu?.findItem(R.id.menu_search)
         val searchView = menuItem?.actionView as SearchView
@@ -133,7 +130,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         // restore search view after orientation change
         model.searchQuery?.let {
             if (it.isNotEmpty()) {
-                enableRefreshMenuItem(false)
+                enableRefreshMenuItem(false, menu)
                 menuItem.expandActionView()
                 searchView.setQuery(it, true)
                 searchView.clearFocus()
@@ -142,13 +139,13 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
         menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
-                enableRefreshMenuItem(false)
+                enableRefreshMenuItem(false, menu)
                 return true
             }
 
             override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
                 model.performSearch(null)
-                enableRefreshMenuItem(true)
+                enableRefreshMenuItem(true, menu)
                 if (model.isRefreshing.value == true) {
                     binding.swiperefresh.isRefreshing = false
                     binding.swiperefresh.isRefreshing = true
@@ -158,7 +155,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         })
     }
 
-    private fun enableRefreshMenuItem(enable: Boolean) {
+    private fun enableRefreshMenuItem(enable: Boolean, menu: Menu?) {
         menu?.findItem(R.id.menu_refresh)?.isEnabled = enable
         binding.swiperefresh.isEnabled = enable
     }
