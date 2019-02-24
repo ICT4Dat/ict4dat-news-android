@@ -82,7 +82,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                         binding.recyclerview.visible(true)
                         binding.progressTextView.visible(false)
 
-                        if (model.searchedNewsList.value == null) {
+                        if (model.searchQuery == null) {
                             adapter.submitList(it)
                         }
                         if (model.shouldMoveScrollToTop) {
@@ -147,7 +147,6 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             }
 
             override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
-                adapter.submitList(model.searchedNewsList.value)
                 model.performSearch(null)
                 enableRefreshMenuItem(true)
                 if (model.isRefreshing.value == true) {
