@@ -73,18 +73,18 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                 binding.swiperefresh.setOnRefreshListener { model.requestToLoadFeedsFromServers(true) }
 
                 model.searchedNewsList.observe(this, Observer {
-                    if (it != null) {
-                        Timber.d("Search result size is ----> ${it.size} and query is ----> ${model.searchQuery}")
-                        adapter.submitList(it)
-                    }
+                    Timber.d("Search result size is ----> ${it?.size} and query is ----> ${model.searchQuery}")
+                    adapter.submitList(it)
                 })
 
                 model.newsList.observe(this, Observer {
-                    if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
-                        Timber.d("list in fragment: ${it.size}")
+                    if (it != null && it.isNotEmpty()) {
                         binding.recyclerview.visible(true)
                         binding.progressTextView.visible(false)
-                        adapter.submitList(it)
+
+                        if (model.searchedNewsList.value == null) {
+                            adapter.submitList(it)
+                        }
                         if (model.shouldMoveScrollToTop) {
                             binding.recyclerview.moveToTop()
                             model.shouldMoveScrollToTop = false
@@ -99,6 +99,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
                 binding.quickScroll.setOnClickListener { binding.recyclerview.moveToTop() }
                 binding.recyclerview.addOnScrollListener(ScrollToTopRecyclerViewScrollHandler(binding.quickScroll))
+
+                model.mostRecentPublishedNewsDateTimeLiveData.observe(this, Observer {
+                    adapter.setRecentNewsPublishDateTime(it)
+                })
             }
         })
 
@@ -144,7 +148,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
             override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
                 adapter.submitList(model.searchedNewsList.value)
-                model.searchQuery = null
+                model.performSearch(null)
                 enableRefreshMenuItem(true)
                 if (model.isRefreshing.value == true) {
                     binding.swiperefresh.isRefreshing = false

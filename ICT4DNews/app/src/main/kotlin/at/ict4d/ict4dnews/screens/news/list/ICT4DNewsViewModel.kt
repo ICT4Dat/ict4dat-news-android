@@ -10,18 +10,20 @@ import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import timber.log.Timber
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
     private val persistenceManager: IPersistenceManager,
     private val server: IServer,
-    rxEventBus: RxEventBus,
-    private val newNewsHandler: NewNewsHandler
+    rxEventBus: RxEventBus
 ) : BaseViewModel() {
 
     val blogsCount = persistenceManager.getBlogsCountAsLiveData()
@@ -32,6 +34,9 @@ class ICT4DNewsViewModel @Inject constructor(
 
     val newsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
     val searchedNewsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
+
+    private val existingNews: ArrayList<News> = arrayListOf()
+    val mostRecentPublishedNewsDateTimeLiveData: MutableLiveData<LocalDateTime> = MutableLiveData()
 
     init {
 
@@ -80,46 +85,71 @@ class ICT4DNewsViewModel @Inject constructor(
         requestToLoadFeedsFromServers()
     }
 
-    fun getNewDownloadedNews(allNews: List<News>) = newNewsHandler.getNewNews(allNews)
-
     fun requestToLoadFeedsFromServers(forceRefresh: Boolean = false) {
         if (isRefreshing.value == null || isRefreshing.value == false) {
-            newNewsHandler.getExistingNewsFromDatabase()
+            getMostRecentPublishedNews()
             isRefreshing.postValue(true)
 
             doAsync {
                 if (forceRefresh) {
-                    if (!persistenceManager.isBlogsExist()) {
-                        compositeDisposable.add(server.loadBlogs())
-                    } else {
-                        compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
-                    }
+                    requestToLoadNews()
                 } else {
-                    if (persistenceManager.isBlogsExist()) {
-                        if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
-                            persistenceManager.getCountOfNews() == 0
-                        ) {
-                            compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
-                        } else {
-                            isRefreshing.postValue(false)
-                        }
+                    if (isLastNewsUpdateIsOld()) {
+                        requestToLoadNews()
                     } else {
-                        compositeDisposable.add(server.loadBlogs())
+                        isRefreshing.postValue(false)
                     }
                 }
             }
         }
     }
 
-    fun performSearch(searchQuery: String) {
+    private fun requestToLoadNews() {
+        if (!persistenceManager.isBlogsExist()) {
+            compositeDisposable.add(server.loadBlogs())
+        } else {
+            if (isRefreshing.value == false) {
+                compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
+            }
+        }
+    }
 
-        this.searchQuery = searchQuery
+    private fun isLastNewsUpdateIsOld(): Boolean {
+        return persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
+            persistenceManager.getCountOfNews() == 0
+    }
 
-        val query = searchQuery.toLowerCase().trim()
+    fun performSearch(searchQuery: String?) {
+        this.searchQuery = if (searchQuery == null || searchQuery.trim().isEmpty()) {
+            null
+        } else {
+            searchQuery.toLowerCase().trim()
+        }
 
-        searchedNewsList.postValue(newsList.value?.filter { pair ->
-            pair.first.title?.contains(query, true) ?: false ||
-                pair.second.name.contains(query, true)
-        })
+        val list = newsList.value?.filter { pair ->
+            pair.first.title?.contains(this.searchQuery ?: "", true) ?: false ||
+                pair.second.name.contains(this.searchQuery ?: "", true)
+        }
+        searchedNewsList.postValue(
+            if (list?.isEmpty() == true) {
+                null
+            } else {
+                list
+            }
+        )
+    }
+
+    private fun getMostRecentPublishedNews() {
+        existingNews.clear()
+        compositeDisposable.add(Single.fromCallable { persistenceManager.getAllActiveNewsAsList() }
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                if (it != null && existingNews.isEmpty()) {
+                    existingNews.addAll(it)
+                    val temp = existingNews.maxBy { it.publishedDate ?: LocalDateTime.now() }
+                    mostRecentPublishedNewsDateTimeLiveData.postValue(temp?.publishedDate)
+                }
+            }, { Timber.e("Something went wrong while getting the most younger news ---> ${it.message}") })
+        )
     }
 }
