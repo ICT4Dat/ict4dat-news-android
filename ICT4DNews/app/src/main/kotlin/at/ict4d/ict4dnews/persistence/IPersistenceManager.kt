@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.persistence
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
@@ -38,7 +39,7 @@ interface IPersistenceManager {
 
     fun getLatestNewsPublishedDate(): LocalDateTime
 
-    fun getAllActiveNews(): LiveData<List<News>>
+    fun getAllActiveNews(query: String): DataSource.Factory<Int, News>
 
     fun requestLatestNewsByDate(recentNewsDate: LocalDateTime): List<News>
 
@@ -68,7 +69,9 @@ interface IPersistenceManager {
 
     fun getBlogURLByFuzzyURL(fuzzyURL: String): String?
 
-    fun getBlogByURL(url: String): LiveData<Blog>
+    fun getBlogByUrlAsLiveData(url: String): LiveData<Blog>
+
+    fun getBlogByUrl(feed_url: String): Blog
 
     fun updateBlog(blog: Blog)
 

@@ -10,8 +10,9 @@ buildscript {
     ext.room_version = "2.0.0"
     ext.lifecycle_version = "2.0.0"
     ext.retrofit_version = "2.4.0"
-    ext.work_version = "1.0.0-rc01"
-    ext.navigation_version = "1.0.0-beta02"
+    ext.work_version = "1.0.0-rc02"
+    ext.navigation_version = "1.0.0-rc01"
+    ext.paging_version = "2.1.0"
 
     repositories {
         google()

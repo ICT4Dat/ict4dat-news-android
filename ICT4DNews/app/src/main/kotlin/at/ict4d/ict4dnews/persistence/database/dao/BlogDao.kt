@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import at.ict4d.ict4dnews.models.BLOG_TABLE_ACTIVE
+import at.ict4d.ict4dnews.models.BLOG_TABLE_FEED_URL
 import at.ict4d.ict4dnews.models.BLOG_TABLE_NAME
 import at.ict4d.ict4dnews.models.BLOG_TABLE_TABLE_NAME
 import at.ict4d.ict4dnews.models.BLOG_TABLE_URL
@@ -31,8 +32,11 @@ abstract class BlogDao {
     @Query("SELECT $BLOG_TABLE_URL FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_URL LIKE :fuzzyURL")
     abstract fun getBlogURLByFuzzyURL(fuzzyURL: String): String?
 
-    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_URL = :feed_url")
-    abstract fun getBlogByURL(feed_url: String): LiveData<Blog>
+    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_FEED_URL = :feedUrl")
+    abstract fun getBlogByUrlAsLiveData(feedUrl: String): LiveData<Blog>
+
+    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_FEED_URL = :feedUrl")
+    abstract fun getBlogByUrl(feedUrl: String): Blog
 
     @Update
     abstract fun updateBlog(blog: Blog)
