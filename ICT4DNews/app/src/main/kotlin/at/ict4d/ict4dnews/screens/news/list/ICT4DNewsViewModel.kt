@@ -96,12 +96,13 @@ class ICT4DNewsViewModel @Inject constructor(
     }
 
     private fun requestToLoadNews() {
+        if (isRefreshing.value == true) {
+            return
+        }
         if (!persistenceManager.isBlogsExist()) {
             compositeDisposable.add(server.loadBlogs())
         } else {
-            if (isRefreshing.value == false) {
-                compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
-            }
+            compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
         }
     }
 
