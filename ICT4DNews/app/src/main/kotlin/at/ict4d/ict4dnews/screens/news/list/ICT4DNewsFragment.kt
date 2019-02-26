@@ -75,8 +75,8 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                 binding.swiperefresh.setOnRefreshListener { model.requestToLoadFeedsFromServers(true) }
 
                 model.newsList.observe(this, Observer {
-                    if (it != null && it.isNotEmpty() && model.searchQuery.isNullOrBlank()) {
-                        Timber.d("list in fragment: ${it.size}")
+                    if (it != null && it.isNotEmpty()) {
+                        Timber.d("list in fragment: ${it.size} ---- ${model.searchQuery}")
                         binding.recyclerview.visible(true)
                         binding.progressTextView.visible(false)
                         adapter.submitList(it)
@@ -85,10 +85,12 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                             model.shouldMoveScrollToTop = false
                         }
                     } else {
-                        val updateText = getNewsLoadingText(activeBlogCount)
-                        binding.progressTextView.text = updateText
-                        binding.progressTextView.visible(true)
-                        binding.recyclerview.visible(false)
+                        if (model.searchQuery == null) {
+                            val updateText = getNewsLoadingText(activeBlogCount)
+                            binding.progressTextView.text = updateText
+                            binding.progressTextView.visible(true)
+                            binding.recyclerview.visible(false)
+                        }
                     }
                 })
 
@@ -122,7 +124,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         )
 
         // restore search view after orientation change
-        model.searchQuery.let {
+        model.searchQuery?.let {
             if (it.isNotEmpty()) {
                 enableRefreshMenuItem(false)
                 menuItem.expandActionView()

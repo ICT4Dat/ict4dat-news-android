@@ -31,7 +31,7 @@ class ICT4DNewsViewModel @Inject constructor(
     var isSplashNotStartedOnce = true
     var shouldMoveScrollToTop: Boolean = false
 
-    var searchQuery: String = ""
+    var searchQuery: String? = null
     private val newsSearchDataSourceFactory: NewsSearchDataSourceFactory = NewsSearchDataSourceFactory()
     val newsList: LiveData<PagedList<Pair<News, Blog>>> = LivePagedListBuilder(newsSearchDataSourceFactory, pagedListConfig).build()
 
@@ -82,15 +82,20 @@ class ICT4DNewsViewModel @Inject constructor(
         }
     }
 
-    fun performSearch(searchQuery: String) {
-        this.searchQuery = searchQuery
-        newsSearchDataSourceFactory.query = searchQuery
+    fun performSearch(searchQuery: String?) {
+        val filteredQuery = if (searchQuery.isNullOrEmpty()) {
+            null
+        } else {
+            searchQuery.toLowerCase().trim()
+        }
+        this.searchQuery = filteredQuery
+        newsSearchDataSourceFactory.query = filteredQuery ?: ""
         newsList.value?.dataSource?.invalidate()
     }
 
     inner class NewsSearchDataSourceFactory : DataSource.Factory<Int, Pair<News, Blog>>() {
 
-        var query = ""
+        var query: String = ""
 
         override fun create(): DataSource<Int, Pair<News, Blog>> {
             return persistenceManager.getAllActiveNews(query).map { news ->
