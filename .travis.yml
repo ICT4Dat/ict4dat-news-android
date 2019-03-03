@@ -35,5 +35,6 @@ jobs:
   include:
     - stage: test
       script: ./gradlew clean ktlint -Pci --stacktrace
+      script: ./gradlew clean test lint --stacktrace
     - stage: build
       script: ./gradlew clean assembleDebug --stacktrace

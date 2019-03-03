@@ -12,10 +12,10 @@ import at.ict4d.ict4dnews.models.Media
 abstract class MediaDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(media: Media)
+    abstract fun insert(media: Media): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertAll(media: List<Media>)
+    abstract fun insertAll(media: List<Media>): List<Long>
 
     @Query("SELECT * FROM $MEDIA_TABLE_TABLE_NAME")
     abstract fun getAll(): LiveData<List<Media>>

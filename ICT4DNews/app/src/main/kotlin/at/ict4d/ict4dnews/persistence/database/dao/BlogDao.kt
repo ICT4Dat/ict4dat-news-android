@@ -17,10 +17,10 @@ import io.reactivex.Flowable
 abstract class BlogDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(blog: Blog)
+    abstract fun insert(blog: Blog): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertAll(blogs: List<Blog>)
+    abstract fun insertAll(blogs: List<Blog>): List<Long>
 
     @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME ORDER BY $BLOG_TABLE_NAME")
     abstract fun getAll(): LiveData<List<Blog>>

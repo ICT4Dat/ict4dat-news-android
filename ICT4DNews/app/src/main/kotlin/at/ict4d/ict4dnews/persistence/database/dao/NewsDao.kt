@@ -19,10 +19,10 @@ import org.threeten.bp.LocalDateTime
 abstract class NewsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(news: News)
+    abstract fun insert(news: News): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertAll(news: List<News>)
+    abstract fun insertAll(news: List<News>): List<Long>
 
     @Query("SELECT * FROM $NEWS_TABLE_TABLE_NAME ORDER BY datetime($NEWS_TABLE_PUBLISHED_DATE) DESC")
     abstract fun getAllOrderedByPublishedDate(): LiveData<List<News>>
