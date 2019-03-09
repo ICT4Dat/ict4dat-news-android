@@ -11,15 +11,6 @@
                 android:key="@string/should_allow_sync_service_on_key"
                 android:summary="@string/should_allow_snyc_service_summary"/>
 
-        <ListPreference
-                android:dependency="@string/should_allow_sync_service_on_key"
-                android:defaultValue="1"
-                android:title="@string/sync_news_after" android:entries="@array/news_update_time_entries"
-                android:dialogTitle="@string/news_update_dialog_title"
-                android:entryValues="@array/news_update_time_values"
-                android:summary="%s"
-                android:key="@string/news_update_time_key"/>
-
         <Preference
                 android:title="@string/last_news_update"
                 android:key="@string/last_news_update_key"

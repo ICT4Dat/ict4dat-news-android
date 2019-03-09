@@ -74,15 +74,6 @@
     <string name="last_news_update">Letzte Aktualisierung</string>
     <string name="sync_service_category">Aktualisierungen</string>
     <string name="current_app_version">Version</string>
-    <string name="sync_news_after">Zeitintervall</string>
-    <string name="news_update_dialog_title">Wähle den Zeitintervall aus</string>
     <string name="should_allow_sync_service">Automatische Aktualisierungen</string>
     <string name="should_allow_snyc_service_summary">Die aktuellesten ICT4D News werden automatisch im Hintergurnd heruntergeladen.</string>
-
-    <string-array name="news_update_time_entries">
-        <item>Täglich</item>
-        <item>Alle 3 Tage</item>
-        <item>Wöchentlich</item>
-    </string-array>
-
 </resources>

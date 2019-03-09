@@ -64,21 +64,6 @@
     <string name="notification_channel_description">Notifications of the ICT4D News application to keep you up with changes within our application.</string>
     <string name="news_update_complete">ICT4D News Update</string>
     <string name="news_update_notification_content_text">%d new article/s available, read them now.</string>
-
-    <string-array name="news_update_time_entries">
-        <item>Daily</item>
-        <item>Every 3 days</item>
-        <item>Weekly</item>
-    </string-array>
-
-    <string-array name="news_update_time_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
-    <string name="sync_news_after">Automatic Update Schedule</string>
-    <string name="news_update_dialog_title">Select News Update Schedule</string>
     <string name="current_app_version">Version</string>
     <string name="should_allow_sync_service">Automatic Updates</string>
     <string name="should_allow_snyc_service_summary">Automatic updates will run in the background and downloads the latest ICT4D news.</string>
