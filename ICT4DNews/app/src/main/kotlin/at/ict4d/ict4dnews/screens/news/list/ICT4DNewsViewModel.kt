@@ -31,7 +31,7 @@ class ICT4DNewsViewModel @Inject constructor(
     var isSplashNotStartedOnce = true
     var shouldMoveScrollToTop: Boolean = false
 
-    var searchQuery: String? = null
+    var searchQuery: String = ""
     private val newsSearchDataSourceFactory: NewsSearchDataSourceFactory = NewsSearchDataSourceFactory()
     val newsList: LiveData<PagedList<Pair<News, Blog>>> = LivePagedListBuilder(newsSearchDataSourceFactory, pagedListConfig).build()
 
@@ -82,14 +82,9 @@ class ICT4DNewsViewModel @Inject constructor(
         }
     }
 
-    fun performSearch(searchQuery: String?) {
-        val filteredQuery = if (searchQuery.isNullOrEmpty()) {
-            null
-        } else {
-            searchQuery.toLowerCase().trim()
-        }
-        this.searchQuery = filteredQuery
-        newsSearchDataSourceFactory.query = filteredQuery ?: ""
+    fun performSearch(searchQuery: String) {
+        this.searchQuery = searchQuery
+        newsSearchDataSourceFactory.query = searchQuery
         newsList.value?.dataSource?.invalidate()
     }
 

@@ -75,21 +75,24 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                 binding.swiperefresh.setOnRefreshListener { model.requestToLoadFeedsFromServers(true) }
 
                 model.newsList.observe(this, Observer {
-                    if (it != null && it.isNotEmpty()) {
+                    if (it != null) {
                         Timber.d("list in fragment: ${it.size} ---- ${model.searchQuery}")
                         binding.recyclerview.visible(true)
                         binding.progressTextView.visible(false)
                         adapter.submitList(it)
+
                         if (model.shouldMoveScrollToTop) {
                             binding.recyclerview.moveToTop()
                             model.shouldMoveScrollToTop = false
                         }
-                    } else {
-                        if (model.searchQuery == null) {
+
+                        if (it.isEmpty() && model.searchQuery.isEmpty()) {
                             val updateText = getNewsLoadingText(activeBlogCount)
                             binding.progressTextView.text = updateText
                             binding.progressTextView.visible(true)
                             binding.recyclerview.visible(false)
+                        } else {
+                            binding.nothingFound.visible(it.isEmpty())
                         }
                     }
                 })
