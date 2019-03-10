@@ -8,11 +8,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentSplashBinding
+import at.ict4d.ict4dnews.extensions.filterObservableAndSetThread
 import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -28,14 +28,10 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(hasT
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+        compositeDisposable.add(rxEventBus.filterObservableAndSetThread<ServerErrorMessage>(subscribeThread = Schedulers.io())
             .subscribe {
                 if (view?.findNavController()?.currentDestination?.id == R.id.splashFragment) {
-                    view.let { v ->
-                        v.findNavController().popBackStack()
-                    }
+                    view.findNavController().popBackStack()
                 }
             })
 

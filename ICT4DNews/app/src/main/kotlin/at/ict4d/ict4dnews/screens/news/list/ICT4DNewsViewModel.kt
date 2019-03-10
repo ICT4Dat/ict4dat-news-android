@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.screens.news.list
 
 import androidx.lifecycle.MutableLiveData
+import at.ict4d.ict4dnews.extensions.filterObservableAndSetThread
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
@@ -10,7 +11,6 @@ import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
@@ -24,27 +24,28 @@ class ICT4DNewsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val blogsCount = persistenceManager.getBlogsCountAsLiveData()
+    val activeBlogsCount = persistenceManager.getActiveBlogsCountAsLiveData()
     var isSplashNotStartedOnce = true
-    val newsList = MutableLiveData<List<Pair<News, Blog>>>()
-    val searchedNewsList = MutableLiveData<List<Pair<News, Blog>>>()
     var searchQuery: String? = null
     var shouldMoveScrollToTop: Boolean = false
 
-    init {
+    val newsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
+    val searchedNewsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
 
-        compositeDisposable.add(rxEventBus.filteredObservable(NewsRefreshDoneMessage::class.java)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+    init {
+        compositeDisposable.add(rxEventBus.filterObservableAndSetThread<NewsRefreshDoneMessage>(subscribeThread = Schedulers.io())
             .subscribe {
                 isRefreshing.value = false
                 shouldMoveScrollToTop = true
             })
 
-        compositeDisposable.add(rxEventBus.filteredObservable(ServerErrorMessage::class.java)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+        compositeDisposable.add(rxEventBus.filterObservableAndSetThread<ServerErrorMessage>(subscribeThread = Schedulers.io())
+            .subscribe { isRefreshing.value = false })
+
+        compositeDisposable.add(rxEventBus.filterObservableAndSetThread<BlogsRefreshDoneMessage>()
             .subscribe {
                 isRefreshing.value = false
+                requestToLoadFeedsFromServers()
             })
 
         compositeDisposable.add(Flowables.combineLatest(
@@ -64,14 +65,6 @@ class ICT4DNewsViewModel @Inject constructor(
                     }
                 }
                 newsList.postValue(resultList)
-            })
-
-        compositeDisposable.add(
-            rxEventBus.filteredObservable(BlogsRefreshDoneMessage::class.java).observeOn(
-                AndroidSchedulers.mainThread()
-            ).subscribeOn(AndroidSchedulers.mainThread()).subscribe {
-                isRefreshing.value = false
-                requestToLoadFeedsFromServers()
             })
 
         requestToLoadFeedsFromServers()
