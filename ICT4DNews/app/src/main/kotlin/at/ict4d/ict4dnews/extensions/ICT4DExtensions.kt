@@ -45,7 +45,7 @@ fun LocalDateTime.extractDate(): String = this.format(DateTimeFormatter.ofPatter
 
 @BindingAdapter("showDate")
 fun TextView.showDate(localDateTime: LocalDateTime?) {
-    text = localDateTime?.extractDate()
+    text = localDateTime?.extractDate() ?: ""
 }
 
 fun String.toLocalDateTimeFromRFCString(): LocalDateTime? =
