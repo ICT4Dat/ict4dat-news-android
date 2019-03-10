@@ -96,8 +96,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                 binding.quickScroll.setOnClickListener { binding.recyclerview.moveToTop() }
                 binding.recyclerview.addOnScrollListener(ScrollToTopRecyclerViewScrollHandler(binding.quickScroll))
 
-                model.mostRecentPublishedNewsDateTimeLiveData.observe(this, Observer {
-                    adapter.setRecentNewsPublishDateTime(it)
+                model.mostRecentPublishedNewsList.observe(this, Observer {
+                    if (it.isNotEmpty()) {
+                        adapter.setRecentNewsPublishDateTime(it.first().publishedDate)
+                    }
                 })
             }
         })

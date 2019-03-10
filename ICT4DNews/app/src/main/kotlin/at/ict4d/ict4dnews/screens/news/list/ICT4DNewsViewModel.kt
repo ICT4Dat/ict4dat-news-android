@@ -1,7 +1,7 @@
 package at.ict4d.ict4dnews.screens.news.list
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.toLiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -15,13 +15,9 @@ import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
-import io.reactivex.Single
-
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import timber.log.Timber
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
@@ -41,8 +37,7 @@ class ICT4DNewsViewModel @Inject constructor(
     val newsList: LiveData<PagedList<Pair<News, Blog>>> =
         LivePagedListBuilder(newsSearchDataSourceFactory, pagedListConfig).build()
 
-    private val existingNews: ArrayList<News> = arrayListOf()
-    val mostRecentPublishedNewsDateTimeLiveData: MutableLiveData<LocalDateTime> = MutableLiveData()
+    val mostRecentPublishedNewsList = persistenceManager.getLatestActiveNews().toLiveData()
 
     init {
         compositeDisposable.add(rxEventBus.filterObservableAndSetThread<NewsRefreshDoneMessage>(subscribeThread = Schedulers.io())
@@ -65,7 +60,6 @@ class ICT4DNewsViewModel @Inject constructor(
 
     fun requestToLoadFeedsFromServers(forceRefresh: Boolean = false) {
         if (isRefreshing.value == null || isRefreshing.value == false) {
-            getMostRecentPublishedNews()
             isRefreshing.postValue(true)
 
             doAsync {
@@ -96,21 +90,6 @@ class ICT4DNewsViewModel @Inject constructor(
     private fun isLastNewsUpdateIsOld(): Boolean {
         return persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
             persistenceManager.getCountOfNews() == 0
-    }
-
-    private fun getMostRecentPublishedNews() {
-        existingNews.clear()
-        compositeDisposable.add(
-            Single.fromCallable { persistenceManager.getAllActiveNewsAsList() }
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    if (it != null && existingNews.isEmpty()) {
-                        existingNews.addAll(it)
-                        val temp = existingNews.maxBy { it.publishedDate ?: LocalDateTime.now() }
-                        mostRecentPublishedNewsDateTimeLiveData.postValue(temp?.publishedDate)
-                    }
-                }, { Timber.e("Something went wrong while getting the most younger news ---> ${it.message}") })
-        )
     }
 
     fun performSearch(searchQuery: String) {

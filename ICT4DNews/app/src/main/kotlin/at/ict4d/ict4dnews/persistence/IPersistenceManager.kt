@@ -45,9 +45,9 @@ interface IPersistenceManager {
 
     fun getAllActiveNewsAsFlowable(): Flowable<List<News>>
 
-    fun getAllActiveNewsAsList(): List<News>
-
     fun getCountOfNews(): Int
+
+    fun getLatestActiveNews(limit: Int = 1): Flowable<List<News>>
 
     // Media
 
