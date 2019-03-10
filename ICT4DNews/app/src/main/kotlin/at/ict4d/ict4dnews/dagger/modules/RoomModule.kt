@@ -12,13 +12,13 @@ import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
+import dagger.Reusable
 
 @Module
 abstract class RoomModule {
 
     @Binds
-    @Singleton
+    @Reusable
     abstract fun bindIPersistenceManager(persistenceManager: PersistenceManager): IPersistenceManager
 
     @Module
@@ -26,28 +26,28 @@ abstract class RoomModule {
 
         @Provides
         @JvmStatic
-        @Singleton
+        @Reusable
         fun providesRoomDatabase(application: ICT4DNewsApplication): AppDatabase =
             Room.databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME).build()
 
         @Provides
         @JvmStatic
-        @Singleton
+        @Reusable
         fun providesNewsDao(database: AppDatabase): NewsDao = database.newsDao()
 
         @Provides
         @JvmStatic
-        @Singleton
+        @Reusable
         fun providesAuthorDao(database: AppDatabase): AuthorDao = database.authorDao()
 
         @Provides
         @JvmStatic
-        @Singleton
+        @Reusable
         fun providesMediaDao(database: AppDatabase): MediaDao = database.mediaDao()
 
         @Provides
         @JvmStatic
-        @Singleton
+        @Reusable
         fun providesBlogDao(database: AppDatabase): BlogDao = database.blogDao()
     }
 }
