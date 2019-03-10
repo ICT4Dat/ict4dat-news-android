@@ -42,17 +42,17 @@ abstract class ApiServiceModule {
         @Provides
         @JvmStatic
         @Reusable
-        fun provideRxJava2CallAdapterFactory() = RxJava2CallAdapterFactory.create()
+        fun provideRxJava2CallAdapterFactory(): RxJava2CallAdapterFactory = RxJava2CallAdapterFactory.create()
 
         @Provides
         @JvmStatic
         @Reusable
-        fun provideSimpleXmlConverterFactory() = SimpleXmlConverterFactory.create()
+        fun provideSimpleXmlConverterFactory(): SimpleXmlConverterFactory = SimpleXmlConverterFactory.create()
 
         @Provides
         @JvmStatic
         @Reusable
-        fun provideGsonConverterFactory(gson: Gson) = GsonConverterFactory.create(gson)
+        fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory = GsonConverterFactory.create(gson)
 
         @Provides
         @JvmStatic
