@@ -1,6 +1,10 @@
 package at.ict4d.ict4dnews.screens.news.list
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import at.ict4d.ict4dnews.extensions.filterObservableAndSetThread
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
@@ -12,7 +16,7 @@ import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.Single
-import io.reactivex.rxkotlin.Flowables
+
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
 import org.threeten.bp.LocalDate
@@ -23,17 +27,19 @@ import javax.inject.Inject
 class ICT4DNewsViewModel @Inject constructor(
     private val persistenceManager: IPersistenceManager,
     private val server: IServer,
+    pagedListConfig: PagedList.Config,
     rxEventBus: RxEventBus
 ) : BaseViewModel() {
 
     val blogsCount = persistenceManager.getBlogsCountAsLiveData()
     val activeBlogsCount = persistenceManager.getActiveBlogsCountAsLiveData()
     var isSplashNotStartedOnce = true
-    var searchQuery: String? = null
     var shouldMoveScrollToTop: Boolean = false
 
-    val newsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
-    val searchedNewsList: MutableLiveData<List<Pair<News, Blog>>> = MutableLiveData()
+    var searchQuery: String = ""
+    private val newsSearchDataSourceFactory: NewsSearchDataSourceFactory = NewsSearchDataSourceFactory()
+    val newsList: LiveData<PagedList<Pair<News, Blog>>> =
+        LivePagedListBuilder(newsSearchDataSourceFactory, pagedListConfig).build()
 
     private val existingNews: ArrayList<News> = arrayListOf()
     val mostRecentPublishedNewsDateTimeLiveData: MutableLiveData<LocalDateTime> = MutableLiveData()
@@ -52,25 +58,6 @@ class ICT4DNewsViewModel @Inject constructor(
             .subscribe {
                 isRefreshing.value = false
                 requestToLoadFeedsFromServers()
-            })
-
-        compositeDisposable.add(Flowables.combineLatest(
-            persistenceManager.getAllActiveNewsAsFlowable(),
-            persistenceManager.getAllActiveBlogsAsFlowable()
-        )
-            .observeOn(Schedulers.io())
-            .subscribeOn(Schedulers.io())
-            .subscribe {
-                val resultList = mutableListOf<Pair<News, Blog>>()
-
-                var blog: Blog?
-                it.first.forEach { news ->
-                    blog = it.second.find { b -> news.blogID == b.feed_url }
-                    blog?.let { b ->
-                        resultList.add(Pair(news, b))
-                    }
-                }
-                newsList.postValue(resultList)
             })
 
         requestToLoadFeedsFromServers()
@@ -111,37 +98,39 @@ class ICT4DNewsViewModel @Inject constructor(
             persistenceManager.getCountOfNews() == 0
     }
 
-    fun performSearch(searchQuery: String?) {
-        this.searchQuery = if (searchQuery == null || searchQuery.trim().isEmpty()) {
-            null
-        } else {
-            searchQuery.toLowerCase().trim()
-        }
-
-        val list = newsList.value?.filter { pair ->
-            pair.first.title?.contains(this.searchQuery ?: "", true) ?: false ||
-                pair.second.name.contains(this.searchQuery ?: "", true)
-        }
-        searchedNewsList.postValue(
-            if (list?.isEmpty() == true) {
-                null
-            } else {
-                list
-            }
+    private fun getMostRecentPublishedNews() {
+        existingNews.clear()
+        compositeDisposable.add(
+            Single.fromCallable { persistenceManager.getAllActiveNewsAsList() }
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    if (it != null && existingNews.isEmpty()) {
+                        existingNews.addAll(it)
+                        val temp = existingNews.maxBy { it.publishedDate ?: LocalDateTime.now() }
+                        mostRecentPublishedNewsDateTimeLiveData.postValue(temp?.publishedDate)
+                    }
+                }, { Timber.e("Something went wrong while getting the most younger news ---> ${it.message}") })
         )
     }
 
-    private fun getMostRecentPublishedNews() {
-        existingNews.clear()
-        compositeDisposable.add(Single.fromCallable { persistenceManager.getAllActiveNewsAsList() }
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                if (it != null && existingNews.isEmpty()) {
-                    existingNews.addAll(it)
-                    val temp = existingNews.maxBy { it.publishedDate ?: LocalDateTime.now() }
-                    mostRecentPublishedNewsDateTimeLiveData.postValue(temp?.publishedDate)
+    fun performSearch(searchQuery: String) {
+        this.searchQuery = searchQuery
+        newsSearchDataSourceFactory.query = searchQuery
+        newsList.value?.dataSource?.invalidate()
+    }
+
+    inner class NewsSearchDataSourceFactory : DataSource.Factory<Int, Pair<News, Blog>>() {
+
+        var query: String = ""
+
+        override fun create(): DataSource<Int, Pair<News, Blog>> {
+            return persistenceManager.getAllActiveNews(query).map { news ->
+                if (news.blogID == null) {
+                    Pair(news, persistenceManager.getBlogByUrl(""))
+                } else {
+                    Pair(news, persistenceManager.getBlogByUrl(news.blogID))
                 }
-            }, { Timber.e("Something went wrong while getting the most younger news ---> ${it.message}") })
-        )
+            }.create()
+        }
     }
 }

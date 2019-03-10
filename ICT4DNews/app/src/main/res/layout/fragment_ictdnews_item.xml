@@ -73,7 +73,7 @@
                     android:layout_marginStart="16dp"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:text="@{newsItem.title}"
+                    android:text='@{newsItem == null ? "" : newsItem.title}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/postImage"
                     tools:text="Headline"
@@ -94,7 +94,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/postImage"
-                    android:text="@{blog.name}"
+                    android:text='@{blog == null ? "" : blog.name}'
                     tools:text="Blog Name"
                     app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="4dp"/>
 
@@ -108,7 +108,7 @@
                     android:layout_marginStart="16dp"
                     android:textColor="@color/light_grey"
                     android:textSize="12sp"
-                    app:showDate="@{newsItem.publishedDate}"
+                    app:showDate='@{newsItem == null ? null : newsItem.publishedDate}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/postImage"
                     tools:text="14.7.2018"

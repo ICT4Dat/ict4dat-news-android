@@ -3,8 +3,8 @@ package at.ict4d.ict4dnews.screens.news.list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsItemBinding
 import at.ict4d.ict4dnews.models.Blog
@@ -12,7 +12,8 @@ import at.ict4d.ict4dnews.models.News
 import org.threeten.bp.LocalDateTime
 
 class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, view: View) -> Unit) :
-    ListAdapter<Pair<News, Blog>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+    PagedListAdapter<Pair<News, Blog>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+
     private var mostRecentNewsPublishDateTime: LocalDateTime? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -20,7 +21,12 @@ class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setNewsItem(getItem(position), mostRecentNewsPublishDateTime)
+        val newsItem = getItem(position)
+        if (newsItem == null) {
+            holder.clear()
+        } else {
+            holder.setNewsItem(newsItem)
+        }
     }
 
     fun setRecentNewsPublishDateTime(mostRecentNewsPublishDateTime: LocalDateTime?) {
@@ -28,11 +34,19 @@ class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, 
     }
 
     inner class ViewHolder(private val binding: FragmentIctdnewsItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun setNewsItem(pair: Pair<News, Blog>, mostRecentNewsPublishDateTime: LocalDateTime?) {
+
+        fun setNewsItem(pair: Pair<News, Blog>) {
             binding.newsItem = pair.first
             binding.blog = pair.second
             binding.mostRecentNewsDateTime = mostRecentNewsPublishDateTime
             binding.root.setOnClickListener { clickHandler(pair, binding.postImage) }
+        }
+
+        fun clear() {
+            binding.newsItem = null
+            binding.blog = null
+            binding.mostRecentNewsDateTime = null
+            binding.root.setOnClickListener(null)
         }
     }
 }
