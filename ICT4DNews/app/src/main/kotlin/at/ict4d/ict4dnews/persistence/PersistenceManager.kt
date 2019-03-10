@@ -55,7 +55,7 @@ class PersistenceManager @Inject constructor(
 
     override fun requestLatestNewsByDate(recentNewsDate: LocalDateTime) = newsDao.getLatestNewsByDate(recentNewsDate)
 
-    override fun getAllActiveNews(): LiveData<List<News>> = newsDao.getAllActiveNews()
+    override fun getAllActiveNews(query: String) = newsDao.getAllActiveNews(query)
 
     override fun getAllActiveNewsAsFlowable(): Flowable<List<News>> = newsDao.getAllActiveNewsAsFlowable()
 
@@ -83,7 +83,9 @@ class PersistenceManager @Inject constructor(
 
     override fun getBlogURLByFuzzyURL(fuzzyURL: String) = blogsDao.getBlogURLByFuzzyURL(fuzzyURL)
 
-    override fun getBlogByURL(url: String): LiveData<Blog> = blogsDao.getBlogByURL(url)
+    override fun getBlogByUrlAsLiveData(url: String): LiveData<Blog> = blogsDao.getBlogByUrlAsLiveData(url)
+
+    override fun getBlogByUrl(feedUrl: String) = blogsDao.getBlogByUrl(feedUrl)
 
     override fun updateBlog(blog: Blog) = blogsDao.updateBlog(blog)
 
