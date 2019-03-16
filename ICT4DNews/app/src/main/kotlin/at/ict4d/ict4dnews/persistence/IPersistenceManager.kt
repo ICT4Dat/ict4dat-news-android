@@ -47,8 +47,6 @@ interface IPersistenceManager {
 
     fun getCountOfNews(): Int
 
-    fun getLatestActiveNews(limit: Int = 1): Flowable<List<News>>
-
     // Media
 
     fun insertMedia(media: Media)
@@ -73,7 +71,7 @@ interface IPersistenceManager {
 
     fun getBlogByUrlAsLiveData(url: String): LiveData<Blog>
 
-    fun getBlogByUrl(feed_url: String): Blog
+    fun getBlogByUrl(feedUrl: String): Blog
 
     fun updateBlog(blog: Blog)
 

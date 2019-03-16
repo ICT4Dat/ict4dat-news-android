@@ -1,7 +1,6 @@
 package at.ict4d.ict4dnews.screens.news.list
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.toLiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -37,7 +36,7 @@ class ICT4DNewsViewModel @Inject constructor(
     val newsList: LiveData<PagedList<Pair<News, Blog>>> =
         LivePagedListBuilder(newsSearchDataSourceFactory, pagedListConfig).build()
 
-    val mostRecentPublishedNewsList = persistenceManager.getLatestActiveNews().toLiveData()
+    val lastAutomaticNewsUpdateLocalDate = persistenceManager.getLastAutomaticNewsUpdateLocalDate()
 
     init {
         compositeDisposable.add(rxEventBus.filterObservableAndSetThread<NewsRefreshDoneMessage>(subscribeThread = Schedulers.io())
@@ -88,7 +87,7 @@ class ICT4DNewsViewModel @Inject constructor(
     }
 
     private fun isLastNewsUpdateIsOld(): Boolean {
-        return persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
+        return lastAutomaticNewsUpdateLocalDate.get().dayOfMonth != LocalDate.now().dayOfMonth ||
             persistenceManager.getCountOfNews() == 0
     }
 

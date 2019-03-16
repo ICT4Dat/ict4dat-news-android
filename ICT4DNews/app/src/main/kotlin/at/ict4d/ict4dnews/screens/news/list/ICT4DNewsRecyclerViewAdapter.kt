@@ -11,10 +11,10 @@ import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
 import org.threeten.bp.LocalDateTime
 
-class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, view: View) -> Unit) :
-    PagedListAdapter<Pair<News, Blog>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
-
-    private var mostRecentNewsPublishDateTime: LocalDateTime? = null
+class ICT4DNewsRecyclerViewAdapter(
+    private val clickHandler: (Pair<News, Blog>, view: View) -> Unit,
+    var mostRecentNewsPublishDateTime: LocalDateTime = LocalDateTime.now().minusYears(10)
+) : PagedListAdapter<Pair<News, Blog>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(FragmentIctdnewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -27,10 +27,6 @@ class ICT4DNewsRecyclerViewAdapter(private val clickHandler: (Pair<News, Blog>, 
         } else {
             holder.setNewsItem(newsItem)
         }
-    }
-
-    fun setRecentNewsPublishDateTime(mostRecentNewsPublishDateTime: LocalDateTime?) {
-        this.mostRecentNewsPublishDateTime = mostRecentNewsPublishDateTime
     }
 
     inner class ViewHolder(private val binding: FragmentIctdnewsItemBinding) : RecyclerView.ViewHolder(binding.root) {

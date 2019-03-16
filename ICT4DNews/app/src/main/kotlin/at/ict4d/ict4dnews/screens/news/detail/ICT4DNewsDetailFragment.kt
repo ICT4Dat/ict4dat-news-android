@@ -56,7 +56,7 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.fab.setOnClickListener { _ ->
+        binding.fab.setOnClickListener {
 
             model.selectedNews?.authorID?.let {
                 model.authorDetails(it).observe(this, Observer { author ->

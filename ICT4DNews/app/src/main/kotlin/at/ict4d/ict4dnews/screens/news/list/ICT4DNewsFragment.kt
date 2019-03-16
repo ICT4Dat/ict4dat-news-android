@@ -30,10 +30,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
-    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter { pair, view ->
+    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, view ->
         val action = ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
         view.findNavController().navigate(action)
-    }
+    })
 
     private var activeBlogCount = 0
 
@@ -48,6 +48,8 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         binding.recyclerview.adapter = adapter
 
         model.activeBlogsCount.observe(this, Observer { activeBlogCount -> this.activeBlogCount = activeBlogCount })
+
+        adapter.mostRecentNewsPublishDateTime = model.lastAutomaticNewsUpdateLocalDate.get().atStartOfDay()
 
         model.blogsCount.observe(this, Observer { blogsCount ->
 
@@ -95,12 +97,6 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
                 binding.quickScroll.setOnClickListener { binding.recyclerview.moveToTop() }
                 binding.recyclerview.addOnScrollListener(ScrollToTopRecyclerViewScrollHandler(binding.quickScroll))
-
-                model.mostRecentPublishedNewsList.observe(this, Observer {
-                    if (it.isNotEmpty()) {
-                        adapter.setRecentNewsPublishDateTime(it.first().publishedDate)
-                    }
-                })
             }
         })
 
@@ -128,13 +124,11 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         )
 
         // restore search view after orientation change
-        model.searchQuery?.let {
-            if (it.isNotEmpty()) {
-                enableRefreshMenuItem(false, menu)
-                menuItem.expandActionView()
-                searchView.setQuery(it, true)
-                searchView.clearFocus()
-            }
+        if (model.searchQuery.isNotEmpty()) {
+            enableRefreshMenuItem(false, menu)
+            menuItem.expandActionView()
+            searchView.setQuery(model.searchQuery, true)
+            searchView.clearFocus()
         }
 
         menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {

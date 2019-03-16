@@ -61,8 +61,6 @@ class PersistenceManager @Inject constructor(
 
     override fun getCountOfNews(): Int = newsDao.getCountOfNews()
 
-    override fun getLatestActiveNews(limit: Int) = newsDao.getLatestActiveNews(limit)
-
     // Media
 
     override fun insertMedia(media: Media) = mediaDao.insert(media)
