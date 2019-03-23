@@ -14,5 +14,5 @@ class ICT4DNewsDetailViewModel @Inject constructor(private val persistenceManage
     var selectedNews: News? = null
 
     fun authorDetails(authorId: String): LiveData<Author> = persistenceManager.getAuthorBy(authorId)
-    fun getBlogBy(url: String): LiveData<Blog> = persistenceManager.getBlogByURL(url)
+    fun getBlogBy(url: String): LiveData<Blog> = persistenceManager.getBlogByUrlAsLiveData(url)
 }

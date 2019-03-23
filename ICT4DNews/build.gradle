@@ -12,6 +12,7 @@ buildscript {
     ext.retrofit_version = "2.5.0"
     ext.work_version = "1.0.0"
     ext.navigation_version = "1.0.0"
+    ext.paging_version = "2.1.0"
 
     repositories {
         google()

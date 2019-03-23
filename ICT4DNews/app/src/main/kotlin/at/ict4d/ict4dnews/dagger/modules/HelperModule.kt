@@ -1,5 +1,6 @@
 package at.ict4d.ict4dnews.dagger.modules
 
+import androidx.paging.PagedList
 import androidx.work.WorkManager
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
@@ -23,4 +24,8 @@ class HelperModule {
     @Provides
     @Singleton
     fun provideWorkManager(): WorkManager = WorkManager.getInstance()
+
+    @Provides
+    @Reusable
+    fun providePagedListConfig(): PagedList.Config = PagedList.Config.Builder().setEnablePlaceholders(true).setPageSize(20).setPrefetchDistance(20).setInitialLoadSizeHint(20).build()
 }
