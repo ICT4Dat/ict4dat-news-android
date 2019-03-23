@@ -80,7 +80,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
     implementation "androidx.vectordrawable:vectordrawable:1.0.1"
     implementation "androidx.preference:preference:1.0.0"
-    implementation "androidx.annotation:annotation:1.0.1"
+    implementation "androidx.annotation:annotation:1.0.2"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.browser:browser:1.0.0"
@@ -114,12 +114,12 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.13.1"
     implementation "com.squareup.retrofit2:converter-simplexml:2.3.0"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // ThreeTenABP - java.time backport
-    implementation "com.jakewharton.threetenabp:threetenabp:1.1.2"
+    implementation "com.jakewharton.threetenabp:threetenabp:1.2.0"
 
     // *** Android Architecture Components ***
 
@@ -148,16 +148,16 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
 
     // Stetho for debug
-    implementation "com.facebook.stetho:stetho:1.5.0"
-    implementation "com.facebook.stetho:stetho-okhttp3:1.5.0"
+    implementation "com.facebook.stetho:stetho:1.5.1"
+    implementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
 
     // Testing
     testImplementation "junit:junit:4.12"
     androidTestImplementation "androidx.test:runner:1.1.1"
     testImplementation "androidx.test:core:1.1.0"
     androidTestImplementation "androidx.test:rules:1.1.1"
-    androidTestImplementation "androidx.annotation:annotation:1.0.1"
-    testImplementation "org.robolectric:robolectric:4.0"
+    androidTestImplementation "androidx.annotation:annotation:1.0.2"
+    testImplementation "org.robolectric:robolectric:4.2.1"
     testImplementation "org.robolectric:multidex:3.4.2"
 
     // Leak Canary
@@ -165,7 +165,7 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
 
     //KLint
-    ktlint "com.github.shyiko:ktlint:0.30.0"
+    ktlint "com.github.shyiko:ktlint:0.31.0"
 
     // 3rd Party licenses
     implementation "com.google.android.gms:play-services-oss-licenses:16.0.2"
@@ -178,4 +178,10 @@ dependencies {
 
     // WorkManager
     implementation "android.arch.work:work-runtime-ktx:$work_version"
+}
+
+configurations {
+    all {
+        exclude group: 'xpp3', module: 'xpp3'
+    }
 }
