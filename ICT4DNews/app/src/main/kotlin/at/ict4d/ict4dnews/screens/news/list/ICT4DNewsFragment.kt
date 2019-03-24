@@ -127,7 +127,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         )
 
         // restore search view after orientation change
-        model.searchQuery?.let {
+        model.searchQuery.let {
             if (it.isNotEmpty()) {
                 enableRefreshMenuItem(false)
                 menuItem.expandActionView()

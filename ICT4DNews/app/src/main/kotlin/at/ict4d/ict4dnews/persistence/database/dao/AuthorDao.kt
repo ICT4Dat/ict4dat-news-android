@@ -23,5 +23,5 @@ abstract class AuthorDao {
     abstract fun getAll(): LiveData<List<Author>>
 
     @Query("SELECT * FROM $AUTHOR_TABLE_TABLE_NAME WHERE $AUTHOR_TABLE_LINK = :authorId")
-    abstract fun getAuthorDetailsBy(authorId: String): LiveData<Author>
+    abstract fun getAuthorDetailsBy(authorId: String): LiveData<Author?>
 }
