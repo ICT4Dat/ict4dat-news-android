@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import at.ict4d.ict4dnews.screens.MainNavigationViewModel
 import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
 import at.ict4d.ict4dnews.screens.more.MoreViewModel
+import at.ict4d.ict4dnews.screens.more.settings.SettingsWithToolbarViewModel
 import at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceViewModel
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailViewModel
 import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsViewModel
@@ -58,6 +59,11 @@ abstract class ViewModelFactoryModule {
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     abstract fun bindsSplashViewModel(viewModel: SplashViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsWithToolbarViewModel::class)
+    abstract fun bindsSettingsWithToolbarViewModel(viewModel: SettingsWithToolbarViewModel): ViewModel
 }
 
 @Suppress("UNCHECKED_CAST")

@@ -16,6 +16,8 @@ interface IPersistenceManager {
 
     fun getLastAutomaticNewsUpdateLocalDate(): Preference<LocalDate>
 
+    fun isAutomaticNewsUpdateEnabled(): Preference<Boolean>
+
     // Authors
 
     fun getAuthorBy(authorId: String): LiveData<Author?>

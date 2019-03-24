@@ -18,6 +18,7 @@ class SharedPrefs @Inject constructor(val application: ICT4DNewsApplication) : I
     private val rxSharedPreferences: RxSharedPreferences = RxSharedPreferences.create(sharedPreferences)
 
     private val keyLastAutoNewsUpdate = application.getString(R.string.pref_key_last_automatic_news_update)
+    private val keyIsAutoNewsUpdateEnabled = application.getString(R.string.pref_key_is_auto_sync_enabled)
 
     override var lastAutomaticNewsUpdateLocalDate: Preference<LocalDate>
         get() = rxSharedPreferences.getObject(
@@ -33,4 +34,8 @@ class SharedPrefs @Inject constructor(val application: ICT4DNewsApplication) : I
             keyLastAutoNewsUpdate,
             value.get().format(DateTimeFormatter.ISO_DATE)
         ).apply()
+
+    override var isAutomaticNewsUpdateEnabled: Preference<Boolean>
+        get() = rxSharedPreferences.getBoolean(keyIsAutoNewsUpdateEnabled, true)
+        set(value) = sharedPreferences.edit().putBoolean(keyIsAutoNewsUpdateEnabled, value.get()).apply()
 }
