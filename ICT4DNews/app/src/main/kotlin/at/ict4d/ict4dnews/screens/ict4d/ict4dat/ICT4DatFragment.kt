@@ -62,6 +62,18 @@ class ICT4DatFragment : BaseFragment<ICT4DViewModel, FragmentIct4datBinding>(has
         context?.browseCustomTab(getString(R.string.url_ict4dat_about_us))
     }
 
+    fun openFacebook() {
+        context?.browseCustomTab(getString(R.string.url_ict4dat_facebook))
+    }
+
+    fun openTwitter() {
+        context?.browseCustomTab(getString(R.string.url_ict4dat_twitter))
+    }
+
+    fun openMastodon() {
+        context?.browseCustomTab(getString(R.string.url_ict4dat_mastodon))
+    }
+
     companion object {
 
         @JvmStatic
