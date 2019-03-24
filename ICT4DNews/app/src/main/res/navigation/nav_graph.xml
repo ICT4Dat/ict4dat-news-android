@@ -25,7 +25,10 @@
     <fragment android:id="@+id/actionMore"
               android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"
               tools:layout="@layout/fragment_more"
-              android:label="@string/nav_more"/>
+              android:label="@string/nav_more">
+        <action android:id="@+id/action_actionMore_to_settingsFragment"
+                app:destination="@id/settingsFragment"/>
+    </fragment>
 
     <fragment android:id="@+id/blogAndSourceFragment"
               tools:layout="@layout/fragment_blog_and_sources"
@@ -45,4 +48,6 @@
         <argument android:name="newsItem"
                   app:argType="at.ict4d.ict4dnews.models.News"/>
     </fragment>
+    <fragment android:id="@+id/settingsFragment" android:name="at.ict4d.ict4dnews.screens.more.settings.SettingsFragmentWithToolbar"
+              android:label="@string/settings"/>
 </navigation>

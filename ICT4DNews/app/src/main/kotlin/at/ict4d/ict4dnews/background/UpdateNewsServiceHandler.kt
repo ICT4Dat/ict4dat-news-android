@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.Operation
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
@@ -17,6 +18,10 @@ class UpdateNewsServiceHandler @Inject constructor(private val workManager: Work
             .addTag(NEWS_WORKER_TAG)
             .build()
         workManager.enqueueUniquePeriodicWork(NEWS_WORKER_TAG, ExistingPeriodicWorkPolicy.KEEP, newsWork)
+    }
+
+    fun cancelTask(): Operation {
+        return workManager.cancelAllWorkByTag(NEWS_WORKER_TAG)
     }
 
     private fun getConstraintsForNewsSyncService(): Constraints {

@@ -17,6 +17,8 @@ interface IPersistenceManager {
 
     fun getLastAutomaticNewsUpdateLocalDate(): Preference<LocalDate>
 
+    fun isAutomaticNewsUpdateEnabled(): Preference<Boolean>
+
     // Authors
 
     fun insertAuthor(author: Author)
