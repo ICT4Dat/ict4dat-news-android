@@ -16,7 +16,6 @@ import com.google.gson.GsonBuilder
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,12 +27,13 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 abstract class ApiServiceModule {
 
     @Binds
-    @Reusable
+    @Singleton
     abstract fun provideServer(server: Server): IServer
 
     @Module
@@ -41,66 +41,49 @@ abstract class ApiServiceModule {
 
         @Provides
         @JvmStatic
-        @Reusable
-        fun provideRxJava2CallAdapterFactory(): RxJava2CallAdapterFactory = RxJava2CallAdapterFactory.create()
-
-        @Provides
-        @JvmStatic
-        @Reusable
-        fun provideSimpleXmlConverterFactory(): SimpleXmlConverterFactory = SimpleXmlConverterFactory.create()
-
-        @Provides
-        @JvmStatic
-        @Reusable
-        fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory = GsonConverterFactory.create(gson)
-
-        @Provides
-        @JvmStatic
+        @Singleton
         fun provideRSSApiService(
-            okHttpClient: OkHttpClient,
-            xmlFactory: SimpleXmlConverterFactory,
-            rxFactory: RxJava2CallAdapterFactory
+            okHttpClient: OkHttpClient
         ): ApiRSSService {
             return Retrofit.Builder()
                 .baseUrl("http://will.be.overritten.com")
-                .addConverterFactory(xmlFactory)
-                .addCallAdapterFactory(rxFactory)
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build().create(ApiRSSService::class.java)
         }
 
         @Provides
         @JvmStatic
+        @Singleton
         fun provideJsonWordpressApiService(
-            okHttpClient: OkHttpClient,
-            gsonConverterFactory: GsonConverterFactory,
-            rxFactory: RxJava2CallAdapterFactory
+            okHttpClient: OkHttpClient, gson: Gson
         ): ApiJsonSelfHostedWPService {
             return Retrofit.Builder()
                 .baseUrl("http://will.be.overritten.com")
-                .addConverterFactory(gsonConverterFactory)
-                .addCallAdapterFactory(rxFactory)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build().create(ApiJsonSelfHostedWPService::class.java)
         }
 
         @Provides
         @JvmStatic
+        @Singleton
         fun provideICT4DatNewsApiService(
-            okHttpClient: OkHttpClient,
-            gsonConverterFactory: GsonConverterFactory,
-            rxFactory: RxJava2CallAdapterFactory
+            okHttpClient: OkHttpClient, gson: Gson
         ): ApiICT4DatNews {
             return Retrofit.Builder()
                 .baseUrl("http://www.ict4d.at/ict4dnews/")
-                .addConverterFactory(gsonConverterFactory)
-                .addCallAdapterFactory(rxFactory)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build().create(ApiICT4DatNews::class.java)
         }
 
         @Provides
         @JvmStatic
+        @Singleton
         fun provideGson(): Gson {
             return GsonBuilder()
                 .registerTypeAdapter(LocalDateTime::class.java, GsonLocalDateTimeDeserializer())
@@ -110,7 +93,7 @@ abstract class ApiServiceModule {
 
         @Provides
         @JvmStatic
-        @Reusable
+        @Singleton
         fun provideOkHttpClient(cache: Cache, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
             val builder = OkHttpClient.Builder()
                 .cache(cache)
@@ -128,6 +111,7 @@ abstract class ApiServiceModule {
 
         @Provides
         @JvmStatic
+        @Singleton
         fun provideCache(application: ICT4DNewsApplication): Cache {
             // 10 MiB cache
             return Cache(File(application.cacheDir, UUID.randomUUID().toString()), 10 * 1024 * 1024)
@@ -135,7 +119,7 @@ abstract class ApiServiceModule {
 
         @Provides
         @JvmStatic
-        @Reusable
+        @Singleton
         fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
             val httpLoggingInterceptor = HttpLoggingInterceptor()
             if (BuildConfig.DEBUG) {
