@@ -18,7 +18,6 @@ import javax.inject.Singleton
 abstract class RoomModule {
 
     @Binds
-    @Singleton
     abstract fun bindIPersistenceManager(persistenceManager: PersistenceManager): IPersistenceManager
 
     @Module

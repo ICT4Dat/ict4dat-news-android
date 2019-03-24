@@ -33,7 +33,6 @@ import javax.inject.Singleton
 abstract class ApiServiceModule {
 
     @Binds
-    @Singleton
     abstract fun provideServer(server: Server): IServer
 
     @Module

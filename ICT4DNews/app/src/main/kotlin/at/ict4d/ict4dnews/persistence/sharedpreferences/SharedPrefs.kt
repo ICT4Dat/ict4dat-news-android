@@ -9,7 +9,9 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SharedPrefs @Inject constructor(val application: ICT4DNewsApplication) : ISharedPrefs {
 
     private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)

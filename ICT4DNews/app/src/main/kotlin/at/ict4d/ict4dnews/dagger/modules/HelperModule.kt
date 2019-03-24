@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Singleton
 
 @Module
 abstract class HelperModule {
@@ -25,6 +26,7 @@ abstract class HelperModule {
 
         @Provides
         @JvmStatic
+        @Singleton
         fun provideWorkManager(): WorkManager = WorkManager.getInstance()
 
         @Provides
