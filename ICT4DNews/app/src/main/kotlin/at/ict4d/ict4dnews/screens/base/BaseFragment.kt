@@ -9,7 +9,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -21,22 +20,19 @@ import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.lifecycle.LeakCanaryLifecycleObserver
 import at.ict4d.ict4dnews.lifecycle.RXLifecycleObserver
-import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
-abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(private val hasToolbar: Boolean = true) : Fragment(), HasSupportFragmentInjector,
+abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(private val hasToolbar: Boolean = true) :
+    DaggerFragment(),
     NavController.OnDestinationChangedListener {
 
     protected lateinit var binding: B
 
     protected lateinit var model: V
-
-    @Inject
-    protected lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
 
     @Inject
     protected lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -72,11 +68,6 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(private val hasT
 
         return binding.root
     }
-
-    /**
-     * @see HasSupportFragmentInjector
-     */
-    override fun supportFragmentInjector() = childFragmentInjector
 
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
         if (activity is AppCompatActivity && hasToolbar) {

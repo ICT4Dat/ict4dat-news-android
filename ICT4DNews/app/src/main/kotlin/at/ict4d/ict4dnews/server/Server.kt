@@ -27,7 +27,9 @@ import retrofit2.HttpException
 import timber.log.Timber
 import java.net.UnknownHostException
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class Server @Inject constructor(
     private val apiRSSService: ApiRSSService,
     private val apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,

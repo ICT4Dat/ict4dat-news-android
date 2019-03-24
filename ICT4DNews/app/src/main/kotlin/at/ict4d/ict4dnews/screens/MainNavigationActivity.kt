@@ -2,9 +2,7 @@ package at.ict4d.ict4dnews.screens
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -16,13 +14,12 @@ import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
 import at.ict4d.ict4dnews.lifecycle.RXErrorEventBusLifecycleObserver
 import at.ict4d.ict4dnews.utils.RxEventBus
 import dagger.android.AndroidInjection
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import javax.inject.Inject
 
-class MainNavigationActivity : AppCompatActivity(), HasSupportFragmentInjector, NavController.OnDestinationChangedListener {
+class MainNavigationActivity : DaggerAppCompatActivity(), NavController.OnDestinationChangedListener {
 
     private lateinit var binding: ActivityMainNavigationBinding
 
@@ -30,9 +27,6 @@ class MainNavigationActivity : AppCompatActivity(), HasSupportFragmentInjector, 
 
     @Inject
     protected lateinit var compositeDisposable: CompositeDisposable
-
-    @Inject
-    protected lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     @Inject
     protected lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -50,8 +44,6 @@ class MainNavigationActivity : AppCompatActivity(), HasSupportFragmentInjector, 
         binding.navigation.setupWithNavController(navController)
         navController.addOnDestinationChangedListener(this)
     }
-
-    override fun supportFragmentInjector() = fragmentInjector
 
     override fun onSupportNavigateUp() = findNavController(navHostController).navigateUp()
 
