@@ -5,6 +5,7 @@ import at.ict4d.ict4dnews.screens.ict4d.TabbedICT4DFragment
 import at.ict4d.ict4dnews.screens.ict4d.ict4d.ICT4DFragment
 import at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment
 import at.ict4d.ict4dnews.screens.more.MoreFragment
+import at.ict4d.ict4dnews.screens.more.settings.SettingsFragmentWithToolbar
 import at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceFragment
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailFragment
 import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsFragment
@@ -47,4 +48,8 @@ abstract class MainNavigationActivityModule {
     @PerFragment
     @ContributesAndroidInjector
     abstract fun ict4dNewsDetailActivityInjector(): ICT4DNewsDetailFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun settingsFragmentWithToolbarInjector(): SettingsFragmentWithToolbar
 }
