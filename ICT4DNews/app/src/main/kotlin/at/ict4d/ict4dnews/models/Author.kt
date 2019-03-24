@@ -37,7 +37,7 @@ data class Author(
     var username: String? = null
 ) {
 
-    constructor(serverAuthor: WordpressAuthor): this(serverAuthor.link, serverAuthor.server_id) {
+    constructor(serverAuthor: WordpressAuthor) : this(serverAuthor.link, serverAuthor.server_id) {
         name = serverAuthor.name
         // Ignore Android Studio suggestion, the null checks are necessary!
         if (serverAuthor.avatarURLs != null && serverAuthor.avatarURLs.isNotEmpty() &&
@@ -50,7 +50,7 @@ data class Author(
         username = serverAuthor.slug
     }
 
-    constructor(blog: Blog, channel: Channel): this(
+    constructor(blog: Blog, channel: Channel) : this(
         blog.feed_url,
         0,
         channel.title,

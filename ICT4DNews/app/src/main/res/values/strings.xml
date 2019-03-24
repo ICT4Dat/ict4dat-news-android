@@ -36,7 +36,9 @@
     <string name="open_source_licences_title">Open Source Licences</string>
     <string name="licenses">Licenses</string>
     <string name="share">Share</string>
-    <string name="share_ict4d" translatable="false">ICT4D - Information and Communication Technologies for Development\n\n%1$s</string>
+    <string name="share_ict4d" translatable="false">ICT4D - Information and Communication Technologies for
+        Development\n\n%1$s
+    </string>
     <string name="share_ict4dat">ICT4D.at - The Austrian Network for Information and Communication Technologies for
         Development\n\n%1$s
     </string>
@@ -44,7 +46,9 @@
     <string name="blog_logo">Blog logo</string>
     <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Sources</string>
     <string name="contextual_selection">%d/%d blogs chosen</string>
-    <string name="about_developers">This Open Source Android application was developed with Love by the NGO ICT4D.at and the following main developers and designers:</string>
+    <string name="about_developers">This Open Source Android application was developed with Love by the NGO ICT4D.at and
+        the following main developers and designers:
+    </string>
     <string name="rate_application">Rate this application</string>
     <string name="share_application">Share this application</string>
     <string name="contact_us">Contact us</string>
@@ -53,13 +57,18 @@
     <string name="designer">Designer</string>
     <string name="contact_mail_subject">ICT4D.at Android News App</string>
     <string name="contact_mail_text">Dear ICT4D.at,\n\n</string>
-    <string name="share_app_text">Hi,\nI am using ICT4D.at\'s Android ICT4D-News App. You can download it from here:\n\n %1$s</string>
+    <string name="share_app_text">Hi,\nI am using ICT4D.at\'s Android ICT4D-News App. You can download it from here:\n\n
+        %1$s
+    </string>
     <string name="headline_more">With %1$s from ICT4D.at</string>
     <string name="ict4d_headline">What is ICT4D?</string>
+    <string name="new_news_badge" translatable="false">New News</string>
     <string name="connecting_text">We are connecting you with %1$d blogs, this may take a while.</string>
     <string name="no_blog_found">No ICT4D News found</string>
     <string name="notification_channel_name">ICT4D News Notifications</string>
-    <string name="notification_channel_description">Notifications of the ICT4D News application to keep you up with changes within our application.</string>
+    <string name="notification_channel_description">Notifications of the ICT4D News application to keep you up with
+        changes within our application.
+    </string>
     <string name="news_update_complete">ICT4D News Update</string>
     <string name="news_update_notification_content_text">%d new article/s available, read them now.</string>
 </resources>
