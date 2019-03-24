@@ -124,14 +124,11 @@ dependencies {
     // *** Android Architecture Components ***
 
     // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
-
-    // Test helpers for LiveData
-    testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
-
-    // ReactiveStreams support for LiveData
-    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    testImplementation "androidx.arch.core:core-testing:$lifecycle_version" // Test helpers for LiveData
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version" // ReactiveStreams support for LiveData
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"

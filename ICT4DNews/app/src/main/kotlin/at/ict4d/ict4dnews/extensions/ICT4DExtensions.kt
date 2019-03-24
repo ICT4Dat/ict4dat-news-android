@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -42,11 +41,6 @@ fun Context.browseCustomTab(url: String?) {
 }
 
 fun LocalDateTime.extractDate(): String = this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
-
-@BindingAdapter("showDate")
-fun TextView.showDate(localDateTime: LocalDateTime?) {
-    text = localDateTime?.extractDate() ?: ""
-}
 
 fun String.toLocalDateTimeFromRFCString(): LocalDateTime? =
     LocalDateTime.parse(this, DateTimeFormatter.RFC_1123_DATE_TIME) ?: null
