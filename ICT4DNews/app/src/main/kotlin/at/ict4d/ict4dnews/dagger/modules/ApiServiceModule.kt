@@ -42,9 +42,7 @@ abstract class ApiServiceModule {
         @Provides
         @JvmStatic
         @Singleton
-        fun provideRSSApiService(
-            okHttpClient: OkHttpClient
-        ): ApiRSSService {
+        fun provideRSSApiService(okHttpClient: OkHttpClient): ApiRSSService {
             return Retrofit.Builder()
                 .baseUrl("http://will.be.overritten.com")
                 .addConverterFactory(SimpleXmlConverterFactory.create())
@@ -56,9 +54,7 @@ abstract class ApiServiceModule {
         @Provides
         @JvmStatic
         @Singleton
-        fun provideJsonWordpressApiService(
-            okHttpClient: OkHttpClient, gson: Gson
-        ): ApiJsonSelfHostedWPService {
+        fun provideJsonWordpressApiService(okHttpClient: OkHttpClient, gson: Gson): ApiJsonSelfHostedWPService {
             return Retrofit.Builder()
                 .baseUrl("http://will.be.overritten.com")
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -70,9 +66,7 @@ abstract class ApiServiceModule {
         @Provides
         @JvmStatic
         @Singleton
-        fun provideICT4DatNewsApiService(
-            okHttpClient: OkHttpClient, gson: Gson
-        ): ApiICT4DatNews {
+        fun provideICT4DatNewsApiService(okHttpClient: OkHttpClient, gson: Gson): ApiICT4DatNews {
             return Retrofit.Builder()
                 .baseUrl("http://www.ict4d.at/ict4dnews/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
