@@ -74,4 +74,5 @@
     <string name="current_app_version">Version</string>
     <string name="should_allow_sync_service">Automatische Aktualisierungen</string>
     <string name="should_allow_snyc_service_summary">Die aktuellesten ICT4D News werden automatisch im Hintergurnd heruntergeladen.</string>
+    <string name="new_news_badge">Neue News</string>
 </resources>

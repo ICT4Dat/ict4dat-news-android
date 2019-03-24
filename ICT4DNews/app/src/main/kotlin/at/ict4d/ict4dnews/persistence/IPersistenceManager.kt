@@ -73,7 +73,7 @@ interface IPersistenceManager {
 
     fun getBlogByUrlAsLiveData(url: String): LiveData<Blog>
 
-    fun getBlogByUrl(feed_url: String): Blog
+    fun getBlogByUrl(feedUrl: String): Blog
 
     fun updateBlog(blog: Blog)
 

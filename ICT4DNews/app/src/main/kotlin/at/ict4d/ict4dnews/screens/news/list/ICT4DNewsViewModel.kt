@@ -36,6 +36,8 @@ class ICT4DNewsViewModel @Inject constructor(
     val newsList: LiveData<PagedList<Pair<News, Blog>>> =
         LivePagedListBuilder(newsSearchDataSourceFactory, pagedListConfig).build()
 
+    val lastAutomaticNewsUpdateLocalDate = persistenceManager.getLastAutomaticNewsUpdateLocalDate()
+
     init {
         compositeDisposable.add(rxEventBus.filterObservableAndSetThread<NewsRefreshDoneMessage>(subscribeThread = Schedulers.io())
             .subscribe {
@@ -61,26 +63,32 @@ class ICT4DNewsViewModel @Inject constructor(
 
             doAsync {
                 if (forceRefresh) {
-                    if (!persistenceManager.isBlogsExist()) {
-                        compositeDisposable.add(server.loadBlogs())
-                    } else {
-                        compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
-                    }
+                    requestToLoadNews()
                 } else {
-                    if (persistenceManager.isBlogsExist()) {
-                        if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
-                            persistenceManager.getCountOfNews() == 0
-                        ) {
-                            compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
-                        } else {
-                            isRefreshing.postValue(false)
-                        }
+                    if (isLastNewsUpdateIsOld()) {
+                        requestToLoadNews()
                     } else {
-                        compositeDisposable.add(server.loadBlogs())
+                        isRefreshing.postValue(false)
                     }
                 }
             }
         }
+    }
+
+    private fun requestToLoadNews() {
+        if (isRefreshing.value == true) {
+            return
+        }
+        if (!persistenceManager.isBlogsExist()) {
+            compositeDisposable.add(server.loadBlogs())
+        } else {
+            compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
+        }
+    }
+
+    private fun isLastNewsUpdateIsOld(): Boolean {
+        return lastAutomaticNewsUpdateLocalDate.get().dayOfMonth != LocalDate.now().dayOfMonth ||
+            persistenceManager.getCountOfNews() == 0
     }
 
     fun performSearch(searchQuery: String) {

@@ -19,10 +19,11 @@ class SharedPrefs(val application: ICT4DNewsApplication) : ISharedPrefs {
 
     override var lastAutomaticNewsUpdateLocalDate: Preference<LocalDate>
         get() = rxSharedPreferences.getObject(
-            keyLastAutoNewsUpdate, LocalDate.now(),
+            keyLastAutoNewsUpdate,
+            LocalDate.now(),
             object : Preference.Converter<LocalDate> {
                 override fun deserialize(serialized: String): LocalDate =
-                    LocalDate.parse(serialized, DateTimeFormatter.ISO_DATE_TIME)
+                    LocalDate.parse(serialized, DateTimeFormatter.ISO_DATE)
 
                 override fun serialize(value: LocalDate): String = value.format(DateTimeFormatter.ISO_DATE)
             })
