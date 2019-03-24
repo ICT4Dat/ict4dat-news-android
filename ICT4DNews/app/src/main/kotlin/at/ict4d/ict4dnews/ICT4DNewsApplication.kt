@@ -1,11 +1,10 @@
 package at.ict4d.ict4dnews
 
-import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import androidx.multidex.MultiDexApplication
+import androidx.multidex.MultiDex
 import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
 import com.facebook.stetho.Stetho
@@ -13,17 +12,13 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.support.DaggerApplication
 import timber.log.Timber
 import javax.inject.Inject
 
 const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 
-class ICT4DNewsApplication : MultiDexApplication(), HasActivityInjector {
-
-    @Inject
-    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+class ICT4DNewsApplication : DaggerApplication() {
 
     @Inject
     lateinit var component: ApplicationComponent
@@ -66,7 +61,13 @@ class ICT4DNewsApplication : MultiDexApplication(), HasActivityInjector {
         createNotificationChannel()
     }
 
-    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+        DaggerApplicationComponent.builder().create(this)
 
     /**
      * @see https://developer.android.com/training/notify-user/build-notification

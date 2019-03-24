@@ -14,7 +14,9 @@ import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
 import io.reactivex.Flowable
 import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PersistenceManager @Inject constructor(
     private val database: AppDatabase,
     private val sharedPrefs: ISharedPrefs,

@@ -27,7 +27,9 @@ import retrofit2.HttpException
 import timber.log.Timber
 import java.net.UnknownHostException
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class Server @Inject constructor(
     private val apiRSSService: ApiRSSService,
     private val apiJsonSelfHostedWPService: ApiJsonSelfHostedWPService,
@@ -186,8 +188,9 @@ class Server @Inject constructor(
                     serverAuthors.find { author -> author.server_id == post.serverAuthorID }?.link
             }
             serverResultBlog.map { post ->
-                (post as SelfHostedWPPost).featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw
-                    ?: ""
+                (post as SelfHostedWPPost).featuredMediaLink =
+                    serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw
+                        ?: ""
             }
 
             // Map to local models

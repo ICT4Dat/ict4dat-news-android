@@ -9,42 +9,44 @@ import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
-import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class RoomModule {
+abstract class RoomModule {
 
-    @Singleton
-    @Provides
-    fun providesRoomDatabase(application: ICT4DNewsApplication): AppDatabase = Room.databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME).build()
+    @Binds
+    abstract fun bindIPersistenceManager(persistenceManager: PersistenceManager): IPersistenceManager
 
-    @Singleton
-    @Provides
-    fun providesNewsDao(database: AppDatabase): NewsDao = database.newsDao()
+    @Module
+    companion object {
 
-    @Singleton
-    @Provides
-    fun providesAuthorDao(database: AppDatabase): AuthorDao = database.authorDao()
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesRoomDatabase(application: ICT4DNewsApplication): AppDatabase =
+            Room.databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME).build()
 
-    @Singleton
-    @Provides
-    fun providesMediaDao(database: AppDatabase): MediaDao = database.mediaDao()
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesNewsDao(database: AppDatabase): NewsDao = database.newsDao()
 
-    @Singleton
-    @Provides
-    fun providesBlogDao(database: AppDatabase): BlogDao = database.blogDao()
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesAuthorDao(database: AppDatabase): AuthorDao = database.authorDao()
 
-    @Singleton
-    @Provides
-    fun providesPersistentManager(
-        database: AppDatabase,
-        sharedPrefs: ISharedPrefs,
-        authorDao: AuthorDao,
-        newsDao: NewsDao,
-        mediaDao: MediaDao,
-        blogDao: BlogDao
-    ): IPersistenceManager = PersistenceManager(database, sharedPrefs, authorDao, newsDao, mediaDao, blogDao)
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesMediaDao(database: AppDatabase): MediaDao = database.mediaDao()
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesBlogDao(database: AppDatabase): BlogDao = database.blogDao()
+    }
 }

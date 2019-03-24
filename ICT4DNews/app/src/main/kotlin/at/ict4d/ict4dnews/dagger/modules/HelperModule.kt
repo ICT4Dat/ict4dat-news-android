@@ -2,9 +2,9 @@ package at.ict4d.ict4dnews.dagger.modules
 
 import androidx.paging.PagedList
 import androidx.work.WorkManager
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
 import at.ict4d.ict4dnews.persistence.sharedpreferences.SharedPrefs
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -12,20 +12,29 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 @Module
-class HelperModule {
+abstract class HelperModule {
 
-    @Provides
-    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
+    @Binds
+    abstract fun providesSharedPreferences(sharedPrefs: SharedPrefs): ISharedPrefs
 
-    @Provides
-    @Reusable
-    fun providesSharedPreferences(application: ICT4DNewsApplication): ISharedPrefs = SharedPrefs(application)
+    @Module
+    companion object {
 
-    @Provides
-    @Singleton
-    fun provideWorkManager(): WorkManager = WorkManager.getInstance()
+        @Provides
+        @JvmStatic
+        fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
 
-    @Provides
-    @Reusable
-    fun providePagedListConfig(): PagedList.Config = PagedList.Config.Builder().setEnablePlaceholders(true).setPageSize(20).setPrefetchDistance(20).setInitialLoadSizeHint(20).build()
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun provideWorkManager(): WorkManager = WorkManager.getInstance()
+
+        @Provides
+        @JvmStatic
+        @Reusable
+        fun providePagedListConfig(): PagedList.Config =
+            PagedList.Config.Builder().setEnablePlaceholders(true)
+                .setPageSize(20).setPrefetchDistance(20)
+                .setInitialLoadSizeHint(20).build()
+    }
 }
