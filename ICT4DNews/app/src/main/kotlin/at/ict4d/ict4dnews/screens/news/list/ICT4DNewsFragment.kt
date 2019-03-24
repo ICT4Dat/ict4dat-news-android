@@ -30,12 +30,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
-    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter { pair, view ->
+    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, view ->
         val action = ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
         view.findNavController().navigate(action)
-    }
-
-    private var menu: Menu? = null
+    })
 
     private var activeBlogCount = 0
 
@@ -49,9 +47,9 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
-        model.activeBlogsCount.observe(this, Observer { activeBlogCount ->
-            this.activeBlogCount = activeBlogCount
-        })
+        model.activeBlogsCount.observe(this, Observer { activeBlogCount -> this.activeBlogCount = activeBlogCount })
+
+        adapter.mostRecentNewsPublishDateTime = model.lastAutomaticNewsUpdateLocalDate.get().atStartOfDay()
 
         model.blogsCount.observe(this, Observer { blogsCount ->
 
@@ -106,7 +104,6 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        this.menu = menu
         inflater?.inflate(R.menu.ict4dnews_menu, menu)
         val menuItem = menu?.findItem(R.id.menu_search)
         val searchView = menuItem?.actionView as SearchView
@@ -127,25 +124,23 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         )
 
         // restore search view after orientation change
-        model.searchQuery?.let {
-            if (it.isNotEmpty()) {
-                enableRefreshMenuItem(false)
-                menuItem.expandActionView()
-                searchView.setQuery(it, true)
-                searchView.clearFocus()
-            }
+        if (model.searchQuery.isNotEmpty()) {
+            enableRefreshMenuItem(false, menu)
+            menuItem.expandActionView()
+            searchView.setQuery(model.searchQuery, true)
+            searchView.clearFocus()
         }
 
         menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
-                enableRefreshMenuItem(false)
+                enableRefreshMenuItem(false, menu)
                 return true
             }
 
             override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
                 adapter.submitList(model.newsList.value)
                 model.searchQuery = ""
-                enableRefreshMenuItem(true)
+                enableRefreshMenuItem(true, menu)
                 if (model.isRefreshing.value == true) {
                     binding.swiperefresh.isRefreshing = false
                     binding.swiperefresh.isRefreshing = true
@@ -155,7 +150,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         })
     }
 
-    private fun enableRefreshMenuItem(enable: Boolean) {
+    private fun enableRefreshMenuItem(enable: Boolean, menu: Menu?) {
         menu?.findItem(R.id.menu_refresh)?.isEnabled = enable
         binding.swiperefresh.isEnabled = enable
     }
