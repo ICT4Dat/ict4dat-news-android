@@ -68,7 +68,5 @@
     <string name="should_allow_sync_service">Automatic Updates</string>
     <string name="should_allow_snyc_service_summary">Automatic updates will run in the background and downloads the latest ICT4D news.</string>
     <string name="sync_service_category">Updates</string>
-    <string name="last_news_update">Last Update</string>
-    <string name="never">Never</string>
 
 </resources>

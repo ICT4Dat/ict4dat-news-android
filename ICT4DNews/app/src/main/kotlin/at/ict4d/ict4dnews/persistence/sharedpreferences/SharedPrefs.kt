@@ -17,11 +17,9 @@ class SharedPrefs(val application: ICT4DNewsApplication) : ISharedPrefs {
     private val keyLastAutoNewsUpdate = application.getString(R.string.pref_key_last_automatic_news_update)
     private val keyIsAutoNewsUpdateEnabled = application.getString(R.string.pref_key_is_auto_sync_enabled)
 
-    override val defaultLastAutomaticNewsUpdateTime = LocalDateTime.now()
-
     override var lastAutomaticNewsUpdateLocalDate: Preference<LocalDateTime>
         get() = rxSharedPreferences.getObject(
-            keyLastAutoNewsUpdate, defaultLastAutomaticNewsUpdateTime,
+            keyLastAutoNewsUpdate, LocalDateTime.now(),
             object : Preference.Converter<LocalDateTime> {
                 override fun deserialize(serialized: String): LocalDateTime = LocalDateTime.parse(serialized, DateTimeFormatter.ISO_DATE_TIME)
 

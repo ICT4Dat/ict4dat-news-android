@@ -6,16 +6,10 @@ import androidx.preference.PreferenceFragmentCompat
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.utils.LastUpdateResponseForUi
-import at.ict4d.ict4dnews.utils.NewsUpdateTimeManager
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import org.jetbrains.anko.intentFor
-import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat() {
-
-    @Inject
-    lateinit var updateTimeManager: NewsUpdateTimeManager
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -26,12 +20,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.setting_preferences, rootKey)
 
         findPreference(getString(R.string.pref_key_current_app_version)).summary = BuildConfig.VERSION_NAME
-
-        val result = updateTimeManager.provideTextHelperBasedOnLastNewsUpdateDate()
-        findPreference(getString(R.string.pref_key_last_news_update)).summary = when (result) {
-            is LastUpdateResponseForUi.NewsNeverUpdated -> getString(R.string.never)
-            is LastUpdateResponseForUi.NewsUpdatedAt -> result.date
-        }
 
         findPreference(getString(R.string.pref_key_open_source_licences)).setOnPreferenceClickListener {
             activity?.let { startActivity(it.intentFor<OssLicensesMenuActivity>()) }

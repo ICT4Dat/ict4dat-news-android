@@ -5,8 +5,6 @@ import org.threeten.bp.LocalDateTime
 
 interface ISharedPrefs {
 
-    val defaultLastAutomaticNewsUpdateTime: LocalDateTime
-
     var lastAutomaticNewsUpdateLocalDate: Preference<LocalDateTime>
 
     var isAutomaticNewsUpdateEnabled: Preference<Boolean>

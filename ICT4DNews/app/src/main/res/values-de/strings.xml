@@ -70,8 +70,6 @@
     <string name="notification_channel_description">Benachrichtigungen der ICT4D News-App, um Dich über Änderungen in unserer Anwendung auf dem Laufenden zu halten.</string>
     <string name="news_update_complete">ICT4D News Aktualisierung</string>
     <string name="news_update_notification_content_text">%d neue/r Artikel verfügbar, lies sie jetzt.</string>
-    <string name="never">Niemals</string>
-    <string name="last_news_update">Letzte Aktualisierung</string>
     <string name="sync_service_category">Aktualisierungen</string>
     <string name="current_app_version">Version</string>
     <string name="should_allow_sync_service">Automatische Aktualisierungen</string>

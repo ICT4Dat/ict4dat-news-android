@@ -11,11 +11,6 @@
                 android:key="@string/pref_key_is_auto_sync_enabled"
                 android:summary="@string/should_allow_snyc_service_summary"/>
 
-        <Preference
-                android:title="@string/last_news_update"
-                android:key="@string/pref_key_last_news_update"
-                android:enabled="false"
-                android:id="@+id/last_news_update"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/app_version">
