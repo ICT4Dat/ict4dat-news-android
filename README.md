@@ -31,7 +31,9 @@ The following alphabetically orded list of news sources is included in the appli
 * [Appropriating Technology](http://appropriatingtechnology.org/) - Blog from Tony Roberts, fellow in the Digital & Technology team at the Institute for Development Studies at the University of Sussex in the UK.
 * [Chris Blattman](https://chrisblattman.com/) - Blog from Chris Blattman, development economist at the Harris School of Public Policy at the University of Chicago. Focus is on development, but he's young and hip and offers great perspective on local technology interventions.
 * [CIPES](https://cipesa.org/) - Promoting Effective and Inclusive ICT Policy in Africa.
+* [Digital Impact Alliance](https://digitalimpactalliance.org/) - Advancing an inclusive digital society
 * [Digital@DAI](https://dai-global-digital.com/) - A relatively new but well-written blog covering recent technologies, experiments with tech solutions, and reviews.
+* [DIODE](https://diode.network) - The “Development Implications of Digital Economies” (DIODE) strategic network researches the digital economy – that part of economic output derived solely or primarily from digital technologies – and its role in developing countries.
 * [EduTech](https://blogs.worldbank.org/edutech/) - One of the best blogs on ICT, with a focus on education, from Mike Trucano of the World Bank.
 * [GSMA Newsroom](https://www.gsma.com/newsroom/category/press-release/) - Blog for the trade union of 800 mobile operators and 300 companies around the world.
 * [Guardian Project Blog](https://guardianproject.info/) - Blog for the non-profit group creating apps and promoting libraries and devices that protect data and communications.
@@ -51,8 +53,11 @@ The following alphabetically orded list of news sources is included in the appli
 * [Mobile for Development (GSMA) Blog](https://www.gsma.com/mobilefordevelopment/) - Blog for the team within GSMA that focuses on emerging markets.
 * [My heart's in Accra](http://www.ethanzuckerman.com/) - Personal blog from Ethan Zuckerman, director of the Center for Civic.
 * [Open Knowledge International Blog](http://blog.okfn.org/) - Open Knowledge International is a global non-profit organisation focused on realising open data’s value to society by helping civil society groups access and use data to take action on social problems.
+* [Panoply Digital](https://www.panoplydigital.com/) - Sustainable development through appropriate technology
 * [Tim Unwin's Blog](https://unwin.wordpress.com/) - Blog from Tim Unwin, UNESCO Chair in ICT4D and Emeritus Professor of Geography at Royal Holloway, University of London.
 * [UNICEF Stories](http://unicefstories.org/) - Stories and Innovation.
+* [World Bank's ICT4D Blog](http://blogs.worldbank.org/ic4d/) - Working for a World Free of Poverty
+
 
 ## Travis CI Status
 
