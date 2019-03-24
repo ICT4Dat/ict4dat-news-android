@@ -68,10 +68,14 @@ class Server @Inject constructor(
 
             serverResult.forEach {
 
-                if (it is List<*> && it.isNotEmpty() && it.first() is SelfHostedWPPost) {
-                    handleSelfHostedWPBlogList(blogs, it)
-                } else if (it is RSSFeed) {
-                    handleRSSList(blogs, it)
+                try {
+                    if (it is List<*> && it.isNotEmpty() && it.first() is SelfHostedWPPost) {
+                        handleSelfHostedWPBlogList(blogs, it)
+                    } else if (it is RSSFeed) {
+                        handleRSSList(blogs, it)
+                    }
+                } catch (e: Exception) {
+                    Timber.e(e)
                 }
             }
         }
@@ -121,8 +125,7 @@ class Server @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
-                Timber.e("Something went wrong in loadAllNewsFromAllActiveBlogsSynchronous ----> ${e.message}")
-                requestStatus = false
+                Timber.e(e, "Something went wrong in loadAllNewsFromAllActiveBlogsSynchronous")
             }
         }
         return requestStatus

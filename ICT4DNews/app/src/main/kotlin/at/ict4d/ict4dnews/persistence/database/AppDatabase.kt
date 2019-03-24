@@ -21,7 +21,7 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.Collections.emptyList
 import javax.inject.Inject
 
-@Database(entities = [News::class, Author::class, Media::class, Blog::class], version = 1)
+@Database(entities = [News::class, Author::class, Media::class, Blog::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
