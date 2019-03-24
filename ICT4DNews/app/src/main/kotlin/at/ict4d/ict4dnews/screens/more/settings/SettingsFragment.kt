@@ -24,15 +24,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.setting_preferences, rootKey)
-        findPreference(getString(R.string.current_app_version_key)).summary = BuildConfig.VERSION_NAME
+
+        findPreference(getString(R.string.pref_key_current_app_version)).summary = BuildConfig.VERSION_NAME
 
         val result = updateTimeManager.provideTextHelperBasedOnLastNewsUpdateDate()
-        findPreference(getString(R.string.last_news_update_key)).summary = when (result) {
+        findPreference(getString(R.string.pref_key_last_news_update)).summary = when (result) {
             is LastUpdateResponseForUi.NewsNeverUpdated -> getString(R.string.never)
             is LastUpdateResponseForUi.NewsUpdatedAt -> result.date
         }
 
-        findPreference(getString(R.string.open_source_licences_key)).setOnPreferenceClickListener {
+        findPreference(getString(R.string.pref_key_open_source_licences)).setOnPreferenceClickListener {
             activity?.let { startActivity(it.intentFor<OssLicensesMenuActivity>()) }
             OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_licences_title))
             true

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_key_last_automatic_news_update" translatable="false">pref_key_last_automatic_news_update</string>
-    <string name="open_source_licences_key" translatable="false">open_source_licences_key</string>
-    <string name="last_news_update_key" translatable="false">last_news_update_key</string>
-    <string name="should_allow_sync_service_on_key" translatable="false">should_allow_sync_service_on_key</string>
-    <string name="news_update_time_key" translatable="false">news_update_time_key</string>
-    <string name="current_app_version_key" translatable="false">current_app_version_key</string>
+    <string name="pref_key_open_source_licences" translatable="false">pref_key_open_source_licences</string>
+    <string name="pref_key_last_news_update" translatable="false">pref_key_last_news_update</string>
+    <string name="pref_key_is_auto_sync_enabled" translatable="false">pref_key_is_auto_sync_enabled</string>
+    <string name="pref_key_current_app_version" translatable="false">pref_key_current_app_version</string>
 </resources>

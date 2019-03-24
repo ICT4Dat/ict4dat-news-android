@@ -28,6 +28,8 @@ class PersistenceManager @Inject constructor(
 
     override fun getLastAutomaticNewsUpdateLocalDate() = sharedPrefs.lastAutomaticNewsUpdateLocalDate
 
+    override fun isAutomaticNewsUpdateEnabled() = sharedPrefs.isAutomaticNewsUpdateEnabled
+
     // Authors
 
     override fun insertAuthor(author: Author) = authorDao.insert(author)
