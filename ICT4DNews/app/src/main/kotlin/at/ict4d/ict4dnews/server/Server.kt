@@ -21,7 +21,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.jsoup.Jsoup
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.HttpException
 import timber.log.Timber
@@ -79,7 +79,7 @@ class Server @Inject constructor(
             .observeOn(Schedulers.io())
             .subscribe({
                 Timber.d("done: $it")
-                persistenceManager.getLastAutomaticNewsUpdateLocalDate().set(LocalDateTime.now())
+                persistenceManager.getLastAutomaticNewsUpdateLocalDate().set(LocalDate.now())
                 rxEventBus.post(NewsRefreshDoneMessage())
             }, {
                 Timber.e(it, "Error in downloading news from all active posts")
@@ -186,8 +186,9 @@ class Server @Inject constructor(
                     serverAuthors.find { author -> author.server_id == post.serverAuthorID }?.link
             }
             serverResultBlog.map { post ->
-                (post as SelfHostedWPPost).featuredMediaLink = serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw
-                    ?: ""
+                (post as SelfHostedWPPost).featuredMediaLink =
+                    serverMedia.find { media -> media.serverPostID == post.serverID }?.linkRaw
+                        ?: ""
             }
 
             // Map to local models

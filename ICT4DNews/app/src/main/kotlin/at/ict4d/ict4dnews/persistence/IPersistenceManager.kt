@@ -8,13 +8,14 @@ import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
 import com.f2prateek.rx.preferences2.Preference
 import io.reactivex.Flowable
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 
 interface IPersistenceManager {
 
     // Shared Preferences
 
-    fun getLastAutomaticNewsUpdateLocalDate(): Preference<LocalDateTime>
+    fun getLastAutomaticNewsUpdateLocalDate(): Preference<LocalDate>
 
     fun isAutomaticNewsUpdateEnabled(): Preference<Boolean>
 

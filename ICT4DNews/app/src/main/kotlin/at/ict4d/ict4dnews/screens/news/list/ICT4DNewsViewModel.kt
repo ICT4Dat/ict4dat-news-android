@@ -16,7 +16,7 @@ import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 class ICT4DNewsViewModel @Inject constructor(
@@ -33,7 +33,8 @@ class ICT4DNewsViewModel @Inject constructor(
 
     var searchQuery: String = ""
     private val newsSearchDataSourceFactory: NewsSearchDataSourceFactory = NewsSearchDataSourceFactory()
-    val newsList: LiveData<PagedList<Pair<News, Blog>>> = LivePagedListBuilder(newsSearchDataSourceFactory, pagedListConfig).build()
+    val newsList: LiveData<PagedList<Pair<News, Blog>>> =
+        LivePagedListBuilder(newsSearchDataSourceFactory, pagedListConfig).build()
 
     init {
         compositeDisposable.add(rxEventBus.filterObservableAndSetThread<NewsRefreshDoneMessage>(subscribeThread = Schedulers.io())
@@ -67,7 +68,7 @@ class ICT4DNewsViewModel @Inject constructor(
                     }
                 } else {
                     if (persistenceManager.isBlogsExist()) {
-                        if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDateTime.now().dayOfMonth ||
+                        if (persistenceManager.getLastAutomaticNewsUpdateLocalDate().get().dayOfMonth != LocalDate.now().dayOfMonth ||
                             persistenceManager.getCountOfNews() == 0
                         ) {
                             compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
