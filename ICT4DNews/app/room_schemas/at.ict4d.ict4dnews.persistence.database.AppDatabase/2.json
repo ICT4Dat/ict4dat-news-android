@@ -1,0 +1,323 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "0b063bf6ea1bc6b8bb05bfd45b5ba80c",
+    "entities": [
+      {
+        "tableName": "news",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `author_id` TEXT, `server_id` INTEGER NOT NULL, `featured_media` TEXT, `title` TEXT, `description` TEXT, `published_date` TEXT, `blog_id` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`blog_id`) REFERENCES `blogs`(`blog_feed_url`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "link",
+            "columnName": "link",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorID",
+            "columnName": "author_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "serverID",
+            "columnName": "server_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mediaFeaturedURL",
+            "columnName": "featured_media",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "publishedDate",
+            "columnName": "published_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "blogID",
+            "columnName": "blog_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "link"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_news_author_id",
+            "unique": false,
+            "columnNames": [
+              "author_id"
+            ],
+            "createSql": "CREATE  INDEX `index_news_author_id` ON `${TABLE_NAME}` (`author_id`)"
+          },
+          {
+            "name": "index_news_blog_id",
+            "unique": false,
+            "columnNames": [
+              "blog_id"
+            ],
+            "createSql": "CREATE  INDEX `index_news_blog_id` ON `${TABLE_NAME}` (`blog_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "authors",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "author_id"
+            ],
+            "referencedColumns": [
+              "link"
+            ]
+          },
+          {
+            "table": "blogs",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "blog_id"
+            ],
+            "referencedColumns": [
+              "blog_feed_url"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "authors",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `server_id` INTEGER, `name` TEXT, `image_url` TEXT, `description` TEXT, `username` TEXT, PRIMARY KEY(`link`))",
+        "fields": [
+          {
+            "fieldPath": "link",
+            "columnName": "link",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverID",
+            "columnName": "server_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageURL",
+            "columnName": "image_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "link"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "media",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`link` TEXT NOT NULL, `serverID` INTEGER, `news_id` TEXT, `author_id` TEXT, `mime_type` TEXT, `title` TEXT, `description` TEXT, `date_created` TEXT, PRIMARY KEY(`link`), FOREIGN KEY(`news_id`) REFERENCES `news`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`author_id`) REFERENCES `authors`(`link`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "link",
+            "columnName": "link",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverID",
+            "columnName": "serverID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "newsID",
+            "columnName": "news_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "authorID",
+            "columnName": "author_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mediaType",
+            "columnName": "mime_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateCreated",
+            "columnName": "date_created",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "link"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_media_news_id",
+            "unique": false,
+            "columnNames": [
+              "news_id"
+            ],
+            "createSql": "CREATE  INDEX `index_media_news_id` ON `${TABLE_NAME}` (`news_id`)"
+          },
+          {
+            "name": "index_media_author_id",
+            "unique": false,
+            "columnNames": [
+              "author_id"
+            ],
+            "createSql": "CREATE  INDEX `index_media_author_id` ON `${TABLE_NAME}` (`author_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "news",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "news_id"
+            ],
+            "referencedColumns": [
+              "link"
+            ]
+          },
+          {
+            "table": "authors",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "author_id"
+            ],
+            "referencedColumns": [
+              "link"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "blogs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blog_feed_url` TEXT NOT NULL, `blog_url` TEXT NOT NULL, `blog_name` TEXT NOT NULL, `blog_description` TEXT NOT NULL, `blog_feed_type` INTEGER NOT NULL, `blog_logo_url` TEXT, `blog_active` INTEGER NOT NULL, PRIMARY KEY(`blog_feed_url`))",
+        "fields": [
+          {
+            "fieldPath": "feed_url",
+            "columnName": "blog_feed_url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "blog_url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "blog_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "blog_description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "feedType",
+            "columnName": "blog_feed_type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "logoURL",
+            "columnName": "blog_logo_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "active",
+            "columnName": "blog_active",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "blog_feed_url"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0b063bf6ea1bc6b8bb05bfd45b5ba80c\")"
+    ]
+  }
+}
