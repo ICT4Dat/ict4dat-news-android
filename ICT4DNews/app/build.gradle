@@ -41,6 +41,8 @@ android {
         }
     }
 
+    testOptions.unitTests.includeAndroidResources = true
+
     androidExtensions {
         experimental = true
     }
@@ -142,14 +144,18 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
 
-    // Stetho for debuging
-    implementation "com.facebook.stetho:stetho:1.5.0"
-    implementation "com.facebook.stetho:stetho-okhttp3:1.5.0"
+    // Stetho for debug
+    implementation "com.facebook.stetho:stetho:1.5.1"
+    implementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
 
     // Testing
     testImplementation "junit:junit:4.12"
     androidTestImplementation "androidx.test:runner:1.1.1"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
+    testImplementation "androidx.test:core:1.1.0"
+    androidTestImplementation "androidx.test:rules:1.1.1"
+    androidTestImplementation "androidx.annotation:annotation:1.0.2"
+    testImplementation "org.robolectric:robolectric:4.2.1"
+    testImplementation "org.robolectric:multidex:3.4.2"
 
     // Leak Canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
@@ -174,4 +180,10 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
+}
+
+configurations {
+    all {
+        exclude group: 'xpp3', module: 'xpp3'
+    }
 }

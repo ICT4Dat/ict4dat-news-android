@@ -12,9 +12,9 @@ import at.ict4d.ict4dnews.models.News
 import org.threeten.bp.LocalDateTime
 
 class ICT4DNewsRecyclerViewAdapter(
-    private val clickHandler: (Pair<News, Blog>, view: View) -> Unit,
+    private val clickHandler: (Pair<News, Blog?>, view: View) -> Unit,
     var mostRecentNewsPublishDateTime: LocalDateTime = LocalDateTime.now().minusYears(10)
-) : PagedListAdapter<Pair<News, Blog>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+) : PagedListAdapter<Pair<News, Blog?>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(FragmentIctdnewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -31,7 +31,7 @@ class ICT4DNewsRecyclerViewAdapter(
 
     inner class ViewHolder(private val binding: FragmentIctdnewsItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun setNewsItem(pair: Pair<News, Blog>) {
+        fun setNewsItem(pair: Pair<News, Blog?>) {
             binding.newsItem = pair.first
             binding.blog = pair.second
             binding.mostRecentNewsDateTime = mostRecentNewsPublishDateTime
@@ -47,13 +47,13 @@ class ICT4DNewsRecyclerViewAdapter(
     }
 }
 
-class NewsListDiffCallback : DiffUtil.ItemCallback<Pair<News, Blog>>() {
+class NewsListDiffCallback : DiffUtil.ItemCallback<Pair<News, Blog?>>() {
 
-    override fun areItemsTheSame(oldItem: Pair<News, Blog>, newItem: Pair<News, Blog>): Boolean {
-        return oldItem.first.link == newItem.first.link && oldItem.second.feed_url == newItem.second.feed_url
+    override fun areItemsTheSame(oldItem: Pair<News, Blog?>, newItem: Pair<News, Blog?>): Boolean {
+        return oldItem.first.link == newItem.first.link && oldItem.second?.feed_url == newItem.second?.feed_url
     }
 
-    override fun areContentsTheSame(oldItem: Pair<News, Blog>, newItem: Pair<News, Blog>): Boolean {
+    override fun areContentsTheSame(oldItem: Pair<News, Blog?>, newItem: Pair<News, Blog?>): Boolean {
         return oldItem.first == newItem.first && oldItem.second == newItem.second
     }
 }

@@ -41,7 +41,8 @@ data class Author(
         name = serverAuthor.name
         // Ignore Android Studio suggestion, the null checks are necessary!
         if (serverAuthor.avatarURLs != null && serverAuthor.avatarURLs.isNotEmpty() &&
-            serverAuthor.avatarURLs.values != null && serverAuthor.avatarURLs.values.isNotEmpty()) {
+            serverAuthor.avatarURLs.values != null && serverAuthor.avatarURLs.values.isNotEmpty()
+        ) {
             imageURL = serverAuthor.avatarURLs.values.lastOrNull()
         } else {
             imageURL = null

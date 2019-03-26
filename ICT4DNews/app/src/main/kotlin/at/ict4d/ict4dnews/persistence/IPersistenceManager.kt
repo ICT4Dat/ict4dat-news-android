@@ -7,7 +7,6 @@ import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
 import at.ict4d.ict4dnews.models.News
 import com.f2prateek.rx.preferences2.Preference
-import io.reactivex.Flowable
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 
@@ -21,21 +20,9 @@ interface IPersistenceManager {
 
     // Authors
 
-    fun insertAuthor(author: Author)
-
-    fun insertAllAuthors(authors: List<Author>)
-
-    fun getAllAuthors(): LiveData<List<Author>>
-
-    fun getAuthorBy(authorId: String): LiveData<Author>
+    fun getAuthorBy(authorId: String): LiveData<Author?>
 
     // News
-
-    fun insertNews(news: News)
-
-    fun insertAllNews(news: List<News>)
-
-    fun getAllOrderedByPublishedDate(): LiveData<List<News>>
 
     fun getLatestNewsPublishedDate(blogID: String): LocalDateTime
 
@@ -45,23 +32,11 @@ interface IPersistenceManager {
 
     fun requestLatestNewsByDate(recentNewsDate: LocalDateTime): List<News>
 
-    fun getAllActiveNewsAsFlowable(): Flowable<List<News>>
-
     fun getCountOfNews(): Int
-
-    // Media
-
-    fun insertMedia(media: Media)
-
-    fun insertAllMedia(media: List<Media>)
-
-    fun getAllMedia(): LiveData<List<Media>>
 
     // Blogs
 
-    fun insert(blog: Blog)
-
-    fun insertAll(blogs: List<Blog>)
+    fun insertAll(blogs: List<Blog>): List<Long>
 
     fun getAllBlogs(): LiveData<List<Blog>>
 
@@ -69,15 +44,11 @@ interface IPersistenceManager {
 
     fun getAllActiveBlogs(): List<Blog>
 
-    fun getBlogURLByFuzzyURL(fuzzyURL: String): String?
+    fun getBlogByUrlAsLiveData(url: String): LiveData<Blog?>
 
-    fun getBlogByUrlAsLiveData(url: String): LiveData<Blog>
+    fun getBlogByUrl(feedUrl: String): Blog?
 
-    fun getBlogByUrl(feedUrl: String): Blog
-
-    fun updateBlog(blog: Blog)
-
-    fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>>
+    fun updateBlog(blog: Blog): Int
 
     fun isBlogsExist(): Boolean
 

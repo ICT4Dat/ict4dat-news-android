@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 
-class ICT4DNewsApplication : DaggerApplication() {
+open class ICT4DNewsApplication : DaggerApplication() {
 
     @Inject
     lateinit var component: ApplicationComponent
@@ -46,19 +46,27 @@ class ICT4DNewsApplication : DaggerApplication() {
 
         DaggerApplicationComponent.builder().create(this).inject(this)
 
+        installLeakCanary()
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+            installStetho()
+        }
+
+        createNotificationChannel()
+    }
+
+    protected open fun installLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
             return
         }
         refWatcher = LeakCanary.install(this)
+    }
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-            Stetho.initializeWithDefaults(this)
-        }
-
-        createNotificationChannel()
+    protected open fun installStetho() {
+        Stetho.initializeWithDefaults(this)
     }
 
     override fun attachBaseContext(base: Context) {
