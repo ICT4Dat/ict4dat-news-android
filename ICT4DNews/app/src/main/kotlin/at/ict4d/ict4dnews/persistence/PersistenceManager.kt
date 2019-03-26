@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.persistence
 
-import androidx.lifecycle.LiveData
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.Media
@@ -11,7 +10,6 @@ import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
-import io.reactivex.Flowable
 import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,24 +32,12 @@ class PersistenceManager @Inject constructor(
 
     // Authors
 
-    override fun insertAuthor(author: Author) = authorDao.insert(author)
-
-    override fun insertAllAuthors(authors: List<Author>) = authorDao.insertAll(authors)
-
-    override fun getAllAuthors(): LiveData<List<Author>> = authorDao.getAll()
-
-    override fun getAuthorBy(authorId: String): LiveData<Author> = authorDao.getAuthorDetailsBy(authorId)
+    override fun getAuthorBy(authorId: String) = authorDao.getAuthorDetailsBy(authorId)
 
     // News
 
-    override fun insertNews(news: News) = newsDao.insert(news)
-
-    override fun insertAllNews(news: List<News>) = newsDao.insertAll(news)
-
-    override fun getAllOrderedByPublishedDate(): LiveData<List<News>> = newsDao.getAllOrderedByPublishedDate()
-
     override fun getLatestNewsPublishedDate(blogID: String): LocalDateTime =
-        newsDao.getLatestBlogPublishedDateOfBlog(blogID)
+        newsDao.getLatestPublishedDateOfBlog(blogID)
             ?: LocalDateTime.now().minusYears(10) // if database is empty then today minus 10 years per default
 
     override fun getLatestNewsPublishedDate(): LocalDateTime = newsDao.getLatestNewsPublishedDate()
@@ -61,43 +47,27 @@ class PersistenceManager @Inject constructor(
 
     override fun getAllActiveNews(query: String) = newsDao.getAllActiveNews(query)
 
-    override fun getAllActiveNewsAsFlowable(): Flowable<List<News>> = newsDao.getAllActiveNewsAsFlowable()
-
     override fun getCountOfNews(): Int = newsDao.getCountOfNews()
-
-    // Media
-
-    override fun insertMedia(media: Media) = mediaDao.insert(media)
-
-    override fun insertAllMedia(media: List<Media>) = mediaDao.insertAll(media)
-
-    override fun getAllMedia(): LiveData<List<Media>> = mediaDao.getAll()
 
     // Blogs
 
-    override fun insert(blog: Blog) = blogsDao.insert(blog)
-
     override fun insertAll(blogs: List<Blog>) = blogsDao.insertAll(blogs)
 
-    override fun getAllBlogs(): LiveData<List<Blog>> = blogsDao.getAll()
+    override fun getAllBlogs() = blogsDao.getAll()
 
-    override fun getAllBlogsAsList(): List<Blog> = blogsDao.getAllBlogsAsList()
+    override fun getAllBlogsAsList() = blogsDao.getAllBlogsAsList()
 
-    override fun getAllActiveBlogs(): List<Blog> = blogsDao.getAllActiveBlogs()
+    override fun getAllActiveBlogs() = blogsDao.getAllActiveBlogs()
 
-    override fun getBlogURLByFuzzyURL(fuzzyURL: String) = blogsDao.getBlogURLByFuzzyURL(fuzzyURL)
-
-    override fun getBlogByUrlAsLiveData(url: String): LiveData<Blog> = blogsDao.getBlogByUrlAsLiveData(url)
+    override fun getBlogByUrlAsLiveData(url: String) = blogsDao.getBlogByUrlAsLiveData(url)
 
     override fun getBlogByUrl(feedUrl: String) = blogsDao.getBlogByUrl(feedUrl)
 
     override fun updateBlog(blog: Blog) = blogsDao.updateBlog(blog)
 
-    override fun getAllActiveBlogsAsFlowable(): Flowable<List<Blog>> = blogsDao.getAllActiveBlogsAsFlowable()
-
     override fun isBlogsExist(): Boolean = blogsDao.isBlogsExist()
 
-    override fun getBlogsCountAsLiveData(): LiveData<Int> = blogsDao.getBlogsCountAsLiveData()
+    override fun getBlogsCountAsLiveData() = blogsDao.getBlogsCountAsLiveData()
 
     override fun getActiveBlogsCountAsLiveData() = blogsDao.getActiveBlogsCountAsLiveData()
 

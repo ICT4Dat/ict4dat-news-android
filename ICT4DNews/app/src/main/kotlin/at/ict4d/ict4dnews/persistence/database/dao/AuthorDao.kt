@@ -14,14 +14,14 @@ import at.ict4d.ict4dnews.models.Author
 abstract class AuthorDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(author: Author)
+    abstract fun insert(author: Author): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertAll(authors: List<Author>)
+    abstract fun insertAll(authors: List<Author>): List<Long>
 
     @Query("SELECT * FROM $AUTHOR_TABLE_TABLE_NAME")
     abstract fun getAll(): LiveData<List<Author>>
 
     @Query("SELECT * FROM $AUTHOR_TABLE_TABLE_NAME WHERE $AUTHOR_TABLE_LINK = :authorId")
-    abstract fun getAuthorDetailsBy(authorId: String): LiveData<Author>
+    abstract fun getAuthorDetailsBy(authorId: String): LiveData<Author?>
 }
