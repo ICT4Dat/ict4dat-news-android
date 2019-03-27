@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.extensions.moveToTop
+import at.ict4d.ict4dnews.extensions.safeNavigation
 import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
@@ -32,7 +34,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, view ->
         val action = ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
-        view.findNavController().navigate(action)
+        findNavController().safeNavigation(R.id.actionNews, action, null)
     })
 
     private var activeBlogCount = 0

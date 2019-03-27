@@ -6,12 +6,15 @@ import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.recyclerview.widget.RecyclerView
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.utils.GlideApp
@@ -153,3 +156,13 @@ inline fun <reified T> RxEventBus.filterObservableAndSetThread(
     observeThread: Scheduler = AndroidSchedulers.mainThread(),
     subscribeThread: Scheduler = AndroidSchedulers.mainThread()
 ): Observable<T> = filteredObservable(T::class.java).observeOn(observeThread).subscribeOn(subscribeThread)
+
+fun NavController.safeNavigation(@IdRes currentDestination: Int, action: NavDirections?, @IdRes destinationId: Int?) {
+    if (this.currentDestination?.id == currentDestination) {
+        if (action != null) {
+            navigate(action)
+        } else if (destinationId != null) {
+            navigate(destinationId)
+        }
+    }
+}
