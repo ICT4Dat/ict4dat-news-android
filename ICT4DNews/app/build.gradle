@@ -1,11 +1,16 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.android.gms.oss-licenses-plugin'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+plugins {
+    id 'com.android.application'
+    id 'com.github.triplet.play' version '2.1.0'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'com.google.gms.oss.licenses.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
 apply from: 'tasks.gradle' // contains supporting tasks e.g ktlint
-apply from: 'release-sign-credentials.gradle'
+apply from: 'release-sign-credentials.gradle' // handles signing of release version
+apply from: 'play-store-publisher-config.gradle' // handles Play Store releases
 
 android {
     compileSdkVersion 28
@@ -81,6 +86,15 @@ configurations.all { config ->
             }
         }
     }
+}
+
+// config to publish app bundle to the Play Store
+play {
+    serviceAccountCredentials = file(playStorePublisherConfig.props.getProperty(playStorePublisherConfig.configPlayStoreJsonFilePath, 'this_should_not_happen.json'))
+    track = "internal"
+    userFraction = 1
+    releaseStatus = "draft"
+    defaultToAppBundles = true
 }
 
 dependencies {
