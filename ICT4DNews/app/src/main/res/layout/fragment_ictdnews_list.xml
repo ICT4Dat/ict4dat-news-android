@@ -28,14 +28,21 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"/>
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
                         android:id="@+id/recyclerview"
                         android:name="at.ict4d.ict4dnews.screens.news.ICTDNewsFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:layoutManager="LinearLayoutManager"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:context=".screens.news.list.ICT4DNewsFragment"
-                        tools:listitem="@layout/fragment_ictdnews_item"/>
+                        tools:listitem="@layout/fragment_ictdnews_item"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:fastScrollPopupBgColor="@color/colorAccent"
+                        app:fastScrollPopupTextColor="@color/white"
+                        app:fastScrollThumbColor="@color/colorAccent" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                         app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp"
