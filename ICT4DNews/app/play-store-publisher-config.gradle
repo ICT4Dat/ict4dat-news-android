@@ -32,6 +32,8 @@ class PlayStorePublisherConfigLogic {
         if ((propertiesObj = loadFromProperties("$project.rootDir/$configPlayStoreFileName")) != null) {
             project.logger.quiet("play-store-publisher-config: use local properties file for Play Store Publisher")
             return propertiesObj
+        } else {
+            propertiesObj.put(configPlayStoreJsonFilePath, "not_found.json")
         }
 
         project.logger.quiet("play-store-publisher-config: no JSON file found for the Play Store Publisher")
