@@ -8,12 +8,12 @@ ext {
  *
  * Local File
  * Provide a Properties file with the name "playstore.properties" in the root of the project with a value such as:
- * configPlayStoreJsonFilePath=[PUT HERE THE FILE PATH TO THE LOCAL SERVICE ACCOUNT PLAY STORE FILE]
+ * keyPlayStoreJsonFilePath=[PUT HERE THE FILE PATH TO THE LOCAL SERVICE ACCOUNT PLAY STORE FILE]
  *
  */
 class PlayStorePublisherConfigLogic {
 
-    public final configPlayStoreJsonFilePath = "configPlayStoreJsonFilePath"
+    public final keyPlayStoreJsonFilePath = "configPlayStoreJsonFilePath"
     private final configPlayStoreFileName = "playstore.properties"
 
     public final props
@@ -27,13 +27,14 @@ class PlayStorePublisherConfigLogic {
 
     def loadReleaseSigningProperties() {
 
-        Properties propertiesObj = new Properties()
+        Properties propertiesObj
 
         if ((propertiesObj = loadFromProperties("$project.rootDir/$configPlayStoreFileName")) != null) {
             project.logger.quiet("play-store-publisher-config: use local properties file for Play Store Publisher")
             return propertiesObj
         } else {
-            propertiesObj.put(configPlayStoreJsonFilePath, "not_found.json")
+            propertiesObj = new Properties()
+            propertiesObj.put(keyPlayStoreJsonFilePath, "not_found.json")
         }
 
         project.logger.quiet("play-store-publisher-config: no JSON file found for the Play Store Publisher")
@@ -46,7 +47,7 @@ class PlayStorePublisherConfigLogic {
 
         if (propfile.exists()) {
             props.load(new FileInputStream(propfile))
-            if (new File((String) props.get(configPlayStoreJsonFilePath)).exists()) {
+            if (new File((String) props.get(keyPlayStoreJsonFilePath)).exists()) {
                 project.logger.quiet("play-store-publisher-config: use $fileName for Play Store Publisher")
                 return props
             }

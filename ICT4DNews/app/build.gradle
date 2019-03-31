@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '2.1.0'
+    id 'com.github.triplet.play' version '2.1.1'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
@@ -90,7 +90,7 @@ configurations.all { config ->
 
 // config to publish app bundle to the Play Store
 play {
-    serviceAccountCredentials = file(playStorePublisherConfig.props.getProperty(playStorePublisherConfig.configPlayStoreJsonFilePath, 'this_should_not_happen.json'))
+    serviceAccountCredentials = file(playStorePublisherConfig.props.getProperty(playStorePublisherConfig.keyPlayStoreJsonFilePath, 'this_should_not_happen.json'))
     track = "internal"
     userFraction = 1
     releaseStatus = "draft"
