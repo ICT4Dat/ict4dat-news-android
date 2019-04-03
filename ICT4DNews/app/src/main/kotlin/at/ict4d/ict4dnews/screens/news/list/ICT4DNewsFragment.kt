@@ -31,9 +31,9 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
-    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, view ->
+    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, _ ->
         val action = ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
-        findNavController().navigateSafe(R.id.actionNews, action)
+        findNavController().navigateSafe(R.id.newsListFragment, action)
     })
 
     private var activeBlogCount = 0
@@ -57,7 +57,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             if (blogsCount == 0 && model.isSplashNotStartedOnce) { // no Blogs exist yet --> show Splash to download them
                 model.isSplashNotStartedOnce = false
                 findNavController().navigateSafe(
-                    R.id.actionNews,
+                    R.id.newsListFragment,
                     ICT4DNewsFragmentDirections.actionActionNewsToSplashFragment()
                 )
             } else {
@@ -177,7 +177,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
             R.id.menu_filter -> {
                 findNavController().navigateSafe(
-                    R.id.actionNews,
+                    R.id.newsListFragment,
                     ICT4DNewsFragmentDirections.actionActionNewsToBlogAndSourceFragment()
                 )
                 return true

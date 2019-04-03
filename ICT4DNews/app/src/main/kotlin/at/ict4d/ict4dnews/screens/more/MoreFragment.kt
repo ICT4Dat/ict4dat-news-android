@@ -47,7 +47,7 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_settings -> findNavController().navigateSafe(R.id.actionMore, MoreFragmentDirections.actionActionMoreToSettingsFragment())
+            R.id.menu_settings -> findNavController().navigateSafe(R.id.moreFragment, MoreFragmentDirections.actionActionMoreToSettingsFragment())
         }
         return super.onOptionsItemSelected(item)
     }
