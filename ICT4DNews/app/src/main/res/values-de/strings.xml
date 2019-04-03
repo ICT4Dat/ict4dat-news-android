@@ -27,9 +27,10 @@
         sociology, economics, development studies, library, information science, and communication
         studies.\n\n-Wikipedia
     </string>
-    <string name="ict4dat_vision">ICT4D.at believes in the empowerment of people through Information and Communication
-        Technologies.\n\nWe cooperate and collaborate with grassroots organizations in the fields of science, arts,
-        education, media and open source software to improve the lives of those in lesser developed countries.
+    <string name="ict4dat_vision">A World of Equal Opportunities for All\n\nOur Mission:\nThrough knowledge,
+        tools and networks we empower people to develop the skills they need to achieve their full potential.\n\nOur
+        Core Values:\n\u2022 Community\n\u2022 Interdisciplinary &amp; Co-creation\n\u2022 Respect &amp;
+        Tolerance\n\u2022 Honesty &amp; Trust\n\u2022 Passion &amp; Creativity\n
     </string>
     <string name="ict4dat_projects">Unsere Projekte</string>
     <string name="ict4dat_about">Über uns &amp; Mitglieder</string>
@@ -67,12 +68,16 @@
     <string name="connecting_text">Wir verbinden Dich mit %1$d Blogs, dies kann eine Weile dauern.</string>
     <string name="no_blog_found">Keine ICT4D News gefunden</string>
     <string name="notification_channel_name">ICT4D News Benachrichtigungen</string>
-    <string name="notification_channel_description">Benachrichtigungen der ICT4D News-App, um Dich über Änderungen in unserer Anwendung auf dem Laufenden zu halten.</string>
+    <string name="notification_channel_description">Benachrichtigungen der ICT4D News-App, um Dich über Änderungen in
+        unserer Anwendung auf dem Laufenden zu halten.
+    </string>
     <string name="news_update_complete">ICT4D News Aktualisierung</string>
     <string name="news_update_notification_content_text">%d neue/r Artikel verfügbar, lies sie jetzt.</string>
     <string name="sync_service_category">Aktualisierungen</string>
     <string name="current_app_version">Version</string>
     <string name="should_allow_sync_service">Automatische Aktualisierungen</string>
-    <string name="should_allow_snyc_service_summary">Die aktuellesten ICT4D News werden automatisch im Hintergurnd heruntergeladen.</string>
+    <string name="should_allow_snyc_service_summary">Die aktuellesten ICT4D News werden automatisch im Hintergurnd
+        heruntergeladen.
+    </string>
     <string name="new_news_badge">Neue News</string>
 </resources>
