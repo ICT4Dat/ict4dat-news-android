@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.utils.GlideApp
 import at.ict4d.ict4dnews.utils.GlideRequest
@@ -21,6 +22,8 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -153,3 +156,19 @@ inline fun <reified T> RxEventBus.filterObservableAndSetThread(
     observeThread: Scheduler = AndroidSchedulers.mainThread(),
     subscribeThread: Scheduler = AndroidSchedulers.mainThread()
 ): Observable<T> = filteredObservable(T::class.java).observeOn(observeThread).subscribeOn(subscribeThread)
+
+@BindingAdapter("toggleSwipeRefreshOnFastScroll")
+fun setRecyclerViewFastScrollListener(
+    fastScrollRecyclerView: FastScrollRecyclerView,
+    swipeRefreshLayout: SwipeRefreshLayout
+) {
+    fastScrollRecyclerView.setOnFastScrollStateChangeListener(object : OnFastScrollStateChangeListener {
+        override fun onFastScrollStop() {
+            swipeRefreshLayout.isEnabled = true
+        }
+
+        override fun onFastScrollStart() {
+            swipeRefreshLayout.isEnabled = false
+        }
+    })
+}
