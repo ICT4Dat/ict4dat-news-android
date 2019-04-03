@@ -9,12 +9,17 @@ import androidx.recyclerview.widget.RecyclerView
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsItemBinding
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.Locale
 
 class ICT4DNewsRecyclerViewAdapter(
     private val clickHandler: (Pair<News, Blog?>, view: View) -> Unit,
     var mostRecentNewsPublishDateTime: LocalDateTime = LocalDateTime.now().minusYears(10)
-) : PagedListAdapter<Pair<News, Blog?>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()) {
+) : PagedListAdapter<Pair<News, Blog?>, ICT4DNewsRecyclerViewAdapter.ViewHolder>(NewsListDiffCallback()), FastScrollRecyclerView.SectionedAdapter {
+
+    private val sectionNameDateFormatter = DateTimeFormatter.ofPattern("MMM yy", Locale.getDefault())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(FragmentIctdnewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -45,6 +50,8 @@ class ICT4DNewsRecyclerViewAdapter(
             binding.root.setOnClickListener(null)
         }
     }
+
+    override fun getSectionName(position: Int): String = getItem(position)?.first?.publishedDate?.format(sectionNameDateFormatter) ?: ""
 }
 
 class NewsListDiffCallback : DiffUtil.ItemCallback<Pair<News, Blog?>>() {
