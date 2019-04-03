@@ -3,6 +3,7 @@ package at.ict4d.ict4dnews.extensions
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -15,6 +16,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import at.ict4d.ict4dnews.R
@@ -160,12 +163,30 @@ inline fun <reified T> RxEventBus.filterObservableAndSetThread(
     subscribeThread: Scheduler = AndroidSchedulers.mainThread()
 ): Observable<T> = filteredObservable(T::class.java).observeOn(observeThread).subscribeOn(subscribeThread)
 
-fun NavController.safeNavigation(@IdRes currentDestination: Int, action: NavDirections?, @IdRes destinationId: Int?) {
-    if (this.currentDestination?.id == currentDestination) {
-        if (action != null) {
-            navigate(action)
-        } else if (destinationId != null) {
-            navigate(destinationId)
+fun NavController.navigateSafe(
+    @IdRes currentDestination: Int,
+    action: NavDirections? = null,
+    @IdRes destinationId: Int? = null,
+    alternateCurrentDestinations: List<Int> = emptyList(),
+    extras: FragmentNavigator.Extras? = null,
+    navOptions: NavOptions? = null,
+    args: Bundle? = null
+) {
+    this.currentDestination?.id?.let { id ->
+        try {
+            if (id == currentDestination || alternateCurrentDestinations.contains(id)) {
+                if (action != null) {
+                    if (extras != null) {
+                        navigate(action, extras)
+                    } else {
+                        navigate(action)
+                    }
+                } else if (destinationId != null) {
+                    navigate(destinationId, args, navOptions, extras)
+                }
+            }
+        } catch (e: Exception) {
+            Timber.w(e)
         }
     }
 }
