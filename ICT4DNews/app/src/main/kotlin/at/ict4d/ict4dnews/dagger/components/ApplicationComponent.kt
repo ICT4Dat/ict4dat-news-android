@@ -18,8 +18,8 @@ import javax.inject.Singleton
 @Component(modules = [AndroidSupportInjectionModule::class, ApplicationModule::class, RoomModule::class, ApiServiceModule::class, HelperModule::class, ViewModelFactoryModule::class])
 interface ApplicationComponent : AndroidInjector<ICT4DNewsApplication> {
 
-    @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<ICT4DNewsApplication>()
+    @Component.Factory
+    abstract class Factory : AndroidInjector.Factory<ICT4DNewsApplication>
 
     fun inject(converters: Converters)
 

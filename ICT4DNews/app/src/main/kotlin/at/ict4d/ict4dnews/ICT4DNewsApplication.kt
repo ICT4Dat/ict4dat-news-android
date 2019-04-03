@@ -44,8 +44,6 @@ open class ICT4DNewsApplication : DaggerApplication() {
         // java.time backport
         AndroidThreeTen.init(this)
 
-        DaggerApplicationComponent.builder().create(this).inject(this)
-
         installLeakCanary()
 
         if (BuildConfig.DEBUG) {
@@ -75,7 +73,7 @@ open class ICT4DNewsApplication : DaggerApplication() {
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
-        DaggerApplicationComponent.builder().create(this)
+        DaggerApplicationComponent.factory().create(this)
 
     /**
      * @see https://developer.android.com/training/notify-user/build-notification
