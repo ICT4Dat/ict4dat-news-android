@@ -24,4 +24,14 @@
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="ict4dat_social_media_buttons">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:tint">@color/colorPrimary</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
 </resources>
