@@ -1,10 +1,16 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.android.gms.oss-licenses-plugin'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+plugins {
+    id 'com.android.application'
+    id 'com.github.triplet.play' version '2.1.1'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'com.google.gms.oss.licenses.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
 apply from: 'tasks.gradle' // contains supporting tasks e.g ktlint
+apply from: 'release-sign-credentials.gradle' // handles signing of release version
+apply from: 'play-store-publisher-config.gradle' // handles Play Store releases
 
 android {
     compileSdkVersion 28
@@ -13,10 +19,11 @@ android {
         minSdkVersion 15
         targetSdkVersion 28
         versionCode rootProject.ext.versionCode
-        versionName "version 1.0 (${getCheckedOutGitCommitHash()}.${rootProject.ext.versionCode})"
+        versionName "${rootProject.ext.versionMajor}.${rootProject.ext.versionMinor}.${rootProject.ext.versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+        testOptions.unitTests.includeAndroidResources = true
 
         kapt {
             arguments {
@@ -30,18 +37,29 @@ android {
         }
     }
 
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            minifyEnabled false
-            versionNameSuffix "-debug"
+            storeFile file(releaseSignCredLogic.props.getProperty(releaseSignCredLogic.configKeyStorePath, 'fillhere'))
+            storePassword releaseSignCredLogic.props.getProperty(releaseSignCredLogic.configKeystorePw)
+            keyAlias releaseSignCredLogic.props.getProperty(releaseSignCredLogic.configKeyAlias)
+            keyPassword releaseSignCredLogic.props.getProperty(releaseSignCredLogic.configKeyPw)
         }
     }
 
-    testOptions.unitTests.includeAndroidResources = true
+    buildTypes {
+
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            versionNameSuffix "-debug"
+            versionNameSuffix " (${getCheckedOutGitCommitHash()}.${rootProject.ext.versionCode})-debug"
+        }
+    }
 
     androidExtensions {
         experimental = true
@@ -68,6 +86,15 @@ configurations.all { config ->
             }
         }
     }
+}
+
+// config to publish app bundle to the Play Store
+play {
+    serviceAccountCredentials = file(playStorePublisherConfig.props.getProperty(playStorePublisherConfig.keyPlayStoreJsonFilePath, 'this_should_not_happen.json'))
+    track = "internal"
+    userFraction = 1
+    releaseStatus = "draft"
+    defaultToAppBundles = true
 }
 
 dependencies {
@@ -144,7 +171,7 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
 
-    // Stetho for debug
+    // Stetho for debuging
     implementation "com.facebook.stetho:stetho:1.5.1"
     implementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
 
