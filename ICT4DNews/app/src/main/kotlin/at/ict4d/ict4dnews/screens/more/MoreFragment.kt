@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentMoreBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
+import at.ict4d.ict4dnews.extensions.navigateSafe
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import org.jetbrains.anko.email
 import org.jetbrains.anko.share
@@ -46,7 +47,7 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_settings -> findNavController().navigate(R.id.action_actionMore_to_settingsFragment)
+            R.id.menu_settings -> findNavController().navigateSafe(R.id.moreFragment, MoreFragmentDirections.actionActionMoreToSettingsFragment())
         }
         return super.onOptionsItemSelected(item)
     }

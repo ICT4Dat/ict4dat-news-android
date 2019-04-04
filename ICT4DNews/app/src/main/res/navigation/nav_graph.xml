@@ -3,9 +3,9 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nav_graph"
-            app:startDestination="@id/actionNews">
+            app:startDestination="@id/newsListFragment">
 
-    <fragment android:id="@+id/actionNews"
+    <fragment android:id="@+id/newsListFragment"
               android:name="at.ict4d.ict4dnews.screens.news.list.ICT4DNewsFragment"
               tools:layout="@layout/fragment_ictdnews_list"
               android:label="@string/app_name">
@@ -17,12 +17,12 @@
                 app:destination="@id/splashFragment"/>
     </fragment>
 
-    <fragment android:id="@+id/actionIct4d"
+    <fragment android:id="@+id/ict4dFragment"
               android:name="at.ict4d.ict4dnews.screens.ict4d.TabbedICT4DFragment"
               tools:layout="@layout/fragment_tabbed_ict4d"
               android:label="@string/nav_ict4d"/>
 
-    <fragment android:id="@+id/actionMore"
+    <fragment android:id="@+id/moreFragment"
               android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"
               tools:layout="@layout/fragment_more"
               android:label="@string/nav_more">
@@ -48,6 +48,7 @@
         <argument android:name="newsItem"
                   app:argType="at.ict4d.ict4dnews.models.News"/>
     </fragment>
-    <fragment android:id="@+id/settingsFragment" android:name="at.ict4d.ict4dnews.screens.more.settings.SettingsFragmentWithToolbar"
+    <fragment android:id="@+id/settingsFragment"
+              android:name="at.ict4d.ict4dnews.screens.more.settings.SettingsFragmentWithToolbar"
               android:label="@string/settings"/>
 </navigation>
