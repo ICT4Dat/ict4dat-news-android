@@ -75,7 +75,7 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(private val hasT
             try {
                 appCompatActivity = activity as AppCompatActivity
             } catch (exception: Exception) {
-                Timber.e("Activity is not of AppCompactActivity Type ${exception.message}")
+                Timber.e(exception, "Activity is not of AppCompactActivity Type ${exception.message}")
                 throw IllegalStateException("Activity is not of AppCompactActivity Type")
             }
             appCompatActivity.setSupportActionBar(binding.root.findViewById(R.id.toolbar))

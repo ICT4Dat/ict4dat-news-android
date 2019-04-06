@@ -27,8 +27,10 @@ abstract class RoomModule {
         @Provides
         @JvmStatic
         @Singleton
-        fun providesRoomDatabase(application: ICT4DNewsApplication, migration1to2: Migration1to2): AppDatabase =
-            Room.databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME).addMigrations(
+        fun providesRoomDatabase(application: ICT4DNewsApplication, migration1to2: Migration1to2): AppDatabase = Room
+            .databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME)
+            .fallbackToDestructiveMigration() // delete all data if migration fails and setup the database again
+            .addMigrations(
                 migration1to2
             ).build()
 

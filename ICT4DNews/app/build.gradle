@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '2.1.1'
+    id 'com.github.triplet.play' version '2.2.0'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
@@ -11,6 +11,7 @@ plugins {
 apply from: 'tasks.gradle' // contains supporting tasks e.g ktlint
 apply from: 'release-sign-credentials.gradle' // handles signing of release version
 apply from: 'play-store-publisher-config.gradle' // handles Play Store releases
+apply from: 'sentry-config.gradle' // handles Play Store releases
 
 android {
     compileSdkVersion 28
@@ -52,12 +53,17 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+
+            buildConfigField "String", "SENTRY_DNS", "\"${sentryConfig.props.getProperty(sentryConfig.keySentrySecret)}\""
         }
 
         debug {
             minifyEnabled false
             versionNameSuffix "-debug"
             versionNameSuffix " (${getCheckedOutGitCommitHash()}.${rootProject.ext.versionCode})-debug"
+
+            buildConfigField "String", "SENTRY_DNS", "\"${sentryConfig.props.getProperty(sentryConfig.keySentrySecret)}\""
         }
     }
 
@@ -104,7 +110,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "com.google.android.material:material:1.0.0"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha4"
     implementation "androidx.vectordrawable:vectordrawable:1.0.1"
     implementation "androidx.preference:preference:1.0.0"
     implementation "androidx.annotation:annotation:1.0.2"
@@ -210,6 +216,9 @@ dependencies {
 
     // Scrolling Indicators
     implementation "com.simplecityapps:recyclerview-fastscroll:2.0.0"
+
+    // Sentry Bug-Tracker
+    implementation "io.sentry:sentry-android:$sentry_version"
 }
 
 configurations {

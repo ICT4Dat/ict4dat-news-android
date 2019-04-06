@@ -18,6 +18,7 @@ buildscript {
         work_version = "1.0.0"
         navigation_version = "1.0.0"
         paging_version = "2.1.0"
+        sentry_version = "1.7.16"
     }
     
     repositories {
