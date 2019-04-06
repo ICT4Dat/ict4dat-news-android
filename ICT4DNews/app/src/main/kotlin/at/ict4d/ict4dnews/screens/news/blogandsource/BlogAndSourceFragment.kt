@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentBlogAndSourcesBinding
 import at.ict4d.ict4dnews.screens.base.BaseFragment
+import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 
 class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogAndSourcesBinding>() {
 
@@ -22,6 +23,7 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
         setHasOptionsMenu(true)
 
         blogAndSourceAdapter = BlogAndSourceRecyclerViewAdapter { blog ->
+            recordActionBreadcrumb("list click", this, mapOf("blog" to "$blog"))
             model.updateBlogActiveStatus(blog)
         }
 
@@ -32,7 +34,10 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
             binding.swiperefresh.isRefreshing = it ?: false
         })
 
-        binding.swiperefresh.setOnRefreshListener { model.refreshBlogs() }
+        binding.swiperefresh.setOnRefreshListener {
+            recordActionBreadcrumb("pull-to-refresh", this)
+            model.refreshBlogs()
+        }
 
         model.allBlogsList.observe(this, Observer {
             if (it != null && it.isNotEmpty()) {

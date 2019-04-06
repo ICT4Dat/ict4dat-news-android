@@ -13,6 +13,7 @@ import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
+import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -31,6 +32,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(hasT
         compositeDisposable.add(rxEventBus.filterObservableAndSetThread<ServerErrorMessage>(subscribeThread = Schedulers.io())
             .subscribe {
                 if (view?.findNavController()?.currentDestination?.id == R.id.splashFragment) {
+                    recordNavigationBreadcrumb("pop", this)
                     view.findNavController().popBackStack()
                 }
             })

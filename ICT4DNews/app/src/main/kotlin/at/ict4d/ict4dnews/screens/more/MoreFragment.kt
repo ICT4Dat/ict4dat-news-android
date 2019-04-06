@@ -18,6 +18,8 @@ import at.ict4d.ict4dnews.databinding.FragmentMoreBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.extensions.navigateSafe
 import at.ict4d.ict4dnews.screens.base.BaseFragment
+import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
+import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import org.jetbrains.anko.email
 import org.jetbrains.anko.share
 
@@ -45,15 +47,20 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_settings -> findNavController().navigateSafe(R.id.moreFragment, MoreFragmentDirections.actionActionMoreToSettingsFragment())
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_settings -> {
+                recordNavigationBreadcrumb("R.id.menu_settings", this)
+                findNavController().navigateSafe(R.id.moreFragment, MoreFragmentDirections.actionActionMoreToSettingsFragment())
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     fun rateApplication() {
+
         val uri = Uri.parse("market://details?id=${context?.packageName}")
+        recordActionBreadcrumb("rateApplication", this, mapOf("uri" to uri.toString()))
 
         val goToMarket = Intent(Intent.ACTION_VIEW, uri)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -75,6 +82,7 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
     }
 
     fun shareApplication() {
+        recordActionBreadcrumb("shareApplication", this)
         activity?.share(
             getString(
                 R.string.share_app_text,
@@ -88,6 +96,7 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
     }
 
     fun contactUs() {
+        recordActionBreadcrumb("contactUs", this)
         context?.email(
             getString(R.string.contact_email),
             getString(R.string.contact_mail_subject),

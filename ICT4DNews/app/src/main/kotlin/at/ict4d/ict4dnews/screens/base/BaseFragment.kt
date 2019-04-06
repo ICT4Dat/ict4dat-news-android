@@ -3,6 +3,7 @@ package at.ict4d.ict4dnews.screens.base
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -20,6 +21,8 @@ import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.lifecycle.LeakCanaryLifecycleObserver
 import at.ict4d.ict4dnews.lifecycle.RXLifecycleObserver
+import at.ict4d.ict4dnews.lifecycle.SentryLifecycleObserver
+import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
@@ -60,6 +63,8 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(private val hasT
         if (BuildConfig.DEBUG) {
             activity?.let { lifecycle.addObserver(LeakCanaryLifecycleObserver(it, this)) }
         }
+
+        lifecycle.addObserver(SentryLifecycleObserver(this))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -81,12 +86,17 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(private val hasT
             appCompatActivity.setSupportActionBar(binding.root.findViewById(R.id.toolbar))
             appCompatActivity.setupActionBarWithNavController(controller)
         } else {
-            Timber.e("Activity is not of type AppCompact or Fragment has no Toolbar")
+            Timber.w("Activity is not of type AppCompact or Fragment has no Toolbar")
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         findNavController().removeOnDestinationChangedListener(this)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        recordActionBreadcrumb("onOptionsItemSelected", this, mapOf("item" to "${item?.title}"))
+        return super.onOptionsItemSelected(item)
     }
 }

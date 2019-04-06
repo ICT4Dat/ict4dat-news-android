@@ -12,7 +12,9 @@ import androidx.navigation.ui.setupWithNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
 import at.ict4d.ict4dnews.lifecycle.RXErrorEventBusLifecycleObserver
+import at.ict4d.ict4dnews.lifecycle.SentryLifecycleObserver
 import at.ict4d.ict4dnews.utils.RxEventBus
+import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
@@ -26,20 +28,23 @@ class MainNavigationActivity : DaggerAppCompatActivity(), NavController.OnDestin
     private lateinit var model: MainNavigationViewModel
 
     @Inject
-    protected lateinit var compositeDisposable: CompositeDisposable
+    lateinit var compositeDisposable: CompositeDisposable
 
     @Inject
-    protected lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
-    protected lateinit var rxEventBus: RxEventBus
+    lateinit var rxEventBus: RxEventBus
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_navigation)
         model = ViewModelProviders.of(this, viewModelFactory).get(MainNavigationViewModel::class.java)
+
         lifecycle.addObserver(RXErrorEventBusLifecycleObserver(this, compositeDisposable, rxEventBus))
+        lifecycle.addObserver(SentryLifecycleObserver(this))
+
         val navController = findNavController(navHostController)
         binding.navigation.setupWithNavController(navController)
         navController.addOnDestinationChangedListener(this)
@@ -53,5 +58,10 @@ class MainNavigationActivity : DaggerAppCompatActivity(), NavController.OnDestin
         } else {
             binding.navigation.visibility = View.VISIBLE
         }
+    }
+
+    override fun onBackPressed() {
+        recordNavigationBreadcrumb("onBackPressed", this)
+        super.onBackPressed()
     }
 }
