@@ -60,17 +60,15 @@ open class ICT4DNewsApplication : DaggerApplication() {
         createNotificationChannel()
     }
 
-    /**
-     * This method will crash on purpose in Release Builds if you didn't set up Sentry locally.
-     *
-     * @see sentry-config.gradle for more information
-     */
-    @Suppress("KDocUnresolvedReference")
     private fun setUpSentryBugTracking() {
         if (BuildConfig.DEBUG) {
             Timber.i("Sentry is NOT running due to debug build")
         } else {
-            Sentry.init(BuildConfig.SENTRY_DNS, AndroidSentryClientFactory(applicationContext))
+            try {
+                Sentry.init(BuildConfig.SENTRY_DNS, AndroidSentryClientFactory(applicationContext))
+            } catch (e: Exception) {
+                Timber.e(e, "Sentry is NOT running due to config error, see sentry-config.gradle for more information")
+            }
         }
     }
 
