@@ -197,15 +197,18 @@ fun NavController.navigateSafe(
 @BindingAdapter("toggleSwipeRefreshOnFastScroll")
 fun setRecyclerViewFastScrollListener(
     fastScrollRecyclerView: FastScrollRecyclerView,
-    swipeRefreshLayout: SwipeRefreshLayout
-) {
+    swipeRefreshLayout: SwipeRefreshLayout) {
     fastScrollRecyclerView.setOnFastScrollStateChangeListener(object : OnFastScrollStateChangeListener {
         override fun onFastScrollStop() {
-            swipeRefreshLayout.isEnabled = true
+            if (!swipeRefreshLayout.isRefreshing) {
+                swipeRefreshLayout.isEnabled = true
+            }
         }
 
         override fun onFastScrollStart() {
-            swipeRefreshLayout.isEnabled = false
+            if (!swipeRefreshLayout.isRefreshing) {
+                swipeRefreshLayout.isEnabled = false
+            }
         }
     })
 }
