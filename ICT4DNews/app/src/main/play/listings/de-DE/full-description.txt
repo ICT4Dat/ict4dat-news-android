@@ -1,0 +1,5 @@
+ICT4D News vereint 29 Blogs und Nachrichtenquellen zum Thema ICT4D und Digital Development. Das Ziel ist es, eine einfache Möglichkeit zu bieten, die neuesten ICT4D-Updates zu erhalten. Alle Blogs und Quellen sind in einer praktischen Liste zusammengefasst und bieten Offline-Lesefunktionen. Die Blogs und Quellen können deaktiviert werden, um das Lesevergnügen anzupassen. Wir haben diese Anwendung für die ICT4D- und Digital Development Community entwickelt. 
+
+Wir glauben an Vielfalt und die damit verbundenen Vorteile. Wir sind stolz darauf, ein internationales Team von Studenten aus 3 verschiedenen Kontinenten (Afrika, Asien und Europa) und 5 verschiedenen Ländern zu sein. Das Kernteam besteht aus drei Mitgliedern: Noah Alorwu, der in Ghana aktiv ist, Raja Saboor Ali engagiert sich stark in Pakistan und Paul Spiesberger aus Österreich. Unterstützung erhalten wir auch von Job Guitiche von Mosambik und Chloé Zimmermann, einer Designerin aus Frankreich. 
+
+Diese Anwendung wurde von ICT4D.at als Open Source-Software entwickelt. Trage zu diesem Projekt auf GitHub bei: https://github.com/ICT4Dat/ict4dat-news-android/
