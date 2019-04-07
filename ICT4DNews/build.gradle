@@ -6,7 +6,7 @@ buildscript {
         versionMajor = 1
         versionMinor = 1
         versionPatch = 0
-        versionBuild = 0 // bump for dogfood builds, public betas, etc.
+        versionBuild = 1 // bump for dogfood builds, public betas, etc.
         versionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
 
         kotlin_version = "1.3.21"
