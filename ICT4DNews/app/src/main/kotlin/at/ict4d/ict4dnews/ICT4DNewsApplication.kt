@@ -16,6 +16,7 @@ import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.sentry.Sentry
 import io.sentry.android.AndroidSentryClientFactory
+import org.jetbrains.anko.defaultSharedPreferences
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,6 +26,9 @@ open class ICT4DNewsApplication : DaggerApplication() {
 
     @Inject
     lateinit var component: ApplicationComponent
+
+    // @Inject doesn't work
+    // lateinit var persistenceManager: IPersistenceManager
 
     private lateinit var refWatcher: RefWatcher
 
@@ -61,8 +65,13 @@ open class ICT4DNewsApplication : DaggerApplication() {
     }
 
     private fun setUpSentryBugTracking() {
-        if (BuildConfig.DEBUG) {
-            Timber.i("Sentry is NOT running due to debug build")
+        // if (BuildConfig.DEBUG || !persistenceManager.isBugTrackingEnabled().get()) { // this is what I would like to do, but persistenceManager is not initialized by Dagger
+        if (BuildConfig.DEBUG || !defaultSharedPreferences.getBoolean(
+                getString(R.string.pref_key_is_bug_tracking_enabled),
+                true
+            )
+        ) {
+            Timber.i("Sentry is NOT running due to debug build or disabled bug tracking in the settings")
         } else {
             try {
                 Sentry.init(BuildConfig.SENTRY_DNS, AndroidSentryClientFactory(applicationContext))

@@ -73,11 +73,14 @@
     </string>
     <string name="news_update_complete">ICT4D News Aktualisierung</string>
     <string name="news_update_notification_content_text">%d neue/r Artikel verfügbar, lies sie jetzt.</string>
-    <string name="sync_service_category">Aktualisierungen</string>
+    <string name="settings_category_general">Allgemeine Einstellungen</string>
     <string name="current_app_version">Version</string>
     <string name="should_allow_sync_service">Automatische Aktualisierungen</string>
     <string name="should_allow_snyc_service_summary">Die aktuellesten ICT4D News werden automatisch im Hintergurnd
         heruntergeladen.
     </string>
     <string name="new_news_badge">Neue News</string>
+    <string name="settings_bug_tracking_title">Bug-Tracking</string>
+    <string name="settings_bug_tracking_summary">Wir verwenden eine Bug-Tracking Technologie, um Fehler nachverfolgen zu können. Wir erheben keine personenbezogenen Daten, aber detaillierte Geräteinformationen sind in den Meldungen enthalten. Deaktiviere diese Einstellung, wenn Du keine Daten an uns senden möchtest. Die Änderungen dieser Einstellung wird erst nach einem Neustart der Anwendung wirksam.</string>
+
 </resources>

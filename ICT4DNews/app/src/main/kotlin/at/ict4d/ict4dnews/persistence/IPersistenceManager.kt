@@ -18,6 +18,8 @@ interface IPersistenceManager {
 
     fun isAutomaticNewsUpdateEnabled(): Preference<Boolean>
 
+    fun isBugTrackingEnabled(): Preference<Boolean>
+
     // Authors
 
     fun getAuthorBy(authorId: String): LiveData<Author?>

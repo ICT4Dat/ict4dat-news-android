@@ -30,6 +30,8 @@ class PersistenceManager @Inject constructor(
 
     override fun isAutomaticNewsUpdateEnabled() = sharedPrefs.isAutomaticNewsUpdateEnabled
 
+    override fun isBugTrackingEnabled() = sharedPrefs.isBugTrackingEnabled
+
     // Authors
 
     override fun getAuthorBy(authorId: String) = authorDao.getAuthorDetailsBy(authorId)
