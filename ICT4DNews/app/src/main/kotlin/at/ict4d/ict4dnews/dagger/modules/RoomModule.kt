@@ -1,0 +1,57 @@
+package at.ict4d.ict4dnews.dagger.modules
+
+import androidx.room.Room
+import at.ict4d.ict4dnews.ICT4DNewsApplication
+import at.ict4d.ict4dnews.persistence.IPersistenceManager
+import at.ict4d.ict4dnews.persistence.PersistenceManager
+import at.ict4d.ict4dnews.persistence.database.AppDatabase
+import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
+import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
+import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
+import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
+import at.ict4d.ict4dnews.persistence.database.migrations.Migration1to2
+import dagger.Binds
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
+
+@Module
+abstract class RoomModule {
+
+    @Binds
+    abstract fun bindIPersistenceManager(persistenceManager: PersistenceManager): IPersistenceManager
+
+    @Module
+    companion object {
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesRoomDatabase(application: ICT4DNewsApplication, migration1to2: Migration1to2): AppDatabase = Room
+            .databaseBuilder(application, AppDatabase::class.java, AppDatabase.DATABASE_NAME)
+            .fallbackToDestructiveMigration() // delete all data if migration fails and setup the database again
+            .addMigrations(
+                migration1to2
+            ).build()
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesNewsDao(database: AppDatabase): NewsDao = database.newsDao()
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesAuthorDao(database: AppDatabase): AuthorDao = database.authorDao()
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesMediaDao(database: AppDatabase): MediaDao = database.mediaDao()
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun providesBlogDao(database: AppDatabase): BlogDao = database.blogDao()
+    }
+}

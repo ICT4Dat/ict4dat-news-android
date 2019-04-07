@@ -27,16 +27,19 @@
         sociology, economics, development studies, library, information science, and communication
         studies.\n\n-Wikipedia
     </string>
-    <string name="ict4dat_vision">ICT4D.at believes in the empowerment of people through ICTs.\n\nWe cooperate
-        and collaborate with grassroots organizations in the fields of science, arts, education, media and open source
-        software to improve the lives of those in lesser developed countries.
+    <string name="ict4dat_vision">A World of Equal Opportunities for All\n\nOur Mission:\nThrough knowledge,
+        tools and networks we empower people to develop the skills they need to achieve their full potential.\n\nOur
+        Core Values:\n\u2022 Community\n\u2022 Interdisciplinary &amp; Co-creation\n\u2022 Respect &amp;
+        Tolerance\n\u2022 Honesty &amp; Trust\n\u2022 Passion &amp; Creativity\n
     </string>
     <string name="ict4dat_projects">Our Projects</string>
     <string name="ict4dat_about">About us &amp; Members</string>
     <string name="open_source_licences_title">Open Source Licences</string>
     <string name="licenses">Licenses</string>
     <string name="share">Share</string>
-    <string name="share_ict4d" translatable="false">ICT4D - Information and Communication Technologies for Development\n\n%1$s</string>
+    <string name="share_ict4d" translatable="false">ICT4D - Information and Communication Technologies for
+        Development\n\n%1$s
+    </string>
     <string name="share_ict4dat">ICT4D.at - The Austrian Network for Information and Communication Technologies for
         Development\n\n%1$s
     </string>
@@ -44,7 +47,9 @@
     <string name="blog_logo">Blog logo</string>
     <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Sources</string>
     <string name="contextual_selection">%d/%d blogs chosen</string>
-    <string name="about_developers">This Open Source Android application was developed with Love by the NGO ICT4D.at and the following main developers and designers:</string>
+    <string name="about_developers">This Open Source Android application was developed with Love by the NGO ICT4D.at and
+        the following main developers and designers:
+    </string>
     <string name="rate_application">Rate this application</string>
     <string name="share_application">Share this application</string>
     <string name="contact_us">Contact us</string>
@@ -53,7 +58,29 @@
     <string name="designer">Designer</string>
     <string name="contact_mail_subject">ICT4D.at Android News App</string>
     <string name="contact_mail_text">Dear ICT4D.at,\n\n</string>
-    <string name="share_app_text">Hi,\nI am using ICT4D.at\'s Android ICT4D-News App. You can download it from here:\n\n %1$s</string>
+    <string name="share_app_text">Hi,\nI am using ICT4D.at\'s Android ICT4D-News App. You can download it from here:\n\n
+        %1$s
+    </string>
     <string name="headline_more">With %1$s from ICT4D.at</string>
     <string name="ict4d_headline">What is ICT4D?</string>
+    <string name="settings">Settings</string>
+    <string name="app_version">Information</string>
+    <string name="new_news_badge">New News</string>
+    <string name="connecting_text">We are connecting you with %1$d blogs, this may take a while.</string>
+    <string name="no_blog_found">No ICT4D News found</string>
+    <string name="notification_channel_name">ICT4D News Notifications</string>
+    <string name="notification_channel_description">Notifications of the ICT4D News application to keep you up with
+        changes within our application.
+    </string>
+    <string name="news_update_complete">ICT4D News Update</string>
+    <string name="news_update_notification_content_text">%d new article/s available, read them now.</string>
+    <string name="current_app_version">Version</string>
+    <string name="should_allow_sync_service">Automatic Updates</string>
+    <string name="should_allow_snyc_service_summary">Automatic updates will run in the background and downloads the
+        latest ICT4D news.
+    </string>
+    <string name="settings_category_general">General Settings</string>
+    <string name="settings_bug_tracking_title">Bug-Tracking</string>
+    <string name="settings_bug_tracking_summary">We use a monitoring tool to track bugs. We do not collect any personal data, but include device information. Please opt-out if you do not want to send any data to us. Changes to this setting will only take effect after a restart of the application.</string>
+
 </resources>

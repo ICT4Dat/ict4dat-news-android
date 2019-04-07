@@ -1,6 +1,9 @@
 # Custom
 
 .idea/assetWizardSettings.xml
+signing.properties
+playstore.properties
+sentry_config.properties
 
 # Created by GitLab
 

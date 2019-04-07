@@ -1,0 +1,52 @@
+package at.ict4d.ict4dnews.persistence.database.dao
+
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import at.ict4d.ict4dnews.models.BLOG_TABLE_ACTIVE
+import at.ict4d.ict4dnews.models.BLOG_TABLE_FEED_URL
+import at.ict4d.ict4dnews.models.BLOG_TABLE_NAME
+import at.ict4d.ict4dnews.models.BLOG_TABLE_TABLE_NAME
+import at.ict4d.ict4dnews.models.Blog
+
+@Dao
+abstract class BlogDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert(blog: Blog): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertAll(blogs: List<Blog>): List<Long>
+
+    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME ORDER BY $BLOG_TABLE_NAME")
+    abstract fun getAll(): LiveData<List<Blog>>
+
+    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_ACTIVE = 1 ORDER BY $BLOG_TABLE_NAME")
+    abstract fun getAllActiveBlogs(): List<Blog>
+
+    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_FEED_URL = :feedUrl")
+    abstract fun getBlogByUrlAsLiveData(feedUrl: String): LiveData<Blog?>
+
+    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_FEED_URL = :feedUrl")
+    abstract fun getBlogByUrl(feedUrl: String): Blog?
+
+    @Update
+    abstract fun updateBlog(blog: Blog): Int
+
+    @Query("SELECT * FROM $BLOG_TABLE_TABLE_NAME ORDER BY $BLOG_TABLE_NAME")
+    abstract fun getAllBlogsAsList(): List<Blog>
+
+    @Query("SELECT COUNT(*) FROM $BLOG_TABLE_TABLE_NAME")
+    protected abstract fun getBlogsCount(): Int
+
+    fun isBlogsExist(): Boolean = getBlogsCount() >= 1
+
+    @Query("SELECT COUNT(*) FROM $BLOG_TABLE_TABLE_NAME")
+    abstract fun getBlogsCountAsLiveData(): LiveData<Int>
+
+    @Query("SELECT COUNT(*) FROM $BLOG_TABLE_TABLE_NAME WHERE $BLOG_TABLE_ACTIVE = 1")
+    abstract fun getActiveBlogsCountAsLiveData(): LiveData<Int>
+}
