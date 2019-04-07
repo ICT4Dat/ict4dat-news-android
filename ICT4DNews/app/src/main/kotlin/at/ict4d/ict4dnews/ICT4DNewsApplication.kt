@@ -15,8 +15,6 @@ import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
-import io.sentry.Sentry
-import io.sentry.android.AndroidSentryClientFactory
 import org.jetbrains.anko.defaultSharedPreferences
 import timber.log.Timber
 import javax.inject.Inject
@@ -28,8 +26,8 @@ open class ICT4DNewsApplication : DaggerApplication() {
     @Inject
     lateinit var component: ApplicationComponent
 
-     @Inject
-     lateinit var persistenceManager: IPersistenceManager
+    @Inject
+    lateinit var persistenceManager: IPersistenceManager
 
     private lateinit var refWatcher: RefWatcher
 
