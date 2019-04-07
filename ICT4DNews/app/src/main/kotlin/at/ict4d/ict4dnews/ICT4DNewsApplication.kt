@@ -4,15 +4,19 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.multidex.MultiDex
 import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
+import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
+import io.sentry.Sentry
+import io.sentry.android.AndroidSentryClientFactory
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,6 +26,9 @@ open class ICT4DNewsApplication : DaggerApplication() {
 
     @Inject
     lateinit var component: ApplicationComponent
+
+    @Inject
+    lateinit var persistenceManager: IPersistenceManager
 
     private lateinit var refWatcher: RefWatcher
 
@@ -38,20 +45,47 @@ open class ICT4DNewsApplication : DaggerApplication() {
     }
 
     override fun onCreate() {
-        super.onCreate()
         instance = this
+        super.onCreate()
 
         // java.time backport
         AndroidThreeTen.init(this)
 
         installLeakCanary()
 
+        setUpTimber()
+
+        setUpSentryBugTracking()
+
         if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
             installStetho()
         }
 
         createNotificationChannel()
+    }
+
+    private fun setUpSentryBugTracking() {
+        if (BuildConfig.DEBUG || !persistenceManager.isBugTrackingEnabled().get()) {
+            Timber.i("Sentry is NOT running due to debug build or disabled bug tracking in the settings")
+        } else {
+            try {
+                Sentry.init(BuildConfig.SENTRY_DNS, AndroidSentryClientFactory(applicationContext))
+            } catch (e: Exception) {
+                Timber.e(e, "Sentry is NOT running due to config error, see sentry-config.gradle for more information")
+            }
+        }
+    }
+
+    private fun setUpTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(object : Timber.DebugTree() {
+                override fun createStackElementTag(element: StackTraceElement): String? {
+                    return String.format("C:%s: Line %s", super.createStackElementTag(element), element.lineNumber)
+                }
+            })
+        } else {
+            Timber.plant(ReleaseTree())
+        }
     }
 
     protected open fun installLeakCanary() {
@@ -78,6 +112,7 @@ open class ICT4DNewsApplication : DaggerApplication() {
     /**
      * @see https://developer.android.com/training/notify-user/build-notification
      */
+    @Suppress("KDocUnresolvedReference")
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -92,6 +127,15 @@ open class ICT4DNewsApplication : DaggerApplication() {
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
+        }
+    }
+}
+
+class ReleaseTree : Timber.Tree() {
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+
+        if (priority == Log.ERROR) {
+            Sentry.capture("$message\n${t?.message}")
         }
     }
 }

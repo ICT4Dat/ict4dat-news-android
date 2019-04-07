@@ -1,0 +1,61 @@
+ext {
+    sentryConfig = new SentryConfigLogic(project)
+}
+
+/**
+ * This logic handles the Bug-Tracking Sentry Tool. The Sentry API needs a private key to authorize the
+ * connection. This Gradle Class is used to load the file from a local file path.
+ *
+ * Local File
+ * Provide a Properties file with the name "sentry_config.properties" in the root of the project with a value such as:
+ * keySentrySecret=[PUT HERE THE SECRET]
+ *
+ */
+class SentryConfigLogic {
+
+    public final keySentrySecret = "dsn"
+    private final configSentryPropertiesFileName = "sentry_config.properties"
+
+    public final props
+
+    private final project
+
+    SentryConfigLogic(project) {
+        this.project = project
+        this.props = loadReleaseSigningProperties()
+    }
+
+    def loadReleaseSigningProperties() {
+
+        Properties propertiesObj
+
+        if ((propertiesObj = loadFromProperties("$project.rootDir/$configSentryPropertiesFileName")) != null) {
+            project.logger.quiet("sentry-config: use local properties file for Sentry")
+            return propertiesObj
+        } else {
+            propertiesObj = new Properties()
+            propertiesObj.put(keySentrySecret, "https://no_sentry_config_file_found.com")
+        }
+
+        project.logger.quiet("sentry-config: no config file found for Sentry")
+        return propertiesObj
+    }
+
+    def loadFromProperties(fileName) {
+        Properties props = new Properties()
+        File propfile = new File(fileName)
+
+        if (propfile.exists()) {
+            props.load(new FileInputStream(propfile))
+            if (props.get(keySentrySecret) != null) {
+                project.logger.quiet("sentry-config: use $fileName for Sentry")
+                return props
+            } else {
+                project.logger.quiet("sentry-config: $propfile does not contain a property with the name $keySentrySecret for Sentry")
+            }
+        } else {
+            project.logger.quiet("sentry-config: $propfile does not exist for Sentry")
+        }
+        return null
+    }
+}

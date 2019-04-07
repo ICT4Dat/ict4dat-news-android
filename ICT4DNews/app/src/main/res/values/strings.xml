@@ -79,6 +79,8 @@
     <string name="should_allow_snyc_service_summary">Automatic updates will run in the background and downloads the
         latest ICT4D news.
     </string>
-    <string name="sync_service_category">Updates</string>
+    <string name="settings_category_general">General Settings</string>
+    <string name="settings_bug_tracking_title">Bug-Tracking</string>
+    <string name="settings_bug_tracking_summary">We use a monitoring tool to track bugs. We do not collect any personal data, but include device information. Please opt-out if you do not want to send any data to us. Changes to this setting will only take effect after a restart of the application.</string>
 
 </resources>

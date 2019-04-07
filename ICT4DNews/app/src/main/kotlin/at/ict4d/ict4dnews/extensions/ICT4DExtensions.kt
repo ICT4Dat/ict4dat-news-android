@@ -24,6 +24,7 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.utils.GlideApp
 import at.ict4d.ict4dnews.utils.GlideRequest
 import at.ict4d.ict4dnews.utils.RxEventBus
+import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -40,6 +41,8 @@ import timber.log.Timber
 import java.util.Locale
 
 fun Context.browseCustomTab(url: String?) {
+    recordActionBreadcrumb("browseCustomTab", this, mapOf("url" to "$url"))
+
     url?.let {
         CustomTabsIntent
             .Builder()
@@ -198,11 +201,15 @@ fun setRecyclerViewFastScrollListener(
 ) {
     fastScrollRecyclerView.setOnFastScrollStateChangeListener(object : OnFastScrollStateChangeListener {
         override fun onFastScrollStop() {
-            swipeRefreshLayout.isEnabled = true
+            if (!swipeRefreshLayout.isRefreshing) {
+                swipeRefreshLayout.isEnabled = true
+            }
         }
 
         override fun onFastScrollStart() {
-            swipeRefreshLayout.isEnabled = false
+            if (!swipeRefreshLayout.isRefreshing) {
+                swipeRefreshLayout.isEnabled = false
+            }
         }
     })
 }

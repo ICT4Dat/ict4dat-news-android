@@ -22,6 +22,7 @@ import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.extensions.extractDate
 import at.ict4d.ict4dnews.extensions.loadFromURL
 import at.ict4d.ict4dnews.screens.base.BaseFragment
+import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import org.jetbrains.anko.share
 
 class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4dNewsDetailBinding>() {
@@ -57,6 +58,7 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
         super.onViewCreated(view, savedInstanceState)
 
         binding.fab.setOnClickListener {
+            recordActionBreadcrumb("fab", this)
 
             model.selectedNews?.authorID?.let {
                 model.authorDetails(it).observe(this, Observer { author ->
@@ -132,8 +134,8 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
         inflater?.inflate(R.menu.menu_ict4_dnews_detail, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
             R.id.action_open -> activity?.browseCustomTab(model.selectedNews?.link ?: "")
         }
         return super.onOptionsItemSelected(item)

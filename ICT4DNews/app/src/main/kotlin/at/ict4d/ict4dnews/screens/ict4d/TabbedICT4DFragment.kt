@@ -13,6 +13,7 @@ import at.ict4d.ict4dnews.databinding.FragmentTabbedIct4dBinding
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.ict4d.ict4d.ICT4DFragment
 import at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment
+import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import com.google.android.material.tabs.TabLayout
 
 class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBinding>() {
@@ -45,6 +46,8 @@ class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBind
     inner class TabbedICT4DSectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(@IntRange(from = 0, to = 1) position: Int): Fragment {
+            recordActionBreadcrumb("getItem", this, mapOf("position" to "$position"))
+
             return when (position) {
                 0 -> ICT4DatFragment.newInstance()
                 1 -> ICT4DFragment.newInstance()

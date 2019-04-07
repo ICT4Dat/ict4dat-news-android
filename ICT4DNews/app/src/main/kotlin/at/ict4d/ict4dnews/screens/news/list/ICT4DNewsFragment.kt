@@ -18,6 +18,8 @@ import at.ict4d.ict4dnews.extensions.navigateSafe
 import at.ict4d.ict4dnews.extensions.visible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
+import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
+import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -32,6 +34,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
     override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, _ ->
+        recordNavigationBreadcrumb("item click", this, mapOf("pair" to "$pair"))
         val action = ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
         findNavController().navigateSafe(R.id.newsListFragment, action)
     })
@@ -74,7 +77,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                     }
                 })
 
-                binding.swiperefresh.setOnRefreshListener { model.requestToLoadFeedsFromServers(true) }
+                binding.swiperefresh.setOnRefreshListener {
+                    recordActionBreadcrumb("swip-to-refresh", this)
+                    model.requestToLoadFeedsFromServers(true)
+                }
 
                 model.newsList.observe(this, Observer {
                     if (it != null) {
@@ -99,7 +105,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                     }
                 })
 
-                binding.quickScroll.setOnClickListener { binding.recyclerview.moveToTop() }
+                binding.quickScroll.setOnClickListener {
+                    recordActionBreadcrumb("quickscroll", this)
+                    binding.recyclerview.moveToTop()
+                }
                 binding.recyclerview.addOnScrollListener(ScrollToTopRecyclerViewScrollHandler(binding.quickScroll))
             }
         })
@@ -119,6 +128,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe({ query ->
                 Timber.d("query: $query")
+                recordActionBreadcrumb("search", this, mapOf("query" to query))
                 model.performSearch(query)
             }, { e ->
                 Timber.e("$e")
@@ -176,6 +186,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
             }
 
             R.id.menu_filter -> {
+                recordNavigationBreadcrumb("news list", this)
                 findNavController().navigateSafe(
                     R.id.newsListFragment,
                     ICT4DNewsFragmentDirections.actionActionNewsToBlogAndSourceFragment()

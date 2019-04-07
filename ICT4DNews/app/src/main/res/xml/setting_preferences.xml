@@ -3,7 +3,7 @@
 >
 
     <PreferenceCategory
-            android:title="@string/sync_service_category">
+            android:title="@string/settings_category_general">
 
         <SwitchPreference
                 android:defaultValue="true"
@@ -11,6 +11,11 @@
                 android:key="@string/pref_key_is_auto_sync_enabled"
                 android:summary="@string/should_allow_snyc_service_summary"/>
 
+        <SwitchPreference
+                android:defaultValue="true"
+                android:title="@string/settings_bug_tracking_title"
+                android:key="@string/pref_key_is_bug_tracking_enabled"
+                android:summary="@string/settings_bug_tracking_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/app_version">

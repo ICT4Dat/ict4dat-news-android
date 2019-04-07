@@ -8,4 +8,6 @@ interface ISharedPrefs {
     var lastAutomaticNewsUpdateLocalDate: Preference<LocalDate>
 
     var isAutomaticNewsUpdateEnabled: Preference<Boolean>
+
+    var isBugTrackingEnabled: Preference<Boolean>
 }

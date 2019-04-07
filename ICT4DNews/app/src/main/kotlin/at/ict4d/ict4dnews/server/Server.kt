@@ -17,6 +17,7 @@ import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
+import at.ict4d.ict4dnews.utils.recordNetworkBreadcrumb
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -42,6 +43,7 @@ class Server @Inject constructor(
      * @see IServer.loadAllNewsFromAllActiveBlogs
      */
     override fun loadAllNewsFromAllActiveBlogs(): Disposable {
+        recordNetworkBreadcrumb("loadAllNewsFromAllActiveBlogs", this)
 
         val blogs = persistenceManager.getAllActiveBlogs()
 
@@ -102,6 +104,8 @@ class Server @Inject constructor(
 
         activeBlogs.forEach { blog ->
             try {
+                recordNetworkBreadcrumb("loadAllNewsFromAllActiveBlogsSynchronous", this, mapOf("url" to blog.feed_url))
+
                 if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
                     val call = apiJsonSelfHostedWPService.getJsonNewsOfUrlAsCall(
                         blog.feed_url + "wp-json/wp/v2/posts",
@@ -303,6 +307,8 @@ class Server @Inject constructor(
      * @see IServer.loadBlogs
      */
     override fun loadBlogs(): Disposable {
+        recordNetworkBreadcrumb("loadBlogs", this)
+
         return apiICT4DatNews.getBlogs()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
