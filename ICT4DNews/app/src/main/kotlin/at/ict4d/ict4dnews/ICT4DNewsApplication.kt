@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.multidex.MultiDex
 import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
 import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
+import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
@@ -27,8 +28,8 @@ open class ICT4DNewsApplication : DaggerApplication() {
     @Inject
     lateinit var component: ApplicationComponent
 
-    // @Inject doesn't work
-    // lateinit var persistenceManager: IPersistenceManager
+     @Inject
+     lateinit var persistenceManager: IPersistenceManager
 
     private lateinit var refWatcher: RefWatcher
 
@@ -45,8 +46,8 @@ open class ICT4DNewsApplication : DaggerApplication() {
     }
 
     override fun onCreate() {
-        super.onCreate()
         instance = this
+        super.onCreate()
 
         // java.time backport
         AndroidThreeTen.init(this)
