@@ -81,6 +81,6 @@
     </string>
     <string name="settings_category_general">General Settings</string>
     <string name="settings_bug_tracking_title">Bug-Tracking</string>
-    <string name="settings_bug_tracking_summary">We use a monitoring tool to track bugs. We do not collect any personal data, but include device information. Please opt-out if you do not want to send any data to us. Changes to this setting will only take effect after a restart of the application.</string>
+    <string name="settings_bug_tracking_summary">We use a monitoring tool to track bugs. We do not collect any personal data, but include device information.</string>
 
 </resources>
