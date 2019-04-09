@@ -1,5 +1,5 @@
 • Automatic Daily Updates - turn them on or off in the settings
 • News List improvements
 • Settings Screen
-• Bug Tracking - if you want then you can disable it in the settings
-• Many bug fixes and improvements
+• Bug Tracking
+• Many bug fixes and other improvements
