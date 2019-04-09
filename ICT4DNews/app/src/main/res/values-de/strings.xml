@@ -81,6 +81,6 @@
     </string>
     <string name="new_news_badge">Neue News</string>
     <string name="settings_bug_tracking_title">Bug-Tracking</string>
-    <string name="settings_bug_tracking_summary">Wir verwenden eine Bug-Tracking Technologie, um Fehler nachverfolgen zu können. Wir erheben keine personenbezogenen Daten, aber detaillierte Geräteinformationen sind in den Meldungen enthalten. Deaktiviere diese Einstellung, wenn Du keine Daten an uns senden möchtest. Die Änderungen dieser Einstellung wird erst nach einem Neustart der Anwendung wirksam.</string>
+    <string name="settings_bug_tracking_summary">Wir verwenden eine Bug-Tracking Technologie, um Fehler nachverfolgen zu können. Wir erheben keine personenbezogenen Daten, aber detaillierte Geräteinformationen sind in den Meldungen enthalten.</string>
 
 </resources>
