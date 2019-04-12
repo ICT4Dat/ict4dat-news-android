@@ -28,6 +28,11 @@ import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesUtil
+import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.gms.security.ProviderInstaller
+import timber.log.Timber
 
 @Module
 abstract class ApiServiceModule {
@@ -87,7 +92,10 @@ abstract class ApiServiceModule {
         @Provides
         @JvmStatic
         @Singleton
-        fun provideOkHttpClient(cache: Cache, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        fun provideOkHttpClient(
+            cache: Cache,
+            httpLoggingInterceptor: HttpLoggingInterceptor,
+            application: ICT4DNewsApplication): OkHttpClient {
             val builder = OkHttpClient.Builder()
                 .cache(cache)
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -97,6 +105,12 @@ abstract class ApiServiceModule {
 
             if (BuildConfig.DEBUG) {
                 builder.addNetworkInterceptor(StethoInterceptor())
+            }
+
+            try {
+                ProviderInstaller.installIfNeeded(application)
+            } catch (e: Exception) {
+                Timber.e("SecurityException: Google Play Services not available.")
             }
 
             return builder.build()
