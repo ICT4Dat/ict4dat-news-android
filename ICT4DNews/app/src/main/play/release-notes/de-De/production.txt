@@ -1,1 +1,5 @@
-• Erste Veröffentlichung
+• Automatische Aktualisierungen - Schalte sie in den Einstellungen ein oder aus
+• Verbesserungen der Nachrichtenliste
+• Einstellungen
+• Bug Tracking
+• Viele Fehlerbehebungen und kleine Verbesserungen
