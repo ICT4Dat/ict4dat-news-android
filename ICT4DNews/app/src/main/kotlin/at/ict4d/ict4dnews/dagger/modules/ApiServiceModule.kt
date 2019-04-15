@@ -11,6 +11,7 @@ import at.ict4d.ict4dnews.server.Server
 import at.ict4d.ict4dnews.utils.GsonFeedTypeDeserializer
 import at.ict4d.ict4dnews.utils.GsonLocalDateTimeDeserializer
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.google.android.gms.security.ProviderInstaller
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Binds
@@ -24,15 +25,11 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
+import timber.log.Timber
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import com.google.android.gms.common.GooglePlayServicesUtil
-import com.google.android.gms.common.GooglePlayServicesRepairableException
-import com.google.android.gms.security.ProviderInstaller
-import timber.log.Timber
 
 @Module
 abstract class ApiServiceModule {
@@ -95,7 +92,8 @@ abstract class ApiServiceModule {
         fun provideOkHttpClient(
             cache: Cache,
             httpLoggingInterceptor: HttpLoggingInterceptor,
-            application: ICT4DNewsApplication): OkHttpClient {
+            application: ICT4DNewsApplication
+        ): OkHttpClient {
             val builder = OkHttpClient.Builder()
                 .cache(cache)
                 .connectTimeout(30, TimeUnit.SECONDS)
