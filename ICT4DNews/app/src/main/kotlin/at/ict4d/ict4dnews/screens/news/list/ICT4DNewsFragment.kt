@@ -27,11 +27,9 @@ import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>() {
+class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(ICT4DNewsViewModel::class) {
 
     override fun getLayoutId(): Int = R.layout.fragment_ictdnews_list
-
-    override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, _ ->
         recordNavigationBreadcrumb("item click", this, mapOf("pair" to "$pair"))

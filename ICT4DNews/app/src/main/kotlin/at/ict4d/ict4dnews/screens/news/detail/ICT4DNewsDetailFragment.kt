@@ -25,11 +25,10 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import org.jetbrains.anko.share
 
-class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4dNewsDetailBinding>() {
+class ICT4DNewsDetailFragment :
+    BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4dNewsDetailBinding>(ICT4DNewsDetailViewModel::class) {
 
     override fun getLayoutId(): Int = R.layout.fragment_ict4d_news_detail
-
-    override fun getViewModel(): Class<ICT4DNewsDetailViewModel> = ICT4DNewsDetailViewModel::class.java
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

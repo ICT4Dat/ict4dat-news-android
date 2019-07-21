@@ -16,11 +16,9 @@ import at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import com.google.android.material.tabs.TabLayout
 
-class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBinding>() {
+class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBinding>(ICT4DViewModel::class) {
 
     override fun getLayoutId(): Int = R.layout.fragment_tabbed_ict4d
-
-    override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java
 
     private var sectionsPagerAdapter: TabbedICT4DSectionsPagerAdapter? = null
 

@@ -15,11 +15,9 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
 import org.jetbrains.anko.share
 
-class ICT4DFragment : BaseFragment<ICT4DViewModel, FragmentIct4dBinding>(hasToolbar = false) {
+class ICT4DFragment : BaseFragment<ICT4DViewModel, FragmentIct4dBinding>(ICT4DViewModel::class, hasToolbar = false) {
 
     override fun getLayoutId(): Int = R.layout.fragment_ict4d
-
-    override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

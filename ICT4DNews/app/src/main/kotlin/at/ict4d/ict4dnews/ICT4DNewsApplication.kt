@@ -1,36 +1,34 @@
 package at.ict4d.ict4dnews
 
+import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.multidex.MultiDex
-import at.ict4d.ict4dnews.dagger.components.ApplicationComponent
-import at.ict4d.ict4dnews.dagger.components.DaggerApplicationComponent
+import at.ict4d.ict4dnews.di.modules.apiServiceModule
+import at.ict4d.ict4dnews.di.modules.helperModule
+import at.ict4d.ict4dnews.di.modules.roomModule
+import at.ict4d.ict4dnews.di.modules.viewModelModule
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
 import io.sentry.Sentry
 import io.sentry.android.AndroidSentryClientFactory
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 import timber.log.Timber
-import javax.inject.Inject
 
 const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 
-open class ICT4DNewsApplication : DaggerApplication() {
-
-    @Inject
-    lateinit var component: ApplicationComponent
-
-    @Inject
-    lateinit var persistenceManager: IPersistenceManager
-
+open class ICT4DNewsApplication : Application() {
     private lateinit var refWatcher: RefWatcher
+    private val persistenceManager: IPersistenceManager by inject()
 
     companion object {
 
@@ -45,8 +43,15 @@ open class ICT4DNewsApplication : DaggerApplication() {
     }
 
     override fun onCreate() {
-        instance = this
         super.onCreate()
+        instance = this
+        startKoin {
+            androidContext(this@ICT4DNewsApplication)
+            if (BuildConfig.DEBUG) {
+                androidLogger()
+            }
+            modules(listOf(apiServiceModule, helperModule, roomModule, viewModelModule))
+        }
 
         // java.time backport
         AndroidThreeTen.init(this)
@@ -105,9 +110,6 @@ open class ICT4DNewsApplication : DaggerApplication() {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
-        DaggerApplicationComponent.factory().create(this)
 
     /**
      * @see https://developer.android.com/training/notify-user/build-notification

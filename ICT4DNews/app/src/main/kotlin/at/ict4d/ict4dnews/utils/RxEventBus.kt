@@ -2,14 +2,11 @@ package at.ict4d.ict4dnews.utils
 
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * A simple event bus built with RxJava
  */
-@Singleton
-class RxEventBus @Inject constructor() {
+class RxEventBus {
 
     private val mBusSubject: PublishSubject<Any> = PublishSubject.create()
 
