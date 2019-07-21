@@ -10,11 +10,10 @@ import at.ict4d.ict4dnews.databinding.FragmentBlogAndSourcesBinding
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 
-class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogAndSourcesBinding>() {
+class BlogAndSourceFragment :
+    BaseFragment<BlogAndSourceViewModel, FragmentBlogAndSourcesBinding>(BlogAndSourceViewModel::class) {
 
     override fun getLayoutId(): Int = R.layout.fragment_blog_and_sources
-
-    override fun getViewModel(): Class<BlogAndSourceViewModel> = BlogAndSourceViewModel::class.java
 
     private lateinit var blogAndSourceAdapter: BlogAndSourceRecyclerViewAdapter
 

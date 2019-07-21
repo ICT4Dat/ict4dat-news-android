@@ -11,11 +11,8 @@ import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import at.ict4d.ict4dnews.persistence.sharedpreferences.ISharedPrefs
 import org.threeten.bp.LocalDateTime
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class PersistenceManager @Inject constructor(
+class PersistenceManager(
     private val database: AppDatabase,
     private val sharedPrefs: ISharedPrefs,
     private val authorDao: AuthorDao,

@@ -3,28 +3,20 @@ package at.ict4d.ict4dnews.background
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.server.IServer
 import at.ict4d.ict4dnews.utils.NotificationHandler
-import javax.inject.Inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 const val NEWS_WORKER_TAG = "NEWS_UPDATE_TASK"
 
-class UpdateNewsWorker(val context: Context, workParams: WorkerParameters) : Worker(context, workParams) {
+class UpdateNewsWorker(val context: Context, workParams: WorkerParameters) : Worker(context, workParams),
+    KoinComponent {
 
-    @Inject
-    protected lateinit var server: IServer
-
-    @Inject
-    protected lateinit var persistenceManager: IPersistenceManager
-
-    @Inject
-    protected lateinit var notificationHandler: NotificationHandler
-
-    init {
-        ICT4DNewsApplication.instance.component.inject(this)
-    }
+    private val server: IServer by inject()
+    private val persistenceManager: IPersistenceManager by inject()
+    private val notificationHandler: NotificationHandler by inject()
 
     override fun doWork(): Result {
 

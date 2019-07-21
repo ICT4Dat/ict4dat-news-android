@@ -8,9 +8,8 @@ import androidx.work.Operation
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-class UpdateNewsServiceHandler @Inject constructor(private val workManager: WorkManager) {
+class UpdateNewsServiceHandler(private val workManager: WorkManager) {
 
     fun requestToRegisterService() {
         val newsWork = PeriodicWorkRequestBuilder<UpdateNewsWorker>(1, TimeUnit.DAYS)

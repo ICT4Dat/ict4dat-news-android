@@ -6,9 +6,8 @@ import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
-import javax.inject.Inject
 
-class ICT4DNewsDetailViewModel @Inject constructor(private val persistenceManager: IPersistenceManager) :
+class ICT4DNewsDetailViewModel(private val persistenceManager: IPersistenceManager) :
     BaseViewModel() {
 
     var selectedNews: News? = null

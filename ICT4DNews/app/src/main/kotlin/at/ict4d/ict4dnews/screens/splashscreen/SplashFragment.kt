@@ -15,16 +15,14 @@ import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
-class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(hasToolbar = false) {
+class SplashFragment :
+    BaseFragment<SplashViewModel, FragmentSplashBinding>(SplashViewModel::class, hasToolbar = false) {
 
-    @Inject
-    protected lateinit var rxEventBus: RxEventBus
+    private val rxEventBus: RxEventBus by inject()
 
     override fun getLayoutId(): Int = R.layout.fragment_splash
-
-    override fun getViewModel(): Class<SplashViewModel> = SplashViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)

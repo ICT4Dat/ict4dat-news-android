@@ -23,11 +23,9 @@ import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import org.jetbrains.anko.email
 import org.jetbrains.anko.share
 
-class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
+class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>(MoreViewModel::class) {
 
     override fun getLayoutId(): Int = R.layout.fragment_more
-
-    override fun getViewModel(): Class<MoreViewModel> = MoreViewModel::class.java
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +49,10 @@ class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>() {
         when (item?.itemId) {
             R.id.menu_settings -> {
                 recordNavigationBreadcrumb("R.id.menu_settings", this)
-                findNavController().navigateSafe(R.id.moreFragment, MoreFragmentDirections.actionActionMoreToSettingsFragment())
+                findNavController().navigateSafe(
+                    R.id.moreFragment,
+                    MoreFragmentDirections.actionActionMoreToSettingsFragment()
+                )
             }
         }
         return super.onOptionsItemSelected(item)
