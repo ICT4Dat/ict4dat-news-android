@@ -127,9 +127,10 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.ict4dnews_menu, menu)
-        val menuItem = menu?.findItem(R.id.menu_search)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        inflater.inflate(R.menu.ict4dnews_menu, menu)
+        val menuItem = menu.findItem(R.id.menu_search)
         val searchView = menuItem?.actionView as SearchView
 
         compositeDisposable.add(RxSearchView.queryTextChanges(searchView)
@@ -188,8 +189,8 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
 
             R.id.menu_refresh -> {
                 model.requestToLoadFeedsFromServers(true)

@@ -1,8 +1,7 @@
 package at.ict4d.ict4dnews.lifecycle
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.LifecycleOwner
 import at.ict4d.ict4dnews.extensions.filterObservableAndSetThread
 import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
@@ -20,8 +19,9 @@ class RXErrorEventBusLifecycleObserver(
 
     private var eventBusObserver: Disposable? = null
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun registerEventBus() {
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+
         eventBusObserver =
             eventBus.filterObservableAndSetThread<ServerErrorMessage>(subscribeThread = Schedulers.single())
                 .subscribe {
@@ -33,8 +33,8 @@ class RXErrorEventBusLifecycleObserver(
         compositeDisposable.add(eventBusObserver as Disposable)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun disconnectEventBus() {
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
         eventBusObserver?.dispose()
     }
 }
