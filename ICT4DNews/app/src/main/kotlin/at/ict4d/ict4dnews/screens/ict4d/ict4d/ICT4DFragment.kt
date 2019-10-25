@@ -15,18 +15,22 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
 import org.jetbrains.anko.share
 
-class ICT4DFragment : BaseFragment<ICT4DViewModel, FragmentIct4dBinding>(hasToolbar = false) {
-
-    override fun getLayoutId(): Int = R.layout.fragment_ict4d
-
-    override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java
+class ICT4DFragment : BaseFragment<ICT4DViewModel, FragmentIct4dBinding>(
+    R.layout.fragment_ict4d,
+    ICT4DViewModel::class,
+    hasToolbar = false
+) {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         binding.fragment = this
 
@@ -41,7 +45,12 @@ class ICT4DFragment : BaseFragment<ICT4DViewModel, FragmentIct4dBinding>(hasTool
         return when (item?.itemId) {
 
             R.id.menu_ict4d_share -> {
-                activity?.share(getString(R.string.share_ict4d, getString(R.string.url_ict4d_wikipedia)))
+                activity?.share(
+                    getString(
+                        R.string.share_ict4d,
+                        getString(R.string.url_ict4d_wikipedia)
+                    )
+                )
                 return true
             }
 

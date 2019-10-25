@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
 import at.ict4d.ict4dnews.BuildConfig
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.lifecycle.SentryLifecycleObserver
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
@@ -14,8 +13,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        ICT4DNewsApplication.instance.component.inject(this)
-
         lifecycle.addObserver(SentryLifecycleObserver(this))
     }
 

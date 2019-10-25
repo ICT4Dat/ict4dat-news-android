@@ -25,11 +25,11 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import org.jetbrains.anko.share
 
-class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4dNewsDetailBinding>() {
-
-    override fun getLayoutId(): Int = R.layout.fragment_ict4d_news_detail
-
-    override fun getViewModel(): Class<ICT4DNewsDetailViewModel> = ICT4DNewsDetailViewModel::class.java
+class ICT4DNewsDetailFragment :
+    BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4dNewsDetailBinding>(
+        R.layout.fragment_ict4d_news_detail,
+        ICT4DNewsDetailViewModel::class
+    ) {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -46,7 +46,11 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
         }, 700)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
 
@@ -108,7 +112,10 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
         binding.webview.webViewClient = object : WebViewClient() {
 
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
                 val url = request?.url.toString()
                 return if (url.startsWith("www", true) || url.startsWith("http", true)) {
                     activity?.browseCustomTab(url)
@@ -120,7 +127,11 @@ class ICT4DNewsDetailFragment : BaseFragment<ICT4DNewsDetailViewModel, FragmentI
 
             @Suppress("DEPRECATION", "OverridingDeprecatedMember")
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                return if (url != null && (url.startsWith("www", true) || url.startsWith("http", true))) {
+                return if (url != null && (url.startsWith("www", true) || url.startsWith(
+                        "http",
+                        true
+                    ))
+                ) {
                     activity?.browseCustomTab(url)
                     true
                 } else {

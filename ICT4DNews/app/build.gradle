@@ -129,12 +129,6 @@ dependencies {
     // Play Services
     implementation "com.google.android.gms:play-services-auth:16.0.1"
 
-    // Dagger 2
-    implementation "com.google.dagger:dagger-android:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.anko:anko-common:0.10.8"
@@ -228,6 +222,9 @@ dependencies {
 
     // Sentry Bug-Tracker
     implementation "io.sentry:sentry-android:$sentry_version"
+
+    // Koin AndroidX ViewModel features
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 }
 
 configurations {

@@ -4,9 +4,8 @@ import at.ict4d.ict4dnews.background.UpdateNewsServiceHandler
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class MainNavigationViewModel @Inject constructor(
+class MainNavigationViewModel(
     updateNewsServiceHandler: UpdateNewsServiceHandler,
     persistenceManager: IPersistenceManager
 ) : BaseViewModel() {

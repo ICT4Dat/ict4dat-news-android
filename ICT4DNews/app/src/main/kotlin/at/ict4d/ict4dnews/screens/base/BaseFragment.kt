@@ -10,9 +10,8 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.findNavController
@@ -23,41 +22,26 @@ import at.ict4d.ict4dnews.lifecycle.LeakCanaryLifecycleObserver
 import at.ict4d.ict4dnews.lifecycle.RXLifecycleObserver
 import at.ict4d.ict4dnews.lifecycle.SentryLifecycleObserver
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
-import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import javax.inject.Inject
+import kotlin.reflect.KClass
 
-abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(private val hasToolbar: Boolean = true) :
-    DaggerFragment(),
-    NavController.OnDestinationChangedListener {
+abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(
+    @LayoutRes private val layoutID: Int,
+    viewModelClass: KClass<V>,
+    private val hasToolbar: Boolean = true
+) : Fragment(), NavController.OnDestinationChangedListener {
 
     protected lateinit var binding: B
 
-    protected lateinit var model: V
+    protected val compositeDisposable: CompositeDisposable by inject()
 
-    @Inject
-    protected lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    @Inject
-    protected lateinit var compositeDisposable: CompositeDisposable
-
-    /**
-     * return the layout id associated with the Activity
-     */
-    @LayoutRes
-    abstract fun getLayoutId(): Int
-
-    /**
-     * Set class of ViewModel
-     */
-    abstract fun getViewModel(): Class<V>
+    protected val model: V by viewModel(viewModelClass)
 
     override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
         super.onAttach(context)
-        model = ViewModelProviders.of(this, viewModelFactory).get(getViewModel())
         lifecycle.addObserver(RXLifecycleObserver(compositeDisposable))
 
         if (BuildConfig.DEBUG) {
@@ -67,20 +51,31 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(private val hasT
         lifecycle.addObserver(SentryLifecycleObserver(this))
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, layoutID, container, false)
         findNavController().addOnDestinationChangedListener(this)
 
         return binding.root
     }
 
-    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
         if (activity is AppCompatActivity && hasToolbar) {
             val appCompatActivity: AppCompatActivity
             try {
                 appCompatActivity = activity as AppCompatActivity
             } catch (exception: Exception) {
-                Timber.e(exception, "Activity is not of AppCompactActivity Type ${exception.message}")
+                Timber.e(
+                    exception,
+                    "Activity is not of AppCompactActivity Type ${exception.message}"
+                )
                 throw IllegalStateException("Activity is not of AppCompactActivity Type")
             }
             appCompatActivity.setSupportActionBar(binding.root.findViewById(R.id.toolbar))

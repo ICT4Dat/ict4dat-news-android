@@ -27,15 +27,15 @@ import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>() {
-
-    override fun getLayoutId(): Int = R.layout.fragment_ictdnews_list
-
-    override fun getViewModel(): Class<ICT4DNewsViewModel> = ICT4DNewsViewModel::class.java
+class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(
+    R.layout.fragment_ictdnews_list,
+    ICT4DNewsViewModel::class
+) {
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, _ ->
         recordNavigationBreadcrumb("item click", this, mapOf("pair" to "$pair"))
-        val action = ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
+        val action =
+            ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
         findNavController().navigateSafe(R.id.newsListFragment, action)
     })
 
@@ -46,14 +46,21 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
-        model.activeBlogsCount.observe(this, Observer { activeBlogCount -> this.activeBlogCount = activeBlogCount })
+        model.activeBlogsCount.observe(
+            this,
+            Observer { activeBlogCount -> this.activeBlogCount = activeBlogCount })
 
-        adapter.mostRecentNewsPublishDateTime = model.lastAutomaticNewsUpdateLocalDate.get().atStartOfDay()
+        adapter.mostRecentNewsPublishDateTime =
+            model.lastAutomaticNewsUpdateLocalDate.get().atStartOfDay()
 
         model.blogsCount.observe(this, Observer { blogsCount ->
 
@@ -109,7 +116,11 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                     recordActionBreadcrumb("quickscroll", this)
                     binding.recyclerview.moveToTop()
                 }
-                binding.recyclerview.addOnScrollListener(ScrollToTopRecyclerViewScrollHandler(binding.quickScroll))
+                binding.recyclerview.addOnScrollListener(
+                    ScrollToTopRecyclerViewScrollHandler(
+                        binding.quickScroll
+                    )
+                )
             }
         })
 

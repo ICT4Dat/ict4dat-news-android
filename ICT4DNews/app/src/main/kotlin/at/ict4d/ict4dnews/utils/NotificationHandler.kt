@@ -15,12 +15,11 @@ import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
-import javax.inject.Inject
 
 const val NEWS_WORKER_SUMMARY_NOTIFICATION_ID = 1
 const val NEWS_WORKER_NOTIFICATION_GROUP = "${BuildConfig.APPLICATION_ID}.NEWS_UPDATE"
 
-class NotificationHandler @Inject constructor(private val persistenceManager: IPersistenceManager) {
+class NotificationHandler(private val persistenceManager: IPersistenceManager) {
 
     fun displayNewsNotifications(newsList: List<News>, context: Context) {
 
