@@ -23,16 +23,19 @@ import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import org.jetbrains.anko.email
 import org.jetbrains.anko.share
 
-class MoreFragment : BaseFragment<MoreViewModel, FragmentMoreBinding>(MoreViewModel::class) {
-
-    override fun getLayoutId(): Int = R.layout.fragment_more
+class MoreFragment :
+    BaseFragment<MoreViewModel, FragmentMoreBinding>(R.layout.fragment_more, MoreViewModel::class) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         val view = super.onCreateView(inflater, container, savedInstanceState)
         binding.fragment = this

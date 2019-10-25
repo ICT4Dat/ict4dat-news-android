@@ -27,13 +27,11 @@ import timber.log.Timber
 const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 
 open class ICT4DNewsApplication : Application() {
+
     private lateinit var refWatcher: RefWatcher
     private val persistenceManager: IPersistenceManager by inject()
 
     companion object {
-
-        @JvmStatic
-        lateinit var instance: ICT4DNewsApplication
 
         @JvmStatic
         fun getRefWatcher(context: Context): RefWatcher {
@@ -44,7 +42,6 @@ open class ICT4DNewsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
         startKoin {
             androidContext(this@ICT4DNewsApplication)
             if (BuildConfig.DEBUG) {
@@ -111,10 +108,9 @@ open class ICT4DNewsApplication : Application() {
         MultiDex.install(this)
     }
 
-    /**
-     * @see https://developer.android.com/training/notify-user/build-notification
+    /*
+     * https://developer.android.com/training/notify-user/build-notification
      */
-    @Suppress("KDocUnresolvedReference")
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library

@@ -223,9 +223,6 @@ dependencies {
     // Sentry Bug-Tracker
     implementation "io.sentry:sentry-android:$sentry_version"
 
-    // Koin for Android
-    implementation "org.koin:koin-android:$koin_version"
-
     // Koin AndroidX ViewModel features
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 }

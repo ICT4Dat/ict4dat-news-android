@@ -18,16 +18,24 @@ import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 
 class SplashFragment :
-    BaseFragment<SplashViewModel, FragmentSplashBinding>(SplashViewModel::class, hasToolbar = false) {
+    BaseFragment<SplashViewModel, FragmentSplashBinding>(
+        R.layout.fragment_splash,
+        SplashViewModel::class,
+        hasToolbar = false
+    ) {
 
     private val rxEventBus: RxEventBus by inject()
 
-    override fun getLayoutId(): Int = R.layout.fragment_splash
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        compositeDisposable.add(rxEventBus.filterObservableAndSetThread<ServerErrorMessage>(subscribeThread = Schedulers.io())
+        compositeDisposable.add(rxEventBus.filterObservableAndSetThread<ServerErrorMessage>(
+            subscribeThread = Schedulers.io()
+        )
             .subscribe {
                 if (view?.findNavController()?.currentDestination?.id == R.id.splashFragment) {
                     recordNavigationBreadcrumb("pop", this)

@@ -29,6 +29,7 @@ import timber.log.Timber
 import kotlin.reflect.KClass
 
 abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(
+    @LayoutRes private val layoutID: Int,
     viewModelClass: KClass<V>,
     private val hasToolbar: Boolean = true
 ) : Fragment(), NavController.OnDestinationChangedListener {
@@ -38,12 +39,6 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(
     protected val compositeDisposable: CompositeDisposable by inject()
 
     protected val model: V by viewModel(viewModelClass)
-
-    /**
-     * return the layout id associated with the Activity
-     */
-    @LayoutRes
-    abstract fun getLayoutId(): Int
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -56,20 +51,31 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(
         lifecycle.addObserver(SentryLifecycleObserver(this))
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, layoutID, container, false)
         findNavController().addOnDestinationChangedListener(this)
 
         return binding.root
     }
 
-    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
         if (activity is AppCompatActivity && hasToolbar) {
             val appCompatActivity: AppCompatActivity
             try {
                 appCompatActivity = activity as AppCompatActivity
             } catch (exception: Exception) {
-                Timber.e(exception, "Activity is not of AppCompactActivity Type ${exception.message}")
+                Timber.e(
+                    exception,
+                    "Activity is not of AppCompactActivity Type ${exception.message}"
+                )
                 throw IllegalStateException("Activity is not of AppCompactActivity Type")
             }
             appCompatActivity.setSupportActionBar(binding.root.findViewById(R.id.toolbar))
