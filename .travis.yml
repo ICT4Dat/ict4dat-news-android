@@ -28,6 +28,7 @@ stages:
   - build
 
 before_install:
+  - yes | sdkmanager "platforms;android-28;android-29"
   - cd ICT4DNews
   - chmod +x ./gradlew
 
