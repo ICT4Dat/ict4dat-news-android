@@ -4,11 +4,11 @@ import at.ict4d.ict4dnews.models.FeedType
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import java.lang.reflect.Type
+import java.text.ParseException
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
-import java.lang.reflect.Type
-import java.text.ParseException
 
 class GsonLocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {
 

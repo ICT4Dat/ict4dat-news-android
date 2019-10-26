@@ -13,6 +13,9 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.android.gms.security.ProviderInstaller
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import java.io.File
+import java.util.UUID
+import java.util.concurrent.TimeUnit
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,9 +28,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import timber.log.Timber
-import java.io.File
-import java.util.UUID
-import java.util.concurrent.TimeUnit
 
 val apiServiceModule = module {
 
