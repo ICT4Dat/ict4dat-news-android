@@ -10,15 +10,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: buildDebug
-      run: |
-        cd ICT4DNews
-        ./gradlew clean assembleDebug --stacktrace
-    - name: Tests
-      run: |
-        cd ICT4DNews
-        ./gradlew clean test lint --stacktrace
+      with:
+        fetch-depth: 1
     - name: Ktlint
       run: |
         cd ICT4DNews
         ./gradlew clean ktlint -Pci --stacktrace
+    - name: Tests
+      run: |
+        cd ICT4DNews
+        ./gradlew clean test lint --stacktrace
+    - name: buildDebug
+      run: |
+        cd ICT4DNews
+        ./gradlew clean assembleDebug --stacktrace
