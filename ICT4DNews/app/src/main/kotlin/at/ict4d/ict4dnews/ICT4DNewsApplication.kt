@@ -41,6 +41,9 @@ open class ICT4DNewsApplication : Application() {
     }
 
     override fun onCreate() {
+
+        This should make the build fail // TODO remove
+
         super.onCreate()
         startKoin {
             androidContext(this@ICT4DNewsApplication)

@@ -11,6 +11,8 @@ This Android application is developed by [ICT4D.at](http://www.ict4d.at) and is 
 * [Paul Spiesberger](https://github.com/spipau)
 * [Raja Saboor Ali](https://github.com/rajasone)
 
+[![Build Status](https://github.com/ICT4Dat/ict4dat-news-android/workflows/test/badge.svg?branch=develop)](https://github.com/ICT4Dat/ict4dat-news-android/actions)
+
 ## Download Now!
 Download our first release from the Play Store:
 
@@ -57,8 +59,3 @@ The following alphabetically orded list of news sources is included in the appli
 * [Tim Unwin's Blog](https://unwin.wordpress.com/) - Blog from Tim Unwin, UNESCO Chair in ICT4D and Emeritus Professor of Geography at Royal Holloway, University of London.
 * [UNICEF Stories](http://unicefstories.org/) - Stories and Innovation.
 * [World Bank's ICT4D Blog](http://blogs.worldbank.org/ic4d/) - Working for a World Free of Poverty
-
-
-## Travis CI Status
-
-[![Build Status](https://travis-ci.org/ICT4Dat/ict4dat-news-android.svg?branch=develop)](https://travis-ci.org/ICT4Dat/ict4dat-news-android)
