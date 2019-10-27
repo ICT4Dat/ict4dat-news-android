@@ -10,7 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Ktlint
-      run: ./gradlew clean ktlint -Pci --stacktrace
+      run: |
+        cd ICT4DNews
+        ./gradlew clean ktlint -Pci --stacktrace
     - name: Run a multi-line script
       run: |
         echo Add other actions to build,
