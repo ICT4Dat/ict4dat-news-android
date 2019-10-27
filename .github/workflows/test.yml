@@ -15,7 +15,7 @@ jobs:
     - name: Ktlint
       run: |
         cd ICT4DNews
-        ./gradlew clean ktlint -Pci --stacktrace
+        ./gradlew clean ktlintCheck --stacktrace
     - name: Tests
       run: |
         cd ICT4DNews
