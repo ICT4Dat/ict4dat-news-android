@@ -34,11 +34,11 @@ import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
+import java.util.Locale
 import org.jsoup.Jsoup
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
-import java.util.Locale
 
 fun Context.browseCustomTab(url: String?) {
     recordActionBreadcrumb("browseCustomTab", this, mapOf("url" to "$url"))

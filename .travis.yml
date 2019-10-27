@@ -35,8 +35,7 @@ jobs:
   include:
     - stage: test
       name: "Ktlint"
-      script: ./gradlew clean ktlint -Pci --stacktrace
-    - script: ./gradlew clean test lint --stacktrace
+    - script: ./gradlew ktlintCheck --stacktrace
       name: "Unit Tests"
     - stage: build
       name: "Assemble Debug Version"

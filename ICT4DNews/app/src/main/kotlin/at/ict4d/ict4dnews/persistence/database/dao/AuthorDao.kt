@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import at.ict4d.ict4dnews.models.AUTHOR_TABLE_LINK
 import at.ict4d.ict4dnews.models.AUTHOR_TABLE_TABLE_NAME
-
 import at.ict4d.ict4dnews.models.Author
 
 @Dao
