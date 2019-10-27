@@ -23,9 +23,9 @@ import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import org.jetbrains.anko.toast
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(
     R.layout.fragment_ictdnews_list,

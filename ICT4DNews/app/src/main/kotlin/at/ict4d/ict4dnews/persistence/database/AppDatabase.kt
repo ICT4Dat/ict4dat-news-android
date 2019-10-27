@@ -15,11 +15,11 @@ import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.Collections.emptyList
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import java.util.Collections.emptyList
 
 @Database(entities = [News::class, Author::class, Media::class, Blog::class], version = 2)
 @TypeConverters(Converters::class)

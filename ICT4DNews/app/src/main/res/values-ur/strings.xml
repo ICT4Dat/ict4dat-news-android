@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">آئی سی ٹی 4 ڈی خبریں</string>
+    <string name="nav_news">خبریں</string>
+    <string name="nav_ict4dat" translatable="false">ICT4D.at</string>
+    <string name="nav_ict4d" translatable="false">ICT4D</string>
+    <string name="nav_more">مزید</string>
+    <string name="refresh">ریفریش</string>
+    <string name="search">تلاش کریں</string>
+    <string name="filter">فلٹر</string>
+    <string name="news_search_hint">خبریں تلاش کریں…</string>
+    <string name="title_activity_ict4_dnews_detail">آئی سی ٹی 4 ڈی خبریں</string>
+    <string name="ict4d_at_wikipedia">ویکیپیڈیا پر پڑھنا جاری رکھیں</string>
+    <string name="ict4d_logo">آئی سی ٹی 4 ڈی لوگو</string>
+    <string name="ict4d_at_logo">ICT4D.at logo</string>
+    <string name="http_exception_error_message">رابطہ قائم کرنے کے قابل نہیں</string>
+    <string name="server_error_message">سرور اس وقت جواب نہیں دے رہا ہے</string>
+    <string name="send_to">کے ساتھ اشتراک کریں</string>
+    <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
+    <string name="open_in_browser">ایک براؤزر میں کھولیں</string>
+    <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
+        refers to the application of information and communication technologies (ICT) toward social, economic, and
+        political development, with a particular emphasis on helping poor and marginalized people and communities. It
+        aims to help in international development by bridging the digital divide and providing equitable access to
+        technologies. ICT4D is grounded in the notions of "development", "growth", "progress" and "globalization" and is
+        often interpreted as the use of technology to deliver a greater good. Another similar term used in the
+        literature is "digital development". ICT4D draws on theories and frameworks from many disciplines, including
+        sociology, economics, development studies, library, information science, and communication
+        studies.\n\n-Wikipedia
+    </string>
+    <string name="ict4dat_vision">A World of Equal Opportunities for All\n\nOur Mission:\nThrough knowledge,
+        tools and networks we empower people to develop the skills they need to achieve their full potential.\n\nOur
+        Core Values:\n\u2022 Community\n\u2022 Interdisciplinary &amp; Co-creation\n\u2022 Respect &amp;
+        Tolerance\n\u2022 Honesty &amp; Trust\n\u2022 Passion &amp; Creativity\n
+    </string>
+    <string name="ict4dat_projects">ہمارے منصوبے</string>
+    <string name="ict4dat_about">ہمارے اور ممبروں کے بارے میں</string>
+    <string name="open_source_licences_title">اوپن سورس لائسنس</string>
+    <string name="licenses">لائسنس</string>
+    <string name="share">بانٹیں</string>
+    <string name="share_ict4d" translatable="false">ICT4D - Information and Communication Technologies for
+        Development\n\n%1$s
+    </string>
+    <string name="share_ict4dat">ICT4D.at - آسٹریا کے نیٹ ورک برائے انفارمیشن اینڈ مواصلات ٹیکنالوجیز
+      \n\n%1$s ترقی
+    </string>
+    <string name="read_more">مزید پڑھ</string>
+    <string name="blog_logo">بلاگ لوگو</string>
+    <string name="ict4d_blogs_and_sources">آئی سی ٹی 4 ڈی بلاگ اور ذرائع </string>
+    <string name="contextual_selection">%d/%d منتخب کردہ بلاگ</string>
+    <string name="about_developers">        یہ اوپن سورس اینڈروئیڈ ایپلی کیشن محبت کے ساتھ ICT4D.at این جی او کے ذریعہ تیار کی گئی تھی
+        مندرجہ ذیل اہم ڈویلپرز اور ڈیزائنرز:</string>
+    <string name="rate_application">اس درخواست کی درجہ بندی کریں</string>
+    <string name="share_application">اس ایپلیکیشن کو شیئر کریں</string>
+    <string name="contact_us">ہم سے رابطہ کریں</string>
+    <string name="github_project">گیتھب پروجیکٹ کھولیں</string>
+    <string name="software_developer">سافٹ ویئر ڈویلپر</string>
+    <string name="designer">ڈیزائنر</string>
+    <string name="contact_mail_subject">ICT4D.at Android نیوز ایپ</string>
+    <string name="contact_mail_text">\n\n ،ICT4D.at محترم</string>
+    <string name="share_app_text">Hi,\nI am using ICT4D.at\'s Android ICT4D-News App. You can download it from here:\n\n
+        %1$s
+    </string>
+    <string name="headline_more">ICT4D.at %1$s کے ساتھ</string>
+    <string name="ict4d_headline">آئی سی ٹی 4 ڈی کیا ہے؟</string>
+    <string name="settings">ترتیبات</string>
+    <string name="app_version">معلومات</string>
+    <string name="new_news_badge">نئی خبر</string>
+    <string name="connecting_text"> ہم آپ کو %1$d بلاگوں سے مربوط کر رہے ہیں ، اس میں کچھ وقت لگ سکتا ہے۔</string>
+    <string name="no_blog_found">آئی سی ٹی 4 ڈی نیوز نہیں ملی</string>
+    <string name="notification_channel_name">آئی سی ٹی 4 ڈی نیوز اطلاعات</string>
+    <string name="notification_channel_description">آپ کو جاری رکھنے کے لئے آئی سی ٹی 4 ڈی نیوز ایپلی کیشن کی اطلاعات
+        ہماری درخواست میں تبدیلیاں۔
+    </string>
+    <string name="news_update_complete">آئی سی ٹی 4 ڈی نیوز اپ ڈیٹ</string>
+    <string name="news_update_notification_content_text">٪d نئے مضامین دستیاب ہیں ، انہیں ابھی پڑھیں۔</string>
+    <string name="current_app_version">ورژن</string>
+    <string name="should_allow_sync_service">خودکار تازہ ترین معلومات</string>
+    <string name="should_allow_snyc_service_summary">خودکار تازہ کارییں پس منظر میں چلیں گی اور اس کو ڈاؤن لوڈ کریں گی
+        آئی سی ٹی 4 ڈی کی تازہ ترین خبریں۔
+    </string>
+    <string name="settings_category_general">عام ترتیبات</string>
+    <string name="settings_bug_tracking_title">بگ ٹریکنگ</string>
+    <string name="settings_bug_tracking_summary">کیڑے کو ٹریک کرنے کے لئے ہم مانیٹرنگ ٹول استعمال کرتے ہیں۔ ہم کوئی ذاتی ڈیٹا اکٹھا نہیں کرتے ، بلکہ آلے کی معلومات شامل کرتے ہیں۔</string>
+</resources>

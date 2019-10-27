@@ -73,7 +73,10 @@ open class ICT4DNewsApplication : Application() {
             try {
                 Sentry.init(BuildConfig.SENTRY_DNS, AndroidSentryClientFactory(applicationContext))
             } catch (e: Exception) {
-                Timber.e(e, "Sentry is NOT running due to config error, see sentry-config.gradle for more information")
+                Timber.e(
+                    e,
+                    "Sentry is NOT running due to config error, see sentry-config.gradle for more information"
+                )
             }
         }
     }
@@ -82,7 +85,11 @@ open class ICT4DNewsApplication : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
                 override fun createStackElementTag(element: StackTraceElement): String? {
-                    return String.format("C:%s: Line %s", super.createStackElementTag(element), element.lineNumber)
+                    return String.format(
+                        "C:%s: Line %s",
+                        super.createStackElementTag(element),
+                        element.lineNumber
+                    )
                 }
             })
         } else {

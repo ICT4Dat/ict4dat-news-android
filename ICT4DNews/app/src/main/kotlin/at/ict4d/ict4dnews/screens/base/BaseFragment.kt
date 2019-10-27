@@ -23,10 +23,10 @@ import at.ict4d.ict4dnews.lifecycle.RXLifecycleObserver
 import at.ict4d.ict4dnews.lifecycle.SentryLifecycleObserver
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import io.reactivex.disposables.CompositeDisposable
+import kotlin.reflect.KClass
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import kotlin.reflect.KClass
 
 abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(
     @LayoutRes private val layoutID: Int,

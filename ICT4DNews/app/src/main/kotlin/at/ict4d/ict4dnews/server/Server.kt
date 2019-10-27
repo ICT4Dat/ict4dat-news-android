@@ -21,12 +21,12 @@ import at.ict4d.ict4dnews.utils.recordNetworkBreadcrumb
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.net.UnknownHostException
 import org.jsoup.Jsoup
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.HttpException
 import timber.log.Timber
-import java.net.UnknownHostException
 
 class Server(
     private val apiRSSService: ApiRSSService,
@@ -58,7 +58,7 @@ class Server(
                 )
             } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
                 requests.add(apiRSSService.getRssNews(blog.feed_url)
-                    .doOnError { return@doOnError }
+                    .onErrorReturn { RSSFeed() }
                 )
             }
         }
