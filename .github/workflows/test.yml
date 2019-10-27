@@ -9,10 +9,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Tests
+      run: |
+        cd ICT4DNews
+        ./gradlew clean test lint --stacktrace
     - name: Ktlint
       run: |
         cd ICT4DNews
         ./gradlew clean ktlint -Pci --stacktrace
-    - name: Tests
-      run: |
-        ./gradlew clean test lint --stacktrace
