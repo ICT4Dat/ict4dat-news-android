@@ -11,8 +11,6 @@ This Android application is developed by [ICT4D.at](http://www.ict4d.at) and is 
 * [Paul Spiesberger](https://github.com/spipau)
 * [Raja Saboor Ali](https://github.com/rajasone)
 
-[![Build Status](https://github.com/ICT4Dat/ict4dat-news-android/workflows/test/badge.svg?branch=develop)](https://github.com/ICT4Dat/ict4dat-news-android/actions)
-
 ## Download Now!
 Download our first release from the Play Store:
 
