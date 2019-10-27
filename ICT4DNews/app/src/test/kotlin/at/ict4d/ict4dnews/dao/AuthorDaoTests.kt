@@ -22,11 +22,6 @@ class AuthorDaoTests : BaseDaoTest() {
     }
 
     @Test
-    fun fail() {
-        Assert.assertFalse(true)
-    }
-
-    @Test
     fun testInsert() {
         val result = authorDao.insert(generateAuthor())
         Assert.assertEquals(1L, result)
