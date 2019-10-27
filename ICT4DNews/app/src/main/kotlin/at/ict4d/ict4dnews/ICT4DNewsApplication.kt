@@ -39,7 +39,7 @@ open class ICT4DNewsApplication : Application() {
             return applicationContext.refWatcher
         }
     }
-    
+
     override fun onCreate() {
         super.onCreate()
         startKoin {
