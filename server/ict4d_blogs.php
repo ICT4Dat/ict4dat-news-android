@@ -225,7 +225,14 @@ $array = array(
 		"url" => "https://www.gsma.com/mobilefordevelopment/",
 		"feed_url" => "https://www.gsma.com/mobilefordevelopment/feed/",
 		"feed_type" => 0,
-		"logo_url" => "https://www.gsma.com/mobilefordevelopment/wp-content/plugins/plugin_header_overload/images/logo.png")
+		"logo_url" => "https://www.gsma.com/mobilefordevelopment/wp-content/plugins/plugin_header_overload/images/logo.png"),
+
+	array("name" => "IFIP WG 9.4",  
+		"description" => "WG 9.4 invites researchers and practitioners of developing and industrialized countries to join its activities. Most of the voting members are from developing countries, either by residence or by origin, but the WG is open for anyone seriously interested in our topic and willing to contribute in some way. There is no fee. Membership applications are considered once a year by our parent body within the IFIP, Technical Committee 9 Computers and Society.", 
+		"url" => "https://ifip94.wordpress.com/",
+		"feed_url" => "https://ifip94.wordpress.com/feed/",
+		"feed_type" => 1,
+		"logo_url" => "https://2019ifipwg94.net/images/logo/ifip-logo-with-title.jpg")
 	
 	);
 
