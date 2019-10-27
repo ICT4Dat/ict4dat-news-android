@@ -13,7 +13,6 @@ jobs:
       run: |
         cd ICT4DNews
         ./gradlew clean ktlint -Pci --stacktrace
-    - name: Run a multi-line script
+    - name: Tests
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        ./gradlew clean test lint --stacktrace
