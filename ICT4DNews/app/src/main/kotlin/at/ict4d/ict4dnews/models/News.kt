@@ -1,11 +1,11 @@
 package at.ict4d.ict4dnews.models
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import android.os.Parcelable
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.wordpress.SELF_HOSTED_WP_POST_SERIALIZED_RENDERED
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost

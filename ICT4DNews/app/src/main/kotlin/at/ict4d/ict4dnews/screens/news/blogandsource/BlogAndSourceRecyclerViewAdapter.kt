@@ -1,10 +1,10 @@
 package at.ict4d.ict4dnews.screens.news.blogandsource
 
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import at.ict4d.ict4dnews.databinding.BlogAndSourceItemBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.models.Blog
