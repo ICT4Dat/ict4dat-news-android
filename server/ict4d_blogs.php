@@ -22,7 +22,6 @@ if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader
 	exit;
 }
 
-
 header('Content-type:application/json;charset=utf-8');
 
 // The URL will be used as a primary key, careful when changing it!
@@ -142,14 +141,7 @@ $array = array(
 		"url" => "https://dai-global-digital.com/",
 		"feed_url" => "https://dai-global-digital.com/feed.xml",
 		"feed_type" => 2,
-		"logo_url" => "https://dai-global-digital.com/uploads/social-image.jpg"),
-
-	array("name" => "EduTech",  
-		"description" => "One of the best blogs on ICT, with a focus on education, from Mike Trucano of the World Bank.", 
-		"url" => "https://blogs.worldbank.org/edutech",
-		"feed_url" => "https://blogs.worldbank.org/edutech/rss.xml",
-		"feed_type" => 2,
-		"logo_url" => "https://blogs.worldbank.org/edutech/files/edutech/edutech-banner-940-updated.png"),
+		"logo_url" => "https://dai-global-digital.com/uploads/social-image.jpg")
 
 	array("name" => "GSMA Newsroom",  
 		"description" => "Blog for the trade union of 800 mobile operators and 300 companies around the world.", 
@@ -233,7 +225,14 @@ $array = array(
 		"url" => "https://www.gsma.com/mobilefordevelopment/",
 		"feed_url" => "https://www.gsma.com/mobilefordevelopment/feed/",
 		"feed_type" => 0,
-		"logo_url" => "https://www.gsma.com/mobilefordevelopment/wp-content/plugins/plugin_header_overload/images/logo.png")
+		"logo_url" => "https://www.gsma.com/mobilefordevelopment/wp-content/plugins/plugin_header_overload/images/logo.png"),
+
+	array("name" => "IFIP WG 9.4",  
+		"description" => "WG 9.4 invites researchers and practitioners of developing and industrialized countries to join its activities. Most of the voting members are from developing countries, either by residence or by origin, but the WG is open for anyone seriously interested in our topic and willing to contribute in some way. There is no fee. Membership applications are considered once a year by our parent body within the IFIP, Technical Committee 9 Computers and Society.", 
+		"url" => "https://ifip94.wordpress.com/",
+		"feed_url" => "https://ifip94.wordpress.com/feed/",
+		"feed_type" => 1,
+		"logo_url" => "https://2019ifipwg94.net/images/logo/ifip-logo-with-title.jpg")
 	
 	);
 
