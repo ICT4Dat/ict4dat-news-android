@@ -34,7 +34,6 @@ The following alphabetically orded list of news sources is included in the appli
 * [Digital Impact Alliance](https://digitalimpactalliance.org/) - Advancing an inclusive digital society
 * [Digital@DAI](https://dai-global-digital.com/) - A relatively new but well-written blog covering recent technologies, experiments with tech solutions, and reviews.
 * [DIODE](https://diode.network) - The “Development Implications of Digital Economies” (DIODE) strategic network researches the digital economy – that part of economic output derived solely or primarily from digital technologies – and its role in developing countries.
-* [EduTech](https://blogs.worldbank.org/edutech/) - One of the best blogs on ICT, with a focus on education, from Mike Trucano of the World Bank.
 * [GSMA Newsroom](https://www.gsma.com/newsroom/category/press-release/) - Blog for the trade union of 800 mobile operators and 300 companies around the world.
 * [Guardian Project Blog](https://guardianproject.info/) - Blog for the non-profit group creating apps and promoting libraries and devices that protect data and communications.
 * [ICT Ethics](https://ictdethics.wordpress.com/) - Analyzing, clustering and summarizing the ethical debates in ICTD.
@@ -44,6 +43,7 @@ The following alphabetically orded list of news sources is included in the appli
 * [ICTLogy Blog](http://ictlogy.net/) - From Ismael Peña-López, one of the longest-running ICT sites and blogs.
 * [ICTs for Development](https://ict4dblog.wordpress.com/feed/) - Blog associated with University of Manchester's Centre for Development Informatics Blog associated with University of Manchester's Centre for Development Informatics. Richard Heeks is a must-follow.
 * [ICTWorks](https://www.ictworks.org/) - ICTworks is the premier community for international development professionals committed to utilizing new and emerging technologies to magnify the intent of communities to accelerate their social and economic development.
+* [IFIP WG 9.4](https://ifip94.wordpress.com/) - WG 9.4 invites researchers and practitioners of developing and industrialized countries to join its activities. Most of the voting members are from developing countries, either by residence or by origin, but the WG is open for anyone seriously interested in our topic and willing to contribute in some way. There is no fee. Membership applications are considered once a year by our parent body within the IFIP, Technical Committee 9 Computers and Society.
 * [iRevolutions](https://irevolutions.org/) - Hacking emerging technologies to solve emerging aid & development problems.
 * [IT for Change](https://www.itforchange.net/) - Bridging Development Realities and Technological Possibilities.
 * [kiwanja.net](http://www.kiwanja.net/) - Blog from Ken Banks, one of ICT4D's most recognized practitioners.

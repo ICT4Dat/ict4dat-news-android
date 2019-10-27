@@ -58,7 +58,7 @@ class Server(
                 )
             } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
                 requests.add(apiRSSService.getRssNews(blog.feed_url)
-                    .doOnError { return@doOnError }
+                    .onErrorReturn { RSSFeed() }
                 )
             }
         }
