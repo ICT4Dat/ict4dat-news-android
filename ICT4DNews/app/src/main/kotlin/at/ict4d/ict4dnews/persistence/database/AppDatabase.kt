@@ -4,7 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.FeedType
@@ -16,10 +15,11 @@ import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Collections.emptyList
-import javax.inject.Inject
 
 @Database(entities = [News::class, Author::class, Media::class, Blog::class], version = 2)
 @TypeConverters(Converters::class)
@@ -38,14 +38,9 @@ abstract class AppDatabase : RoomDatabase() {
     }
 }
 
-class Converters {
+class Converters : KoinComponent {
 
-    @Inject
-    protected lateinit var gson: Gson
-
-    init {
-        ICT4DNewsApplication.instance.component.inject(this)
-    }
+    private val gson: Gson by inject()
 
     @TypeConverter
     fun localDateTimeFromString(value: String?): LocalDateTime? {

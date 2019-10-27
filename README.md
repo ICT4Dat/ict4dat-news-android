@@ -34,7 +34,6 @@ The following alphabetically orded list of news sources is included in the appli
 * [Digital Impact Alliance](https://digitalimpactalliance.org/) - Advancing an inclusive digital society
 * [Digital@DAI](https://dai-global-digital.com/) - A relatively new but well-written blog covering recent technologies, experiments with tech solutions, and reviews.
 * [DIODE](https://diode.network) - The “Development Implications of Digital Economies” (DIODE) strategic network researches the digital economy – that part of economic output derived solely or primarily from digital technologies – and its role in developing countries.
-* [EduTech](https://blogs.worldbank.org/edutech/) - One of the best blogs on ICT, with a focus on education, from Mike Trucano of the World Bank.
 * [GSMA Newsroom](https://www.gsma.com/newsroom/category/press-release/) - Blog for the trade union of 800 mobile operators and 300 companies around the world.
 * [Guardian Project Blog](https://guardianproject.info/) - Blog for the non-profit group creating apps and promoting libraries and devices that protect data and communications.
 * [ICT Ethics](https://ictdethics.wordpress.com/) - Analyzing, clustering and summarizing the ethical debates in ICTD.

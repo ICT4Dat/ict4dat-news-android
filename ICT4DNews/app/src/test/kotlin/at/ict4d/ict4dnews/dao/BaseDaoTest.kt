@@ -8,6 +8,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestRule
+import org.koin.core.context.stopKoin
 import org.robolectric.Robolectric
 
 abstract class BaseDaoTest {
@@ -27,5 +28,6 @@ abstract class BaseDaoTest {
     fun closeDatabase() {
         appDatabase.clearAllTables()
         appDatabase.close()
+        stopKoin()
     }
 }

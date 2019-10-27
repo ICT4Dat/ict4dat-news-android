@@ -16,11 +16,10 @@ import at.ict4d.ict4dnews.screens.ict4d.ict4dat.ICT4DatFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import com.google.android.material.tabs.TabLayout
 
-class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBinding>() {
-
-    override fun getLayoutId(): Int = R.layout.fragment_tabbed_ict4d
-
-    override fun getViewModel(): Class<ICT4DViewModel> = ICT4DViewModel::class.java
+class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBinding>(
+    R.layout.fragment_tabbed_ict4d,
+    ICT4DViewModel::class
+) {
 
     private var sectionsPagerAdapter: TabbedICT4DSectionsPagerAdapter? = null
 
@@ -30,7 +29,11 @@ class TabbedICT4DFragment : BaseFragment<ICT4DViewModel, FragmentTabbedIct4dBind
         fun newInstance() = TabbedICT4DFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val rootView = super.onCreateView(inflater, container, savedInstanceState)
 
         sectionsPagerAdapter = TabbedICT4DSectionsPagerAdapter(childFragmentManager)

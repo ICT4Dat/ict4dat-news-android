@@ -11,9 +11,8 @@ import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.ServerErrorMessage
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
-import javax.inject.Inject
 
-class BlogAndSourceViewModel @Inject constructor(
+class BlogAndSourceViewModel(
     private val persistenceManager: IPersistenceManager,
     private val server: IServer,
     rxEventBus: RxEventBus
