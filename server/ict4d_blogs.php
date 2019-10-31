@@ -141,7 +141,7 @@ $array = array(
 		"url" => "https://dai-global-digital.com/",
 		"feed_url" => "https://dai-global-digital.com/feed.xml",
 		"feed_type" => 2,
-		"logo_url" => "https://dai-global-digital.com/uploads/social-image.jpg")
+		"logo_url" => "https://dai-global-digital.com/uploads/social-image.jpg"),
 
 	array("name" => "GSMA Newsroom",  
 		"description" => "Blog for the trade union of 800 mobile operators and 300 companies around the world.", 
