@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface ApiICT4DatNews {
 
-    @GET("blogs/v2/ict4d_blogs.php")
+    @GET("blogs/v3/ict4d_blogs.php")
     fun getBlogs(): Single<List<Blog>>
 }

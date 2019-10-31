@@ -1,5 +1,4 @@
-• Automatische Aktualisierungen - Schalte sie in den Einstellungen ein oder aus
-• Verbesserungen der Nachrichtenliste
-• Einstellungen
-• Bug Tracking
+• ICT4D News aktualisieren sich nun wieder korrekt
+• Es wurden neue Quellen hinzugefügt und alte entfernt
+• Android 10 support
 • Viele Fehlerbehebungen und kleine Verbesserungen
