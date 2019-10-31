@@ -99,18 +99,6 @@ android {
     }
 }
 
-// Exclude LeakCanary in tests
-// Ensure the no-op dependency is always used in JVM tests.
-configurations.all { config ->
-    if (config.name.contains('UnitTest') || config.name.contains('AndroidTest')) {
-        config.resolutionStrategy.eachDependency { details ->
-            if (details.requested.group == 'com.squareup.leakcanary' && details.requested.name == 'leakcanary-android') {
-                details.useTarget(group: details.requested.group, name: 'leakcanary-android-no-op', version: details.requested.version)
-            }
-        }
-    }
-}
-
 // config to publish app bundle to the Play Store
 play {
     serviceAccountCredentials = file(playStorePublisherConfig.props.getProperty(playStorePublisherConfig.keyPlayStoreJsonFilePath, 'this_should_not_happen.json'))
@@ -206,8 +194,8 @@ dependencies {
     testImplementation "org.robolectric:multidex:3.4.2"
 
     // Leak Canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.0-beta-3"
+    implementation "com.squareup.leakcanary:leakcanary-object-watcher-android:2.0-beta-3"
 
     // 3rd Party licenses
     implementation "com.google.android.gms:play-services-oss-licenses:17.0.0"

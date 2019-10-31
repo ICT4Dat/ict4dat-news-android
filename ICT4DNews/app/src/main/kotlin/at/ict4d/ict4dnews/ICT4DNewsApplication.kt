@@ -14,10 +14,10 @@ import at.ict4d.ict4dnews.di.modules.viewModelModule
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.squareup.leakcanary.LeakCanary
-import com.squareup.leakcanary.RefWatcher
 import io.sentry.Sentry
 import io.sentry.android.AndroidSentryClientFactory
+import leakcanary.AppWatcher
+import leakcanary.ObjectWatcher
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -28,15 +28,15 @@ const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 
 open class ICT4DNewsApplication : Application() {
 
-    private lateinit var refWatcher: RefWatcher
+    private lateinit var objWatcher: ObjectWatcher
     private val persistenceManager: IPersistenceManager by inject()
 
     companion object {
 
         @JvmStatic
-        fun getRefWatcher(context: Context): RefWatcher {
+        fun getRefWatcher(context: Context): ObjectWatcher {
             val applicationContext = context.applicationContext as ICT4DNewsApplication
-            return applicationContext.refWatcher
+            return applicationContext.objWatcher
         }
     }
 
@@ -53,7 +53,7 @@ open class ICT4DNewsApplication : Application() {
         // java.time backport
         AndroidThreeTen.init(this)
 
-        installLeakCanary()
+        objWatcher = AppWatcher.objectWatcher
 
         setUpTimber()
 
@@ -95,15 +95,6 @@ open class ICT4DNewsApplication : Application() {
         } else {
             Timber.plant(ReleaseTree())
         }
-    }
-
-    protected open fun installLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
-        refWatcher = LeakCanary.install(this)
     }
 
     protected open fun installStetho() {
