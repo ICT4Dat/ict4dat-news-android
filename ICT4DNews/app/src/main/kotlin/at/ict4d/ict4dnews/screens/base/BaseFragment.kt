@@ -40,8 +40,9 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(
 
     protected val model: V by viewModel(viewModelClass)
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
+
         lifecycle.addObserver(RXLifecycleObserver(compositeDisposable))
 
         if (BuildConfig.DEBUG) {
@@ -90,8 +91,8 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(
         findNavController().removeOnDestinationChangedListener(this)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        recordActionBreadcrumb("onOptionsItemSelected", this, mapOf("item" to "${item?.title}"))
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        recordActionBreadcrumb("onOptionsItemSelected", this, mapOf("item" to "${item.title}"))
         return super.onOptionsItemSelected(item)
     }
 }

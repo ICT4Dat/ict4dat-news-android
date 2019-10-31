@@ -21,7 +21,7 @@ class ICT4DFragment : BaseFragment<ICT4DViewModel, FragmentIct4dBinding>(
     hasToolbar = false
 ) {
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         setHasOptionsMenu(true)
     }
@@ -37,12 +37,13 @@ class ICT4DFragment : BaseFragment<ICT4DViewModel, FragmentIct4dBinding>(
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_ict4d, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_ict4d, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
 
             R.id.menu_ict4d_share -> {
                 activity?.share(

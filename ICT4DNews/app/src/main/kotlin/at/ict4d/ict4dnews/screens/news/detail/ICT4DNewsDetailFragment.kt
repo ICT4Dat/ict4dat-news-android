@@ -31,7 +31,7 @@ class ICT4DNewsDetailFragment :
         ICT4DNewsDetailViewModel::class
     ) {
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         arguments?.let {
             model.selectedNews = ICT4DNewsDetailFragmentArgs.fromBundle(it).newsItem
@@ -141,13 +141,17 @@ class ICT4DNewsDetailFragment :
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_ict4_dnews_detail, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_ict4_dnews_detail, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_open -> activity?.browseCustomTab(model.selectedNews?.link ?: "")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_open -> {
+                activity?.browseCustomTab(model.selectedNews?.link ?: "")
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
