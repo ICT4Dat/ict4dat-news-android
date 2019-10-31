@@ -1,0 +1,26 @@
+name: Android CI
+
+on: [push]
+
+jobs:
+  build:
+
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Ktlint
+      run: |
+        cd ICT4DNews
+        ./gradlew clean ktlintCheck --stacktrace
+    - name: Tests
+      run: |
+        cd ICT4DNews
+        ./gradlew clean test lint --stacktrace
+    - name: buildDebug
+      run: |
+        cd ICT4DNews
+        ./gradlew clean assembleDebug --stacktrace

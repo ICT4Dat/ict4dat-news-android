@@ -43,19 +43,20 @@ class MoreFragment :
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_more_settings, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_more_settings, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.menu_settings -> {
                 recordNavigationBreadcrumb("R.id.menu_settings", this)
                 findNavController().navigateSafe(
                     R.id.moreFragment,
                     MoreFragmentDirections.actionActionMoreToSettingsFragment()
                 )
+                return true
             }
         }
         return super.onOptionsItemSelected(item)

@@ -15,7 +15,7 @@ val helperModule = module {
 
     factory { CompositeDisposable() }
 
-    single { WorkManager.getInstance() }
+    single { WorkManager.getInstance(get<ICT4DNewsApplication>()) }
 
     factory {
         PagedList.Config.Builder().setEnablePlaceholders(true)

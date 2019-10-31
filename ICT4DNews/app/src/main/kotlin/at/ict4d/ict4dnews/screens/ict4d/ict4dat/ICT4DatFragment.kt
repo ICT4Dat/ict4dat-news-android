@@ -22,7 +22,7 @@ class ICT4DatFragment :
         hasToolbar = false
     ) {
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         setHasOptionsMenu(true)
     }
@@ -39,12 +39,13 @@ class ICT4DatFragment :
         return rootView
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_ict4dat, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_ict4dat, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
 
             R.id.menu_ict4dat_share -> {
                 activity?.share(getString(R.string.share_ict4dat, getString(R.string.url_ict4dat)))

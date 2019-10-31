@@ -1,30 +1,29 @@
 package at.ict4d.ict4dnews.lifecycle
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import at.ict4d.ict4dnews.utils.recordLifecycleBreadcrumb
 
-class SentryLifecycleObserver(val lifecycleOwner: LifecycleOwner) : LifecycleObserver {
+class SentryLifecycleObserver(private val lifecycleOwner: LifecycleOwner) :
+    DefaultLifecycleObserver {
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun addOnCreateBreadcrumb() {
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
         recordLifecycleBreadcrumb("OnCreate", lifecycleOwner)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun addOnResumeBreadcrumb() {
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
         recordLifecycleBreadcrumb("OnResume", lifecycleOwner)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun addOnPauseBreadcrumb() {
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
         recordLifecycleBreadcrumb("OnPause", lifecycleOwner)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun addOnDestroyBreadcrumb() {
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
         recordLifecycleBreadcrumb("OnDestroy", lifecycleOwner)
     }
 }
