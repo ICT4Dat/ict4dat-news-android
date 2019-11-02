@@ -222,6 +222,9 @@ dependencies {
 
     // Koin AndroidX ViewModel features
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+
+    // Android Debug Database
+    debugImplementation "com.amitshekhar.android:debug-db:1.0.6"
 }
 
 configurations {

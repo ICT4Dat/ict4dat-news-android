@@ -48,17 +48,19 @@ class Server(
         blogs.forEach { blog ->
             if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
                 Timber.d(blog.feed_url)
-                requests.add(apiJsonSelfHostedWPService.getJsonNewsOfUrl(
-                    blog.feed_url + "wp-json/wp/v2/posts",
-                    newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
-                        DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                requests.add(
+                    apiJsonSelfHostedWPService.getJsonNewsOfUrl(
+                        blog.feed_url + "wp-json/wp/v2/posts",
+                        newsAfterDate = persistenceManager.getLatestNewsPublishedDate(blogID = blog.feed_url).format(
+                            DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                        )
                     )
-                )
-                    .onErrorReturn { emptyList() }
+                        .onErrorReturnItem(emptyList())
                 )
             } else if (blog.feedType == FeedType.RSS || blog.feedType == FeedType.WORDPRESS_COM) {
-                requests.add(apiRSSService.getRssNews(blog.feed_url)
-                    .onErrorReturn { RSSFeed() }
+                requests.add(
+                    apiRSSService.getRssNews(blog.feed_url)
+                        .onErrorReturnItem(RSSFeed())
                 )
             }
         }
@@ -101,7 +103,11 @@ class Server(
 
         activeBlogs.forEach { blog ->
             try {
-                recordNetworkBreadcrumb("loadAllNewsFromAllActiveBlogsSynchronous", this, mapOf("url" to blog.feed_url))
+                recordNetworkBreadcrumb(
+                    "loadAllNewsFromAllActiveBlogsSynchronous",
+                    this,
+                    mapOf("url" to blog.feed_url)
+                )
 
                 if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
                     val call = apiJsonSelfHostedWPService.getJsonNewsOfUrlAsCall(
@@ -134,31 +140,42 @@ class Server(
         return requestStatus
     }
 
-    private fun handleSelfHostedWPBlogList(databaseBlogList: List<Blog>, serverResultBlog: List<*>) {
+    private fun handleSelfHostedWPBlogList(
+        databaseBlogList: List<Blog>,
+        serverResultBlog: List<*>
+    ) {
 
         if (serverResultBlog.isNotEmpty() && serverResultBlog.first() is SelfHostedWPPost) {
 
             // set blog URL
             val dbBlog =
-                databaseBlogList.find { dbBlog -> (serverResultBlog.first() as SelfHostedWPPost).link.contains(dbBlog.feed_url) }
+                databaseBlogList.find { dbBlog ->
+                    (serverResultBlog.first() as SelfHostedWPPost).link.contains(
+                        dbBlog.feed_url
+                    )
+                }
             serverResultBlog.map { b -> (b as SelfHostedWPPost).blogLink = dbBlog?.feed_url ?: "" }
 
             // Query for the authors
             val serverAuthors: MutableList<WordpressAuthor> = mutableListOf()
-            serverResultBlog.distinctBy { (it as SelfHostedWPPost).serverAuthorID }.forEach { post ->
-                try {
-                    val author =
-                        apiJsonSelfHostedWPService.getJsonNewsAuthorByID(dbBlog?.feed_url + "wp-json/wp/v2/users/${(post as SelfHostedWPPost).serverAuthorID}/")
-                            .execute().body()
+            serverResultBlog.distinctBy { (it as SelfHostedWPPost).serverAuthorID }
+                .forEach { post ->
+                    try {
+                        val author =
+                            apiJsonSelfHostedWPService.getJsonNewsAuthorByID(dbBlog?.feed_url + "wp-json/wp/v2/users/${(post as SelfHostedWPPost).serverAuthorID}/")
+                                .execute().body()
 
-                    author?.let {
-                        serverAuthors.add(author)
+                        author?.let {
+                            serverAuthors.add(author)
+                        }
+                    } catch (e: Throwable) {
+                        Timber.e(
+                            e,
+                            "Error in downloading an author from a self-hosted Wordpress blog"
+                        )
+                        throw UnknownHostException(e.message)
                     }
-                } catch (e: Throwable) {
-                    Timber.e(e, "Error in downloading an author from a self-hosted Wordpress blog")
-                    throw UnknownHostException(e.message)
                 }
-            }
 
             // Query for all media elements per each post
             val serverMedia: MutableList<WordpressMedia> = mutableListOf()
@@ -183,7 +200,8 @@ class Server(
                     (serverResultBlog.find { post -> (post as SelfHostedWPPost).serverID == m.serverPostID } as? SelfHostedWPPost)?.link
             }
             serverMedia.map { m ->
-                m.authorLink = serverAuthors.find { author -> author.server_id == m.serverAuthorID }?.link
+                m.authorLink =
+                    serverAuthors.find { author -> author.server_id == m.serverAuthorID }?.link
             }
 
             // Set up foreign key for posts
@@ -329,7 +347,12 @@ class Server(
 
     private fun handleError(error: Throwable?, message: Any) {
         when (error) {
-            is HttpException -> rxEventBus.post(ServerErrorMessage(R.string.http_exception_error_message, error))
+            is HttpException -> rxEventBus.post(
+                ServerErrorMessage(
+                    R.string.http_exception_error_message,
+                    error
+                )
+            )
             else -> rxEventBus.post(ServerErrorMessage(R.string.server_error_message, error))
         }
     }
