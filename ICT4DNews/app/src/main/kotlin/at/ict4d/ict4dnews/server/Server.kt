@@ -78,7 +78,7 @@ class Server(
                         handleRSSList(blogs, it)
                     }
                 } catch (e: Exception) {
-                    Timber.e(e)
+                    Timber.w(e)
                 }
             }
         }
@@ -89,7 +89,7 @@ class Server(
                 persistenceManager.getLastAutomaticNewsUpdateLocalDate().set(LocalDate.now())
                 rxEventBus.post(NewsRefreshDoneMessage())
             }, {
-                Timber.e(it, "Error in downloading news from all active posts")
+                Timber.w(it, "Error in downloading news from all active posts")
                 handleError(it, NewsRefreshDoneMessage())
             })
     }
@@ -134,7 +134,7 @@ class Server(
                     }
                 }
             } catch (e: Exception) {
-                Timber.e(e, "Something went wrong in loadAllNewsFromAllActiveBlogsSynchronous")
+                Timber.w(e, "Something went wrong in loadAllNewsFromAllActiveBlogsSynchronous")
             }
         }
         return requestStatus
@@ -169,7 +169,7 @@ class Server(
                             serverAuthors.add(author)
                         }
                     } catch (e: Throwable) {
-                        Timber.e(
+                        Timber.w(
                             e,
                             "Error in downloading an author from a self-hosted Wordpress blog"
                         )
@@ -189,7 +189,7 @@ class Server(
                         serverMedia += postMedia
                     }
                 } catch (e: Throwable) {
-                    Timber.e(e, "Error in downloading media from a self-hosted Wordpress blog")
+                    Timber.w(e, "Error in downloading media from a self-hosted Wordpress blog")
                     throw UnknownHostException(e.message)
                 }
             }
@@ -340,7 +340,7 @@ class Server(
                 rxEventBus.post(BlogsRefreshDoneMessage())
                 Timber.d("downloaded ${newBlogs.size} blogs from ICT4D.at")
             }, {
-                Timber.e(it, "Error in Blogs Call")
+                Timber.w(it, "Error in Blogs Call")
                 handleError(it, BlogsRefreshDoneMessage())
             })
     }
