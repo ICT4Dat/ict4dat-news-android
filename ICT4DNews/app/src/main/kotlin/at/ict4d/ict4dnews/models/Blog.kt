@@ -57,5 +57,7 @@ data class Blog(
 ) : Parcelable
 
 enum class FeedType {
-    SELF_HOSTED_WP_BLOG, WORDPRESS_COM, RSS
+    SELF_HOSTED_WP_BLOG,
+    WORDPRESS_COM,
+    RSS
 }

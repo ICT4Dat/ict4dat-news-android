@@ -13,28 +13,24 @@ val roomModule = module {
 
     single<Migration> { Migration1to2() }
 
-    single(createdAtStart = true) {
+    single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, AppDatabase.DATABASE_NAME)
             .fallbackToDestructiveMigration() // delete all data if migration fails and setup the database again
             .addMigrations(get<Migration>()).build()
     }
 
-    single(createdAtStart = true) { get<AppDatabase>().newsDao() }
+    single { get<AppDatabase>().newsDao() }
 
-    single(createdAtStart = true) { get<AppDatabase>().authorDao() }
+    single { get<AppDatabase>().authorDao() }
 
-    single(createdAtStart = true) { get<AppDatabase>().mediaDao() }
+    single { get<AppDatabase>().mediaDao() }
 
-    single(createdAtStart = true) { get<AppDatabase>().blogDao() }
+    single { get<AppDatabase>().blogDao() }
 
-    single<IPersistenceManager>(createdAtStart = true) {
+    single<IPersistenceManager>() {
         PersistenceManager(
-            database = get(),
             sharedPrefs = get(),
-            authorDao = get(),
-            newsDao = get(),
-            mediaDao = get(),
-            blogsDao = get()
+            authorDao = get()
         )
     }
 }

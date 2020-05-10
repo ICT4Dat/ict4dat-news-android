@@ -2,11 +2,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:orientation="vertical"
-                  android:layout_height="match_parent">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <include layout="@layout/toolbar"/>
+        <include layout="@layout/toolbar" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swiperefresh"
@@ -18,67 +19,68 @@
                     android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                        android:text="@string/no_blog_found"
+                        android:id="@+id/nothing_found"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/nothing_found"
                         android:layout_marginTop="24dp"
+                        android:text="@string/no_blog_found"
                         android:visibility="gone"
-                        app:layout_constraintTop_toTopOf="@+id/recyclerview"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/recyclerview" />
 
                 <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
                         android:id="@+id/recyclerview"
                         android:name="at.ict4d.ict4dnews.screens.news.ICTDNewsFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:fastScrollPopupBgColor="@color/colorAccent"
+                        app:fastScrollPopupTextColor="@color/white"
+                        app:fastScrollThumbColor="@color/colorAccent"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:context=".screens.news.list.ICT4DNewsFragment"
-                        tools:listitem="@layout/fragment_ictdnews_item"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:fastScrollPopupBgColor="@color/colorAccent"
                         app:toggleSwipeRefreshOnFastScroll="@{swiperefresh}"
-                        app:fastScrollPopupTextColor="@color/white"
-                        app:fastScrollThumbColor="@color/colorAccent" />
+                        tools:context=".screens.news.list.ICT4DNewsFragment"
+                        tools:listitem="@layout/fragment_ictdnews_item" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp"
+                        android:id="@+id/quickScroll"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="16dp"
                         android:visibility="gone"
                         app:backgroundTint="@color/white"
-                        android:id="@+id/quickScroll"
-                        tools:visibility="visible"
-                        android:layout_gravity="bottom|center"
                         app:elevation="4dp"
-                        android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:padding="16dp"
-                        android:textAlignment="center"
-                        tools:visibility="visible"
-                        android:visibility="gone"
-                        android:id="@+id/progress_text_view"
-                        android:layout_gravity="center"
-                        android:text="@string/connecting_text"
-                        android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp"
+                        tools:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/progress_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginLeft="24dp"
                         android:layout_marginEnd="24dp"
                         android:layout_marginRight="24dp"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginStart="24dp"/>
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/blogs_loading_bg"
+                        android:elevation="3dp"
+                        android:textAlignment="center"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toTopOf="@+id/quickScroll"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="@string/connecting_text"
+                        tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

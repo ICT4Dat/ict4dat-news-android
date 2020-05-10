@@ -15,7 +15,7 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
@@ -65,7 +65,7 @@ class ICT4DNewsDetailFragment :
             recordActionBreadcrumb("fab", this)
 
             model.selectedNews?.authorID?.let {
-                model.authorDetails(it).observe(this, Observer { author ->
+                model.authorDetails(it).observe(viewLifecycleOwner) { author ->
                     author?.name.let { authorName ->
                         context?.share(
                             String.format(
@@ -77,22 +77,23 @@ class ICT4DNewsDetailFragment :
                             )
                         )
                     }
-                })
+                }
             }
         }
 
-        binding.appbarImage.loadFromURL(model.selectedNews?.mediaFeaturedURL ?: "")
+        binding.appbarImage.loadFromURL(model.selectedNews?.mediaFeaturedURL ?: "", placeholder = -1, error = -1)
 
         model.selectedNews?.blogID?.let { blogID ->
-            model.getBlogBy(blogID).observe(this, Observer { blog ->
+            model.getBlogBy(blogID).observe(viewLifecycleOwner) { blog ->
                 binding.toolbarLayout.title = blog?.name ?: getString(R.string.app_name)
-            })
+            }
         }
 
-        if (model.selectedNews != null && model.selectedNews?.authorID != null) {
-            model.authorDetails(model.selectedNews?.authorID!!).observe(this, Observer {
+        val authorID = model.selectedNews?.authorID
+        if (model.selectedNews != null && authorID != null) {
+            model.authorDetails(authorID).observe(viewLifecycleOwner) {
                 binding.authorName.text = it?.name ?: ""
-            })
+            }
         }
         binding.blogTitle.text = model.selectedNews?.title
         binding.articleDate.text = model.selectedNews?.publishedDate?.extractDate()

@@ -148,13 +148,12 @@ dependencies {
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:3.12.2" // do not update since OkHttp 3.13+ requires API 21+
     implementation "com.squareup.retrofit2:converter-simplexml:2.6.2"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // ThreeTenABP - java.time backport
-    implementation "com.jakewharton.threetenabp:threetenabp:1.2.3"
+    implementation "com.jakewharton.threetenabp:threetenabp:1.2.4"
 
     // *** Android Architecture Components ***
 
@@ -164,16 +163,14 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     testImplementation "androidx.arch.core:core-testing:2.1.0" // Test helpers for LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version" // ReactiveStreams support for LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-
-    // Test helpers for Room
     testImplementation "androidx.room:room-testing:$room_version"
-
-    // RxJava support for Room
-    implementation "androidx.room:room-rxjava2:$room_version"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
@@ -193,8 +190,8 @@ dependencies {
     testImplementation "org.robolectric:multidex:3.4.2"
 
     // Leak Canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.2"
-    implementation "com.squareup.leakcanary:leakcanary-object-watcher-android:2.2"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.3"
+    implementation "com.squareup.leakcanary:leakcanary-object-watcher-android:2.3"
 
     // 3rd Party licenses
     implementation "com.google.android.gms:play-services-oss-licenses:17.0.0"
@@ -207,11 +204,6 @@ dependencies {
 
     // WorkManager
     implementation "androidx.work:work-runtime-ktx:$work_version"
-
-    // Paging
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-    implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
-    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
     // Scrolling Indicators
     implementation "com.simplecityapps:recyclerview-fastscroll:2.0.1"

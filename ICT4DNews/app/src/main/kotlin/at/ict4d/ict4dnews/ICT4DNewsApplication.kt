@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.multidex.MultiDex
 import at.ict4d.ict4dnews.di.modules.apiServiceModule
 import at.ict4d.ict4dnews.di.modules.helperModule
+import at.ict4d.ict4dnews.di.modules.repositoryModule
 import at.ict4d.ict4dnews.di.modules.roomModule
 import at.ict4d.ict4dnews.di.modules.viewModelModule
 import at.ict4d.ict4dnews.persistence.IPersistenceManager
@@ -47,7 +48,7 @@ open class ICT4DNewsApplication : Application() {
             if (BuildConfig.DEBUG) {
                 androidLogger()
             }
-            modules(listOf(apiServiceModule, helperModule, roomModule, viewModelModule))
+            modules(listOf(apiServiceModule, helperModule, roomModule, viewModelModule, repositoryModule))
         }
 
         // java.time backport

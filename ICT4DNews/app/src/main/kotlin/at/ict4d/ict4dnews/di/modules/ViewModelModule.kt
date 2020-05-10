@@ -13,21 +13,19 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
 
-    viewModel {
-        ICT4DNewsViewModel(persistenceManager = get(), server = get(), pagedListConfig = get(), rxEventBus = get())
-    }
+    viewModel { ICT4DNewsViewModel(get(), get(), get()) }
 
     viewModel { ICT4DViewModel() }
 
     viewModel { MoreViewModel() }
 
-    viewModel { ICT4DNewsDetailViewModel(persistenceManager = get()) }
+    viewModel { ICT4DNewsDetailViewModel(get(), get()) }
 
-    viewModel { MainNavigationViewModel(persistenceManager = get(), updateNewsServiceHandler = get()) }
+    viewModel { MainNavigationViewModel(get(), get()) }
 
-    viewModel { BlogAndSourceViewModel(persistenceManager = get(), server = get(), rxEventBus = get()) }
+    viewModel { BlogAndSourceViewModel(get()) }
 
-    viewModel { SplashViewModel(persistenceManager = get(), server = get()) }
+    viewModel { SplashViewModel(get()) }
 
     viewModel { SettingsWithToolbarViewModel() }
 }

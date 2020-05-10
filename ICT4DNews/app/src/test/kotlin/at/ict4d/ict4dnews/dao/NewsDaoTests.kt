@@ -1,15 +1,15 @@
 package at.ict4d.ict4dnews.dao
 
-import androidx.paging.LivePagedListBuilder
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
 import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
-import at.ict4d.ict4dnews.utils.LiveDataTestUtil
 import at.ict4d.ict4dnews.utils.generateAuthorAndInsert
 import at.ict4d.ict4dnews.utils.generateBlog
 import at.ict4d.ict4dnews.utils.generateBlogAndInsert
 import at.ict4d.ict4dnews.utils.generateNews
 import at.ict4d.ict4dnews.utils.generateNewsListAndInsert
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -54,7 +54,7 @@ class NewsDaoTests : BaseDaoTest() {
     }
 
     @Test
-    fun testGetLatestPublishedDateOfBlog() {
+    fun testGetLatestPublishedDateOfBlog() = runBlocking {
         val blog1 = generateBlogAndInsert(blogDao)
         val blog2 = generateBlogAndInsert(blogDao)
         val author = generateAuthorAndInsert(authorDao)
@@ -62,22 +62,22 @@ class NewsDaoTests : BaseDaoTest() {
         val list1 = generateNewsListAndInsert(newsDao, blog1, author).sortedBy { it.publishedDate }.reversed()
         val list2 = generateNewsListAndInsert(newsDao, blog2, author).sortedBy { it.publishedDate }.reversed()
 
-        var result = newsDao.getLatestPublishedDateOfBlog(blog1.feed_url)
+        var result = newsDao.getLatestPublishedDateOfBlog(blog1.feed_url).first()
         Assert.assertNotNull(result)
         Assert.assertEquals(list1.first().publishedDate, result)
 
-        result = newsDao.getLatestPublishedDateOfBlog(blog2.feed_url)
+        result = newsDao.getLatestPublishedDateOfBlog(blog2.feed_url).first()
         Assert.assertNotNull(result)
         Assert.assertEquals(list2.first().publishedDate, result)
 
-        result = newsDao.getLatestPublishedDateOfBlog(blog1.feed_url + blog2.feed_url)
+        result = newsDao.getLatestPublishedDateOfBlog(blog1.feed_url + blog2.feed_url).first()
         Assert.assertNull(result)
     }
 
     @Test
-    fun testGetLatestNewsPublishedDate() {
+    fun testGetLatestNewsPublishedDate() = runBlocking {
 
-        var result = newsDao.getLatestNewsPublishedDate()
+        var result = newsDao.getLatestNewsPublishedDate().first()
         Assert.assertNull(result)
 
         val list = generateNewsListAndInsert(
@@ -86,13 +86,13 @@ class NewsDaoTests : BaseDaoTest() {
             generateAuthorAndInsert(authorDao)
         ).sortedBy { it.publishedDate }.reversed()
 
-        result = newsDao.getLatestNewsPublishedDate()
+        result = newsDao.getLatestNewsPublishedDate().first()
         Assert.assertNotNull(result)
         Assert.assertEquals(list.first().publishedDate, result)
     }
 
     @Test
-    fun testGetAllActiveNews() {
+    fun testGetAllActiveNews() = runBlocking {
 
         val blog1 = generateBlog()
         blog1.active = true
@@ -107,68 +107,58 @@ class NewsDaoTests : BaseDaoTest() {
         val list2 =
             generateNewsListAndInsert(newsDao, blog2, generateAuthorAndInsert(authorDao))
 
-        var result = LiveDataTestUtil.getValue(LivePagedListBuilder(newsDao.getAllActiveNews(""), 10000).build())
+        var result = newsDao.getAllActiveNews("").first()
         Assert.assertNotNull(result)
         Assert.assertTrue(result.isNotEmpty())
         Assert.assertEquals(list1.size, result.size)
         Assert.assertTrue(result.containsAll(list1))
         Assert.assertFalse(result.containsAll(list2))
 
-        result = LiveDataTestUtil.getValue(
-            LivePagedListBuilder(
-                newsDao.getAllActiveNews(list1.first().title!!),
-                10000
-            ).build()
-        )
+        result = newsDao.getAllActiveNews(list1.first().title!!).first()
         Assert.assertNotNull(result)
         Assert.assertTrue(result.isNotEmpty())
         Assert.assertEquals(result.size, 1)
         Assert.assertEquals(result.first(), list1.first())
 
-        result = LiveDataTestUtil.getValue(LivePagedListBuilder(newsDao.getAllActiveNews(blog1.name), 10000).build())
+        result = newsDao.getAllActiveNews(blog1.name).first()
         Assert.assertNotNull(result)
         Assert.assertTrue(result.isNotEmpty())
         Assert.assertEquals(list1.size, result.size)
         Assert.assertTrue(result.containsAll(list1))
         Assert.assertFalse(result.containsAll(list2))
 
-        result = LiveDataTestUtil.getValue(
-            LivePagedListBuilder(
-                newsDao.getAllActiveNews(list2.last().title!!),
-                10000
-            ).build()
-        )
+        result = newsDao.getAllActiveNews(list2.last().title!!).first()
         Assert.assertNotNull(result)
         Assert.assertTrue(result.isEmpty())
 
-        result = LiveDataTestUtil.getValue(LivePagedListBuilder(newsDao.getAllActiveNews(blog2.name), 10000).build())
+        result = newsDao.getAllActiveNews(blog2.name).first()
         Assert.assertNotNull(result)
         Assert.assertTrue(result.isEmpty())
     }
 
     @Test
-    fun testGetCountOfNews() {
+    fun testGetCountOfNews() = runBlocking {
 
-        var result = newsDao.getCountOfNews()
+        var result = newsDao.getCountOfNews().first()
         Assert.assertEquals(0, result)
 
         val list =
             generateNewsListAndInsert(newsDao, generateBlogAndInsert(blogDao), generateAuthorAndInsert(authorDao))
 
-        result = newsDao.getCountOfNews()
+        result = newsDao.getCountOfNews().first()
         Assert.assertEquals(list.size, result)
 
         val list2 =
             generateNewsListAndInsert(newsDao, generateBlogAndInsert(blogDao), generateAuthorAndInsert(authorDao))
 
-        result = newsDao.getCountOfNews()
+        result = newsDao.getCountOfNews().first()
         Assert.assertEquals(list.size + list2.size, result)
     }
 
     @Test
-    fun testGetLatestNewsByDate() {
+    fun testGetLatestNewsByDate() = runBlocking {
 
-        var result = newsDao.getLatestNewsByDate(LocalDateTime.now())
+        var result = newsDao.getLatestNewsByDate(LocalDateTime.now()).first()
         Assert.assertTrue(result.isEmpty())
 
         val list = generateNewsListAndInsert(
@@ -177,25 +167,25 @@ class NewsDaoTests : BaseDaoTest() {
             generateAuthorAndInsert(authorDao)
         ).sortedBy { it.publishedDate }.reversed()
 
-        result = newsDao.getLatestNewsByDate(list.first().publishedDate!!)
+        result = newsDao.getLatestNewsByDate(list.first().publishedDate!!).first()
         Assert.assertTrue(result.isEmpty())
 
-        result = newsDao.getLatestNewsByDate(list[1].publishedDate!!)
+        result = newsDao.getLatestNewsByDate(list[1].publishedDate!!).first()
         Assert.assertTrue(result.isNotEmpty())
         Assert.assertEquals(1, result.size)
         Assert.assertTrue(result.contains(list.first()))
 
-        result = newsDao.getLatestNewsByDate(list[2].publishedDate!!)
+        result = newsDao.getLatestNewsByDate(list[2].publishedDate!!).first()
         Assert.assertTrue(result.isNotEmpty())
         Assert.assertEquals(2, result.size)
         Assert.assertTrue(result.containsAll(listOf(list.first(), list[1])))
 
-        result = newsDao.getLatestNewsByDate(list[3].publishedDate!!)
+        result = newsDao.getLatestNewsByDate(list[3].publishedDate!!).first()
         Assert.assertTrue(result.isNotEmpty())
         Assert.assertEquals(3, result.size)
         Assert.assertTrue(result.containsAll(listOf(list.first(), list[1], list[2])))
 
-        result = newsDao.getLatestNewsByDate(list[4].publishedDate!!)
+        result = newsDao.getLatestNewsByDate(list[4].publishedDate!!).first()
         Assert.assertTrue(result.isNotEmpty())
         Assert.assertEquals(4, result.size)
         Assert.assertTrue(result.containsAll(listOf(list.first(), list[1], list[2], list[3])))

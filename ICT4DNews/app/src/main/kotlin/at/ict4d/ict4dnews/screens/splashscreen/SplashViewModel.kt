@@ -1,26 +1,26 @@
 package at.ict4d.ict4dnews.screens.splashscreen
 
-import androidx.lifecycle.LiveData
-import at.ict4d.ict4dnews.models.Blog
-import at.ict4d.ict4dnews.persistence.IPersistenceManager
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import at.ict4d.ict4dnews.screens.base.BaseViewModel
-import at.ict4d.ict4dnews.server.IServer
-import org.jetbrains.anko.doAsync
+import at.ict4d.ict4dnews.server.repositories.BlogsRepository
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class SplashViewModel(
-    private val persistenceManager: IPersistenceManager,
-    private val server: IServer
+    private val blogsRepository: BlogsRepository
 ) : BaseViewModel() {
 
-    val allBlogs: LiveData<List<Blog>> = persistenceManager.getAllBlogs()
+    private val trigger = MutableLiveData<Boolean>().apply { value = false }
+    val blogs = trigger.switchMap { blogsRepository.getAllBlogs().asLiveData() }
 
     init {
-        doAsync { downloadBlogsIfNotExist() }
-    }
-
-    private fun downloadBlogsIfNotExist() {
-        if (!persistenceManager.isBlogsExist()) {
-            server.loadBlogs()
+        viewModelScope.launch {
+            if (!blogsRepository.doBlogsExists().first()) {
+                trigger.postValue(true)
+            }
         }
     }
 }

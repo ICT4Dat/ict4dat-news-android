@@ -51,14 +51,4 @@ class MediaDaoTests : BaseDaoTest() {
         val result = mediaDao.insertAll(list)
         Assert.assertEquals(list.size, result.size)
     }
-
-    @Test
-    fun testGetAll() {
-        val list = generateMediaListAndInsert(mediaDao, authorDao, blogDao, newsDao)
-
-        mediaDao.getAll().test()
-            .assertValue { it.isNotEmpty() }
-            .assertValue { it.size == list.size }
-            .assertValue { it.containsAll(list) }
-    }
 }
