@@ -21,7 +21,6 @@ import leakcanary.AppWatcher
 import leakcanary.ObjectWatcher
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
@@ -45,9 +44,6 @@ open class ICT4DNewsApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@ICT4DNewsApplication)
-            if (BuildConfig.DEBUG) {
-                androidLogger()
-            }
             modules(listOf(apiServiceModule, helperModule, roomModule, viewModelModule, repositoryModule))
         }
 

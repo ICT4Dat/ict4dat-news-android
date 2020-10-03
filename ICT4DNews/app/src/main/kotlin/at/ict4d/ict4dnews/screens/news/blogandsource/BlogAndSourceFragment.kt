@@ -3,7 +3,6 @@ package at.ict4d.ict4dnews.screens.news.blogandsource
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentBlogAndSourcesBinding

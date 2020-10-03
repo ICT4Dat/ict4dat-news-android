@@ -2,7 +2,6 @@ package at.ict4d.ict4dnews.screens.splashscreen
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentSplashBinding

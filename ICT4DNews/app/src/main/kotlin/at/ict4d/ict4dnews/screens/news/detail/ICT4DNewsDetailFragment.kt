@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.lifecycle.observe
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
