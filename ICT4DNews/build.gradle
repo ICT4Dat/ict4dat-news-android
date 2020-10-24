@@ -15,7 +15,7 @@ buildscript {
         lifecycle_version = "2.2.0"
         retrofit_version = "2.9.0"
         work_version = "2.4.0"
-        navigation_version = "2.3.0"
+        navigation_version = "2.3.1"
         paging_version = "2.1.2"
         sentry_version = "1.7.27" // don't update to >v1.7.28 - not working anymore Android <5
         koin_version = "2.1.6"
@@ -30,7 +30,7 @@ buildscript {
     }
     
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:oss-licenses:0.9.2"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"

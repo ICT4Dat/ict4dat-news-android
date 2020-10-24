@@ -1,5 +1,6 @@
 package at.ict4d.ict4dnews.server.utils
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -22,9 +23,10 @@ fun <ResultType, RemoteResultType> resultFlow(
 ) = flow<Resource<ResultType>> {
 
     val dbSource = databaseQuery.invoke()
-    emit(Resource.loading(dbSource.first()))
 
     try {
+        emit(Resource.loading(dbSource.first()))
+
         val response = networkCall.invoke()
 
         val resourceFlow = when (val apiResponse = ApiResponse.create(response)) {
@@ -51,16 +53,18 @@ fun <ResultType, RemoteResultType> resultFlow(
         } else {
             emit(resourceFlow.first())
         }
-    } catch (e: UnknownHostException) {
+    } catch (e: Exception) {
 
-        Timber.w(e, "UnknownHostException in resultFlow")
+        Timber.w(e, "Error in resultFlow")
 
-        if (emitFutureDatabaseUpdates) {
-            emitAll(dbSource.map {
-                Resource.error(e, it, null)
-            })
-        } else {
-            emit(Resource.error(e, dbSource.first(), null))
+        if (e !is CancellationException) {
+            if (emitFutureDatabaseUpdates) {
+                emitAll(dbSource.map {
+                    Resource.error(e, it, null)
+                })
+            } else {
+                emit(Resource.error(e, dbSource.first(), null))
+            }
         }
     }
 }.flowOn(Dispatchers.IO) // run async on IO thread
