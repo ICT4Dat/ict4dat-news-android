@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import timber.log.Timber
-import java.net.UnknownHostException
 
 @ExperimentalCoroutinesApi
 fun <ResultType, RemoteResultType> resultFlow(
