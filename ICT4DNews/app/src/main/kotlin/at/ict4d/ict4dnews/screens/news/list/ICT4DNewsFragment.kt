@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +15,6 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.extensions.moveToTop
 import at.ict4d.ict4dnews.extensions.navigateSafe
-import at.ict4d.ict4dnews.extensions.setVisible
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
 import at.ict4d.ict4dnews.server.utils.Status
@@ -77,7 +77,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                 model.newsUpdateStatus.observe(viewLifecycleOwner) { newsUpdateResource ->
 
                     binding.swiperefresh.isRefreshing = newsUpdateResource.status == Status.LOADING
-                    binding.progressTextView.setVisible(newsUpdateResource.status == Status.LOADING)
+                    binding.progressTextView.isVisible = newsUpdateResource.status == Status.LOADING
 
                     newsUpdateResource.currentItem?.data?.name.let { currentBlogName ->
                         val progressText = getString(
@@ -117,7 +117,7 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                     Timber.d("list in fragment: ${it.size} ---- ${model.searchQuery}")
 
                     binding.swiperefresh.isRefreshing = model.isNewsUpdateLoading()
-                    binding.recyclerview.setVisible(true)
+                    binding.recyclerview.isVisible = true
                     adapter.submitList(it)
 
                     if (model.shouldMoveScrollToTop) {
@@ -126,9 +126,9 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                     }
 
                     if (it.isEmpty() && model.searchQuery.value?.isEmpty() == true) {
-                        binding.recyclerview.setVisible(false)
+                        binding.recyclerview.isVisible = false
                     } else {
-                        binding.nothingFound.setVisible(it.isEmpty())
+                        binding.nothingFound.isVisible = it.isEmpty()
                     }
                 }
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
@@ -123,10 +122,6 @@ private fun setUpGlideAndLoad(
             ): Boolean = false
         })
         .into(imageView)
-}
-
-fun View.setVisible(visible: Boolean) {
-    this.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
 fun String.stripHtml(): String = Jsoup.parse(this).text()

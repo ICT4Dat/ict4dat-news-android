@@ -2,6 +2,7 @@ package at.ict4d.ict4dnews.extensions
 
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import at.ict4d.ict4dnews.R
@@ -19,8 +20,8 @@ fun <T> Fragment.handleApiResponse(
 ) {
 
     swipeRefreshLayout?.isRefreshing = resource.status == Status.LOADING
-    progressbar?.setVisible(resource.status == Status.LOADING)
-    errorTextView?.setVisible((resource.status == Status.ERROR || resource.status == Status.SUCCESS) && (resource.data == null || (resource.data as? List<*>).isNullOrEmpty()))
+    progressbar?.isVisible = resource.status == Status.LOADING
+    errorTextView?.isVisible = (resource.status == Status.ERROR || resource.status == Status.SUCCESS) && (resource.data == null || (resource.data as? List<*>).isNullOrEmpty())
 
     when (resource.status) {
         Status.SUCCESS -> Timber.d("${this::class.java.simpleName} repository update success with Status ${resource.status}")
