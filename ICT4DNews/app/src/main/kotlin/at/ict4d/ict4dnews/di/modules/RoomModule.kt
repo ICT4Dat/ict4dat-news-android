@@ -27,10 +27,9 @@ val roomModule = module {
 
     single { get<AppDatabase>().blogDao() }
 
-    single<IPersistenceManager>() {
+    single<IPersistenceManager> {
         PersistenceManager(
-            sharedPrefs = get(),
-            authorDao = get()
+            sharedPrefs = get()
         )
     }
 }

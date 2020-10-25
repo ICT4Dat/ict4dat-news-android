@@ -1,9 +1,10 @@
 package at.ict4d.ict4dnews.dao
 
 import at.ict4d.ict4dnews.persistence.database.dao.AuthorDao
-import at.ict4d.ict4dnews.utils.LiveDataTestUtil
 import at.ict4d.ict4dnews.utils.generateAuthor
 import at.ict4d.ict4dnews.utils.generateAuthorListAndInsert
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -36,28 +37,18 @@ class AuthorDaoTests : BaseDaoTest() {
     }
 
     @Test
-    fun testGetAll() {
+    fun testGetAuthorDetailsBy() = runBlocking {
         val list = generateAuthorListAndInsert(authorDao)
 
-        val result = LiveDataTestUtil.getValue(authorDao.getAll())
-        Assert.assertTrue(result.isNotEmpty())
-        Assert.assertEquals(list.size, result.size)
-        Assert.assertTrue(result.containsAll(list))
-    }
-
-    @Test
-    fun testGetAuthorDetailsBy() {
-        val list = generateAuthorListAndInsert(authorDao)
-
-        var result = LiveDataTestUtil.getValue(authorDao.getAuthorDetailsBy(list.first().link))
+        var result = authorDao.getAuthorDetailsBy(list.first().link).first()
         Assert.assertNotNull(result)
         Assert.assertEquals(list.first(), result)
 
-        result = LiveDataTestUtil.getValue(authorDao.getAuthorDetailsBy(list.last().link))
+        result = authorDao.getAuthorDetailsBy(list.last().link).first()
         Assert.assertNotNull(result)
         Assert.assertEquals(list.last(), result)
 
-        result = LiveDataTestUtil.getValue(authorDao.getAuthorDetailsBy(list.joinToString { it.link }))
+        result = authorDao.getAuthorDetailsBy(list.joinToString { it.link }).first()
         Assert.assertNull(result)
     }
 }
