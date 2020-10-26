@@ -14,7 +14,6 @@ import at.ict4d.ict4dnews.di.modules.roomModule
 import at.ict4d.ict4dnews.di.modules.viewModelModule
 import at.ict4d.ict4dnews.persistence.sharedpreferences.SharedPrefs
 import com.facebook.stetho.Stetho
-import com.jakewharton.threetenabp.AndroidThreeTen
 import io.sentry.Sentry
 import io.sentry.android.AndroidSentryClientFactory
 import leakcanary.AppWatcher
@@ -42,13 +41,11 @@ open class ICT4DNewsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         startKoin {
             androidContext(this@ICT4DNewsApplication)
             modules(listOf(apiServiceModule, helperModule, roomModule, viewModelModule, repositoryModule))
         }
-
-        // java.time backport
-        AndroidThreeTen.init(this)
 
         objWatcher = AppWatcher.objectWatcher
 

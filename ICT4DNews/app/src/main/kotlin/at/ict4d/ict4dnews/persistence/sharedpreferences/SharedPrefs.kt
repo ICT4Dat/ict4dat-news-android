@@ -6,8 +6,8 @@ import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.R
 import com.tfcporciuncula.flow.FlowSharedPreferences
 import com.tfcporciuncula.flow.Serializer
-import org.threeten.bp.LocalDate
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class SharedPrefs(application: ICT4DNewsApplication) {
 

@@ -27,9 +27,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 private const val SELF_HOSTED_URL_ENDING = "wp-json/wp/v2/posts"
 

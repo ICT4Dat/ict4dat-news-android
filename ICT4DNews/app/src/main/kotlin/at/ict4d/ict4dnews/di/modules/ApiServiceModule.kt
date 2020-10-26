@@ -17,12 +17,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import org.threeten.bp.LocalDateTime
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import timber.log.Timber
 import java.io.File
+import java.time.LocalDateTime
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 

@@ -19,7 +19,7 @@ import at.ict4d.ict4dnews.models.NEWS_TABLE_TABLE_NAME
 import at.ict4d.ict4dnews.models.NEWS_TABLE_TITLE
 import at.ict4d.ict4dnews.models.News
 import kotlinx.coroutines.flow.Flow
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 
 @Dao
 abstract class NewsDao {

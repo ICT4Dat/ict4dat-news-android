@@ -31,9 +31,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import org.jsoup.Jsoup
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun Context.browseCustomTab(url: String?) {

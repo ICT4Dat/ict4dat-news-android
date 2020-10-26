@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 class ICT4DNewsViewModel(
     private val blogsRepository: BlogsRepository,

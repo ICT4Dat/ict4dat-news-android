@@ -10,8 +10,8 @@ import at.ict4d.ict4dnews.databinding.FragmentIctdnewsItemBinding
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.News
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class ICT4DNewsRecyclerViewAdapter(
