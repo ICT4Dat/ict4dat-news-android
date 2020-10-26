@@ -1,25 +1,28 @@
 package at.ict4d.ict4dnews.screens
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import at.ict4d.ict4dnews.background.UpdateNewsServiceHandler
-import at.ict4d.ict4dnews.persistence.IPersistenceManager
-import at.ict4d.ict4dnews.screens.base.BaseViewModel
-import io.reactivex.schedulers.Schedulers
+import at.ict4d.ict4dnews.persistence.sharedpreferences.SharedPrefs
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class MainNavigationViewModel(
-    updateNewsServiceHandler: UpdateNewsServiceHandler,
-    persistenceManager: IPersistenceManager
-) : BaseViewModel() {
+    private val updateNewsServiceHandler: UpdateNewsServiceHandler,
+    private val sharedPrefs: SharedPrefs
+) : ViewModel() {
 
-    init {
-        compositeDisposable.add(persistenceManager.isAutomaticNewsUpdateEnabled().asObservable()
-            .observeOn(Schedulers.io())
-            .subscribeOn(Schedulers.io())
-            .subscribe {
-                if (it) {
-                    updateNewsServiceHandler.requestToRegisterService()
-                } else {
-                    updateNewsServiceHandler.cancelTask()
+    fun watchAutomaticNewsUpdates() {
+        viewModelScope.launch {
+            sharedPrefs.isAutomaticNewsUpdateEnabled
+                .asFlow()
+                .collect { isEnabled ->
+                    if (isEnabled) {
+                        updateNewsServiceHandler.requestToRegisterService()
+                    } else {
+                        updateNewsServiceHandler.cancelTask()
+                    }
                 }
-            })
+        }
     }
 }

@@ -35,6 +35,8 @@ class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationC
         val navController = findNavController(navHostController)
         binding.navigation.setupWithNavController(navController)
         navController.addOnDestinationChangedListener(this)
+
+        model.watchAutomaticNewsUpdates()
     }
 
     override fun onSupportNavigateUp() = findNavController(navHostController).navigateUp(appBarConfiguration)

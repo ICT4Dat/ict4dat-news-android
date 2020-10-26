@@ -1,17 +1,17 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
 import at.ict4d.ict4dnews.models.News
-import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.repositories.AuthorRepository
 import at.ict4d.ict4dnews.server.repositories.BlogsRepository
 
 class ICT4DNewsDetailViewModel(
     private val authorRepository: AuthorRepository,
     private val blogsRepository: BlogsRepository
-) : BaseViewModel() {
+) : ViewModel() {
 
     private val news = MutableLiveData<News>()
 

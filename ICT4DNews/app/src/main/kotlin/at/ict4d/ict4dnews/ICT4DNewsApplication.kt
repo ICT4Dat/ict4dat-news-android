@@ -12,7 +12,7 @@ import at.ict4d.ict4dnews.di.modules.helperModule
 import at.ict4d.ict4dnews.di.modules.repositoryModule
 import at.ict4d.ict4dnews.di.modules.roomModule
 import at.ict4d.ict4dnews.di.modules.viewModelModule
-import at.ict4d.ict4dnews.persistence.IPersistenceManager
+import at.ict4d.ict4dnews.persistence.sharedpreferences.SharedPrefs
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
 import io.sentry.Sentry
@@ -29,7 +29,7 @@ const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 open class ICT4DNewsApplication : Application() {
 
     private lateinit var objWatcher: ObjectWatcher
-    private val persistenceManager: IPersistenceManager by inject()
+    private val sharedPrefs by inject<SharedPrefs>()
 
     companion object {
 
@@ -64,7 +64,7 @@ open class ICT4DNewsApplication : Application() {
     }
 
     private fun setUpSentryBugTracking() {
-        if (BuildConfig.DEBUG || !persistenceManager.isBugTrackingEnabled().get()) {
+        if (BuildConfig.DEBUG || !sharedPrefs.isBugTrackingEnabled.get()) {
             Timber.i("Sentry is NOT running due to debug build or disabled bug tracking in the settings")
         } else {
             try {

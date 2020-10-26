@@ -19,12 +19,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.lifecycle.LeakCanaryLifecycleObserver
-import at.ict4d.ict4dnews.lifecycle.RXLifecycleObserver
 import at.ict4d.ict4dnews.lifecycle.SentryLifecycleObserver
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
-import io.reactivex.disposables.CompositeDisposable
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -37,14 +34,10 @@ abstract class BaseFragment<V : ViewModel, B : ViewDataBinding>(
 
     protected lateinit var binding: B
 
-    protected val compositeDisposable: CompositeDisposable by inject()
-
     protected val model: V by viewModel(viewModelClass)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        lifecycle.addObserver(RXLifecycleObserver(compositeDisposable))
 
         if (BuildConfig.DEBUG) {
             activity?.let { lifecycle.addObserver(LeakCanaryLifecycleObserver(it, this)) }

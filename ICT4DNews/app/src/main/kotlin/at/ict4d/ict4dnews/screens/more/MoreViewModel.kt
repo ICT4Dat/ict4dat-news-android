@@ -1,5 +1,5 @@
 package at.ict4d.ict4dnews.screens.more
 
-import at.ict4d.ict4dnews.screens.base.BaseViewModel
+import androidx.lifecycle.ViewModel
 
-class MoreViewModel : BaseViewModel()
+class MoreViewModel : ViewModel()

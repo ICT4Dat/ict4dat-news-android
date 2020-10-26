@@ -1,19 +1,19 @@
 package at.ict4d.ict4dnews.screens.news.blogandsource
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import at.ict4d.ict4dnews.extensions.trigger
 import at.ict4d.ict4dnews.models.Blog
-import at.ict4d.ict4dnews.screens.base.BaseViewModel
 import at.ict4d.ict4dnews.server.repositories.BlogsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class BlogAndSourceViewModel(
     private val blogsRepository: BlogsRepository
-) : BaseViewModel() {
+) : ViewModel() {
 
     private val trigger = MutableLiveData<Boolean>().apply { value = false }
     val allBlogsList = trigger.switchMap { blogsRepository.getAllBlogs().asLiveData() }

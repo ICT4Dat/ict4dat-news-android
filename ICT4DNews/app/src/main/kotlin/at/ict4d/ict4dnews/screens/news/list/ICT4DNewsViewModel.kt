@@ -2,11 +2,11 @@ package at.ict4d.ict4dnews.screens.news.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import at.ict4d.ict4dnews.persistence.IPersistenceManager
-import at.ict4d.ict4dnews.screens.base.BaseViewModel
+import at.ict4d.ict4dnews.persistence.sharedpreferences.SharedPrefs
 import at.ict4d.ict4dnews.server.repositories.BlogsRepository
 import at.ict4d.ict4dnews.server.repositories.NewsRepository
 import at.ict4d.ict4dnews.server.utils.NewsUpdateResource
@@ -19,10 +19,10 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 
 class ICT4DNewsViewModel(
-    persistenceManager: IPersistenceManager,
     private val blogsRepository: BlogsRepository,
-    private val newsRepository: NewsRepository
-) : BaseViewModel() {
+    private val newsRepository: NewsRepository,
+    sharedPrefs: SharedPrefs
+) : ViewModel() {
 
     private val mutableNewsUpdateStatus = MutableLiveData<NewsUpdateResource>()
     val newsUpdateStatus: LiveData<NewsUpdateResource> = mutableNewsUpdateStatus
@@ -42,7 +42,7 @@ class ICT4DNewsViewModel(
             .asLiveData(Dispatchers.IO)
     }
 
-    val lastAutomaticNewsUpdateLocalDate = persistenceManager.getLastAutomaticNewsUpdateLocalDate()
+    val lastAutomaticNewsUpdateLocalDate = sharedPrefs.lastAutomaticNewsUpdateLocalDate
 
     init {
         requestToLoadFeedsFromServers()

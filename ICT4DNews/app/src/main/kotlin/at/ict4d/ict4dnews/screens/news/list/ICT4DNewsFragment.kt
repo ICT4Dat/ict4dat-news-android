@@ -15,19 +15,21 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.extensions.moveToTop
 import at.ict4d.ict4dnews.extensions.navigateSafe
+import at.ict4d.ict4dnews.extensions.queryTextChanges
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
 import at.ict4d.ict4dnews.server.utils.Status
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(
     R.layout.fragment_ictdnews_list,
@@ -152,21 +154,19 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         val menuItem = menu.findItem(R.id.menu_search)
         val searchView = menuItem?.actionView as SearchView
 
-        compositeDisposable.add(RxSearchView.queryTextChanges(searchView)
-            .debounce(400, TimeUnit.MILLISECONDS)
+        searchView.queryTextChanges()
+            .drop(1)
+            .debounce(400)
             .map { char: CharSequence -> char.toString() }
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe({ query ->
-                Timber.d("query: $query")
-                recordActionBreadcrumb("search", this, mapOf("query" to query))
-                model.performSearch(query)
-            }, { e ->
-                Timber.e("$e")
-            }, {
-                Timber.d("search complete")
-            })
-        )
+            .onEach { query ->
+                try {
+                    Timber.d("query: $query")
+                    recordActionBreadcrumb("search", this, mapOf("query" to query))
+                    model.performSearch(query)
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+            }.launchIn(lifecycleScope)
 
         // restore search view after orientation change
         if (model.searchQuery.value?.isNotEmpty() == true) {

@@ -2,8 +2,6 @@ package at.ict4d.ict4dnews.di.modules
 
 import androidx.room.Room
 import androidx.room.migration.Migration
-import at.ict4d.ict4dnews.persistence.IPersistenceManager
-import at.ict4d.ict4dnews.persistence.PersistenceManager
 import at.ict4d.ict4dnews.persistence.database.AppDatabase
 import at.ict4d.ict4dnews.persistence.database.migrations.Migration1to2
 import org.koin.android.ext.koin.androidContext
@@ -26,10 +24,4 @@ val roomModule = module {
     single { get<AppDatabase>().mediaDao() }
 
     single { get<AppDatabase>().blogDao() }
-
-    single<IPersistenceManager> {
-        PersistenceManager(
-            sharedPrefs = get()
-        )
-    }
 }
