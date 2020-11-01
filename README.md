@@ -8,7 +8,7 @@
 This Android application combines ICT4D news from various sources into one single application. It conects to Wordpress APIs and RSS feeds to presents the results in one streamlined list. The goal is to unify all ICT4D news into one application. 
 This Android application is developed by [ICT4D.at](http://www.ict4d.at) and is open to anyone for participation. Main developers in alphabetical order are:
 * [Noah Alorwu](https://github.com/noahalorwu)
-* [Paul Spiesberger](https://spiesberger.eu)
+* [Paul Spiesberger](https://www.spiesberger.eu)
 * [Raja Saboor Ali](https://github.com/rajasone)
 
 ## Download Now!
