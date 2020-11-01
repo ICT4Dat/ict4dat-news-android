@@ -8,7 +8,7 @@
 This Android application combines ICT4D news from various sources into one single application. It conects to Wordpress APIs and RSS feeds to presents the results in one streamlined list. The goal is to unify all ICT4D news into one application. 
 This Android application is developed by [ICT4D.at](http://www.ict4d.at) and is open to anyone for participation. Main developers in alphabetical order are:
 * [Noah Alorwu](https://github.com/noahalorwu)
-* [Paul Spiesberger](https://github.com/spipau)
+* [Paul Spiesberger](https://spiesberger.eu)
 * [Raja Saboor Ali](https://github.com/rajasone)
 
 ## Download Now!
@@ -35,7 +35,6 @@ The following alphabetically orded list of news sources is included in the appli
 * [Digital@DAI](https://dai-global-digital.com/) - A relatively new but well-written blog covering recent technologies, experiments with tech solutions, and reviews.
 * [DIODE](https://diode.network) - The “Development Implications of Digital Economies” (DIODE) strategic network researches the digital economy – that part of economic output derived solely or primarily from digital technologies – and its role in developing countries.
 * [GSMA Newsroom](https://www.gsma.com/newsroom/category/press-release/) - Blog for the trade union of 800 mobile operators and 300 companies around the world.
-* [Guardian Project Blog](https://guardianproject.info/) - Blog for the non-profit group creating apps and promoting libraries and devices that protect data and communications.
 * [ICT Ethics](https://ictdethics.wordpress.com/) - Analyzing, clustering and summarizing the ethical debates in ICTD.
 * [ICT4D.at](http://www.ict4d.at) - Austrian Network for Information and Comunication Technologies for Development.
 * [ICT4D Views from the Field](https://ict4dviewsfromthefield.wordpress.com/) - Blog about ICT4D projects from Dr. Laura Hosman, at the School for the Future of Innovation in Society and at The Polytechnic School at Arizona State University.
@@ -50,10 +49,7 @@ The following alphabetically orded list of news sources is included in the appli
 * [Linnet Taylor](https://linnettaylor.wordpress.com/) - Doubt wisely, and never lose your penguin.
 * [Many Possibilities](https://manypossibilities.net/) - My name is Steve Song.  I am the Founder of Village Telco, a social enterprise that builds low-cost WiFi mesh VoIP technologies to deliver affordable voice and Internet in underserviced areas.
 * [Matt Haikin Blog](https://matthaikin.com/) - Matt Haikin, ICT4D practitioner, researcher and consultant. Exploring participatory approaches to ICT, and technologies to enable participation.
-* [Mobile for Development (GSMA) Blog](https://www.gsma.com/mobilefordevelopment/) - Blog for the team within GSMA that focuses on emerging markets.
 * [My heart's in Accra](http://www.ethanzuckerman.com/) - Personal blog from Ethan Zuckerman, director of the Center for Civic.
 * [Open Knowledge International Blog](http://blog.okfn.org/) - Open Knowledge International is a global non-profit organisation focused on realising open data’s value to society by helping civil society groups access and use data to take action on social problems.
 * [Panoply Digital](https://www.panoplydigital.com/) - Sustainable development through appropriate technology
 * [Tim Unwin's Blog](https://unwin.wordpress.com/) - Blog from Tim Unwin, UNESCO Chair in ICT4D and Emeritus Professor of Geography at Royal Holloway, University of London.
-* [UNICEF Stories](http://unicefstories.org/) - Stories and Innovation.
-* [World Bank's ICT4D Blog](http://blogs.worldbank.org/ic4d/) - Working for a World Free of Poverty
