@@ -1,0 +1,5 @@
+• ICT4D News aktualisieren sich nun wieder korrekt
+• Es wurden neue Quellen hinzugefügt und alte entfernt
+• Android 10 support
+• Urdu Übersetzung
+• Viele Fehlerbehebungen und kleine Verbesserungen
