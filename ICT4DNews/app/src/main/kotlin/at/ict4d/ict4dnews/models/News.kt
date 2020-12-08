@@ -10,7 +10,7 @@ import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.wordpress.SELF_HOSTED_WP_POST_SERIALIZED_RENDERED
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
 import kotlinx.android.parcel.Parcelize
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 
 const val NEWS_TABLE_TABLE_NAME = "news"
 const val NEWS_TABLE_LINK = "link"

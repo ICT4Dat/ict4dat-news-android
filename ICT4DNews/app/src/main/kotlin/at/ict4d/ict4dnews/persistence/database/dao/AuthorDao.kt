@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.persistence.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -8,6 +7,7 @@ import androidx.room.Query
 import at.ict4d.ict4dnews.models.AUTHOR_TABLE_LINK
 import at.ict4d.ict4dnews.models.AUTHOR_TABLE_TABLE_NAME
 import at.ict4d.ict4dnews.models.Author
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class AuthorDao {
@@ -19,8 +19,8 @@ abstract class AuthorDao {
     abstract fun insertAll(authors: List<Author>): List<Long>
 
     @Query("SELECT * FROM $AUTHOR_TABLE_TABLE_NAME")
-    abstract fun getAll(): LiveData<List<Author>>
+    abstract fun getAll(): Flow<List<Author>>
 
     @Query("SELECT * FROM $AUTHOR_TABLE_TABLE_NAME WHERE $AUTHOR_TABLE_LINK = :authorId")
-    abstract fun getAuthorDetailsBy(authorId: String): LiveData<Author?>
+    abstract fun getAuthorDetailsBy(authorId: String): Flow<Author?>
 }

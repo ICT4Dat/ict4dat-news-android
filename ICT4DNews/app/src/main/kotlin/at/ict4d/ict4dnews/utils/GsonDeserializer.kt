@@ -6,9 +6,9 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
 import java.text.ParseException
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class GsonLocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {
 

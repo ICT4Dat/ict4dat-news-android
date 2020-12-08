@@ -1,7 +1,7 @@
 package at.ict4d.ict4dnews.models.wordpress
 
 import com.google.gson.annotations.SerializedName
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 
 const val WORDPRESS_MEDIA_SERIALIZED_WP_LINK = "link"
 const val WORDPRESS_MEDIA_SERIALIZED_SERVER_ID = "id"

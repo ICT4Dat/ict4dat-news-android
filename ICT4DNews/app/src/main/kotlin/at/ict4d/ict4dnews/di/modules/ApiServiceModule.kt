@@ -2,49 +2,44 @@ package at.ict4d.ict4dnews.di.modules
 
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.models.FeedType
-import at.ict4d.ict4dnews.server.ApiICT4DatNews
-import at.ict4d.ict4dnews.server.ApiJsonSelfHostedWPService
-import at.ict4d.ict4dnews.server.ApiRSSService
-import at.ict4d.ict4dnews.server.IServer
-import at.ict4d.ict4dnews.server.Server
+import at.ict4d.ict4dnews.server.api.ApiICT4DatNews
+import at.ict4d.ict4dnews.server.api.ApiJsonSelfHostedWPService
+import at.ict4d.ict4dnews.server.api.ApiRssService
 import at.ict4d.ict4dnews.utils.GsonFeedTypeDeserializer
 import at.ict4d.ict4dnews.utils.GsonLocalDateTimeDeserializer
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.android.gms.security.ProviderInstaller
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import java.io.File
-import java.util.UUID
-import java.util.concurrent.TimeUnit
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import org.threeten.bp.LocalDateTime
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import timber.log.Timber
+import java.io.File
+import java.time.LocalDateTime
+import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 val apiServiceModule = module {
 
-    single<ApiRSSService> {
+    single<ApiRssService> {
         Retrofit.Builder()
             .baseUrl("http://will.be.overritten.com")
             .addConverterFactory(SimpleXmlConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(get<OkHttpClient>())
-            .build().create(ApiRSSService::class.java)
+            .build().create(ApiRssService::class.java)
     }
 
     single<ApiJsonSelfHostedWPService> {
         Retrofit.Builder()
             .baseUrl("http://will.be.overritten.com")
             .addConverterFactory(GsonConverterFactory.create(get<Gson>()))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(get<OkHttpClient>())
             .build().create(ApiJsonSelfHostedWPService::class.java)
     }
@@ -53,7 +48,6 @@ val apiServiceModule = module {
         Retrofit.Builder()
             .baseUrl("http://www.ict4d.at/ict4dnews/")
             .addConverterFactory(GsonConverterFactory.create(get<Gson>()))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(get<OkHttpClient>())
             .build().create(ApiICT4DatNews::class.java)
     }
@@ -68,9 +62,9 @@ val apiServiceModule = module {
     single {
         val builder = OkHttpClient.Builder()
             .cache(get<Cache>())
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(get<HttpLoggingInterceptor>())
 
         if (BuildConfig.DEBUG) {
@@ -100,15 +94,5 @@ val apiServiceModule = module {
         }
 
         httpLoggingInterceptor
-    }
-
-    factory<IServer> {
-        Server(
-            apiRSSService = get(),
-            apiJsonSelfHostedWPService = get(),
-            apiICT4DatNews = get(),
-            persistenceManager = get(),
-            rxEventBus = get()
-        )
     }
 }

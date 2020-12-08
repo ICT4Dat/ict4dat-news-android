@@ -1,30 +1,34 @@
 package at.ict4d.ict4dnews.screens.news.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
 import at.ict4d.ict4dnews.extensions.moveToTop
 import at.ict4d.ict4dnews.extensions.navigateSafe
-import at.ict4d.ict4dnews.extensions.visible
+import at.ict4d.ict4dnews.extensions.queryTextChanges
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
+import at.ict4d.ict4dnews.server.utils.Status
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
-import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
-import org.jetbrains.anko.toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListBinding>(
@@ -33,9 +37,12 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 ) {
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, _ ->
+
         recordNavigationBreadcrumb("item click", this, mapOf("pair" to "$pair"))
+
         val action =
             ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
+
         findNavController().navigateSafe(R.id.newsListFragment, action)
     })
 
@@ -46,23 +53,20 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
 
-        model.activeBlogsCount.observe(
-            this,
-            Observer { activeBlogCount -> this.activeBlogCount = activeBlogCount })
+        model.activeBlogsCount.observe(viewLifecycleOwner) { activeBlogCount ->
+            this.activeBlogCount = activeBlogCount
+        }
 
-        adapter.mostRecentNewsPublishDateTime =
-            model.lastAutomaticNewsUpdateLocalDate.get().atStartOfDay()
+        adapter.mostRecentNewsPublishDateTime = model.lastAutomaticNewsUpdateLocalDate.get().atStartOfDay()
 
-        model.blogsCount.observe(this, Observer { blogsCount ->
+        lifecycleScope.launch {
+
+            val blogsCount = model.blogsCount.first()
 
             if (blogsCount == 0 && model.isSplashNotStartedOnce) { // no Blogs exist yet --> show Splash to download them
                 model.isSplashNotStartedOnce = false
@@ -72,59 +76,76 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
                 )
             } else {
 
-                model.isRefreshing.observe(this, Observer {
-                    binding.swiperefresh.isRefreshing = it ?: false
+                model.newsUpdateStatus.observe(viewLifecycleOwner) { newsUpdateResource ->
 
-                    if (it) {
-                        val updateText = getNewsLoadingText(activeBlogCount)
-                        if (model.newsList.value?.isEmpty() == true) {
-                            binding.progressTextView.visible(true)
+                    binding.swiperefresh.isRefreshing = newsUpdateResource.status == Status.LOADING
+                    binding.progressTextView.isVisible = newsUpdateResource.status == Status.LOADING
+
+                    newsUpdateResource.currentItem?.data?.name.let { currentBlogName ->
+                        val progressText = getString(
+                            R.string.connecting_text,
+                            newsUpdateResource.successfulBlogs.count() + newsUpdateResource.failedBlogs.count() + 1,
+                            newsUpdateResource.totalCount,
+                            currentBlogName
+                        )
+
+                        binding.progressTextView.text = if (BuildConfig.DEBUG) {
+                            "$progressText\n\nSuccessful: ${newsUpdateResource.successfulBlogs.count()}\nFailed:${newsUpdateResource.failedBlogs.count()}"
+                        } else {
+                            progressText
                         }
-                        activity?.toast(updateText)
                     }
-                })
+
+                    if (newsUpdateResource.status != Status.LOADING && BuildConfig.DEBUG) {
+
+                        val failedBlogs = newsUpdateResource.failedBlogs.joinToString(separator = "\n") { it.name }
+
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle("Debug Failed Blogs")
+                            .setMessage("Fails:\n$failedBlogs")
+                            .setPositiveButton("OK", null)
+                            .show()
+                    }
+                }
 
                 binding.swiperefresh.setOnRefreshListener {
-                    recordActionBreadcrumb("swip-to-refresh", this)
+                    recordActionBreadcrumb("swipe-to-refresh", this)
                     model.requestToLoadFeedsFromServers(true)
                 }
 
-                model.newsList.observe(this, Observer {
-                    if (it != null) {
-                        Timber.d("list in fragment: ${it.size} ---- ${model.searchQuery}")
-                        binding.recyclerview.visible(true)
-                        binding.progressTextView.visible(false)
-                        adapter.submitList(it)
+                binding.swiperefresh.isRefreshing = true
+                model.newsList.observe(viewLifecycleOwner) {
 
-                        if (model.shouldMoveScrollToTop) {
-                            binding.recyclerview.moveToTop()
-                            model.shouldMoveScrollToTop = false
-                        }
+                    Timber.d("list in fragment: ${it.size} ---- ${model.searchQuery}")
 
-                        if (it.isEmpty() && model.searchQuery.isEmpty()) {
-                            val updateText = getNewsLoadingText(activeBlogCount)
-                            binding.progressTextView.text = updateText
-                            binding.progressTextView.visible(true)
-                            binding.recyclerview.visible(false)
-                        } else {
-                            binding.nothingFound.visible(it.isEmpty())
-                        }
+                    binding.swiperefresh.isRefreshing = model.isNewsUpdateLoading()
+                    binding.recyclerview.isVisible = true
+                    adapter.submitList(it)
+
+                    if (model.shouldMoveScrollToTop) {
+                        binding.recyclerview.moveToTop()
+                        model.shouldMoveScrollToTop = false
                     }
-                })
+
+                    if (it.isEmpty() && model.searchQuery.value?.isEmpty() == true) {
+                        binding.recyclerview.isVisible = false
+                    } else {
+                        binding.nothingFound.isVisible = it.isEmpty()
+                    }
+                }
 
                 binding.quickScroll.setOnClickListener {
                     recordActionBreadcrumb("quickscroll", this)
                     binding.recyclerview.moveToTop()
                 }
+
                 binding.recyclerview.addOnScrollListener(
                     ScrollToTopRecyclerViewScrollHandler(
                         binding.quickScroll
                     )
                 )
             }
-        })
-
-        return view
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -133,27 +154,25 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
         val menuItem = menu.findItem(R.id.menu_search)
         val searchView = menuItem?.actionView as SearchView
 
-        compositeDisposable.add(RxSearchView.queryTextChanges(searchView)
-            .debounce(400, TimeUnit.MILLISECONDS)
+        searchView.queryTextChanges()
+            .drop(1)
+            .debounce(400)
             .map { char: CharSequence -> char.toString() }
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe({ query ->
-                Timber.d("query: $query")
-                recordActionBreadcrumb("search", this, mapOf("query" to query))
-                model.performSearch(query)
-            }, { e ->
-                Timber.e("$e")
-            }, {
-                Timber.d("search complete")
-            })
-        )
+            .onEach { query ->
+                try {
+                    Timber.d("query: $query")
+                    recordActionBreadcrumb("search", this, mapOf("query" to query))
+                    model.performSearch(query)
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+            }.launchIn(lifecycleScope)
 
         // restore search view after orientation change
-        if (model.searchQuery.isNotEmpty()) {
+        if (model.searchQuery.value?.isNotEmpty() == true) {
             enableRefreshMenuItem(false, menu)
             menuItem.expandActionView()
-            searchView.setQuery(model.searchQuery, true)
+            searchView.setQuery(model.searchQuery.value, true)
             searchView.clearFocus()
         }
 
@@ -165,9 +184,9 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
 
             override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
                 adapter.submitList(model.newsList.value)
-                model.searchQuery = ""
+                model.performSearch("")
                 enableRefreshMenuItem(true, menu)
-                if (model.isRefreshing.value == true) {
+                if (model.isNewsUpdateLoading()) {
                     binding.swiperefresh.isRefreshing = false
                     binding.swiperefresh.isRefreshing = true
                 }
@@ -179,14 +198,6 @@ class ICT4DNewsFragment : BaseFragment<ICT4DNewsViewModel, FragmentIctdnewsListB
     private fun enableRefreshMenuItem(enable: Boolean, menu: Menu?) {
         menu?.findItem(R.id.menu_refresh)?.isEnabled = enable
         binding.swiperefresh.isEnabled = enable
-    }
-
-    private fun getNewsLoadingText(blogCount: Int): String {
-        return if (blogCount == 0) {
-            getString(R.string.no_blog_found)
-        } else {
-            String.format(getString(R.string.connecting_text), blogCount)
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

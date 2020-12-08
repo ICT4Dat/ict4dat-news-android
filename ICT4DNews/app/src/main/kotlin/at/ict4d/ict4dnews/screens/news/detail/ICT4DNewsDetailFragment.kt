@@ -6,21 +6,18 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.lifecycle.Observer
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.extensions.extractDate
-import at.ict4d.ict4dnews.extensions.loadFromURL
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import org.jetbrains.anko.share
@@ -33,28 +30,16 @@ class ICT4DNewsDetailFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        arguments?.let {
-            model.selectedNews = ICT4DNewsDetailFragmentArgs.fromBundle(it).newsItem
-        }
+        model.setUp(ICT4DNewsDetailFragmentArgs.fromBundle(requireArguments()).newsItem)
+        setHasOptionsMenu(true)
     }
 
     override fun onResume() {
         super.onResume()
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             binding.fab.show()
         }, 700)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-        setHasOptionsMenu(true)
-
-        return view
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -64,40 +49,30 @@ class ICT4DNewsDetailFragment :
         binding.fab.setOnClickListener {
             recordActionBreadcrumb("fab", this)
 
-            model.selectedNews?.authorID?.let {
-                model.authorDetails(it).observe(this, Observer { author ->
-                    author?.name.let { authorName ->
-                        context?.share(
-                            String.format(
-                                getString(R.string.news_detail_share),
-                                model.selectedNews?.title,
-                                authorName,
-                                model.selectedNews?.publishedDate?.extractDate(),
-                                model.selectedNews?.link
-                            )
-                        )
-                    }
-                })
+            model.author.value?.name.let { authorName ->
+                context?.share(
+                    String.format(
+                        getString(R.string.news_detail_share),
+                        model.getNews()?.title,
+                        authorName,
+                        model.getNews()?.publishedDate?.extractDate(),
+                        model.getNews()?.link
+                    )
+                )
             }
         }
 
-        binding.appbarImage.loadFromURL(model.selectedNews?.mediaFeaturedURL ?: "")
+        binding.news = model.getNews()
 
-        model.selectedNews?.blogID?.let { blogID ->
-            model.getBlogBy(blogID).observe(this, Observer { blog ->
-                binding.toolbarLayout.title = blog?.name ?: getString(R.string.app_name)
-            })
+        model.author.observe(viewLifecycleOwner) {
+            binding.author = it
         }
 
-        if (model.selectedNews != null && model.selectedNews?.authorID != null) {
-            model.authorDetails(model.selectedNews?.authorID!!).observe(this, Observer {
-                binding.authorName.text = it?.name ?: ""
-            })
+        model.blog.observe(viewLifecycleOwner) {
+            binding.blog = it
         }
-        binding.blogTitle.text = model.selectedNews?.title
-        binding.articleDate.text = model.selectedNews?.publishedDate?.extractDate()
 
-        model.selectedNews?.description?.let { html ->
+        model.getNews()?.description?.let { html ->
 
             // enables JS for youtube videos
             binding.webview.settings.javaScriptEnabled = true
@@ -146,13 +121,11 @@ class ICT4DNewsDetailFragment :
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_open -> {
-                activity?.browseCustomTab(model.selectedNews?.link ?: "")
-                return true
-            }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_open -> {
+            activity?.browseCustomTab(model.getNews()?.link ?: "")
+            true
         }
-        return super.onOptionsItemSelected(item)
+        else -> super.onOptionsItemSelected(item)
     }
 }

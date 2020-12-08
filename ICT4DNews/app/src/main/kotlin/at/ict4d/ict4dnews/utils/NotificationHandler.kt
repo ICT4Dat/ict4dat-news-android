@@ -13,19 +13,20 @@ import at.ict4d.ict4dnews.NOTIFICATION_CHANNEL_ID
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.News
-import at.ict4d.ict4dnews.persistence.IPersistenceManager
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
+import at.ict4d.ict4dnews.server.repositories.BlogsRepository
+import kotlinx.coroutines.flow.first
 
 const val NEWS_WORKER_SUMMARY_NOTIFICATION_ID = 1
 const val NEWS_WORKER_NOTIFICATION_GROUP = "${BuildConfig.APPLICATION_ID}.NEWS_UPDATE"
 
-class NotificationHandler(private val persistenceManager: IPersistenceManager) {
+class NotificationHandler(private val blogsRepository: BlogsRepository) {
 
-    fun displayNewsNotifications(newsList: List<News>, context: Context) {
+    suspend fun displayNewsNotifications(newsList: List<News>, context: Context) {
 
         if (newsList.isNotEmpty()) {
 
-            val allActiveBlogs = persistenceManager.getAllActiveBlogs()
+            val allActiveBlogs = blogsRepository.getAllActiveBlogs().first()
             val notifications = mutableListOf<Notification>()
             val summaryNotificationStyle = NotificationCompat.InboxStyle()
 

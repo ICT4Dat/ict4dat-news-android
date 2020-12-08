@@ -5,22 +5,20 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.multidex.MultiDex
 import at.ict4d.ict4dnews.di.modules.apiServiceModule
 import at.ict4d.ict4dnews.di.modules.helperModule
+import at.ict4d.ict4dnews.di.modules.repositoryModule
 import at.ict4d.ict4dnews.di.modules.roomModule
 import at.ict4d.ict4dnews.di.modules.viewModelModule
-import at.ict4d.ict4dnews.persistence.IPersistenceManager
+import at.ict4d.ict4dnews.persistence.sharedpreferences.SharedPrefs
 import com.facebook.stetho.Stetho
-import com.jakewharton.threetenabp.AndroidThreeTen
-import io.sentry.Sentry
-import io.sentry.android.AndroidSentryClientFactory
+import io.sentry.android.core.SentryAndroid
+import io.sentry.android.timber.SentryTimberIntegration
 import leakcanary.AppWatcher
 import leakcanary.ObjectWatcher
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
@@ -29,7 +27,7 @@ const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 open class ICT4DNewsApplication : Application() {
 
     private lateinit var objWatcher: ObjectWatcher
-    private val persistenceManager: IPersistenceManager by inject()
+    private val sharedPrefs by inject<SharedPrefs>()
 
     companion object {
 
@@ -42,16 +40,11 @@ open class ICT4DNewsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         startKoin {
             androidContext(this@ICT4DNewsApplication)
-            if (BuildConfig.DEBUG) {
-                androidLogger()
-            }
-            modules(listOf(apiServiceModule, helperModule, roomModule, viewModelModule))
+            modules(listOf(apiServiceModule, helperModule, roomModule, viewModelModule, repositoryModule))
         }
-
-        // java.time backport
-        AndroidThreeTen.init(this)
 
         objWatcher = AppWatcher.objectWatcher
 
@@ -67,17 +60,27 @@ open class ICT4DNewsApplication : Application() {
     }
 
     private fun setUpSentryBugTracking() {
-        if (BuildConfig.DEBUG || !persistenceManager.isBugTrackingEnabled().get()) {
+        if (BuildConfig.DEBUG || !sharedPrefs.isBugTrackingEnabled.get()) {
             Timber.i("Sentry is NOT running due to debug build or disabled bug tracking in the settings")
         } else {
-            try {
-                Sentry.init(BuildConfig.SENTRY_DNS, AndroidSentryClientFactory(applicationContext))
-            } catch (e: Exception) {
-                Timber.e(
-                    e,
-                    "Sentry is NOT running due to config error, see sentry-config.gradle for more information"
+            // Sentry.init(BuildConfig.SENTRY_DNS, AndroidSentryClientFactory(applicationContext))
+            initSentry()
+        }
+    }
+
+    private fun initSentry() {
+        // Don't crash the App if Sentry initialization fails
+        try {
+            SentryAndroid.init(this) { options ->
+                options.addIntegration(
+                    SentryTimberIntegration()
                 )
             }
+        } catch (e: Exception) {
+            Timber.e(
+                e,
+                "Sentry is NOT running due to config error, see sentry-config.gradle for more information"
+            )
         }
     }
 
@@ -92,8 +95,6 @@ open class ICT4DNewsApplication : Application() {
                     )
                 }
             })
-        } else {
-            Timber.plant(ReleaseTree())
         }
     }
 
@@ -123,15 +124,6 @@ open class ICT4DNewsApplication : Application() {
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-        }
-    }
-}
-
-class ReleaseTree : Timber.Tree() {
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-
-        if (priority == Log.ERROR) {
-            Sentry.capture("$message\n${t?.message}")
         }
     }
 }

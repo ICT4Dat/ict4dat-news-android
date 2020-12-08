@@ -65,14 +65,14 @@
     <string name="ict4d_headline">Was ist ICT4D?</string>
     <string name="settings">Einstellungen</string>
     <string name="app_version">Information</string>
-    <string name="connecting_text">Wir verbinden Dich mit %1$d Blogs, dies kann eine Weile dauern.</string>
+    <string name="connecting_text">Verbinde zu News %1$d/%2$d:\n%3$s</string>
     <string name="no_blog_found">Keine ICT4D News gefunden</string>
     <string name="notification_channel_name">ICT4D News Benachrichtigungen</string>
     <string name="notification_channel_description">Benachrichtigungen der ICT4D News-App, um Dich über Änderungen in
         unserer Anwendung auf dem Laufenden zu halten.
     </string>
     <string name="news_update_complete">ICT4D News Aktualisierung</string>
-    <string name="news_update_notification_content_text">%d neue/r Artikel verfügbar, lies sie jetzt.</string>
+    <string name="news_update_notification_content_text">%1$d neue/r Artikel verfügbar, lies sie jetzt.</string>
     <string name="settings_category_general">Allgemeine Einstellungen</string>
     <string name="current_app_version">Version</string>
     <string name="should_allow_sync_service">Automatische Aktualisierungen</string>
@@ -82,5 +82,8 @@
     <string name="new_news_badge">Neue News</string>
     <string name="settings_bug_tracking_title">Bug-Tracking</string>
     <string name="settings_bug_tracking_summary">Wir verwenden eine Bug-Tracking Technologie, um Fehler nachverfolgen zu können. Wir erheben keine personenbezogenen Daten, aber detaillierte Geräteinformationen sind in den Meldungen enthalten.</string>
+    <string name="error_dialog_title">Fehler</string>
+    <string name="error_dialog_msg">Es ist ein unbekannter Fehler aufgetreten.</string>
+    <string name="dialog_ok">OK</string>
 
 </resources>

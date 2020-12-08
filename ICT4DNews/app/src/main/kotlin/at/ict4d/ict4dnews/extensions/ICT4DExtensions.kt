@@ -4,16 +4,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
@@ -23,7 +20,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.utils.GlideApp
 import at.ict4d.ict4dnews.utils.GlideRequest
-import at.ict4d.ict4dnews.utils.RxEventBus
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -31,14 +27,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.Locale
 import org.jsoup.Jsoup
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 fun Context.browseCustomTab(url: String?) {
     recordActionBreadcrumb("browseCustomTab", this, mapOf("url" to "$url"))
@@ -128,43 +121,9 @@ private fun setUpGlideAndLoad(
         .into(imageView)
 }
 
-fun View.visible(visible: Boolean) {
-    this.visibility = if (visible) View.VISIBLE else View.GONE
-}
-
 fun String.stripHtml(): String = Jsoup.parse(this).text()
 
 fun RecyclerView.moveToTop(moveToPosition: Int = 0) = smoothScrollToPosition(moveToPosition)
-
-/**
- * LiveData that propagates only distinct emissions.
- * @see https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1
- */
-fun <T> LiveData<T>.getDistinct(): LiveData<T> {
-    val distinctLiveData = MediatorLiveData<T>()
-    distinctLiveData.addSource(this, object : Observer<T> {
-        private var initialized = false
-        private var lastObj: T? = null
-        override fun onChanged(obj: T?) {
-            if (!initialized) {
-                initialized = true
-                lastObj = obj
-                distinctLiveData.postValue(lastObj)
-            } else if ((obj == null && lastObj != null) ||
-                obj != lastObj
-            ) {
-                lastObj = obj
-                distinctLiveData.postValue(lastObj)
-            }
-        }
-    })
-    return distinctLiveData
-}
-
-inline fun <reified T> RxEventBus.filterObservableAndSetThread(
-    observeThread: Scheduler = AndroidSchedulers.mainThread(),
-    subscribeThread: Scheduler = AndroidSchedulers.mainThread()
-): Observable<T> = filteredObservable(T::class.java).observeOn(observeThread).subscribeOn(subscribeThread)
 
 fun NavController.navigateSafe(
     @IdRes currentDestination: Int,
@@ -212,4 +171,8 @@ fun setRecyclerViewFastScrollListener(
             }
         }
     })
+}
+
+fun <T> MutableLiveData<T>.trigger() {
+    value = value
 }

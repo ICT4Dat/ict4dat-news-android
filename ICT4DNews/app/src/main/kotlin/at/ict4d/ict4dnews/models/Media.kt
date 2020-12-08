@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import at.ict4d.ict4dnews.models.wordpress.WordpressMedia
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 
 const val MEDIA_TABLE_TABLE_NAME = "media"
 const val MEDIA_TABLE_LINK = "link"
