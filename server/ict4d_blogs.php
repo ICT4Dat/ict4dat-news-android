@@ -208,10 +208,5 @@ $array = array(
 	
 	);
 
-
-
-
-https://feeds.buzzsprout.com/1298267.rss
-
 echo json_encode($array);
 ?>
