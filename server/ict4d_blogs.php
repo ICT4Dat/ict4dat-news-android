@@ -38,13 +38,6 @@ $array = array(
 		"feed_type" => 0,
 		"logo_url" => "https://www.ict4d.at/ict4dnews/ict4d_logo.png"),
 
-	array("name" => "World Bank's ICT4D Blog",  
-		"description" => "Working for a World Free of Poverty", 
-		"url" => "http://blogs.worldbank.org/ic4d/",
-		"feed_url" => "http://blogs.worldbank.org/ic4d/rss.xml",
-		"feed_type" => 2,
-		"logo_url" => "https://blogs.worldbank.org/ic4d/files/ic4d/ic4dblog_improvedbanner.jpg"),
-
 	array("name" => "DIODE",  
 		"description" => "The “Development Implications of Digital Economies” (DIODE) strategic network researches the digital economy – that part of economic output derived solely or primarily from digital technologies – and its role in developing countries.", 
 		"url" => "https://diode.network",
@@ -79,13 +72,6 @@ $array = array(
 		"feed_url" => "https://cipesa.org/",
 		"feed_type" => 0,
 		"logo_url" => "https://cipesa.org/wp-content/uploads/2016/05/cipesa-logo-small.png"),
-
-	array("name" => "UNICEF Stories",  
-		"description" => "Stories and Innovation", 
-		"url" => "http://unicefstories.org/",
-		"feed_url" => "http://unicefstories.org/",
-		"feed_type" => 0,
-		"logo_url" => "http://s21028.pcdn.co/wp-content/uploads/2018/04/Artboard-3.png"),
 
 	array("name" => "IT for Change",  
 		"description" => "Bridging Development Realities and Technological Possibilities", 
@@ -150,13 +136,6 @@ $array = array(
 		"feed_type" => 1,
 		"logo_url" => "https://www.gsma.com/wp-content/plugins/plugin_header_overload/images/logo.png"),
 
-	array("name" => "Guardian Project Blog",  
-		"description" => "Blog for the non-profit group creating apps and promoting libraries and devices that protect data and communications.", 
-		"url" => "https://guardianproject.info/",
-		"feed_url" => "https://guardianproject.info/",
-		"feed_type" => 0,
-		"logo_url" => "null"),
-
 	array("name" => "ICT Ethics",  
 		"description" => "Analyzing, clustering and summarizing the ethical debates in ICTD", 
 		"url" => "https://ictdethics.wordpress.com/",
@@ -219,13 +198,6 @@ $array = array(
 		"feed_url" => "https://matthaikin.com/feed/",
 		"feed_type" => 1,
 		"logo_url" => "null"),
-
-	array("name" => "Mobile for Development (GSMA) Blog",  
-		"description" => "Blog for the team within GSMA that focuses on emerging markets.", 
-		"url" => "https://www.gsma.com/mobilefordevelopment/",
-		"feed_url" => "https://www.gsma.com/mobilefordevelopment/feed/",
-		"feed_type" => 0,
-		"logo_url" => "https://www.gsma.com/mobilefordevelopment/wp-content/plugins/plugin_header_overload/images/logo.png"),
 
 	array("name" => "IFIP WG 9.4",  
 		"description" => "WG 9.4 invites researchers and practitioners of developing and industrialized countries to join its activities. Most of the voting members are from developing countries, either by residence or by origin, but the WG is open for anyone seriously interested in our topic and willing to contribute in some way. There is no fee. Membership applications are considered once a year by our parent body within the IFIP, Technical Committee 9 Computers and Society.", 
