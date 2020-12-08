@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.background
 
-import android.os.Build
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -26,17 +25,9 @@ class UpdateNewsServiceHandler(private val workManager: WorkManager) {
 
     fun cancelTask() = workManager.cancelAllWorkByTag(NEWS_WORKER_TAG)
 
-    private fun getConstraintsForNewsSyncService() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(true)
-            .setRequiresStorageNotLow(true)
-            .build()
-    } else {
-        Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(true)
-            .setRequiresStorageNotLow(true)
-            .build()
-    }
+    private fun getConstraintsForNewsSyncService() = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .setRequiresBatteryNotLow(true)
+        .setRequiresStorageNotLow(true)
+        .build()
 }
