@@ -1,11 +1,11 @@
-package at.ict4d.ict4dnews.server
+package at.ict4d.ict4dnews.server.api
 
 import at.ict4d.ict4dnews.models.Blog
-import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface ApiICT4DatNews {
 
     @GET("blogs/v3/ict4d_blogs.php")
-    fun getBlogs(): Single<List<Blog>>
+    suspend fun getBlogs(): Response<List<Blog>>
 }

@@ -1,7 +1,7 @@
 package at.ict4d.ict4dnews.models.wordpress
 
 import com.google.gson.annotations.SerializedName
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 
 const val SELF_HOSTED_WP_POST_SERIALIZED_ID = "id"
 const val SELF_HOSTED_WP_POST_SERIALIZED_DATE = "date"

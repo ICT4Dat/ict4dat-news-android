@@ -66,14 +66,13 @@
     <string name="settings">ترتیبات</string>
     <string name="app_version">معلومات</string>
     <string name="new_news_badge">نئی خبر</string>
-    <string name="connecting_text"> ہم آپ کو %1$d بلاگوں سے مربوط کر رہے ہیں ، اس میں کچھ وقت لگ سکتا ہے۔</string>
     <string name="no_blog_found">آئی سی ٹی 4 ڈی نیوز نہیں ملی</string>
     <string name="notification_channel_name">آئی سی ٹی 4 ڈی نیوز اطلاعات</string>
     <string name="notification_channel_description">آپ کو جاری رکھنے کے لئے آئی سی ٹی 4 ڈی نیوز ایپلی کیشن کی اطلاعات
         ہماری درخواست میں تبدیلیاں۔
     </string>
     <string name="news_update_complete">آئی سی ٹی 4 ڈی نیوز اپ ڈیٹ</string>
-    <string name="news_update_notification_content_text">٪d نئے مضامین دستیاب ہیں ، انہیں ابھی پڑھیں۔</string>
+    <string name="news_update_notification_content_text">%1$d نئے مضامین دستیاب ہیں ، انہیں ابھی پڑھیں۔</string>
     <string name="current_app_version">ورژن</string>
     <string name="should_allow_sync_service">خودکار تازہ ترین معلومات</string>
     <string name="should_allow_snyc_service_summary">خودکار تازہ کارییں پس منظر میں چلیں گی اور اس کو ڈاؤن لوڈ کریں گی

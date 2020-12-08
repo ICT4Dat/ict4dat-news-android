@@ -1,113 +1,100 @@
 package at.ict4d.ict4dnews.screens.news.list
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import at.ict4d.ict4dnews.extensions.filterObservableAndSetThread
-import at.ict4d.ict4dnews.models.Blog
-import at.ict4d.ict4dnews.models.News
-import at.ict4d.ict4dnews.persistence.IPersistenceManager
-import at.ict4d.ict4dnews.screens.base.BaseViewModel
-import at.ict4d.ict4dnews.server.IServer
-import at.ict4d.ict4dnews.utils.BlogsRefreshDoneMessage
-import at.ict4d.ict4dnews.utils.NewsRefreshDoneMessage
-import at.ict4d.ict4dnews.utils.RxEventBus
-import at.ict4d.ict4dnews.utils.ServerErrorMessage
-import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.doAsync
-import org.threeten.bp.LocalDate
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
+import at.ict4d.ict4dnews.persistence.sharedpreferences.SharedPrefs
+import at.ict4d.ict4dnews.server.repositories.BlogsRepository
+import at.ict4d.ict4dnews.server.repositories.NewsRepository
+import at.ict4d.ict4dnews.server.utils.NewsUpdateResource
+import at.ict4d.ict4dnews.server.utils.Status
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class ICT4DNewsViewModel(
-    private val persistenceManager: IPersistenceManager,
-    private val server: IServer,
-    pagedListConfig: PagedList.Config,
-    rxEventBus: RxEventBus
-) : BaseViewModel() {
+    private val blogsRepository: BlogsRepository,
+    private val newsRepository: NewsRepository,
+    sharedPrefs: SharedPrefs
+) : ViewModel() {
 
-    val blogsCount = persistenceManager.getBlogsCountAsLiveData()
-    val activeBlogsCount = persistenceManager.getActiveBlogsCountAsLiveData()
+    private val mutableNewsUpdateStatus = MutableLiveData<NewsUpdateResource>()
+    val newsUpdateStatus: LiveData<NewsUpdateResource> = mutableNewsUpdateStatus
+
+    val blogsCount = blogsRepository.getBlogsCount()
+    val activeBlogsCount = blogsRepository.getActiveBlogsCount().asLiveData()
+
     var isSplashNotStartedOnce = true
     var shouldMoveScrollToTop: Boolean = false
 
-    var searchQuery: String = ""
-    private val newsSearchDataSourceFactory: NewsSearchDataSourceFactory = NewsSearchDataSourceFactory()
-    val newsList: LiveData<PagedList<Pair<News, Blog?>>> =
-        LivePagedListBuilder(newsSearchDataSourceFactory, pagedListConfig).build()
+    private val mutableSearchQuery = MutableLiveData<String>().apply { value = "" }
+    val searchQuery: LiveData<String> = mutableSearchQuery
 
-    val lastAutomaticNewsUpdateLocalDate = persistenceManager.getLastAutomaticNewsUpdateLocalDate()
+    val newsList = mutableSearchQuery.switchMap {
+        newsRepository.getAllActiveNews(it)
+            .map { newsList -> newsList.map { news -> Pair(news, blogsRepository.getBlogByUrl(news.blogID ?: "").first()) } }
+            .asLiveData(Dispatchers.IO)
+    }
+
+    val lastAutomaticNewsUpdateLocalDate = sharedPrefs.lastAutomaticNewsUpdateLocalDate
 
     init {
-        compositeDisposable.add(rxEventBus.filterObservableAndSetThread<NewsRefreshDoneMessage>(subscribeThread = Schedulers.io())
-            .subscribe {
-                isRefreshing.value = false
-                shouldMoveScrollToTop = true
-            })
-
-        compositeDisposable.add(rxEventBus.filterObservableAndSetThread<ServerErrorMessage>(subscribeThread = Schedulers.io())
-            .subscribe { isRefreshing.value = false })
-
-        compositeDisposable.add(rxEventBus.filterObservableAndSetThread<BlogsRefreshDoneMessage>()
-            .subscribe {
-                isRefreshing.value = false
-                requestToLoadFeedsFromServers()
-            })
-
         requestToLoadFeedsFromServers()
     }
 
     fun requestToLoadFeedsFromServers(forceRefresh: Boolean = false) {
-        if (isRefreshing.value == null || isRefreshing.value == false) {
-            isRefreshing.postValue(true)
 
-            doAsync {
+        if (!isNewsUpdateLoading()) {
+
+            viewModelScope.launch {
                 if (forceRefresh) {
                     requestToLoadNews()
                 } else {
                     if (isLastNewsUpdateIsOld()) {
                         requestToLoadNews()
-                    } else {
-                        isRefreshing.postValue(false)
                     }
                 }
             }
         }
     }
 
-    private fun requestToLoadNews() {
-        if (isRefreshing.value == true) {
-            return
-        }
-        if (!persistenceManager.isBlogsExist()) {
-            compositeDisposable.add(server.loadBlogs())
+    fun isNewsUpdateLoading(): Boolean {
+        val value = newsUpdateStatus.value
+        return if (value == null) {
+            false
         } else {
-            compositeDisposable.add(server.loadAllNewsFromAllActiveBlogs())
+            value.status == Status.LOADING
         }
     }
 
-    private fun isLastNewsUpdateIsOld(): Boolean {
+    private suspend fun requestToLoadNews() {
+
+        if (!blogsRepository.doBlogsExists().first()) {
+
+            blogsRepository.getAllBlogs().collect {
+                if (it.status == Status.SUCCESS) {
+                    requestToLoadNews()
+                }
+            }
+        } else {
+            newsRepository.updateAllActiveNewsWithFlow().collect { newsUpdateResource ->
+                mutableNewsUpdateStatus.postValue(newsUpdateResource)
+            }
+        }
+    }
+
+    private suspend fun isLastNewsUpdateIsOld(): Boolean {
         return lastAutomaticNewsUpdateLocalDate.get().dayOfMonth != LocalDate.now().dayOfMonth ||
-            persistenceManager.getCountOfNews() == 0
+            newsRepository.getCountOfNews().first() == 0
     }
 
     fun performSearch(searchQuery: String) {
-        this.searchQuery = searchQuery
-        newsSearchDataSourceFactory.query = searchQuery
-        newsList.value?.dataSource?.invalidate()
-    }
-
-    inner class NewsSearchDataSourceFactory : DataSource.Factory<Int, Pair<News, Blog?>>() {
-
-        var query: String = ""
-
-        override fun create(): DataSource<Int, Pair<News, Blog?>> {
-            return persistenceManager.getAllActiveNews(query).map { news ->
-                if (news.blogID == null) {
-                    Pair(news, persistenceManager.getBlogByUrl(""))
-                } else {
-                    Pair(news, persistenceManager.getBlogByUrl(news.blogID))
-                }
-            }.create()
-        }
+        this.mutableSearchQuery.postValue(searchQuery)
     }
 }

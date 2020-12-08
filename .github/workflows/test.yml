@@ -19,7 +19,7 @@ jobs:
     - name: Tests
       run: |
         cd ICT4DNews
-        ./gradlew clean test lint --stacktrace
+        ./gradlew clean testDebugUnitTest lint --stacktrace
     - name: buildDebug
       run: |
         cd ICT4DNews
