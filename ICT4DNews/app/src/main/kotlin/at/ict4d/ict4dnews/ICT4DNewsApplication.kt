@@ -5,7 +5,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.multidex.MultiDex
 import at.ict4d.ict4dnews.di.modules.apiServiceModule
 import at.ict4d.ict4dnews.di.modules.helperModule
@@ -14,8 +13,8 @@ import at.ict4d.ict4dnews.di.modules.roomModule
 import at.ict4d.ict4dnews.di.modules.viewModelModule
 import at.ict4d.ict4dnews.persistence.sharedpreferences.SharedPrefs
 import com.facebook.stetho.Stetho
-import io.sentry.Sentry
-import io.sentry.android.AndroidSentryClientFactory
+import io.sentry.android.core.SentryAndroid
+import io.sentry.android.timber.SentryTimberIntegration
 import leakcanary.AppWatcher
 import leakcanary.ObjectWatcher
 import org.koin.android.ext.android.inject
@@ -64,14 +63,24 @@ open class ICT4DNewsApplication : Application() {
         if (BuildConfig.DEBUG || !sharedPrefs.isBugTrackingEnabled.get()) {
             Timber.i("Sentry is NOT running due to debug build or disabled bug tracking in the settings")
         } else {
-            try {
-                Sentry.init(BuildConfig.SENTRY_DNS, AndroidSentryClientFactory(applicationContext))
-            } catch (e: Exception) {
-                Timber.e(
-                    e,
-                    "Sentry is NOT running due to config error, see sentry-config.gradle for more information"
+            // Sentry.init(BuildConfig.SENTRY_DNS, AndroidSentryClientFactory(applicationContext))
+            initSentry()
+        }
+    }
+
+    private fun initSentry() {
+        // Don't crash the App if Sentry initialization fails
+        try {
+            SentryAndroid.init(this) { options ->
+                options.addIntegration(
+                    SentryTimberIntegration()
                 )
             }
+        } catch (e: Exception) {
+            Timber.e(
+                e,
+                "Sentry is NOT running due to config error, see sentry-config.gradle for more information"
+            )
         }
     }
 
@@ -86,8 +95,6 @@ open class ICT4DNewsApplication : Application() {
                     )
                 }
             })
-        } else {
-            Timber.plant(ReleaseTree())
         }
     }
 
@@ -117,15 +124,6 @@ open class ICT4DNewsApplication : Application() {
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-        }
-    }
-}
-
-class ReleaseTree : Timber.Tree() {
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-
-        if (priority == Log.ERROR) {
-            Sentry.capture("$message\n${t?.message}")
         }
     }
 }

@@ -30,7 +30,6 @@ class UpdateNewsServiceHandler(private val workManager: WorkManager) {
         Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresBatteryNotLow(true)
-            .setRequiresDeviceIdle(true)
             .setRequiresStorageNotLow(true)
             .build()
     } else {
