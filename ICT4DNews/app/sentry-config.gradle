@@ -5,10 +5,14 @@ ext {
 /**
  * This logic handles the Bug-Tracking Sentry Tool. The Sentry API needs a private key to authorize the
  * connection. This Gradle Class is used to load the file from a local file path.
+ * Since ProGuard is not used yet, the secret upload key also not used.
  *
  * Local File
  * Provide a Properties file with the name "sentry_config.properties" in the root of the project with a value such as:
  * keySentrySecret=[PUT HERE THE SECRET]
+ * dsn=[PUT HERE THE DSN]
+ *
+ * If you forget your DSN, view Settings -> Projects -> Client Keys (DSN)
  *
  */
 class SentryConfigLogic {

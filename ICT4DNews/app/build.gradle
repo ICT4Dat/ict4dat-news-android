@@ -1,6 +1,8 @@
+import com.github.triplet.gradle.androidpublisher.*
+
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '2.8.0'
+    id 'com.github.triplet.play' version '3.0.0'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
@@ -68,7 +70,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
 
-            buildConfigField "String", "SENTRY_DNS", "\"${sentryConfig.props.getProperty(sentryConfig.keySentrySecret)}\""
+            resValue "string", "sentry_dns", "\"${sentryConfig.props.getProperty(sentryConfig.keySentrySecret)}\""
         }
 
         debug {
@@ -76,7 +78,7 @@ android {
             versionNameSuffix "-debug"
             versionNameSuffix " (${getCheckedOutGitCommitHash()}.${rootProject.ext.versionCode})-debug"
 
-            buildConfigField "String", "SENTRY_DNS", "\"${sentryConfig.props.getProperty(sentryConfig.keySentrySecret)}\""
+            resValue "string", "sentry_dns", "\"${sentryConfig.props.getProperty(sentryConfig.keySentrySecret)}\""
         }
     }
 
@@ -105,11 +107,11 @@ android {
 
 // config to publish app bundle to the Play Store
 play {
-    serviceAccountCredentials = file(playStorePublisherConfig.props.getProperty(playStorePublisherConfig.keyPlayStoreJsonFilePath, 'this_should_not_happen.json'))
-    track = "internal"
-    userFraction = 1
-    releaseStatus = "draft"
-    defaultToAppBundles = true
+    serviceAccountCredentials.set(file(playStorePublisherConfig.props.getProperty(playStorePublisherConfig.keyPlayStoreJsonFilePath, 'this_should_not_happen.json')))
+    track.set("internal")
+    userFraction.set(1.0.toDouble())
+    releaseStatus.set(ReleaseStatus.DRAFT)
+    defaultToAppBundles.set(true)
 }
 
 dependencies {
@@ -119,18 +121,18 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "androidx.appcompat:appcompat:1.2.0"
     implementation "com.google.android.material:material:1.2.1"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.2"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
     implementation "androidx.vectordrawable:vectordrawable:1.1.0"
     implementation "androidx.preference:preference-ktx:1.1.1"
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation "androidx.browser:browser:1.2.0"
+    implementation "androidx.browser:browser:1.3.0"
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "androidx.core:core-ktx:1.3.2"
 
     // Play Services
-    implementation "com.google.android.gms:play-services-auth:18.1.0"
+    implementation "com.google.android.gms:play-services-auth:19.0.0"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -205,11 +207,12 @@ dependencies {
 
     // Sentry Bug-Tracker
     implementation "io.sentry:sentry-android:$sentry_version"
+    implementation "io.sentry:sentry-android-timber:$sentry_version"
 
     // Koin AndroidX ViewModel features
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.0.10"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.1"
 }
 
 configurations {
