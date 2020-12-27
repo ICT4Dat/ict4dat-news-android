@@ -84,6 +84,6 @@
     <string name="error_dialog_msg">An unknown error occurred.</string>
     <string name="dialog_ok">OK</string>
     <string name="ownership_dialog_title">Ownership &amp; Publisher</string>
-    <string name="ownership_dialog_message">This application brings together news sources on the topic of ICT4D.\n\nICT4D.at does not own nor is responsible for the content of other sources and providers. You can find all used sources in the section "ICT4D Blogs &amp; Sources" or on GitHub: https://github.com/ICT4Dat/ict4dat-news-android\n\nIf you are the owner of one oft the sources used by this application and would like to be removed or if you would like to propose a new source, then please contact us: news.app@ict4d.at</string>
+    <string name="ownership_dialog_message">This application brings together news sources on the topic of ICT4D.\n\nICT4D.at does not own nor is responsible for the content of other sources and providers. You can find all used sources in the section \"ICT4D Blogs &amp; Sources\" or on GitHub:\nhttps://github.com/ICT4Dat/ict4dat-news-android\n\nIf you are the owner of one oft the sources used by this application and would like to be removed or if you would like to propose a new source, then please contact us:\nnews.app@ict4d.at</string>
 
 </resources>
