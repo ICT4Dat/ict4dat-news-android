@@ -1,6 +1,9 @@
 package at.ict4d.ict4dnews.screens.news.blogandsource
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +11,7 @@ import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentBlogAndSourcesBinding
 import at.ict4d.ict4dnews.extensions.handleApiResponse
 import at.ict4d.ict4dnews.screens.base.BaseFragment
+import at.ict4d.ict4dnews.screens.util.showOwnershipAlertDialog
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 
 class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogAndSourcesBinding>(
@@ -48,5 +52,19 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
                 )
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.blogs_and_sources_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.info -> {
+            showOwnershipAlertDialog(requireContext())
+            true
+        }
+
+        else -> super.onOptionsItemSelected(item)
     }
 }
