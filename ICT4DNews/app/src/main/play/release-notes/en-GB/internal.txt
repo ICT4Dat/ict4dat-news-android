@@ -1,5 +1,1 @@
-• ICT4D News updates are working again
-• Translation to Urdu
-• We added and removed some sources
-• Android 10 support
 • Many bug fixes and other improvements

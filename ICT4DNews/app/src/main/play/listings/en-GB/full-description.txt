@@ -3,3 +3,7 @@ ICT4D News combines 29 blogs and news sources around the topic of ICT4D and Digi
 We believe in diversity and the benefits coming with it. We are proud of being an international team from 3 different continents (Africa, Asia and Europe) and 5 different countries. The core team consists of three members: Noah Alorwu, who is active in Ghana, Raja Saboor Ali is strongly committed in Pakistan and Paul Spiesberger is involved from Austria. We also have support from Job Guitiche, who contributes from Mozambique and Chloé Zimmermann, a designer from France.
 
 This application was developed by ICT4D.at as an Open Source Software. You can contribute and/or file bugs at GitHub: https://github.com/ICT4Dat/ict4dat-news-android/
+
+ICT4D.at does not own nor is responsible for the content of other sources and providers. You can find all used sources in the section "ICT4D Blogs & Sources" or on GitHub: https://github.com/ICT4Dat/ict4dat-news-android#supported-news-feeds-and-sources
+
+If you are the owner of one oft the sources used by this application and would like to be removed or if you would like to propose a new source, then please contact us: news.app@ict4d.at
