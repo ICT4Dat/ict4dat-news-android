@@ -85,5 +85,7 @@
     <string name="error_dialog_title">Fehler</string>
     <string name="error_dialog_msg">Es ist ein unbekannter Fehler aufgetreten.</string>
     <string name="dialog_ok">OK</string>
+    <string name="ownership_dialog_title">Eigentümer &amp; Verleger</string>
+    <string name="ownership_dialog_message">Diese Anwendung vereint Nachrichtenquellen zum Thema ICT4D.\n\nICT4D.at ist weder der Eigentümer noch ist ICT4D.at verantwortlich für den Inhalt anderer Quellen und/oder Anbieter. Sie finden alle verwendeten Quellen im Abschnitt \"ICT4D-Blogs &amp; Quellen\" oder auf GitHub:\nhttps://github.com/ICT4Dat/ict4dat-news-android#supported-news-feeds-and-sources\n\nWenn Sie Eigentümer einer der von dieser Anwendung verwendeten Quellen sind und Sie entfernt werden möchten oder eine neue Quelle vorschlagen wollen, dann kontaktieren Sie uns bitte unter:\nnews.app@ict4d.at</string>
 
 </resources>
