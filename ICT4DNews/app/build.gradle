@@ -1,4 +1,4 @@
-import com.github.triplet.gradle.androidpublisher.*
+import com.github.triplet.gradle.androidpublisher.ReleaseStatus
 
 plugins {
     id 'com.android.application'
@@ -24,7 +24,7 @@ android {
         applicationId "at.ict4d.ict4dnews"
         minSdkVersion 21
         targetSdkVersion 30
-        buildToolsVersion "30.0.2"
+        buildToolsVersion "30.0.3"
         versionCode rootProject.ext.versionCode
         versionName "${rootProject.ext.versionMajor}.${rootProject.ext.versionMinor}.${rootProject.ext.versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -187,8 +187,8 @@ dependencies {
     testImplementation "org.robolectric:multidex:3.4.2"
 
     // Leak Canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
-    implementation "com.squareup.leakcanary:leakcanary-object-watcher-android:2.5"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.6"
+    implementation "com.squareup.leakcanary:leakcanary-object-watcher-android:2.6"
 
     // 3rd Party licenses
     implementation "com.google.android.gms:play-services-oss-licenses:17.0.0"

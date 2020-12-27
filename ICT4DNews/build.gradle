@@ -6,12 +6,12 @@ buildscript {
         versionMajor = 1
         versionMinor = 2
         versionPatch = 0
-        versionBuild = 0 // bump for dogfood builds, public betas, etc.
+        versionBuild = 1 // bump for dogfood builds, public betas, etc.
         versionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
 
         kotlin_version = "1.4.21"
         glide_version = "4.11.0"
-        room_version = "2.2.5"
+        room_version = "2.2.6"
         lifecycle_version = "2.2.0"
         retrofit_version = "2.9.0"
         work_version = "2.4.0"

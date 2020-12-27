@@ -76,14 +76,14 @@
     <string name="news_update_notification_content_text">%1$d new article/s available, read them now.</string>
     <string name="current_app_version">Version</string>
     <string name="should_allow_sync_service">Automatic Updates</string>
-    <string name="should_allow_snyc_service_summary">Automatic updates will run in the background and downloads the
-        latest ICT4D news.
-    </string>
+    <string name="should_allow_snyc_service_summary">Automatic updates will run in the background and downloads the latest ICT4D news.</string>
     <string name="settings_category_general">General Settings</string>
     <string name="settings_bug_tracking_title">Bug-Tracking</string>
     <string name="settings_bug_tracking_summary">We use a monitoring tool to track bugs. We do not collect any personal data, but include device information.</string>
     <string name="error_dialog_title">Error</string>
     <string name="error_dialog_msg">An unknown error occurred.</string>
     <string name="dialog_ok">OK</string>
+    <string name="ownership_dialog_title">Ownership &amp; Publisher</string>
+    <string name="ownership_dialog_message">This application brings together news sources on the topic of ICT4D.\n\nICT4D.at does not own nor is responsible for the content of other sources and providers. You can find all used sources in the section \"ICT4D Blogs &amp; Sources\" or on GitHub:\nhttps://github.com/ICT4Dat/ict4dat-news-android#supported-news-feeds-and-sources\n\nIf you are the owner of one oft the sources used by this application and would like to be removed or if you would like to propose a new source, then please contact us:\nnews.app@ict4d.at</string>
 
 </resources>
