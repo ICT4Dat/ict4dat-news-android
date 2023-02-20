@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">Notícias ICT4D</string>
+    <string name="nav_news">Notícias</string>
+    <string name="nav_more">Mais</string>
+    <string name="refresh">Atualizar</string>
+    <string name="search">Pesquisar</string>
+    <string name="filter">Filtrar</string>
+    <string name="news_search_hint">Pesquisar notícias…</string>
+    <string name="title_activity_ict4_dnews_detail">Notícias ICT4D</string>
+    <string name="ict4d_at_wikipedia">Continuar lendo no Wikipedia</string>
+    <string name="ict4d_logo">ICT4D logotipo</string>
+    <string name="ict4d_at_logo">ICT4D.at logotipo</string>
+    <string name="http_exception_error_message">Não foi possível fazer a conexão</string>
+    <string name="server_error_message">O servidor não está respondendo neste momento</string>
+    <string name="send_to">Compartilhar com</string>
+    <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
+    <string name="open_in_browser">Abrir no navegador</string>
+    <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
+        refers to the application of information and communication technologies (ICT) toward social, economic, and
+        political development, with a particular emphasis on helping poor and marginalized people and communities. It
+        aims to help in international development by bridging the digital divide and providing equitable access to
+        technologies. ICT4D is grounded in the notions of "development", "growth", "progress" and "globalization" and is
+        often interpreted as the use of technology to deliver a greater good. Another similar term used in the
+        literature is "digital development". ICT4D draws on theories and frameworks from many disciplines, including
+        sociology, economics, development studies, library, information science, and communication
+        studies.\n\n-Wikipedia
+    </string>
+    <string name="ict4dat_vision">A World of Equal Opportunities for All\n\nOur Mission:\nThrough knowledge,
+        tools and networks we empower people to develop the skills they need to achieve their full potential.\n\nOur
+        Core Values:\n\u2022 Community\n\u2022 Interdisciplinary &amp; Co-creation\n\u2022 Respect &amp;
+        Tolerance\n\u2022 Honesty &amp; Trust\n\u2022 Passion &amp; Creativity\n
+    </string>
+    <string name="ict4dat_projects">Nossos projectos</string>
+    <string name="ict4dat_about">Sobre nós &amp; Membros</string>
+    <string name="open_source_licences_title">Licenças Open Source</string>
+    <string name="licenses">Licenças</string>
+    <string name="share">Compartilhar</string>
+    <string name="share_ict4dat">ICT4D.at - Rede Austríaca de Tecnologias de Informação e Comunicação para o Desenvolvimento\n\n%1$s
+    </string>
+    <string name="read_more">Ler mais</string>
+    <string name="blog_logo">Logotipo do Blog</string>
+    <string name="ict4d_blogs_and_sources">Blogs ICT4D &amp; Outras fontes</string>
+    <string name="contextual_selection">%d/%d blogs escohidos</string>
+    <string name="about_developers">Este aplicativo Android de código aberto foi desenvolvido com Amor pela ONG ICT4D.at e
+        pelos seguintes principais desenvolvedores e designers:
+    </string>
+    <string name="rate_application">Avalie este aplicativo</string>
+    <string name="share_application">Compartilhe este aplicativo</string>
+    <string name="contact_us">Contacte-nos</string>
+    <string name="github_project">Abrir Projecto no Github</string>
+    <string name="software_developer">Desenvolvedor de Software</string>
+    <string name="designer">Designer</string>
+    <string name="contact_mail_subject">Aplicativo de notícias ICT4D.at</string>
+    <string name="contact_mail_text">Caro ICT4D.at,\n\n</string>
+    <string name="share_app_text">Olá,\nEu estou usando o aplicativo\ Android Notícias-ICT4D da ICT4D.at. Você pode baixá-lo aqui:\n\n
+        %1$s
+    </string>
+    <string name="headline_more">Com %1$s de ICT4D.at</string>
+    <string name="ict4d_headline">O que é ICT4D?</string>
+    <string name="settings">Configurações</string>
+    <string name="app_version">Informação</string>
+    <string name="new_news_badge">Novas Notícias</string>
+    <string name="connecting_text">Conectando-se às Notícias %1$d/%2$d:\n%3$s</string>
+    <string name="no_blog_found">Nenhuma notícia ICT4D encontrada</string>
+    <string name="notification_channel_name">Notificações de Notícias ICT4D</string>
+    <string name="notification_channel_description">Notificações do aplicativo Notícias ICT4D para mantê-lo atualizado sobre
+        alterações em nosso aplicativo.
+    </string>
+    <string name="news_update_complete">Atualização de notícias ICT4D</string>
+    <string name="news_update_notification_content_text">%1$d novos artigos disponíveis, leia-os agora.</string>
+    <string name="current_app_version">Versão</string>
+    <string name="should_allow_sync_service">Atualizações Automáticas</string>
+    <string name="should_allow_snyc_service_summary">As atualizações automáticas serão executadas em segundo plano e irão baixar as últimas notícias ICT4D.</string>
+    <string name="settings_category_general">Configurações Gerais</string>
+    <string name="settings_bug_tracking_title">Rastreamento de Bugs</string>
+    <string name="settings_bug_tracking_summary">Usamos uma ferramenta de monitoramento para rastrear bugs. Não coletamos nenhum dado pessoal, mas incluímos informações do dispositivo.</string>
+    <string name="error_dialog_title">Erro</string>
+    <string name="error_dialog_msg">Ocorreu um erro desconhecido.</string>
+    <string name="dialog_ok">OK</string>
+    <string name="ownership_dialog_title">Propriedade &amp; Edição do conteúdo</string>
+    <string name="ownership_dialog_message">Este aplicativo reúne fontes de notícias sobre o tema ICT4D.\n\nICT4D.at não possui nem é responsável pelo conteúdo de outras fontes e provedores. Você pode encontrar todas as fontes usadas na seção \"ICT4D Blogs &amp; Sources\" ou no GitHub:\nhttps://github.com/ICT4Dat/ict4dat-news-android#supported-news-feeds-and-sources\n\nSe você é o proprietário de uma das fontes usadas por este aplicativo e gostaria de ser removido ou se gostaria de propor uma nova fonte, entre em contato conosco:\nnews.app@ict4d.at</string>
+
+</resources>
