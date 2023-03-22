@@ -47,10 +47,10 @@ $array = array(
 
 	array("name" => "Digital Impact Alliance",  
 		"description" => "Advancing an inclusive digital society", 
-		"url" => "https://digitalimpactalliance.org/",
+		"url" => "https://dial.global/",
 		"feed_url" => "https://digitalimpactalliance.org/",
 		"feed_type" => 0,
-		"logo_url" => "https://digitalimpactalliance.org/wp-content/uploads/2017/06/logo-dial.png"),
+		"logo_url" => "null"),
 
 	array("name" => "Panoply Digital",  
 		"description" => "Sustainable development through appropriate technology", 
@@ -104,9 +104,9 @@ $array = array(
 	array("name" => "My heart's in Accra",  
 		"description" => "Personal blog from Ethan Zuckerman, director of the Center for Civic Media at MIT.", 
 		"url" => "http://www.ethanzuckerman.com/blog/",
-		"feed_url" => "http://www.ethanzuckerman.com/blog/",
-		"feed_type" => 0,
-		"logo_url" => "http://www.ethanzuckerman.com/blog/wp-content/2013/05/cropped-bernardheader1.jpg"),
+		"feed_url" => "https://ethanzuckerman.com/feed/",
+		"feed_type" => 2,
+		"logo_url" => "https://ethanzuckerman.com/wp-content/2013/05/bernardheader2.jpg"),
 
 	array("name" => "Appropriating Technology",  
 		"description" => "Blog from Tony Roberts, fellow in the Digital & Technology team at the Institute for Development Studies at the University of Sussex in the UK.", 
@@ -130,10 +130,10 @@ $array = array(
 		"logo_url" => "https://dai-global-digital.com/uploads/social-image.jpg"),
 
 	array("name" => "GSMA Newsroom",  
-		"description" => "Blog for the trade union of 800 mobile operators and 300 companies around the world.", 
-		"url" => "https://www.gsma.com/newsroom/category/press-release/",
-		"feed_url" => "https://www.gsma.com/newsroom/category/press-release/feed/",
-		"feed_type" => 1,
+		"description" => "Welcome to the GSMA Newsroom. Here you will find all the latest announcements, reports and information relating to the programmes and initiatives the GSMA is undertaking around the world.", 
+		"url" => "https://www.gsma.com/newsroom/",
+		"feed_url" => "https://www.gsma.com/newsroom/?cat=3&feed=rss",
+		"feed_type" => 2,
 		"logo_url" => "https://www.gsma.com/wp-content/plugins/plugin_header_overload/images/logo.png"),
 
 	array("name" => "ICT Ethics",  
@@ -204,7 +204,7 @@ $array = array(
 		"url" => "https://ifip94.wordpress.com/",
 		"feed_url" => "https://ifip94.wordpress.com/feed/",
 		"feed_type" => 1,
-		"logo_url" => "https://2019ifipwg94.net/images/logo/ifip-logo-with-title.jpg")
+		"logo_url" => "https://defaultcustomheadersdata.files.wordpress.com/2016/07/succulents.jpg?resize=1180,360")
 	
 	);
 
