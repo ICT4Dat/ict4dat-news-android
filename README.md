@@ -31,10 +31,10 @@ The following alphabetically orded list of news sources is included in the appli
 * [Appropriating Technology](http://appropriatingtechnology.org/) - Blog from Tony Roberts, fellow in the Digital & Technology team at the Institute for Development Studies at the University of Sussex in the UK.
 * [Chris Blattman](https://chrisblattman.com/) - Blog from Chris Blattman, development economist at the Harris School of Public Policy at the University of Chicago. Focus is on development, but he's young and hip and offers great perspective on local technology interventions.
 * [CIPES](https://cipesa.org/) - Promoting Effective and Inclusive ICT Policy in Africa.
-* [Digital Impact Alliance](https://digitalimpactalliance.org/) - Advancing an inclusive digital society
+* [Digital Impact Alliance](https://dial.global/) - Advancing an inclusive digital society
 * [Digital@DAI](https://dai-global-digital.com/) - A relatively new but well-written blog covering recent technologies, experiments with tech solutions, and reviews.
 * [DIODE](https://diode.network) - The “Development Implications of Digital Economies” (DIODE) strategic network researches the digital economy – that part of economic output derived solely or primarily from digital technologies – and its role in developing countries.
-* [GSMA Newsroom](https://www.gsma.com/newsroom/category/press-release/) - Blog for the trade union of 800 mobile operators and 300 companies around the world.
+* [GSMA Newsroom](https://www.gsma.com/newsroom/category/press-release/) - Welcome to the GSMA Newsroom. Here you will find all the latest announcements, reports and information relating to the programmes and initiatives the GSMA is undertaking around the world.
 * [ICT Ethics](https://ictdethics.wordpress.com/) - Analyzing, clustering and summarizing the ethical debates in ICTD.
 * [ICT4D.at](http://www.ict4d.at) - Austrian Network for Information and Comunication Technologies for Development.
 * [ICT4D Views from the Field](https://ict4dviewsfromthefield.wordpress.com/) - Blog about ICT4D projects from Dr. Laura Hosman, at the School for the Future of Innovation in Society and at The Polytechnic School at Arizona State University.
