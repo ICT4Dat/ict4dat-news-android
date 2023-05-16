@@ -148,9 +148,11 @@
                 android:layout_margin="@dimen/fab_margin"
                 android:contentDescription="@string/share"
                 android:visibility="invisible"
+                app:backgroundTint="@color/colorAccent"
                 app:layout_anchor="@id/app_bar"
                 app:layout_anchorGravity="bottom|end"
                 app:srcCompat="@drawable/ic_share_white_24dp"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                tools:visibility="visible" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
