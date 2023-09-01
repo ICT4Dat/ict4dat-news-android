@@ -20,7 +20,6 @@ fun <ResultType, RemoteResultType> resultFlow(
     saveCallResult: suspend (RemoteResultType) -> Unit,
     emitFutureDatabaseUpdates: Boolean = true
 ) = flow<Resource<ResultType>> {
-
     val dbSource = databaseQuery.invoke()
 
     try {
@@ -33,9 +32,11 @@ fun <ResultType, RemoteResultType> resultFlow(
                 saveCallResult(apiResponse.body)
                 dbSource.map { Resource.success(it, apiResponse.responseCode) }
             }
+
             is ApiEmptyResponse -> {
                 dbSource.map { Resource.success(it, apiResponse.responseCode) }
             }
+
             is ApiErrorResponse -> {
                 dbSource.map {
                     Resource.error(
@@ -53,14 +54,15 @@ fun <ResultType, RemoteResultType> resultFlow(
             emit(resourceFlow.first())
         }
     } catch (e: Exception) {
-
         Timber.w(e, "Error in resultFlow")
 
         if (e !is CancellationException) {
             if (emitFutureDatabaseUpdates) {
-                emitAll(dbSource.map {
-                    Resource.error(e, it, null)
-                })
+                emitAll(
+                    dbSource.map {
+                        Resource.error(e, it, null)
+                    }
+                )
             } else {
                 emit(Resource.error(e, dbSource.first(), null))
             }

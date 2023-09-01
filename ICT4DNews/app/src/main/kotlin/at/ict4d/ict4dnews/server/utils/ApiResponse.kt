@@ -17,7 +17,6 @@ sealed class ApiResponse<T> {
         }
 
         fun <T> create(response: Response<T>): ApiResponse<T> {
-
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body == null || response.code() == HttpURLConnection.HTTP_NO_CONTENT) {

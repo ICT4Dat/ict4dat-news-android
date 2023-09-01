@@ -19,12 +19,11 @@ fun generateAuthorAndInsert(authorDao: AuthorDao): Author {
 }
 
 fun generateAuthorListAndInsert(authorDao: AuthorDao, numberOfAuthors: Int = 5): List<Author> {
-
     val authorList = mutableListOf<Author>()
     for (i in 0 until numberOfAuthors) {
         authorList.add(generateAuthor())
     }
 
     authorDao.insertAll(authorList)
-    return authorList
+    return authorList 
 }

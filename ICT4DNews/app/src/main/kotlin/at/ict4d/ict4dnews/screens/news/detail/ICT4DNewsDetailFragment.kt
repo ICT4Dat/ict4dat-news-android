@@ -1,9 +1,8 @@
 package at.ict4d.ict4dnews.screens.news.detail
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.content.Context
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,24 +13,27 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.extensions.extractDate
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
-import org.jetbrains.anko.share
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ICT4DNewsDetailFragment :
-    BaseFragment<ICT4DNewsDetailViewModel, FragmentIct4dNewsDetailBinding>(
-        R.layout.fragment_ict4d_news_detail,
-        ICT4DNewsDetailViewModel::class
+    BaseFragment<FragmentIct4dNewsDetailBinding>(
+        R.layout.fragment_ict4d_news_detail
     ) {
+
+    private val model by viewModel<ICT4DNewsDetailViewModel>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         model.setUp(ICT4DNewsDetailFragmentArgs.fromBundle(requireArguments()).newsItem)
-        setHasOptionsMenu(true)
     }
 
     override fun onResume() {
@@ -50,13 +52,24 @@ class ICT4DNewsDetailFragment :
             recordActionBreadcrumb("fab", this)
 
             model.author.value?.name.let { authorName ->
-                context?.share(
-                    String.format(
-                        getString(R.string.news_detail_share),
-                        model.getNews()?.title,
-                        authorName,
-                        model.getNews()?.publishedDate?.extractDate(),
-                        model.getNews()?.link
+
+                startActivity(
+                    Intent.createChooser(
+                        Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                getString(
+                                    R.string.news_detail_share,
+                                    model.getNews()?.title,
+                                    authorName,
+                                    model.getNews()?.publishedDate?.extractDate(),
+                                    model.getNews()?.link
+                                )
+                            )
+                            type = "text/plain"
+                        },
+                        getString(R.string.share)
                     )
                 )
             }
@@ -86,7 +99,6 @@ class ICT4DNewsDetailFragment :
 
         binding.webview.webViewClient = object : WebViewClient() {
 
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
@@ -100,7 +112,7 @@ class ICT4DNewsDetailFragment :
                 }
             }
 
-            @Suppress("DEPRECATION", "OverridingDeprecatedMember")
+            @Deprecated("Deprecated in Java")
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 return if (url != null && (url.startsWith("www", true) || url.startsWith(
                         "http",
@@ -114,18 +126,22 @@ class ICT4DNewsDetailFragment :
                 }
             }
         }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_ict4_dnews_detail, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                // Add menu items here
+                menuInflater.inflate(R.menu.menu_ict4_dnews_detail, menu)
+            }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_open -> {
-            activity?.browseCustomTab(model.getNews()?.link ?: "")
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
+            override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
+                R.id.action_open -> {
+                    activity?.browseCustomTab(model.getNews()?.link ?: "")
+                    true
+                }
+
+                else -> false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 }

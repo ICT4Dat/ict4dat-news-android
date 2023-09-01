@@ -3,7 +3,6 @@ package at.ict4d.ict4dnews.screens.more
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -12,6 +11,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentMoreBinding
@@ -20,16 +22,9 @@ import at.ict4d.ict4dnews.extensions.navigateSafe
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
-import org.jetbrains.anko.email
-import org.jetbrains.anko.share
 
 class MoreFragment :
-    BaseFragment<MoreViewModel, FragmentMoreBinding>(R.layout.fragment_more, MoreViewModel::class) {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
+    BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,23 +38,29 @@ class MoreFragment :
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_more_settings, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_settings -> {
-                recordNavigationBreadcrumb("R.id.menu_settings", this)
-                findNavController().navigateSafe(
-                    R.id.moreFragment,
-                    MoreFragmentDirections.actionActionMoreToSettingsFragment()
-                )
-                return true
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                // Add menu items here
+                menuInflater.inflate(R.menu.menu_more_settings, menu)
             }
-        }
-        return super.onOptionsItemSelected(item)
+
+            override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
+                R.id.menu_settings -> {
+                    recordNavigationBreadcrumb("R.id.menu_settings", this)
+                    findNavController().navigateSafe(
+                        R.id.moreFragment,
+                        MoreFragmentDirections.actionActionMoreToSettingsFragment()
+                    )
+                    true
+                }
+
+                else -> false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     fun rateApplication() {
@@ -68,11 +69,7 @@ class MoreFragment :
         recordActionBreadcrumb("rateApplication", this, mapOf("uri" to uri.toString()))
 
         val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-        } else {
-            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-        }
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
 
         try {
             startActivity(goToMarket)
@@ -88,11 +85,22 @@ class MoreFragment :
 
     fun shareApplication() {
         recordActionBreadcrumb("shareApplication", this)
-        activity?.share(
-            getString(
-                R.string.share_app_text,
-                "http://play.google.com/store/apps/details?id=${context?.packageName}"
-            ), getString(R.string.app_name)
+
+        startActivity(
+            Intent.createChooser(
+                Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        getString(
+                            R.string.share_app_text,
+                            "http://play.google.com/store/apps/details?id=${context?.packageName}"
+                        )
+                    )
+                    type = "text/plain"
+                },
+                getString(R.string.share)
+            )
         )
     }
 
@@ -102,10 +110,15 @@ class MoreFragment :
 
     fun contactUs() {
         recordActionBreadcrumb("contactUs", this)
-        context?.email(
-            getString(R.string.contact_email),
-            getString(R.string.contact_mail_subject),
-            getString(R.string.contact_mail_text)
-        )
+
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:") // Only email apps handle this.
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.contact_email)))
+            putExtra(Intent.EXTRA_SUBJECT, arrayOf(getString(R.string.contact_mail_subject)))
+            putExtra(Intent.EXTRA_TEXT, arrayOf(getString(R.string.contact_mail_text)))
+        }
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        }
     }
 }

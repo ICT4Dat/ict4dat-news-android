@@ -58,11 +58,9 @@ class NewsRepository(
         .flowOn(Dispatchers.IO)
 
     suspend fun updateAllActiveNewsWithFlow(): Flow<NewsUpdateResource> {
-
         recordNetworkBreadcrumb("loadAllNewsFromAllActiveBlogs", this)
 
         return flow {
-
             val activeBlogs = blogsRepository.getAllActiveBlogs().first()
 
             val successfulBlogs = mutableListOf<Blog>()
@@ -121,7 +119,6 @@ class NewsRepository(
     }
 
     suspend fun downloadAllNews(): NewsUpdateResource = withContext(Dispatchers.IO) {
-
         val activeBlogs = blogsRepository.getAllActiveBlogs().first()
 
         val successfulBlogs = mutableListOf<Blog>()
@@ -155,16 +152,13 @@ class NewsRepository(
     }
 
     private suspend fun handleSelfHostedWpBlog(blog: Blog): Resource<Triple<List<News>, List<Author>, List<Media>>> {
-
         return try {
-
             val latestNewsDate = getLatestNewsPublishedDate(blog.feed_url).first().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             val response = apiJsonSelfHostedWPService.getJsonNewsOfUrl(blog.feed_url + SELF_HOSTED_URL_ENDING, newsAfterDate = latestNewsDate)
 
             val selfHostedWpPostList = response.body()
 
             if (response.isSuccessful && selfHostedWpPostList != null) {
-
                 // set blog URL
                 selfHostedWpPostList.map { it.blogLink = blog.feed_url }
 
@@ -238,14 +232,11 @@ class NewsRepository(
     }
 
     private suspend fun handleRSSBlog(blog: Blog): Resource<Triple<List<News>, List<Author>, List<Media>>> {
-
         return try {
-
             val response = apiRssService.getRssNews(blog.feed_url)
 
             val channel = response.body()?.channel
             if (response.isSuccessful && channel != null) {
-
                 val author = Author(blog, channel)
 
                 val mediaList = mutableListOf<Media>()

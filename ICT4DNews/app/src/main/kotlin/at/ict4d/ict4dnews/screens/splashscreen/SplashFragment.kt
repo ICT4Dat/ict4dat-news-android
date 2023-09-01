@@ -10,12 +10,14 @@ import at.ict4d.ict4dnews.extensions.handleApiResponse
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.showOwnershipAlertDialog
 import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
+class SplashFragment : BaseFragment<FragmentSplashBinding>(
     R.layout.fragment_splash,
-    SplashViewModel::class,
     hasToolbar = false
 ) {
+
+    private val model by viewModel<SplashViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,7 +27,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
                 handleApiResponse(resource)
 
-                if (resource.data != null && resource.data.isNotEmpty()) {
+                if (!resource.data.isNullOrEmpty()) {
                     recordNavigationBreadcrumb("pop", this)
                     findNavController().popBackStack()
                 } else {

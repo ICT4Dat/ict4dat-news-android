@@ -2,20 +2,12 @@
 <resources>
     <string name="app_name">آئی سی ٹی 4 ڈی خبریں</string>
     <string name="nav_news">خبریں</string>
-    <string name="nav_ict4dat" translatable="false">ICT4D.at</string>
-    <string name="nav_ict4d" translatable="false">ICT4D</string>
     <string name="nav_more">مزید</string>
     <string name="refresh">ریفریش</string>
     <string name="search">تلاش کریں</string>
     <string name="filter">فلٹر</string>
-    <string name="news_search_hint">خبریں تلاش کریں…</string>
-    <string name="title_activity_ict4_dnews_detail">آئی سی ٹی 4 ڈی خبریں</string>
     <string name="ict4d_at_wikipedia">ویکیپیڈیا پر پڑھنا جاری رکھیں</string>
-    <string name="ict4d_logo">آئی سی ٹی 4 ڈی لوگو</string>
     <string name="ict4d_at_logo">ICT4D.at logo</string>
-    <string name="http_exception_error_message">رابطہ قائم کرنے کے قابل نہیں</string>
-    <string name="server_error_message">سرور اس وقت جواب نہیں دے رہا ہے</string>
-    <string name="send_to">کے ساتھ اشتراک کریں</string>
     <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
     <string name="open_in_browser">ایک براؤزر میں کھولیں</string>
     <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
@@ -36,7 +28,6 @@
     <string name="ict4dat_projects">ہمارے منصوبے</string>
     <string name="ict4dat_about">ہمارے اور ممبروں کے بارے میں</string>
     <string name="open_source_licences_title">اوپن سورس لائسنس</string>
-    <string name="licenses">لائسنس</string>
     <string name="share">بانٹیں</string>
     <string name="share_ict4d" translatable="false">ICT4D - Information and Communication Technologies for
         Development\n\n%1$s

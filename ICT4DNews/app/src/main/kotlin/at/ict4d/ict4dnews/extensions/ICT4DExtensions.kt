@@ -18,9 +18,9 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.utils.GlideApp
-import at.ict4d.ict4dnews.utils.GlideRequest
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -59,7 +59,7 @@ fun ImageView.loadFromURL(
     @DrawableRes
     error: Int = R.drawable.ic_broken_image_black_24dp,
     round: Boolean = false
-) = setUpGlideAndLoad(this, GlideApp.with(context).load(drawableRes), placeholder, error, round)
+) = setUpGlideAndLoad(this, Glide.with(context).load(drawableRes), placeholder, error, round)
 
 @BindingAdapter(value = ["loadFromURL", "placeholder", "error", "round"], requireAll = false)
 fun ImageView.loadFromURL(
@@ -69,11 +69,11 @@ fun ImageView.loadFromURL(
     @DrawableRes
     error: Int = R.drawable.ic_broken_image_black_24dp,
     round: Boolean = false
-) = setUpGlideAndLoad(this, GlideApp.with(context).load(url), placeholder, error, round)
+) = setUpGlideAndLoad(this, Glide.with(context).load(url), placeholder, error, round)
 
 private fun setUpGlideAndLoad(
     imageView: ImageView,
-    glide: GlideRequest<Drawable>,
+    glide: RequestBuilder<Drawable>,
     @DrawableRes
     placeholder: Int = R.drawable.ic_refresh_black_24dp,
     @DrawableRes
@@ -81,7 +81,7 @@ private fun setUpGlideAndLoad(
     round: Boolean
 ) {
     if (round) {
-        glide.apply(RequestOptions.circleCropTransform())
+        glide.apply { RequestOptions.circleCropTransform() }
     }
 
     var imagePlaceholder = placeholder

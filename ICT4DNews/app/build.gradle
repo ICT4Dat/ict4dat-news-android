@@ -2,13 +2,15 @@ import com.github.triplet.gradle.androidpublisher.ReleaseStatus
 
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '3.0.0'
+    id 'com.github.triplet.play' version '3.8.4'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
-    id 'com.google.gms.oss.licenses.plugin'
+    id 'com.google.devtools.ksp' version '1.9.10-1.0.13'
+    id 'kotlin-parcelize'
+    id 'com.google.android.gms.oss-licenses-plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'org.jlleitschuh.gradle.ktlint'
+    id "io.sentry.android.gradle" version '3.12.0'
 }
 
 apply from: 'tasks.gradle' // contains supporting tasks e.g ktlint
@@ -18,13 +20,13 @@ apply from: 'sentry-config.gradle' // handles Sentry bug tracking config
 
 android {
 
-    compileSdkVersion 30
+    compileSdk 34
+    namespace 'at.ict4d.ict4dnews'
 
     defaultConfig {
         applicationId "at.ict4d.ict4dnews"
         minSdkVersion 21
-        targetSdkVersion 30
-        buildToolsVersion "30.0.3"
+        targetSdk 34
         versionCode rootProject.ext.versionCode
         versionName "${rootProject.ext.versionMajor}.${rootProject.ext.versionMinor}.${rootProject.ext.versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -32,10 +34,8 @@ android {
         multiDexEnabled true
         testOptions.unitTests.includeAndroidResources = true
 
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/room_schemas".toString())
-            }
+        ksp {
+            arg(new RoomSchemaArgProvider(new File(projectDir, "room_schemas")))
         }
 
         compileOptions {
@@ -43,13 +43,13 @@ android {
             // Flag to enable support for the new language APIs
             coreLibraryDesugaringEnabled true
 
-            // Sets Java compatibility to Java 8
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
+            // Sets Java compatibility to Java 17
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
         }
 
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "17"
         }
     }
 
@@ -82,12 +82,6 @@ android {
         }
     }
 
-    androidExtensions {
-        experimental = true
-    }
-
-    android.buildFeatures.dataBinding = true
-
     ktlint {
         android = true
     }
@@ -96,6 +90,15 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+
+    buildFeatures {
+        dataBinding true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
 
     android {
@@ -119,31 +122,52 @@ dependencies {
 
     // Android Support Libs
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "androidx.appcompat:appcompat:1.2.0"
-    implementation "com.google.android.material:material:1.2.1"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "com.google.android.material:material:1.9.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "androidx.vectordrawable:vectordrawable:1.1.0"
-    implementation "androidx.preference:preference-ktx:1.1.1"
-    implementation "androidx.annotation:annotation:1.1.0"
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.preference:preference-ktx:1.2.1"
+    implementation "androidx.annotation:annotation:1.6.0"
+    implementation "androidx.recyclerview:recyclerview:1.3.1"
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation "androidx.browser:browser:1.3.0"
+    implementation "androidx.browser:browser:1.6.0"
     implementation "androidx.multidex:multidex:2.0.1"
-    implementation "androidx.core:core-ktx:1.3.2"
+    implementation "androidx.core:core-ktx:1.10.1"
+
+
+    def composeBom = platform('androidx.compose:compose-bom:2023.08.00')
+    implementation composeBom
+    androidTestImplementation composeBom
+    implementation 'androidx.compose.material3:material3'
+    // Android Studio Preview support
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    // UI Tests
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    // Optional - Add full set of material icons
+    implementation 'androidx.compose.material:material-icons-extended'
+    // Optional - Add window size utils
+    implementation 'androidx.compose.material3:material3-window-size-class'
+    // Optional - Integration with activities
+    implementation 'androidx.activity:activity-compose:1.7.2'
+    // Optional - Integration with ViewModels
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
+    // Optional - Integration with LiveData
+    implementation 'androidx.compose.runtime:runtime-livedata'
 
     // Play Services
-    implementation "com.google.android.gms:play-services-auth:19.0.0"
+    implementation "com.google.android.gms:play-services-auth:20.7.0"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-common:0.10.8"
 
     // Logging
-    implementation "com.jakewharton.timber:timber:4.7.1"
+    implementation "com.jakewharton.timber:timber:5.0.1"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    ksp "com.github.bumptech.glide:ksp:$glide_version"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version@aar"
 
     // Retrofit
@@ -157,8 +181,7 @@ dependencies {
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    testImplementation "androidx.arch.core:core-testing:2.1.0" // Test helpers for LiveData
+    testImplementation "androidx.arch.core:core-testing:2.2.0" // Test helpers for LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version" // ReactiveStreams support for LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
@@ -166,38 +189,30 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
-    // Stetho for debuging
-    implementation "com.facebook.stetho:stetho:1.5.1"
-    implementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
-
     // Testing
-    testImplementation "junit:junit:4.13.1"
-    androidTestImplementation "androidx.test:runner:1.3.0"
-    testImplementation "androidx.test:core:1.3.0"
-    androidTestImplementation "androidx.test:rules:1.3.0"
-    androidTestImplementation "androidx.annotation:annotation:1.1.0"
-    testImplementation "org.robolectric:robolectric:4.4"
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test:runner:1.5.2"
+    testImplementation "androidx.test:core:1.5.0"
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "androidx.annotation:annotation:1.6.0"
+    testImplementation "org.robolectric:robolectric:4.10.2"
     testImplementation "org.robolectric:multidex:3.4.2"
 
-    // Leak Canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.6"
-    implementation "com.squareup.leakcanary:leakcanary-object-watcher-android:2.6"
-
     // 3rd Party licenses
-    implementation "com.google.android.gms:play-services-oss-licenses:17.0.0"
+    implementation "com.google.android.gms:play-services-oss-licenses:17.0.1"
 
     // Flow Preferences
     implementation "com.github.tfcporciuncula.flow-preferences:flow-preferences:1.3.2"
 
     // Jsoup
-    implementation "org.jsoup:jsoup:1.13.1"
+    implementation "org.jsoup:jsoup:1.15.4"
 
     // WorkManager
     implementation "androidx.work:work-runtime-ktx:$work_version"
@@ -206,17 +221,34 @@ dependencies {
     implementation "com.simplecityapps:recyclerview-fastscroll:2.0.1"
 
     // Sentry Bug-Tracker
-    implementation "io.sentry:sentry-android:$sentry_version"
     implementation "io.sentry:sentry-android-timber:$sentry_version"
 
     // Koin AndroidX ViewModel features
-    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
 
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.1"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.3"
 }
 
 configurations {
-    all {
+    configureEach {
         exclude group: 'xpp3', module: 'xpp3'
+    }
+}
+
+class RoomSchemaArgProvider implements CommandLineArgumentProvider {
+
+    @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
+    File schemaDir
+
+    RoomSchemaArgProvider(File schemaDir) {
+        this.schemaDir = schemaDir
+    }
+
+    @Override
+    Iterable<String> asArguments() {
+        // Note: If you're using KSP, change the line below to return
+        // ["room.schemaLocation=${schemaDir.path}".toString()].
+        return ["room.schemaLocation=${schemaDir.path}".toString()]
     }
 }

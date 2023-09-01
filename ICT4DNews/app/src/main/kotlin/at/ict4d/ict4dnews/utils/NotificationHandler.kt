@@ -23,9 +23,7 @@ const val NEWS_WORKER_NOTIFICATION_GROUP = "${BuildConfig.APPLICATION_ID}.NEWS_U
 class NotificationHandler(private val blogsRepository: BlogsRepository) {
 
     suspend fun displayNewsNotifications(newsList: List<News>, context: Context) {
-
         if (newsList.isNotEmpty()) {
-
             val allActiveBlogs = blogsRepository.getAllActiveBlogs().first()
             val notifications = mutableListOf<Notification>()
             val summaryNotificationStyle = NotificationCompat.InboxStyle()
@@ -66,7 +64,7 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
             val summaryIntent = Intent(context, MainNavigationActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
-            val summaryPendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, summaryIntent, 0)
+            val summaryPendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, summaryIntent, PendingIntent.FLAG_IMMUTABLE)
             summaryNotificationStyle
                 .setBigContentTitle(context.getString(R.string.news_update_complete))
                 .setSummaryText(context.getString(R.string.news_update_notification_content_text, newsList.size))

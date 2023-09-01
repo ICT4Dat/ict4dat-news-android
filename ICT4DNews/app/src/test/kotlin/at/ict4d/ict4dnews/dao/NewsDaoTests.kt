@@ -34,7 +34,6 @@ class NewsDaoTests : BaseDaoTest() {
 
     @Test
     fun testInsert() {
-
         val blog = generateBlogAndInsert(blogDao)
         val author = generateAuthorAndInsert(authorDao)
 
@@ -45,7 +44,6 @@ class NewsDaoTests : BaseDaoTest() {
 
     @Test
     fun testInsertAll() {
-
         val list =
             generateNewsListAndInsert(newsDao, generateBlogAndInsert(blogDao), generateAuthorAndInsert(authorDao))
 
@@ -76,7 +74,6 @@ class NewsDaoTests : BaseDaoTest() {
 
     @Test
     fun testGetLatestNewsPublishedDate() = runBlocking {
-
         var result = newsDao.getLatestNewsPublishedDate().first()
         Assert.assertNull(result)
 
@@ -93,7 +90,6 @@ class NewsDaoTests : BaseDaoTest() {
 
     @Test
     fun testGetAllActiveNews() = runBlocking {
-
         val blog1 = generateBlog()
         blog1.active = true
         val blog2 = generateBlog()
@@ -138,7 +134,6 @@ class NewsDaoTests : BaseDaoTest() {
 
     @Test
     fun testGetCountOfNews() = runBlocking {
-
         var result = newsDao.getCountOfNews().first()
         Assert.assertEquals(0, result)
 
@@ -157,7 +152,6 @@ class NewsDaoTests : BaseDaoTest() {
 
     @Test
     fun testGetLatestNewsByDate() = runBlocking {
-
         var result = newsDao.getLatestNewsByDate(LocalDateTime.now()).first()
         Assert.assertTrue(result.isEmpty())
 

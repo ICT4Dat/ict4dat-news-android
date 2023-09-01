@@ -5,14 +5,8 @@
     <string name="refresh">Atualizar</string>
     <string name="search">Pesquisar</string>
     <string name="filter">Filtrar</string>
-    <string name="news_search_hint">Pesquisar notícias…</string>
-    <string name="title_activity_ict4_dnews_detail">Notícias ICT4D</string>
     <string name="ict4d_at_wikipedia">Continuar lendo no Wikipedia</string>
-    <string name="ict4d_logo">ICT4D logotipo</string>
     <string name="ict4d_at_logo">ICT4D.at logotipo</string>
-    <string name="http_exception_error_message">Não foi possível fazer a conexão</string>
-    <string name="server_error_message">O servidor não está respondendo neste momento</string>
-    <string name="send_to">Compartilhar com</string>
     <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
     <string name="open_in_browser">Abrir no navegador</string>
     <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
@@ -33,7 +27,6 @@
     <string name="ict4dat_projects">Nossos projectos</string>
     <string name="ict4dat_about">Sobre nós &amp; Membros</string>
     <string name="open_source_licences_title">Licenças Open Source</string>
-    <string name="licenses">Licenças</string>
     <string name="share">Compartilhar</string>
     <string name="share_ict4dat">ICT4D.at - Rede Austríaca de Tecnologias de Informação e Comunicação para o Desenvolvimento\n\n%1$s
     </string>

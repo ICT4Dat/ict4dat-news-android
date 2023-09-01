@@ -7,14 +7,8 @@
     <string name="refresh">Refresh</string>
     <string name="search">Search</string>
     <string name="filter">Filter</string>
-    <string name="news_search_hint">Search for News…</string>
-    <string name="title_activity_ict4_dnews_detail">ICT4D News</string>
     <string name="ict4d_at_wikipedia">Continue reading on Wikipedia</string>
-    <string name="ict4d_logo">ICT4D logo</string>
     <string name="ict4d_at_logo">ICT4D.at logo</string>
-    <string name="http_exception_error_message">Unable to connect</string>
-    <string name="server_error_message">Server is not responding at this moment</string>
-    <string name="send_to">Share with</string>
     <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
     <string name="open_in_browser">Open in a Browser</string>
     <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
@@ -35,9 +29,8 @@
     <string name="ict4dat_projects">Our Projects</string>
     <string name="ict4dat_about">About us &amp; Members</string>
     <string name="open_source_licences_title">Open Source Licences</string>
-    <string name="licenses">Licenses</string>
     <string name="share">Share</string>
-    <string name="share_ict4d" translatable="false">ICT4D - Information and Communication Technologies for
+    <string name="share_ict4d">ICT4D - Information and Communication Technologies for
         Development\n\n%1$s
     </string>
     <string name="share_ict4dat">ICT4D.at - The Austrian Network for Information and Communication Technologies for
@@ -85,5 +78,6 @@
     <string name="dialog_ok">OK</string>
     <string name="ownership_dialog_title">Ownership &amp; Publisher</string>
     <string name="ownership_dialog_message">This application brings together news sources on the topic of ICT4D.\n\nICT4D.at does not own nor is responsible for the content of other sources and providers. You can find all used sources in the section \"ICT4D Blogs &amp; Sources\" or on GitHub:\nhttps://github.com/ICT4Dat/ict4dat-news-android#supported-news-feeds-and-sources\n\nIf you are the owner of one oft the sources used by this application and would like to be removed or if you would like to propose a new source, then please contact us:\nnews.app@ict4d.at</string>
+    <string name="content_description_scroll_to_top">Scroll to top</string>
 
 </resources>

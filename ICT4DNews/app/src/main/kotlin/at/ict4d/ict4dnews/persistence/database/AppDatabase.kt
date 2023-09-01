@@ -15,8 +15,8 @@ import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Collections.emptyList

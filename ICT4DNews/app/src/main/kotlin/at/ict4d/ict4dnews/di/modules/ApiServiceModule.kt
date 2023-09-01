@@ -7,7 +7,6 @@ import at.ict4d.ict4dnews.server.api.ApiJsonSelfHostedWPService
 import at.ict4d.ict4dnews.server.api.ApiRssService
 import at.ict4d.ict4dnews.utils.GsonFeedTypeDeserializer
 import at.ict4d.ict4dnews.utils.GsonLocalDateTimeDeserializer
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.android.gms.security.ProviderInstaller
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -66,10 +65,6 @@ val apiServiceModule = module {
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(get<HttpLoggingInterceptor>())
-
-        if (BuildConfig.DEBUG) {
-            builder.addNetworkInterceptor(StethoInterceptor())
-        }
 
         try {
             ProviderInstaller.installIfNeeded(androidContext())

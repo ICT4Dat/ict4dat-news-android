@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.screens.ict4d.ict4dat
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -8,24 +9,20 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4datBinding
 import at.ict4d.ict4dnews.extensions.browseCustomTab
 import at.ict4d.ict4dnews.screens.base.BaseFragment
-import at.ict4d.ict4dnews.screens.ict4d.ICT4DViewModel
-import org.jetbrains.anko.share
+import at.ict4d.ict4dnews.screens.util.showOwnershipAlertDialog
 
 class ICT4DatFragment :
-    BaseFragment<ICT4DViewModel, FragmentIct4datBinding>(
+    BaseFragment<FragmentIct4datBinding>(
         R.layout.fragment_ict4dat,
-        ICT4DViewModel::class,
         hasToolbar = false
     ) {
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,21 +36,37 @@ class ICT4DatFragment :
         return rootView
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_ict4dat, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-
-            R.id.menu_ict4dat_share -> {
-                activity?.share(getString(R.string.share_ict4dat, getString(R.string.url_ict4dat)))
-                return true
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                // Add menu items here
+                menuInflater.inflate(R.menu.menu_ict4dat, menu)
             }
 
-            else -> super.onOptionsItemSelected(item)
-        }
+            override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
+                R.id.menu_ict4dat_share -> {
+                    startActivity(
+                        Intent.createChooser(
+                            Intent().apply {
+                                action = Intent.ACTION_SEND
+                                putExtra(
+                                    Intent.EXTRA_TEXT,
+                                    getString(R.string.share_ict4dat, getString(R.string.url_ict4dat))
+                                )
+                                type = "text/plain"
+                            },
+                            getString(R.string.share)
+                        )
+                    )
+                    true
+                }
+
+                else -> false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     fun openProjects() {
