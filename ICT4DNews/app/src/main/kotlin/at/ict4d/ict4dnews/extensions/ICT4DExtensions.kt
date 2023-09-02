@@ -1,14 +1,10 @@
 package at.ict4d.ict4dnews.extensions
 
-import android.content.Context
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
@@ -17,8 +13,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
@@ -32,18 +28,6 @@ import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-
-fun Context.browseCustomTab(url: String?) {
-    recordActionBreadcrumb("browseCustomTab", this, mapOf("url" to "$url"))
-
-    url?.let {
-        CustomTabsIntent
-            .Builder()
-            .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
-            .build()
-            .launchUrl(this, Uri.parse(it))
-    }
-}
 
 fun LocalDateTime.extractDate(): String = this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
 
@@ -176,3 +160,6 @@ fun setRecyclerViewFastScrollListener(
 fun <T> MutableLiveData<T>.trigger() {
     value = value
 }
+
+fun getGooglePlayUrl(applicationId: String = BuildConfig.APPLICATION_ID) =
+    "http://play.google.com/store/apps/details?id=$applicationId"

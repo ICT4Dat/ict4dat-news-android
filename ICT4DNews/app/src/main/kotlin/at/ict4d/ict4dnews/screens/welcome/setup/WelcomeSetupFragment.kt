@@ -1,23 +1,24 @@
-package at.ict4d.ict4dnews.screens.splashscreen
+package at.ict4d.ict4dnews.screens.welcome.setup
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.databinding.FragmentSplashBinding
+import at.ict4d.ict4dnews.databinding.FragmentWelcomeSetupBinding
 import at.ict4d.ict4dnews.extensions.handleApiResponse
+import at.ict4d.ict4dnews.extensions.navigateSafe
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.showOwnershipAlertDialog
 import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SplashFragment : BaseFragment<FragmentSplashBinding>(
-    R.layout.fragment_splash,
+class WelcomeSetupFragment : BaseFragment<FragmentWelcomeSetupBinding>(
+    R.layout.fragment_welcome_setup,
     hasToolbar = false
 ) {
 
-    private val model by viewModel<SplashViewModel>()
+    private val model by viewModel<WelcomeSetupViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,10 +29,16 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(
                 handleApiResponse(resource)
 
                 if (!resource.data.isNullOrEmpty()) {
-                    recordNavigationBreadcrumb("pop", this)
-                    findNavController().popBackStack()
+                    recordNavigationBreadcrumb(
+                        "actionWelcomeSetupFragmentToWelcomeSummaryFragment",
+                        this
+                    )
+                    findNavController().navigateSafe(
+                        R.id.welcomeSetupFragment,
+                        WelcomeSetupFragmentDirections.actionWelcomeSetupFragmentToWelcomeSummaryFragment()
+                    )
                 } else {
-                    binding.splashProgressBar.isVisible = true
+                    binding.setupProgressBar.isVisible = true
                     binding.ict4datLogo.isVisible = true
                 }
             }

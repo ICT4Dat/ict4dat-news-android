@@ -28,6 +28,5 @@ class UpdateNewsServiceHandler(private val workManager: WorkManager) {
     private fun getConstraintsForNewsSyncService() = Constraints.Builder()
         .setRequiredNetworkType(NetworkType.CONNECTED)
         .setRequiresBatteryNotLow(true)
-        .setRequiresStorageNotLow(true)
         .build()
 }

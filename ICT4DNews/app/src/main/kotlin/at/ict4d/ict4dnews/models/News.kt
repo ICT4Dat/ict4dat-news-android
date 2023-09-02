@@ -36,10 +36,13 @@ const val NEWS_TABLE_BLOG_ID = "blog_id"
             entity = Blog::class,
             parentColumns = [BLOG_TABLE_FEED_URL],
             childColumns = [NEWS_TABLE_BLOG_ID]
-        )],
+        )
+    ],
 
-    indices = [Index(value = [NEWS_TABLE_AUTHOR_ID]),
-        Index(value = [NEWS_TABLE_BLOG_ID])]
+    indices = [
+        Index(value = [NEWS_TABLE_AUTHOR_ID]),
+        Index(value = [NEWS_TABLE_BLOG_ID])
+    ]
 )
 data class News(
 

@@ -23,7 +23,7 @@
                 tools:visibility="visible"/>
 
         <ProgressBar
-                android:id="@+id/splashProgressBar"
+                android:id="@+id/setupProgressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

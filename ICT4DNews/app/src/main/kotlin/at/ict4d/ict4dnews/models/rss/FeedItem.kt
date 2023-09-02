@@ -20,22 +20,26 @@ const val FEED_ITEM_SERIALIZED_PREFIX_WP_Media = "media"
 data class FeedItem(
     @field:Element(
         name = FEED_ITEM_SERIALIZED_PUB_DATE,
-        required = false)
+        required = false
+    )
     var pubDate: String? = null,
 
     @field:Element(
         name = FEED_ITEM_SERIALIZED_TITLE,
-        required = false)
+        required = false
+    )
     var title: String? = null,
 
     @field:Element(
         name = FEED_ITEM_SERIALIZED_LINK,
-        required = false)
+        required = false
+    )
     var link: String? = null,
 
     @field:Element(
         name = FEED_ITEM_SERIALIZED_DESCRIPTION,
-        required = false)
+        required = false
+    )
     var description: String? = null,
 
     @Namespace(prefix = FEED_ITEM_SERIALIZED_PREFIX_CONTENT)

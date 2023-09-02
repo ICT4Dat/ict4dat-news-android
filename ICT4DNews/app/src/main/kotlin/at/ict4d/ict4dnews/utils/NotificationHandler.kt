@@ -1,9 +1,12 @@
 package at.ict4d.ict4dnews.utils
 
+import android.Manifest
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
@@ -16,6 +19,7 @@ import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
 import at.ict4d.ict4dnews.server.repositories.BlogsRepository
 import kotlinx.coroutines.flow.first
+import timber.log.Timber
 
 const val NEWS_WORKER_SUMMARY_NOTIFICATION_ID = 1
 const val NEWS_WORKER_NOTIFICATION_GROUP = "${BuildConfig.APPLICATION_ID}.NEWS_UPDATE"
@@ -83,11 +87,11 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
             with(NotificationManagerCompat.from(context)) {
                 var notificationIdCounter = 2
                 notifications.forEach { notification ->
-                    notify(notificationIdCounter, notification)
+                    notifyWithRuntimeCheck(context, this, notificationIdCounter, notification)
                     notificationIdCounter += 1
                 }
 
-                notify(NEWS_WORKER_SUMMARY_NOTIFICATION_ID, summaryNotification)
+                notifyWithRuntimeCheck(context, this, NEWS_WORKER_SUMMARY_NOTIFICATION_ID, summaryNotification)
             }
         } else if (BuildConfig.DEBUG) { // Display a notification if the updates was successful, but no new news were found
 
@@ -100,7 +104,20 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
                 .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
                 .build()
 
-            with(NotificationManagerCompat.from(context)) { notify(999, debugNotification) }
+            with(NotificationManagerCompat.from(context)) { notifyWithRuntimeCheck(context, this, 999, debugNotification) }
+        }
+    }
+
+    private fun notifyWithRuntimeCheck(
+        context: Context,
+        notificationManager: NotificationManagerCompat,
+        id: Int,
+        notification: Notification
+    ) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(id, notification)
+        } else {
+            Timber.e("Tried to display notification without having runtime permission")
         }
     }
 }

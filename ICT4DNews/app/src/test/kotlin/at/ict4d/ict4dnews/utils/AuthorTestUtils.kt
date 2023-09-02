@@ -25,5 +25,5 @@ fun generateAuthorListAndInsert(authorDao: AuthorDao, numberOfAuthors: Int = 5):
     }
 
     authorDao.insertAll(authorList)
-    return authorList 
+    return authorList
 }

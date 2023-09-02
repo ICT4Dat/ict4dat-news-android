@@ -12,7 +12,6 @@ import at.ict4d.ict4dnews.server.repositories.NewsRepository
 import at.ict4d.ict4dnews.server.utils.NewsUpdateResource
 import at.ict4d.ict4dnews.server.utils.Status
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -30,7 +29,7 @@ class ICT4DNewsViewModel(
     val blogsCount = blogsRepository.getBlogsCount()
     val activeBlogsCount = blogsRepository.getActiveBlogsCount().asLiveData()
 
-    var isSplashNotStartedOnce = true
+    var isWelcomeSetupNotStartedOnce = true
     var shouldMoveScrollToTop: Boolean = false
 
     private val mutableSearchQuery = MutableLiveData<String>().apply { value = "" }
@@ -49,9 +48,7 @@ class ICT4DNewsViewModel(
     }
 
     fun requestToLoadFeedsFromServers(forceRefresh: Boolean = false) {
-
         if (!isNewsUpdateLoading()) {
-
             viewModelScope.launch {
                 if (forceRefresh) {
                     requestToLoadNews()
@@ -74,9 +71,7 @@ class ICT4DNewsViewModel(
     }
 
     private suspend fun requestToLoadNews() {
-
         if (!blogsRepository.doBlogsExists().first()) {
-
             blogsRepository.getAllBlogs().collect {
                 if (it.status == Status.SUCCESS) {
                     requestToLoadNews()

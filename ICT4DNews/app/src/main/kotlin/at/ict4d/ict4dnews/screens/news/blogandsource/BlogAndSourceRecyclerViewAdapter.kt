@@ -2,11 +2,12 @@ package at.ict4d.ict4dnews.screens.news.blogandsource
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import at.ict4d.ict4dnews.databinding.BlogAndSourceItemBinding
-import at.ict4d.ict4dnews.extensions.browseCustomTab
+import at.ict4d.ict4dnews.extensions.browseCustomTabWithUrl
 import at.ict4d.ict4dnews.models.Blog
 
 class BlogAndSourceRecyclerViewAdapter(private val clickHandler: (Blog) -> Unit) : ListAdapter<Blog, BlogAndSourceRecyclerViewAdapter.ViewHolder>(BlogListDiffCallback()) {
@@ -32,7 +33,7 @@ class BlogAndSourceRecyclerViewAdapter(private val clickHandler: (Blog) -> Unit)
             }
 
             binding.activeBlogReadMoreButton.setOnClickListener {
-                it.context.browseCustomTab(blog.url)
+                (it.context as? FragmentActivity)?.browseCustomTabWithUrl(blog.url)
             }
         }
 

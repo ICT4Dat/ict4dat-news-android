@@ -45,8 +45,14 @@ class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationC
 
     override fun onSupportNavigateUp() = findNavController(R.id.navHostController).navigateUp()
 
-    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
-        if (destination.id == R.id.splashFragment) {
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
+        if (destination.id == R.id.welcomeSetupFragment ||
+            destination.id == R.id.welcomeSummaryFragment
+        ) {
             binding.navigation.visibility = View.GONE
         } else {
             binding.navigation.visibility = View.VISIBLE

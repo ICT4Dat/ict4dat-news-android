@@ -18,7 +18,7 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4dNewsDetailBinding
-import at.ict4d.ict4dnews.extensions.browseCustomTab
+import at.ict4d.ict4dnews.extensions.browseCustomTabWithUrl
 import at.ict4d.ict4dnews.extensions.extractDate
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
@@ -105,7 +105,7 @@ class ICT4DNewsDetailFragment :
             ): Boolean {
                 val url = request?.url.toString()
                 return if (url.startsWith("www", true) || url.startsWith("http", true)) {
-                    activity?.browseCustomTab(url)
+                    activity?.browseCustomTabWithUrl(url)
                     true
                 } else {
                     super.shouldOverrideUrlLoading(view, request)
@@ -114,12 +114,13 @@ class ICT4DNewsDetailFragment :
 
             @Deprecated("Deprecated in Java")
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                return if (url != null && (url.startsWith("www", true) || url.startsWith(
-                        "http",
-                        true
-                    ))
+                return if (url != null &&
+                    (
+                        url.startsWith("www", true) ||
+                            url.startsWith("http", true)
+                        )
                 ) {
-                    activity?.browseCustomTab(url)
+                    activity?.browseCustomTabWithUrl(url)
                     true
                 } else {
                     super.shouldOverrideUrlLoading(view, url)
@@ -128,20 +129,24 @@ class ICT4DNewsDetailFragment :
         }
 
         val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                // Add menu items here
-                menuInflater.inflate(R.menu.menu_ict4_dnews_detail, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
-                R.id.action_open -> {
-                    activity?.browseCustomTab(model.getNews()?.link ?: "")
-                    true
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    // Add menu items here
+                    menuInflater.inflate(R.menu.menu_ict4_dnews_detail, menu)
                 }
 
-                else -> false
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
+                    R.id.action_open -> {
+                        activity?.browseCustomTabWithUrl(model.getNews()?.link ?: "")
+                        true
+                    }
+
+                    else -> false
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
     }
 }

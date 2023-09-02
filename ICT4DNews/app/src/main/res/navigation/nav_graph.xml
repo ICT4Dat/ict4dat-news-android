@@ -13,8 +13,8 @@
                 app:destination="@id/blogAndSourceFragment"/>
         <action android:id="@+id/action_actionNews_to_ICT4DNewsDetailFragment"
                 app:destination="@id/ICT4DNewsDetailFragment"/>
-        <action android:id="@+id/action_actionNews_to_splashFragment"
-                app:destination="@id/splashFragment"/>
+        <action android:id="@+id/action_actionNews_to_welcomeSetupFragment"
+                app:destination="@id/welcomeSetupFragment"/>
     </fragment>
 
     <fragment android:id="@+id/ict4dFragment"
@@ -35,10 +35,13 @@
               android:name="at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceFragment"
               android:label="@string/ict4d_blogs_and_sources"/>
 
-    <fragment android:id="@+id/splashFragment"
-              android:name="at.ict4d.ict4dnews.screens.splashscreen.SplashFragment"
-              tools:layout="@layout/fragment_splash"
-              android:label="SplashFragment">
+    <fragment android:id="@+id/welcomeSetupFragment"
+              android:name="at.ict4d.ict4dnews.screens.welcome.setup.WelcomeSetupFragment"
+              tools:layout="@layout/fragment_welcome_setup"
+              android:label="">
+        <action
+                android:id="@+id/action_welcomeSetupFragment_to_welcomeSummaryFragment"
+                app:destination="@id/welcomeSummaryFragment" />
     </fragment>
 
     <fragment android:id="@+id/ICT4DNewsDetailFragment"
@@ -51,4 +54,12 @@
     <fragment android:id="@+id/settingsFragment"
               android:name="at.ict4d.ict4dnews.screens.more.settings.SettingsFragmentWithToolbar"
               android:label="@string/settings"/>
+    <fragment
+            android:id="@+id/welcomeSummaryFragment"
+            android:name="at.ict4d.ict4dnews.screens.welcome.summary.WelcomeSummaryFragment"
+            android:label="WelcomeSummaryFragment" >
+        <action
+                android:id="@+id/action_welcomeSummaryFragment_to_blogAndSourceFragment"
+                app:destination="@id/blogAndSourceFragment" />
+    </fragment>
 </navigation>

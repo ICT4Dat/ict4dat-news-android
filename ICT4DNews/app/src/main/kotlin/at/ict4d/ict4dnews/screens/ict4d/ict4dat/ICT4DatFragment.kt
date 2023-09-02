@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.screens.ict4d.ict4dat
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,9 +13,8 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIct4datBinding
-import at.ict4d.ict4dnews.extensions.browseCustomTab
+import at.ict4d.ict4dnews.extensions.browseCustomTabWithUrl
 import at.ict4d.ict4dnews.screens.base.BaseFragment
-import at.ict4d.ict4dnews.screens.util.showOwnershipAlertDialog
 
 class ICT4DatFragment :
     BaseFragment<FragmentIct4datBinding>(
@@ -40,53 +38,57 @@ class ICT4DatFragment :
         super.onViewCreated(view, savedInstanceState)
 
         val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                // Add menu items here
-                menuInflater.inflate(R.menu.menu_ict4dat, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
-                R.id.menu_ict4dat_share -> {
-                    startActivity(
-                        Intent.createChooser(
-                            Intent().apply {
-                                action = Intent.ACTION_SEND
-                                putExtra(
-                                    Intent.EXTRA_TEXT,
-                                    getString(R.string.share_ict4dat, getString(R.string.url_ict4dat))
-                                )
-                                type = "text/plain"
-                            },
-                            getString(R.string.share)
-                        )
-                    )
-                    true
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    // Add menu items here
+                    menuInflater.inflate(R.menu.menu_ict4dat, menu)
                 }
 
-                else -> false
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
+                    R.id.menu_ict4dat_share -> {
+                        startActivity(
+                            Intent.createChooser(
+                                Intent().apply {
+                                    action = Intent.ACTION_SEND
+                                    putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        getString(R.string.share_ict4dat, getString(R.string.url_ict4dat))
+                                    )
+                                    type = "text/plain"
+                                },
+                                getString(R.string.share)
+                            )
+                        )
+                        true
+                    }
+
+                    else -> false
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
     }
 
     fun openProjects() {
-        context?.browseCustomTab(getString(R.string.url_ict4dat_projects))
+        requireActivity().browseCustomTabWithUrl(getString(R.string.url_ict4dat_projects))
     }
 
     fun openAboutUs() {
-        context?.browseCustomTab(getString(R.string.url_ict4dat_about_us))
+        requireActivity().browseCustomTabWithUrl(getString(R.string.url_ict4dat_about_us))
     }
 
     fun openFacebook() {
-        context?.browseCustomTab(getString(R.string.url_ict4dat_facebook))
+        requireActivity().browseCustomTabWithUrl(getString(R.string.url_ict4dat_facebook))
     }
 
     fun openTwitter() {
-        context?.browseCustomTab(getString(R.string.url_ict4dat_twitter))
+        requireActivity().browseCustomTabWithUrl(getString(R.string.url_ict4dat_twitter))
     }
 
     fun openMastodon() {
-        context?.browseCustomTab(getString(R.string.url_ict4dat_mastodon))
+        requireActivity().browseCustomTabWithUrl(getString(R.string.url_ict4dat_mastodon))
     }
 
     companion object {

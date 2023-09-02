@@ -1,4 +1,4 @@
-package at.ict4d.ict4dnews.screens.splashscreen
+package at.ict4d.ict4dnews.screens.welcome.setup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,7 @@ import at.ict4d.ict4dnews.server.repositories.BlogsRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class SplashViewModel(
+class WelcomeSetupViewModel(
     private val blogsRepository: BlogsRepository
 ) : ViewModel() {
 

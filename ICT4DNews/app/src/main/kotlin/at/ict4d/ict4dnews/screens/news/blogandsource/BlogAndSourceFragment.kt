@@ -58,20 +58,24 @@ class BlogAndSourceFragment : BaseFragment<FragmentBlogAndSourcesBinding>(
         }
 
         val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                // Add menu items here
-                menuInflater.inflate(R.menu.blogs_and_sources_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
-                R.id.info -> {
-                    showOwnershipAlertDialog(requireContext())
-                    true
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    // Add menu items here
+                    menuInflater.inflate(R.menu.blogs_and_sources_menu, menu)
                 }
 
-                else -> false
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
+                    R.id.info -> {
+                        showOwnershipAlertDialog(requireContext())
+                        true
+                    }
+
+                    else -> false
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
     }
 }

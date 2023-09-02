@@ -6,7 +6,8 @@ import at.ict4d.ict4dnews.screens.more.settings.SettingsWithToolbarViewModel
 import at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceViewModel
 import at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailViewModel
 import at.ict4d.ict4dnews.screens.news.list.ICT4DNewsViewModel
-import at.ict4d.ict4dnews.screens.splashscreen.SplashViewModel
+import at.ict4d.ict4dnews.screens.welcome.setup.WelcomeSetupViewModel
+import at.ict4d.ict4dnews.screens.welcome.summary.WelcomeSummaryViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -22,7 +23,9 @@ val viewModelModule = module {
 
     viewModel { BlogAndSourceViewModel(get()) }
 
-    viewModel { SplashViewModel(get()) }
+    viewModel { WelcomeSetupViewModel(get()) }
 
     viewModel { SettingsWithToolbarViewModel() }
+
+    viewModel { WelcomeSummaryViewModel(get(), get()) }
 }

@@ -3,7 +3,6 @@ package at.ict4d.ict4dnews.screens.base
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -18,7 +17,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.lifecycle.SentryLifecycleObserver
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
-import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import timber.log.Timber
 
 abstract class BaseFragment<B : ViewDataBinding>(

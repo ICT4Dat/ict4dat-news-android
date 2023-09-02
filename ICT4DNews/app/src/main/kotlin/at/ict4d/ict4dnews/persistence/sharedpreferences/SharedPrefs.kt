@@ -28,7 +28,7 @@ class SharedPrefs(application: ICT4DNewsApplication) {
 
     val lastAutomaticNewsUpdateLocalDate = flowSharedPreferences.getObject(keyLastAutoNewsUpdate, lastAutomaticNewsUpdateLocalDateSerializer, LocalDate.now())
 
-    val isAutomaticNewsUpdateEnabled = flowSharedPreferences.getBoolean(keyIsAutoNewsUpdateEnabled, true)
+    val isAutomaticNewsUpdateEnabled = flowSharedPreferences.getBoolean(keyIsAutoNewsUpdateEnabled, false)
 
     val isBugTrackingEnabled = flowSharedPreferences.getBoolean(keyIsBugTrackingEnabled, true)
 }
