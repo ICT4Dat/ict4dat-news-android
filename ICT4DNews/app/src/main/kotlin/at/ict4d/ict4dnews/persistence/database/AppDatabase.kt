@@ -21,7 +21,15 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Collections.emptyList
 
-@Database(entities = [News::class, Author::class, Media::class, Blog::class], version = 2)
+@Database(
+    entities = [
+        News::class,
+        Author::class,
+        Media::class,
+        Blog::class
+    ],
+    version = 3
+)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

@@ -6,15 +6,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.os.bundleOf
-import androidx.navigation.NavDeepLinkBuilder
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.NOTIFICATION_CHANNEL_ID
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
 import at.ict4d.ict4dnews.server.repositories.BlogsRepository
@@ -26,7 +24,10 @@ const val NEWS_WORKER_NOTIFICATION_GROUP = "${BuildConfig.APPLICATION_ID}.NEWS_U
 
 class NotificationHandler(private val blogsRepository: BlogsRepository) {
 
-    suspend fun displayNewsNotifications(newsList: List<News>, context: Context) {
+    suspend fun displayNewsNotifications(
+        newsList: List<News>,
+        context: Context
+    ) {
         if (newsList.isNotEmpty()) {
             val allActiveBlogs = blogsRepository.getAllActiveBlogs().first()
             val notifications = mutableListOf<Notification>()
@@ -34,11 +35,17 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
 
             newsList.forEach { news ->
 
-                val pendingIntent = NavDeepLinkBuilder(context)
-                    .setGraph(R.navigation.nav_graph)
-                    .setDestination(R.id.ICT4DNewsDetailFragment)
-                    .setArguments(bundleOf(Pair("newsItem", news)))
-                    .createPendingIntent()
+                val notificationIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(news.link)
+                )
+
+                val pendingIntent = PendingIntent.getActivity(
+                    context,
+                    0,
+                    notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
 
                 notifications.add(
                     NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
@@ -52,10 +59,6 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent)
                         .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
-                        .setStyle(
-                            NotificationCompat.BigTextStyle()
-                                .bigText(news.description?.stripHtml() ?: "")
-                        )
                         .build()
                 )
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentIctdnewsListBinding
+import at.ict4d.ict4dnews.extensions.browseCustomTabWithUrl
 import at.ict4d.ict4dnews.extensions.moveToTop
 import at.ict4d.ict4dnews.extensions.navigateSafe
 import at.ict4d.ict4dnews.extensions.queryTextChanges
@@ -42,13 +43,12 @@ class ICT4DNewsFragment : BaseFragment<FragmentIctdnewsListBinding>(
     private val model by viewModel<ICT4DNewsViewModel>()
 
     private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, _ ->
-
-        recordNavigationBreadcrumb("item click", this, mapOf("pair" to "$pair"))
-
-        val action =
-            ICT4DNewsFragmentDirections.actionActionNewsToICT4DNewsDetailFragment(pair.first)
-
-        findNavController().navigateSafe(R.id.newsListFragment, action)
+        recordNavigationBreadcrumb(
+            "item click",
+            this,
+            mapOf("pair" to "$pair")
+        )
+        requireActivity().browseCustomTabWithUrl(pair.first.link)
     })
 
     private var activeBlogCount = 0
