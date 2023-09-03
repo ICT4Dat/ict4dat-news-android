@@ -20,12 +20,13 @@
               tools:layout="@layout/fragment_tabbed_ict4d"
               android:label="@string/nav_ict4d"/>
 
-    <fragment android:id="@+id/moreFragment"
-              android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"
-              tools:layout="@layout/fragment_more"
-              android:label="@string/nav_more">
-        <action android:id="@+id/action_actionMore_to_settingsFragment"
-                app:destination="@id/settingsFragment"/>
+    <fragment
+            android:id="@+id/moreFragment"
+            android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"
+            tools:layout="@layout/fragment_more">
+        <action
+                android:id="@+id/action_actionMore_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
     </fragment>
 
     <fragment android:id="@+id/blogAndSourceFragment"

@@ -9,9 +9,4 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
-
-    <style name="licencesActivityTheme" parent="Theme.Material3.Light">
-        <item name="colorPrimaryDark">?colorPrimaryDark</item>
-        <item name="colorPrimary">?colorPrimary</item>
-    </style>
 </resources>

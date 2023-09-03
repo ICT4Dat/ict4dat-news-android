@@ -16,7 +16,8 @@ import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import com.google.android.material.tabs.TabLayoutMediator
 
 class TabbedICT4DFragment : BaseFragment<FragmentTabbedIct4dBinding>(
-    R.layout.fragment_tabbed_ict4d
+    R.layout.fragment_tabbed_ict4d,
+    hasToolbar = false
 ) {
 
     override fun onCreateView(

@@ -47,7 +47,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<Preference>(getString(R.string.pref_key_current_app_version))?.summary = BuildConfig.VERSION_NAME
 
         findPreference<Preference>(getString(R.string.pref_key_open_source_licences))?.setOnPreferenceClickListener {
-            startActivity(Intent(requireContext(), OssLicensesMenuActivity::class.java))
+            startActivity(Intent(requireActivity(), OssLicensesMenuActivity::class.java))
             OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_licences_title))
             true
         }

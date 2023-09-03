@@ -34,7 +34,7 @@ class MoreFragment :
         // Inflate the layout for this fragment
         val view = super.onCreateView(inflater, container, savedInstanceState)
         binding.fragment = this
-        binding.headline.text = getString(R.string.headline_more, String(Character.toChars(0x2764)))
+        binding.include.toolbar.title = getString(R.string.headline_more, String(Character.toChars(0x2764)))
         return view
     }
 

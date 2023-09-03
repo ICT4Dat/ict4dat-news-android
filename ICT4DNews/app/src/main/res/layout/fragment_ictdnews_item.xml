@@ -5,29 +5,38 @@
         android:id="@+id/layout">
 
     <data>
-        <import type="at.ict4d.ict4dnews.R"/>
-        <import type="at.ict4d.ict4dnews.extensions.ICT4DExtensionsKt"/>
-        <import type="android.view.View"/>
-        <import type="java.time.LocalDateTime"/>
-        <import type="java.time.format.DateTimeFormatter"/>
-        <import type="java.util.Locale"/>
+
+        <import type="at.ict4d.ict4dnews.R" />
+
+        <import type="at.ict4d.ict4dnews.extensions.ICT4DExtensionsKt" />
+
+        <import type="android.view.View" />
+
+        <import type="java.time.LocalDateTime" />
+
+        <import type="java.time.format.DateTimeFormatter" />
+
+        <import type="java.util.Locale" />
 
         <variable
                 name="newsItem"
-                type="at.ict4d.ict4dnews.models.News"/>
+                type="at.ict4d.ict4dnews.models.News" />
 
         <variable
                 name="blog"
-                type="at.ict4d.ict4dnews.models.Blog"/>
+                type="at.ict4d.ict4dnews.models.Blog" />
 
         <variable
                 name="mostRecentNewsDateTime"
-                type="java.time.LocalDateTime"/>
+                type="java.time.LocalDateTime" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:elevation="2dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,76 +46,76 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:paddingBottom="16dp"
                 android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 tools:layout_editor_absoluteY="25dp">
 
             <com.google.android.material.imageview.ShapeableImageView
-                    android:visibility="@{mostRecentNewsDateTime == null || newsItem.publishedDate == null || newsItem.publishedDate.isBefore(mostRecentNewsDateTime.plusMinutes(1)) ? View.GONE : View.VISIBLE}"
+                    android:id="@+id/imageView2"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:contentDescription="@string/new_news_badge"
-                    app:srcCompat="@drawable/ic_fiber_new_black_24dp"
-                    android:id="@+id/imageView2"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="16dp"
-                    app:layout_constraintTop_toTopOf="@+id/blogTitle"/>
+                    android:contentDescription="@string/new_news_badge"
+                    android:visibility="@{mostRecentNewsDateTime == null || newsItem.publishedDate == null || newsItem.publishedDate.isBefore(mostRecentNewsDateTime.plusMinutes(1)) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/blogTitle"
+                    app:srcCompat="@drawable/ic_fiber_new_black_24dp" />
 
             <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/postImage"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_marginStart="16dp"
-                    app:loadFromURL="@{newsItem.mediaFeaturedURL ?? blog.logoURL}"
-                    app:round="@{true}"
+                    android:layout_marginTop="4dp"
                     android:contentDescription="@{newsItem.mediaFeaturedURL ?? blog.logoURL}"
                     android:transitionName="post_image"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:srcCompat="@tools:sample/avatars"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.51"
-                    android:layout_marginTop="4dp"/>
+                    app:loadFromURL="@{newsItem.mediaFeaturedURL ?? blog.logoURL}"
+                    app:round="@{true}"
+                    tools:srcCompat="@tools:sample/avatars" />
 
             <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/headline2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text='@{newsItem == null ? "" : newsItem.title}'
-                    tools:text="Headline"
-                    app:layout_constraintTop_toBottomOf="@+id/blogTitle"
-                    app:layout_constraintStart_toStartOf="@+id/blogTitle"
                     android:layout_marginEnd="16dp"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    android:text='@{newsItem == null ? "" : newsItem.title}'
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/blogTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/blogTitle"
+                    tools:text="Headline" />
 
             <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/blogTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text='@{blog == null ? "" : blog.name}'
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/postImage"
-                    android:text='@{blog == null ? "" : blog.name}'
-                    tools:text="Blog Name"
                     app:layout_constraintEnd_toStartOf="@+id/imageView2"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintStart_toEndOf="@+id/postImage"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Blog Name" />
 
             <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/postDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:layout_marginBottom="8dp"
                     android:text='@{newsItem == null || newsItem.publishedDate == null ? "" : newsItem.publishedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))}'
-                    tools:text="14.7.2018"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/headline2"
                     app:layout_constraintStart_toStartOf="@+id/headline2"
                     app:layout_constraintTop_toBottomOf="@+id/headline2"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintEnd_toEndOf="@+id/headline2"/>
+                    tools:text="14.7.2018" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
