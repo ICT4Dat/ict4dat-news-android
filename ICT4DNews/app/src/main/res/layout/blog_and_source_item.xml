@@ -17,12 +17,11 @@
                 type="boolean" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@{isBlogSelectedForContextualMenu ? @color/light_grey : @color/white}"
             app:elevation="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatCheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/activeBlogCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,7 +41,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/activeBlogTextView" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/activeBlogTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -58,7 +57,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/activeBlogImageView"
                     tools:text="Blog Name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/activeBlogDescription"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -69,7 +68,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/activeBlogTextView"
                     tools:text="Blog Description" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/activeBlogImageView"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
@@ -81,9 +80,9 @@
                     app:loadFromURL="@{blog.logoURL}"
                     tools:srcCompat="@tools:sample/avatars" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/activeBlogReadMoreButton"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -99,5 +98,5 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activeBlogDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

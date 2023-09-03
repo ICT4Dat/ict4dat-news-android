@@ -53,9 +53,13 @@ class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationC
         if (destination.id == R.id.welcomeSetupFragment ||
             destination.id == R.id.welcomeSummaryFragment
         ) {
-            binding.navigation.visibility = View.GONE
+            setVisibilityOfBottomNavigationBar(false)
         } else {
-            binding.navigation.visibility = View.VISIBLE
+            setVisibilityOfBottomNavigationBar(true)
         }
+    }
+
+    fun setVisibilityOfBottomNavigationBar(isVisible: Boolean) {
+        binding.navigation.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }

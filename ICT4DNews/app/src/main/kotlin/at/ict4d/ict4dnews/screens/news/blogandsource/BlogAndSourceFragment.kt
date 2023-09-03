@@ -1,5 +1,6 @@
 package at.ict4d.ict4dnews.screens.news.blogandsource
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentBlogAndSourcesBinding
 import at.ict4d.ict4dnews.extensions.handleApiResponse
+import at.ict4d.ict4dnews.screens.MainNavigationActivity
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.showOwnershipAlertDialog
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
@@ -25,6 +27,13 @@ class BlogAndSourceFragment : BaseFragment<FragmentBlogAndSourcesBinding>(
     private val model by viewModel<BlogAndSourceViewModel>()
 
     private lateinit var blogAndSourceAdapter: BlogAndSourceRecyclerViewAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (BlogAndSourceFragmentArgs.fromBundle(requireArguments()).hideBottomNavigation) {
+            (requireActivity() as? MainNavigationActivity)?.setVisibilityOfBottomNavigationBar(false)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

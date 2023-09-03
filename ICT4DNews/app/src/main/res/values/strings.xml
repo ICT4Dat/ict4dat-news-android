@@ -30,12 +30,6 @@
     <string name="ict4dat_about">About us &amp; Members</string>
     <string name="open_source_licences_title">Open Source Licences</string>
     <string name="share">Share</string>
-    <string name="share_ict4d">ICT4D - Information and Communication Technologies for
-        Development\n\n%1$s
-    </string>
-    <string name="share_ict4dat">ICT4D.at - The Austrian Network for Information and Communication Technologies for
-        Development\n\n%1$s
-    </string>
     <string name="read_more">Read more</string>
     <string name="blog_logo">Blog logo</string>
     <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Sources</string>

@@ -59,7 +59,10 @@ abstract class BaseFragment<B : ViewDataBinding>(
                 throw IllegalStateException("Activity is not of AppCompactActivity Type")
             }
             appCompatActivity.setSupportActionBar(binding.root.findViewById(R.id.toolbar))
-            appCompatActivity.setupActionBarWithNavController(controller, (requireActivity() as MainNavigationActivity).appBarConfiguration)
+            appCompatActivity.setupActionBarWithNavController(
+                controller,
+                (requireActivity() as MainNavigationActivity).appBarConfiguration
+            )
         } else {
             Timber.w("Activity is not of type AppCompact or Fragment has no Toolbar")
         }

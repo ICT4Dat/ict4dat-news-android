@@ -13,8 +13,10 @@ import org.koin.core.component.inject
 
 const val NEWS_WORKER_TAG = "NEWS_UPDATE_TASK"
 
-class UpdateNewsWorker(val context: Context, workParams: WorkerParameters) : CoroutineWorker(context, workParams),
-    KoinComponent {
+class UpdateNewsWorker(
+    val context: Context,
+    workParams: WorkerParameters
+) : CoroutineWorker(context, workParams), KoinComponent {
 
     private val newsRepository by inject<NewsRepository>()
     private val notificationHandler by inject<NotificationHandler>()

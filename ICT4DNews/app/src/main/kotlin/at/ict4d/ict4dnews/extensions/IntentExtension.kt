@@ -59,7 +59,7 @@ fun FragmentActivity.browseCustomTabWithUri(uri: Uri) {
             .Builder()
             .setDefaultColorSchemeParams(
                 CustomTabColorSchemeParams.Builder()
-                    .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                    .setToolbarColor(ContextCompat.getColor(this, R.color.md_theme_light_primary))
                     .build()
             )
             .build()

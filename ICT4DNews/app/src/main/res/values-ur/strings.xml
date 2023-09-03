@@ -29,12 +29,6 @@
     <string name="ict4dat_about">ہمارے اور ممبروں کے بارے میں</string>
     <string name="open_source_licences_title">اوپن سورس لائسنس</string>
     <string name="share">بانٹیں</string>
-    <string name="share_ict4d" translatable="false">ICT4D - Information and Communication Technologies for
-        Development\n\n%1$s
-    </string>
-    <string name="share_ict4dat">ICT4D.at - آسٹریا کے نیٹ ورک برائے انفارمیشن اینڈ مواصلات ٹیکنالوجیز
-      \n\n%1$s ترقی
-    </string>
     <string name="read_more">مزید پڑھ</string>
     <string name="blog_logo">بلاگ لوگو</string>
     <string name="ict4d_blogs_and_sources">آئی سی ٹی 4 ڈی بلاگ اور ذرائع </string>

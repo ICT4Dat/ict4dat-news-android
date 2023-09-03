@@ -21,7 +21,7 @@
                 android:paddingBottom="16dp"
                 tools:context=".screens.ict4d.ict4dat.ICT4DatFragment">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ict4d_logo" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -46,9 +46,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_projects"
-                    style="@style/ict4d_news_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -58,9 +57,8 @@
                     app:layout_constraintStart_toStartOf="@+id/textView3"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_members"
-                    style="@style/ict4d_news_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -70,7 +68,7 @@
                     app:layout_constraintStart_toStartOf="@+id/btn_projects"
                     app:layout_constraintTop_toBottomOf="@+id/btn_projects" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageButton"
                     style="@style/ict4dat_social_media_buttons"
                     android:layout_marginStart="16dp"
@@ -83,7 +81,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/btn_members"
                     app:srcCompat="@drawable/ic_facebook" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageButton2"
                     style="@style/ict4dat_social_media_buttons"
                     android:layout_marginStart="8dp"
@@ -94,7 +92,7 @@
                     app:layout_constraintTop_toTopOf="@+id/imageButton"
                     app:srcCompat="@drawable/ic_twitter" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageButton3"
                     style="@style/ict4dat_social_media_buttons"
                     android:layout_marginStart="8dp"
@@ -108,7 +106,7 @@
                     app:layout_constraintTop_toTopOf="@+id/imageButton2"
                     app:srcCompat="@drawable/ic_mastodon" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,7 +116,6 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:text="@string/credits_ict4dat_icons"
-                    android:textColor="@color/light_grey"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

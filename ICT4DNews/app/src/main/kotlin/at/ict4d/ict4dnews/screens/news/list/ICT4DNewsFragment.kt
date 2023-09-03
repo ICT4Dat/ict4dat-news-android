@@ -204,7 +204,7 @@ class ICT4DNewsFragment : BaseFragment<FragmentIctdnewsListBinding>(
                         recordNavigationBreadcrumb("news list", this)
                         findNavController().navigateSafe(
                             R.id.newsListFragment,
-                            ICT4DNewsFragmentDirections.actionActionNewsToBlogAndSourceFragment()
+                            ICT4DNewsFragmentDirections.actionActionNewsToBlogAndSourceFragment(false)
                         )
                         true
                     }

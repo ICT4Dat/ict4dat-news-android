@@ -33,7 +33,11 @@
     <fragment android:id="@+id/blogAndSourceFragment"
               tools:layout="@layout/fragment_blog_and_sources"
               android:name="at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceFragment"
-              android:label="@string/ict4d_blogs_and_sources"/>
+              android:label="@string/ict4d_blogs_and_sources">
+        <argument
+                android:name="hideBottomNavigation"
+                app:argType="boolean" />
+    </fragment>
 
     <fragment android:id="@+id/welcomeSetupFragment"
               android:name="at.ict4d.ict4dnews.screens.welcome.setup.WelcomeSetupFragment"

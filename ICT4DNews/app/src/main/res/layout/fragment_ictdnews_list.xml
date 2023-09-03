@@ -12,13 +12,14 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swiperefresh"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingTop="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/nothing_found"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -29,20 +30,18 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/recyclerview" />
 
-                <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerview"
                         android:name="at.ict4d.ict4dnews.screens.news.ICTDNewsFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:fastScrollPopupBgColor="@color/colorAccent"
-                        app:fastScrollPopupTextColor="@color/white"
-                        app:fastScrollThumbColor="@color/colorAccent"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:toggleSwipeRefreshOnFastScroll="@{swiperefresh}"
                         tools:context=".screens.news.list.ICT4DNewsFragment"
                         tools:listitem="@layout/fragment_ictdnews_item" />
 
@@ -54,7 +53,6 @@
                         android:layout_marginBottom="16dp"
                         android:contentDescription="@string/content_description_scroll_to_top"
                         android:visibility="gone"
-                        app:backgroundTint="@color/white"
                         app:elevation="4dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +60,7 @@
                         app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp"
                         tools:visibility="visible" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/progress_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
