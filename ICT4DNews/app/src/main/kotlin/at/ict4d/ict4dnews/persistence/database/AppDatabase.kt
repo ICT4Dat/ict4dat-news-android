@@ -1,9 +1,12 @@
 package at.ict4d.ict4dnews.persistence.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.DeleteColumn
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import androidx.room.migration.AutoMigrationSpec
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.FeedType
@@ -28,7 +31,14 @@ import java.util.Collections.emptyList
         Media::class,
         Blog::class
     ],
-    version = 3
+    version = 3,
+    autoMigrations = [
+        AutoMigration(
+            from = 2,
+            to = 3,
+            spec = AppDatabase.AutoMigration2to3::class
+        )
+    ]
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -44,6 +54,12 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         const val DATABASE_NAME = "ict4d_news_database"
     }
+
+    @DeleteColumn(
+        tableName = "news",
+        columnName = "description"
+    )
+    class AutoMigration2to3 : AutoMigrationSpec
 }
 
 class Converters : KoinComponent {

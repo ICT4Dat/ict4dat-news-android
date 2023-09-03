@@ -3,7 +3,6 @@ package at.ict4d.ict4dnews.di.modules
 import androidx.room.Room
 import at.ict4d.ict4dnews.persistence.database.AppDatabase
 import at.ict4d.ict4dnews.persistence.database.migrations.Migration1to2
-import at.ict4d.ict4dnews.persistence.database.migrations.Migration2to3
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -17,8 +16,7 @@ val roomModule = module {
         )
             .fallbackToDestructiveMigration() // delete all data if migration fails and setup the database again
             .addMigrations(
-                Migration1to2(),
-                Migration2to3()
+                Migration1to2()
             )
             .build()
     }

@@ -3,7 +3,6 @@
     <string name="url_ict4d_wikipedia">https://en.wikipedia.org/wiki/Information_and_communication_technologies_for_development</string>
     <string name="url_ict4dat_projects" translatable="false">http://www.ict4d.at/projects/</string>
     <string name="url_ict4dat_about_us" translatable="false">http://www.ict4d.at/about/</string>
-    <string name="url_ict4dat" translatable="false">http://www.ict4d.at/</string>
     <string name="url_github_project" translatable="false">https://github.com/ICT4Dat/ict4dat-news-android</string>
     <string name="contact_email" translatable="false">news.app@ict4d.at</string>
     <string name="url_paul" translatable="false">https://www.spiesberger.eu/</string>
