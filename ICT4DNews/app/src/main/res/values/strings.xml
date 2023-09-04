@@ -72,7 +72,7 @@
     <string name="ownership_dialog_message">This application brings together news sources on the topic of ICT4D.\n\nICT4D.at does not own nor is responsible for the content of other sources and providers. You can find all used sources in the section \"ICT4D Blogs &amp; Sources\" or on GitHub:\nhttps://github.com/ICT4Dat/ict4dat-news-android#supported-news-feeds-and-sources\n\nIf you are the owner of one oft the sources used by this application and would like to be removed or if you would like to propose a new source, then please contact us:\nnews.app@ict4d.at</string>
     <string name="content_description_scroll_to_top">Scroll to top</string>
     <string name="welcome_summary_welcome">Welcome to ICT4D News</string>
-    <string name="welcome_summary_explaination">We handpicked %1$d ICT4D News Sources for you. We can keep you automatically up-to-date:</string>
+    <string name="welcome_summary_explaination">We handpicked %1$d ICT4D News Sources for you. The app can keep you automatically up-to-date:</string>
     <string name="welcome_summary_setup">Set me up!</string>
     <string name="welcome_summary_configure_sources">Configure News Sources first</string>
     <string name="welcome_summary_disclaimer">The application can search daily for ICT4D news and display them as notifications. You can turn this on/off any time in the settings.</string>

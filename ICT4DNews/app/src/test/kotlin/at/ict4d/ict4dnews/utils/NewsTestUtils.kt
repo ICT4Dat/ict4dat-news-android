@@ -12,7 +12,6 @@ fun generateNews(blog: Blog, author: Author): News {
         generateRandomNumber(),
         generateRandomURL(),
         generateUUID(),
-        generateUUID(),
         generatePastLocalDateTime(),
         blog.feed_url
     )

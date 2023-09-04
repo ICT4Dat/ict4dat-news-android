@@ -73,5 +73,15 @@
     <string name="ownership_dialog_title">Eigentümer &amp; Verleger</string>
     <string name="ownership_dialog_message">Diese Anwendung vereint Nachrichtenquellen zum Thema ICT4D.\n\nICT4D.at ist weder der Eigentümer noch ist ICT4D.at verantwortlich für den Inhalt anderer Quellen und/oder Anbieter. Sie finden alle verwendeten Quellen im Abschnitt \"ICT4D-Blogs &amp; Quellen\" oder auf GitHub:\nhttps://github.com/ICT4Dat/ict4dat-news-android#supported-news-feeds-and-sources\n\nWenn Sie Eigentümer einer der von dieser Anwendung verwendeten Quellen sind und Sie entfernt werden möchten oder eine neue Quelle vorschlagen wollen, dann kontaktieren Sie uns bitte unter:\nnews.app@ict4d.at</string>
     <string name="content_description_scroll_to_top">Nach Oben scrollen</string>
+    <string name="welcome_summary_welcome">Willkommen zu ICT4D News</string>
+    <string name="welcome_summary_explaination">Wir haben für Dich %1$d ICT4D-Nachrichtenquellen handverlesen. Die App kann Dich automatisch auf dem Laufenden halten:</string>
+    <string name="welcome_summary_setup">Klar, los gehts!</string>
+    <string name="welcome_summary_configure_sources">Zuerst die Nachrichtenquellen konfigurieren</string>
+    <string name="welcome_summary_disclaimer">Die App kann täglich nach ICT4D-News suchen und diese als Benachrichtigung anzeigen. Du kannst dies in den Einstellungen jederzeit ein- und ausschalten.</string>
+    <string name="welcome_summary_skip">Automatische Updates überspringen</string>
+    <string name="welcome_summary_done_text">Wir werden Dich auf dem Laufenden halten. Du kannst die Benachrichtigungen jederzeit in den Einstellungen ein- und ausschalten.</string>
+    <string name="welcome_summary_done_headline">Geschafft!</string>
+    <string name="runtime_permission_notification_not_granted">Berechtigung nicht erteilt - Einstellungen öffnen, um die Berechtigung manuell zu erteilen</string>
+    <string name="runtime_permission_notification_open_settings">Öffnen</string>
 
 </resources>

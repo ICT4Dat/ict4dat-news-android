@@ -1,7 +1,6 @@
 package at.ict4d.ict4dnews.extensions
 
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -14,7 +13,6 @@ import androidx.fragment.app.FragmentActivity
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.R
 import timber.log.Timber
-import java.net.URLEncoder
 
 fun FragmentActivity.safeStartActivity(intent: Intent?): Boolean {
     return try {
@@ -25,27 +23,6 @@ fun FragmentActivity.safeStartActivity(intent: Intent?): Boolean {
         Toast.makeText(this, getString(R.string.error_dialog_msg), Toast.LENGTH_LONG).show()
         false
     }
-}
-
-fun Context.safeStartActivity(intent: Intent?): Boolean {
-    return try {
-        startActivity(intent)
-        true
-    } catch (exception: ActivityNotFoundException) {
-        Timber.d(exception, "No activity found to start intent.")
-        false
-    }
-}
-
-fun FragmentActivity.openMapsWithLocation(
-    latitude: String,
-    longitude: String,
-    locationName: String
-) {
-    val stringUri =
-        "geo:$latitude,$longitude?q=${URLEncoder.encode(locationName, "UTF-8")}&z=10"
-    val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(stringUri))
-    safeStartActivity(mapIntent)
 }
 
 fun FragmentActivity.browseCustomTabWithUrl(url: String) {

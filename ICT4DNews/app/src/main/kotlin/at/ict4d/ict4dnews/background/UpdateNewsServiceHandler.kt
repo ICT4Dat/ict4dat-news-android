@@ -13,8 +13,9 @@ class UpdateNewsServiceHandler(private val workManager: WorkManager) {
     fun requestToRegisterService() {
         val newsWork = PeriodicWorkRequestBuilder<UpdateNewsWorker>(1, TimeUnit.DAYS)
             .setConstraints(getConstraintsForNewsSyncService())
+            .setInitialDelay(1, TimeUnit.DAYS)
             .setBackoffCriteria(
-                BackoffPolicy.LINEAR,
+                BackoffPolicy.EXPONENTIAL,
                 1, // retry after 1 hour
                 TimeUnit.HOURS
             )
