@@ -85,12 +85,12 @@
                     android:id="@+id/imageButton2"
                     style="@style/ict4dat_social_media_buttons"
                     android:layout_marginStart="8dp"
-                    android:onClick="@{() -> fragment.openTwitter()}"
+                    android:onClick="@{() -> fragment.openX()}"
                     app:layout_constraintEnd_toStartOf="@+id/imageButton3"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/imageButton"
                     app:layout_constraintTop_toTopOf="@+id/imageButton"
-                    app:srcCompat="@drawable/ic_twitter" />
+                    app:srcCompat="@drawable/ic_x" />
 
             <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageButton3"

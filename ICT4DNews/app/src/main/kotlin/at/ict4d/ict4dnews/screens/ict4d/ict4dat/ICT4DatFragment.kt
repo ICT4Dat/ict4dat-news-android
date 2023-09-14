@@ -39,8 +39,8 @@ class ICT4DatFragment :
         requireActivity().browseCustomTabWithUrl(getString(R.string.url_ict4dat_facebook))
     }
 
-    fun openTwitter() {
-        requireActivity().browseCustomTabWithUrl(getString(R.string.url_ict4dat_twitter))
+    fun openX() {
+        requireActivity().browseCustomTabWithUrl(getString(R.string.url_ict4dat_x))
     }
 
     fun openMastodon() {
