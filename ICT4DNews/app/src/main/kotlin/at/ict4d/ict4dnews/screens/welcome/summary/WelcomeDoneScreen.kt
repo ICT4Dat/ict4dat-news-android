@@ -1,5 +1,6 @@
 package at.ict4d.ict4dnews.screens.welcome.summary
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,14 +29,16 @@ fun WelcomeDoneScreen(
     ) {
         Text(
             text = stringResource(id = R.string.welcome_summary_done_headline),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             text = stringResource(id = R.string.welcome_summary_done_text),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -49,7 +52,10 @@ fun WelcomeDoneScreen(
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview(
+    showSystemUi = true,
+    uiMode = UI_MODE_NIGHT_YES
+)
 @Composable
 fun PreviewWelcomeDoneScreen() {
     WelcomeDoneScreen(

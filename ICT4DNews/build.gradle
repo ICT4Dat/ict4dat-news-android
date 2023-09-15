@@ -12,10 +12,10 @@ buildscript {
         kotlin_version = "1.9.10"
         glide_version = "4.15.1"
         room_version = "2.5.2"
-        lifecycle_version = "2.6.1"
+        lifecycle_version = "2.6.2"
         retrofit_version = "2.9.0"
         work_version = "2.8.1"
-        navigation_version = "2.7.1"
+        navigation_version = "2.7.2"
         sentry_version = "6.21.0"
         koin_version = "3.4.3"
     }
