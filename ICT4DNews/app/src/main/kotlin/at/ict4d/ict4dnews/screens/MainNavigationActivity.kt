@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
 import at.ict4d.ict4dnews.lifecycle.SentryLifecycleObserver
+import com.google.android.material.elevation.SurfaceColors
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
@@ -41,6 +42,9 @@ class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationC
         navController.addOnDestinationChangedListener(this)
 
         model.watchAutomaticNewsUpdates()
+
+        val color = SurfaceColors.SURFACE_0.getColor(this)
+        window.statusBarColor = color // Set color of system statusBar same as ActionBar
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.navHostController).navigateUp()

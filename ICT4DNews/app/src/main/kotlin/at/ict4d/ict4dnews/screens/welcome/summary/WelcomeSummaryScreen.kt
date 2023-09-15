@@ -1,6 +1,7 @@
 package at.ict4d.ict4dnews.screens.welcome.summary
 
 import android.Manifest
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -60,12 +61,14 @@ private fun SummaryScreen(
     ) {
         Text(
             stringResource(id = R.string.welcome_summary_welcome),
-            style = MaterialTheme.typography.displayLarge
+            style = MaterialTheme.typography.displayLarge,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
             text = stringResource(R.string.welcome_summary_explaination, blogsCount),
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -95,7 +98,8 @@ private fun SummaryScreen(
 
         Text(
             text = stringResource(id = R.string.welcome_summary_disclaimer),
-            style = MaterialTheme.typography.labelSmall
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
@@ -154,6 +158,7 @@ private fun NotificationRuntimePermissionContainer(
 
 @Preview(
     showSystemUi = true,
+    uiMode = UI_MODE_NIGHT_YES,
     apiLevel = 30 // Runtime Permission is ignored
 )
 @Composable
