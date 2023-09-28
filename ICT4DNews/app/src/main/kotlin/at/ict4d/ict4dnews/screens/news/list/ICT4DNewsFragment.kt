@@ -20,6 +20,7 @@ import at.ict4d.ict4dnews.extensions.browseCustomTabWithUrl
 import at.ict4d.ict4dnews.extensions.moveToTop
 import at.ict4d.ict4dnews.extensions.navigateSafe
 import at.ict4d.ict4dnews.extensions.queryTextChanges
+import at.ict4d.ict4dnews.screens.MainNavigationActivity
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.ScrollToTopRecyclerViewScrollHandler
 import at.ict4d.ict4dnews.server.utils.Status
@@ -48,7 +49,12 @@ class ICT4DNewsFragment : BaseFragment<FragmentIctdnewsListBinding>(
             this,
             mapOf("pair" to "$pair")
         )
-        requireActivity().browseCustomTabWithUrl(pair.first.link)
+
+        val session = (requireActivity() as? MainNavigationActivity)?.getCustomTabSession()
+        requireActivity().browseCustomTabWithUrl(
+            pair.first.link,
+            session // Set a session so all URLs open in a custom tab and not an app (e.g. Wordpress app)
+        )
     })
 
     private var activeBlogCount = 0

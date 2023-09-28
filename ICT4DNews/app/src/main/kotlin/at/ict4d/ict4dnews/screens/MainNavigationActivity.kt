@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.ActivityMainNavigationBinding
 import at.ict4d.ict4dnews.lifecycle.SentryLifecycleObserver
+import at.ict4d.ict4dnews.utils.CustomTabSessionManager
 import com.google.android.material.elevation.SurfaceColors
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,6 +22,8 @@ class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationC
     private lateinit var binding: ActivityMainNavigationBinding
 
     private val model: MainNavigationViewModel by viewModel()
+
+    private val customTabSessionManager = CustomTabSessionManager()
 
     val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
         topLevelDestinationIds = setOf(
@@ -45,6 +48,8 @@ class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationC
 
         val color = SurfaceColors.SURFACE_0.getColor(this)
         window.statusBarColor = color // Set color of system statusBar same as ActionBar
+
+        customTabSessionManager.bindCustomTabService(this)
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.navHostController).navigateUp()
@@ -66,4 +71,6 @@ class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationC
     fun setVisibilityOfBottomNavigationBar(isVisible: Boolean) {
         binding.navigation.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
+
+    fun getCustomTabSession() = customTabSessionManager.session
 }

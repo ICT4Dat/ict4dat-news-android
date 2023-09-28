@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsSession
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import at.ict4d.ict4dnews.BuildConfig
@@ -25,15 +26,21 @@ fun FragmentActivity.safeStartActivity(intent: Intent?): Boolean {
     }
 }
 
-fun FragmentActivity.browseCustomTabWithUrl(url: String) {
+fun FragmentActivity.browseCustomTabWithUrl(
+    url: String,
+    customTabSession: CustomTabsSession? = null
+) {
     val uri = safeParseUri(url) ?: return
-    browseCustomTabWithUri(uri)
+    browseCustomTabWithUri(uri, customTabSession)
 }
 
-fun FragmentActivity.browseCustomTabWithUri(uri: Uri) {
+fun FragmentActivity.browseCustomTabWithUri(
+    uri: Uri,
+    customTabSession: CustomTabsSession? = null
+) {
     try {
         CustomTabsIntent
-            .Builder()
+            .Builder(customTabSession)
             .setDefaultColorSchemeParams(
                 CustomTabColorSchemeParams.Builder()
                     .setToolbarColor(ContextCompat.getColor(this, R.color.md_theme_light_primary))
