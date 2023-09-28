@@ -3,13 +3,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-                name="fragment"
-                type="at.ict4d.ict4dnews.screens.ict4d.ict4d.ICT4DFragment" />
-    </data>
-
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,17 +23,6 @@
                     app:layout_constraintEnd_toEndOf="@+id/textView"
                     app:layout_constraintStart_toStartOf="@+id/textView"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-            <com.google.android.material.button.MaterialButton
-                    android:id="@+id/ict4d_wikipedia_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:onClick="@{()->fragment.ict4dWikipedia()}"
-                    android:text="@string/ict4d_at_wikipedia"
-                    app:layout_constraintEnd_toEndOf="@+id/ict4d_text"
-                    app:layout_constraintStart_toStartOf="@+id/ict4d_text"
-                    app:layout_constraintTop_toBottomOf="@+id/ict4d_text" />
 
             <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView"

@@ -5,7 +5,6 @@
     <string name="refresh">Atualizar</string>
     <string name="search">Pesquisar</string>
     <string name="filter">Filtrar</string>
-    <string name="ict4d_at_wikipedia">Continuar lendo no Wikipedia</string>
     <string name="ict4d_at_logo">ICT4D.at logotipo</string>
     <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
         refers to the application of information and communication technologies (ICT) toward social, economic, and
@@ -15,7 +14,7 @@
         often interpreted as the use of technology to deliver a greater good. Another similar term used in the
         literature is "digital development". ICT4D draws on theories and frameworks from many disciplines, including
         sociology, economics, development studies, library, information science, and communication
-        studies.\n\n-Wikipedia
+        studies.
     </string>
     <string name="ict4dat_vision">A World of Equal Opportunities for All\n\nOur Mission:\nThrough knowledge,
         tools and networks we empower people to develop the skills they need to achieve their full potential.\n\nOur
