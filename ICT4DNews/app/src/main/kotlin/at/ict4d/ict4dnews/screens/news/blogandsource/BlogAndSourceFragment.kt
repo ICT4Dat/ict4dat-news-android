@@ -1,29 +1,42 @@
 package at.ict4d.ict4dnews.screens.news.blogandsource
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.databinding.FragmentBlogAndSourcesBinding
 import at.ict4d.ict4dnews.extensions.handleApiResponse
+import at.ict4d.ict4dnews.screens.MainNavigationActivity
 import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.screens.util.showOwnershipAlertDialog
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogAndSourcesBinding>(
-    R.layout.fragment_blog_and_sources,
-    BlogAndSourceViewModel::class
+class BlogAndSourceFragment : BaseFragment<FragmentBlogAndSourcesBinding>(
+    R.layout.fragment_blog_and_sources
 ) {
+
+    private val model by viewModel<BlogAndSourceViewModel>()
 
     private lateinit var blogAndSourceAdapter: BlogAndSourceRecyclerViewAdapter
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (BlogAndSourceFragmentArgs.fromBundle(requireArguments()).hideBottomNavigation) {
+            (requireActivity() as? MainNavigationActivity)?.setVisibilityOfBottomNavigationBar(false)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
 
         blogAndSourceAdapter = BlogAndSourceRecyclerViewAdapter { blog ->
             recordActionBreadcrumb("list click", this, mapOf("blog" to "$blog"))
@@ -52,19 +65,26 @@ class BlogAndSourceFragment : BaseFragment<BlogAndSourceViewModel, FragmentBlogA
                 )
             }
         }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.blogs_and_sources_menu, menu)
-    }
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    // Add menu items here
+                    menuInflater.inflate(R.menu.blogs_and_sources_menu, menu)
+                }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.info -> {
-            showOwnershipAlertDialog(requireContext())
-            true
-        }
+                override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
+                    R.id.info -> {
+                        showOwnershipAlertDialog(requireContext())
+                        true
+                    }
 
-        else -> super.onOptionsItemSelected(item)
+                    else -> false
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
     }
 }

@@ -1,42 +1,51 @@
 package at.ict4d.ict4dnews.utils
 
+import android.Manifest
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.os.bundleOf
-import androidx.navigation.NavDeepLinkBuilder
 import at.ict4d.ict4dnews.BuildConfig
 import at.ict4d.ict4dnews.NOTIFICATION_CHANNEL_ID
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.News
 import at.ict4d.ict4dnews.screens.MainNavigationActivity
 import at.ict4d.ict4dnews.server.repositories.BlogsRepository
 import kotlinx.coroutines.flow.first
+import timber.log.Timber
 
 const val NEWS_WORKER_SUMMARY_NOTIFICATION_ID = 1
 const val NEWS_WORKER_NOTIFICATION_GROUP = "${BuildConfig.APPLICATION_ID}.NEWS_UPDATE"
 
 class NotificationHandler(private val blogsRepository: BlogsRepository) {
 
-    suspend fun displayNewsNotifications(newsList: List<News>, context: Context) {
-
+    suspend fun displayNewsNotifications(
+        newsList: List<News>,
+        context: Context
+    ) {
         if (newsList.isNotEmpty()) {
-
             val allActiveBlogs = blogsRepository.getAllActiveBlogs().first()
             val notifications = mutableListOf<Notification>()
             val summaryNotificationStyle = NotificationCompat.InboxStyle()
 
             newsList.forEach { news ->
 
-                val pendingIntent = NavDeepLinkBuilder(context)
-                    .setGraph(R.navigation.nav_graph)
-                    .setDestination(R.id.ICT4DNewsDetailFragment)
-                    .setArguments(bundleOf(Pair("newsItem", news)))
-                    .createPendingIntent()
+                val notificationIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(news.link)
+                )
+
+                val pendingIntent = PendingIntent.getActivity(
+                    context,
+                    0,
+                    notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
 
                 notifications.add(
                     NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
@@ -50,10 +59,6 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent)
                         .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
-                        .setStyle(
-                            NotificationCompat.BigTextStyle()
-                                .bigText(news.description?.stripHtml() ?: "")
-                        )
                         .build()
                 )
 
@@ -66,7 +71,7 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
             val summaryIntent = Intent(context, MainNavigationActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
-            val summaryPendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, summaryIntent, 0)
+            val summaryPendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, summaryIntent, PendingIntent.FLAG_IMMUTABLE)
             summaryNotificationStyle
                 .setBigContentTitle(context.getString(R.string.news_update_complete))
                 .setSummaryText(context.getString(R.string.news_update_notification_content_text, newsList.size))
@@ -85,11 +90,11 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
             with(NotificationManagerCompat.from(context)) {
                 var notificationIdCounter = 2
                 notifications.forEach { notification ->
-                    notify(notificationIdCounter, notification)
+                    notifyWithRuntimeCheck(context, this, notificationIdCounter, notification)
                     notificationIdCounter += 1
                 }
 
-                notify(NEWS_WORKER_SUMMARY_NOTIFICATION_ID, summaryNotification)
+                notifyWithRuntimeCheck(context, this, NEWS_WORKER_SUMMARY_NOTIFICATION_ID, summaryNotification)
             }
         } else if (BuildConfig.DEBUG) { // Display a notification if the updates was successful, but no new news were found
 
@@ -102,7 +107,20 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
                 .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
                 .build()
 
-            with(NotificationManagerCompat.from(context)) { notify(999, debugNotification) }
+            with(NotificationManagerCompat.from(context)) { notifyWithRuntimeCheck(context, this, 999, debugNotification) }
+        }
+    }
+
+    private fun notifyWithRuntimeCheck(
+        context: Context,
+        notificationManager: NotificationManagerCompat,
+        id: Int,
+        notification: Notification
+    ) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(id, notification)
+        } else {
+            Timber.e("Tried to display notification without having runtime permission")
         }
     }
 }

@@ -52,7 +52,6 @@ class BlogDaoTests : BaseDaoTest() {
 
     @Test
     fun testGetAllActiveBlogs() = runBlocking {
-
         var result = blogDao.getAllActiveBlogs().first()
         Assert.assertTrue(result.isEmpty())
 
@@ -69,7 +68,6 @@ class BlogDaoTests : BaseDaoTest() {
 
     @Test
     fun testGetBlogByUrl() = runBlocking {
-
         var result = blogDao.getBlogByUrl(generateRandomURL()).first()
         Assert.assertNull(result)
 

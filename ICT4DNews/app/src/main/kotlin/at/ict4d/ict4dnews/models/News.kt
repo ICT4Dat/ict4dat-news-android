@@ -9,14 +9,13 @@ import androidx.room.PrimaryKey
 import at.ict4d.ict4dnews.extensions.stripHtml
 import at.ict4d.ict4dnews.models.wordpress.SELF_HOSTED_WP_POST_SERIALIZED_RENDERED
 import at.ict4d.ict4dnews.models.wordpress.SelfHostedWPPost
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDateTime
 
 const val NEWS_TABLE_TABLE_NAME = "news"
 const val NEWS_TABLE_LINK = "link"
 const val NEWS_TABLE_AUTHOR_ID = "author_id"
 const val NEWS_TABLE_TITLE = "title"
-const val NEWS_TABLE_DESCRIPTION = "description"
 const val NEWS_TABLE_FEATURED_MEDIA = "featured_media"
 const val NEWS_TABLE_SERVER_ID = "server_id"
 const val NEWS_TABLE_PUBLISHED_DATE = "published_date"
@@ -36,10 +35,13 @@ const val NEWS_TABLE_BLOG_ID = "blog_id"
             entity = Blog::class,
             parentColumns = [BLOG_TABLE_FEED_URL],
             childColumns = [NEWS_TABLE_BLOG_ID]
-        )],
+        )
+    ],
 
-    indices = [Index(value = [NEWS_TABLE_AUTHOR_ID]),
-        Index(value = [NEWS_TABLE_BLOG_ID])]
+    indices = [
+        Index(value = [NEWS_TABLE_AUTHOR_ID]),
+        Index(value = [NEWS_TABLE_BLOG_ID])
+    ]
 )
 data class News(
 
@@ -59,9 +61,6 @@ data class News(
     @ColumnInfo(name = NEWS_TABLE_TITLE)
     var title: String? = null,
 
-    @ColumnInfo(name = NEWS_TABLE_DESCRIPTION)
-    var description: String? = null,
-
     @ColumnInfo(name = NEWS_TABLE_PUBLISHED_DATE)
     val publishedDate: LocalDateTime? = null,
 
@@ -75,7 +74,6 @@ data class News(
         selfHostedWPPost.serverID,
         selfHostedWPPost.featuredMediaLink,
         selfHostedWPPost.title[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED]?.stripHtml(),
-        selfHostedWPPost.content[SELF_HOSTED_WP_POST_SERIALIZED_RENDERED],
         selfHostedWPPost.date,
         selfHostedWPPost.blogLink
     )

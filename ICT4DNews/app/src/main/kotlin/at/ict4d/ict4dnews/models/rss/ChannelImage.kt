@@ -15,26 +15,31 @@ data class ChannelImage(
 
     @field:Element(
         name = CHANNEL_IMAGE_SERIALIZED_URL,
-        required = false)
+        required = false
+    )
     var url: String? = null,
 
     @field:Element(
         name = CHANNEL_IMAGE_SERIALIZED_TITLE,
-        required = false)
+        required = false
+    )
     var title: String? = null,
 
     @field:Element(
         name = CHANNEL_IMAGE_SERIALIZED_LINK,
-        required = false)
+        required = false
+    )
     var link: String? = null,
 
     @field:Element(
         name = CHANNEL_IMAGE_SERIALIZED_WIDTH,
-        required = false)
+        required = false
+    )
     var width: String? = null,
 
     @field:Element(
         name = CHANNEL_IMAGE_SERIALIZED_HEIGHT,
-        required = false)
+        required = false
+    )
     var height: String? = null
 )

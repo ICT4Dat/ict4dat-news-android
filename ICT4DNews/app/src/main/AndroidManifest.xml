@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        package="at.ict4d.ict4dnews">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:mimeType="text/plain" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="text/plain" />
+        </intent>
+        <intent>
+            <action android:name="android.support.customtabs.action.CustomTabsService" />
+        </intent>
+    </queries>
 
     <application
             android:name=".ICT4DNewsApplication"
@@ -28,22 +41,24 @@
                 android:name="io.sentry.anr.enable"
                 android:value="false" />
 
-        <activity android:name=".screens.MainNavigationActivity">
+        <activity
+                android:name=".screens.MainNavigationActivity"
+                android:exported="true">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!--Style is require to show a toolbar on OssLicensesMenuActivity And OssLicensesActivity-->
         <activity
                 android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-                android:theme="@style/licencesActivityTheme"/>
+                android:theme="@style/AppTheme" />
 
         <activity
                 android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-                android:theme="@style/licencesActivityTheme"/>
+                android:theme="@style/AppTheme" />
     </application>
 </manifest>

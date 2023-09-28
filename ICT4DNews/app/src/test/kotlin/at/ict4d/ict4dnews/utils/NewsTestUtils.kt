@@ -12,7 +12,6 @@ fun generateNews(blog: Blog, author: Author): News {
         generateRandomNumber(),
         generateRandomURL(),
         generateUUID(),
-        generateUUID(),
         generatePastLocalDateTime(),
         blog.feed_url
     )
@@ -25,7 +24,6 @@ fun generateNewsAndInsert(newsDao: NewsDao, blog: Blog, author: Author): News {
 }
 
 fun generateNewsListAndInsert(newsDao: NewsDao, blog: Blog, author: Author, numberOfNews: Int = 5): List<News> {
-
     val newsList = mutableListOf<News>()
     for (i in 0 until numberOfNews) {
         newsList.add(generateNews(blog, author))

@@ -5,16 +5,7 @@
     <string name="refresh">Atualizar</string>
     <string name="search">Pesquisar</string>
     <string name="filter">Filtrar</string>
-    <string name="news_search_hint">Pesquisar notícias…</string>
-    <string name="title_activity_ict4_dnews_detail">Notícias ICT4D</string>
-    <string name="ict4d_at_wikipedia">Continuar lendo no Wikipedia</string>
-    <string name="ict4d_logo">ICT4D logotipo</string>
     <string name="ict4d_at_logo">ICT4D.at logotipo</string>
-    <string name="http_exception_error_message">Não foi possível fazer a conexão</string>
-    <string name="server_error_message">O servidor não está respondendo neste momento</string>
-    <string name="send_to">Compartilhar com</string>
-    <string name="news_detail_share">%1$s\n\nby %2$s - %3$s\n\n%4$s</string>
-    <string name="open_in_browser">Abrir no navegador</string>
     <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
         refers to the application of information and communication technologies (ICT) toward social, economic, and
         political development, with a particular emphasis on helping poor and marginalized people and communities. It
@@ -23,7 +14,7 @@
         often interpreted as the use of technology to deliver a greater good. Another similar term used in the
         literature is "digital development". ICT4D draws on theories and frameworks from many disciplines, including
         sociology, economics, development studies, library, information science, and communication
-        studies.\n\n-Wikipedia
+        studies.
     </string>
     <string name="ict4dat_vision">A World of Equal Opportunities for All\n\nOur Mission:\nThrough knowledge,
         tools and networks we empower people to develop the skills they need to achieve their full potential.\n\nOur
@@ -33,10 +24,7 @@
     <string name="ict4dat_projects">Nossos projectos</string>
     <string name="ict4dat_about">Sobre nós &amp; Membros</string>
     <string name="open_source_licences_title">Licenças Open Source</string>
-    <string name="licenses">Licenças</string>
     <string name="share">Compartilhar</string>
-    <string name="share_ict4dat">ICT4D.at - Rede Austríaca de Tecnologias de Informação e Comunicação para o Desenvolvimento\n\n%1$s
-    </string>
     <string name="read_more">Ler mais</string>
     <string name="blog_logo">Logotipo do Blog</string>
     <string name="ict4d_blogs_and_sources">Blogs ICT4D &amp; Outras fontes</string>

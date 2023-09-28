@@ -6,9 +6,9 @@
             android:title="@string/settings_category_general">
 
         <SwitchPreference
-                android:defaultValue="true"
+                android:defaultValue="false"
                 android:title="@string/should_allow_sync_service"
-                android:key="@string/pref_key_is_auto_sync_enabled"
+                android:key="@string/pref_key_is_auto_sync_enabled_switch_preference"
                 android:summary="@string/should_allow_snyc_service_summary"/>
 
         <SwitchPreference

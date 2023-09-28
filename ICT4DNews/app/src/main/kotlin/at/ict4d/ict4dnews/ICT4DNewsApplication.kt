@@ -12,11 +12,8 @@ import at.ict4d.ict4dnews.di.modules.repositoryModule
 import at.ict4d.ict4dnews.di.modules.roomModule
 import at.ict4d.ict4dnews.di.modules.viewModelModule
 import at.ict4d.ict4dnews.persistence.sharedpreferences.SharedPrefs
-import com.facebook.stetho.Stetho
 import io.sentry.android.core.SentryAndroid
 import io.sentry.android.timber.SentryTimberIntegration
-import leakcanary.AppWatcher
-import leakcanary.ObjectWatcher
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -26,17 +23,7 @@ const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 
 open class ICT4DNewsApplication : Application() {
 
-    private lateinit var objWatcher: ObjectWatcher
     private val sharedPrefs by inject<SharedPrefs>()
-
-    companion object {
-
-        @JvmStatic
-        fun getRefWatcher(context: Context): ObjectWatcher {
-            val applicationContext = context.applicationContext as ICT4DNewsApplication
-            return applicationContext.objWatcher
-        }
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -46,15 +33,9 @@ open class ICT4DNewsApplication : Application() {
             modules(listOf(apiServiceModule, helperModule, roomModule, viewModelModule, repositoryModule))
         }
 
-        objWatcher = AppWatcher.objectWatcher
-
         setUpTimber()
 
         setUpSentryBugTracking()
-
-        if (BuildConfig.DEBUG) {
-            installStetho()
-        }
 
         createNotificationChannel()
     }
@@ -96,10 +77,6 @@ open class ICT4DNewsApplication : Application() {
                 }
             })
         }
-    }
-
-    protected open fun installStetho() {
-        Stetho.initializeWithDefaults(this)
     }
 
     override fun attachBaseContext(base: Context) {

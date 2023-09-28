@@ -6,9 +6,11 @@ import at.ict4d.ict4dnews.ICT4DNewsApplication
 import at.ict4d.ict4dnews.R
 import com.tfcporciuncula.flow.FlowSharedPreferences
 import com.tfcporciuncula.flow.Serializer
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SharedPrefs(application: ICT4DNewsApplication) {
 
     private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
@@ -26,7 +28,7 @@ class SharedPrefs(application: ICT4DNewsApplication) {
 
     val lastAutomaticNewsUpdateLocalDate = flowSharedPreferences.getObject(keyLastAutoNewsUpdate, lastAutomaticNewsUpdateLocalDateSerializer, LocalDate.now())
 
-    val isAutomaticNewsUpdateEnabled = flowSharedPreferences.getBoolean(keyIsAutoNewsUpdateEnabled, true)
+    val isAutomaticNewsUpdateEnabled = flowSharedPreferences.getBoolean(keyIsAutoNewsUpdateEnabled, false)
 
     val isBugTrackingEnabled = flowSharedPreferences.getBoolean(keyIsBugTrackingEnabled, true)
 }

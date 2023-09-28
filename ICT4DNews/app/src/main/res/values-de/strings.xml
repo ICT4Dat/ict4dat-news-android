@@ -7,16 +7,7 @@
     <string name="refresh">Aktualisieren</string>
     <string name="search">Suchen</string>
     <string name="filter">Filtern</string>
-    <string name="news_search_hint">Suche nach News…</string>
-    <string name="title_activity_ict4_dnews_detail">ICT4D News</string>
-    <string name="ict4d_at_wikipedia">Lese weiter auf Wikipedia</string>
-    <string name="ict4d_logo">ICT4D Logo</string>
     <string name="ict4d_at_logo">ICT4D.at Logo</string>
-    <string name="http_exception_error_message">Die Verbindung konnte nicht hergestellt werden.</string>
-    <string name="server_error_message">Der Server antwortet zur Zeit nicht.</string>
-    <string name="send_to">Teile mit</string>
-    <string name="news_detail_share">%1$s\n\von %2$s - %3$s\n\n%4$s</string>
-    <string name="open_in_browser">In einem Browser öffnen</string>
     <string name="description_ict4d">Information and Communication Technologies for Development (ICT4D)
         refers to the application of information and communication technologies (ICT) toward social, economic, and
         political development, with a particular emphasis on helping poor and marginalized people and communities. It
@@ -25,7 +16,7 @@
         often interpreted as the use of technology to deliver a greater good. Another similar term used in the
         literature is "digital development". ICT4D draws on theories and frameworks from many disciplines, including
         sociology, economics, development studies, library, information science, and communication
-        studies.\n\n-Wikipedia
+        studies.
     </string>
     <string name="ict4dat_vision">A World of Equal Opportunities for All\n\nOur Mission:\nThrough knowledge,
         tools and networks we empower people to develop the skills they need to achieve their full potential.\n\nOur
@@ -35,14 +26,7 @@
     <string name="ict4dat_projects">Unsere Projekte</string>
     <string name="ict4dat_about">Über uns &amp; Mitglieder</string>
     <string name="open_source_licences_title">Quelleoffene Software Lizenzen</string>
-    <string name="licenses">Lizenzen</string>
     <string name="share">Teilen</string>
-    <string name="share_ict4d">ICT4D - Informations- und Kommunikationstechnologien für
-        Entwicklungszusammenarbeit\n\n%1$s
-    </string>
-    <string name="share_ict4dat">ICT4D.at - Das Österreichische Netzwerk für Informations- und
-        Kommunikationstechnologien für Entwicklungszusammenarbeit\n\n%1$s
-    </string>
     <string name="read_more">Weiterlesen</string>
     <string name="blog_logo">Blog Logo</string>
     <string name="ict4d_blogs_and_sources">ICT4D Blogs &amp; Quellen</string>
@@ -87,5 +71,16 @@
     <string name="dialog_ok">OK</string>
     <string name="ownership_dialog_title">Eigentümer &amp; Verleger</string>
     <string name="ownership_dialog_message">Diese Anwendung vereint Nachrichtenquellen zum Thema ICT4D.\n\nICT4D.at ist weder der Eigentümer noch ist ICT4D.at verantwortlich für den Inhalt anderer Quellen und/oder Anbieter. Sie finden alle verwendeten Quellen im Abschnitt \"ICT4D-Blogs &amp; Quellen\" oder auf GitHub:\nhttps://github.com/ICT4Dat/ict4dat-news-android#supported-news-feeds-and-sources\n\nWenn Sie Eigentümer einer der von dieser Anwendung verwendeten Quellen sind und Sie entfernt werden möchten oder eine neue Quelle vorschlagen wollen, dann kontaktieren Sie uns bitte unter:\nnews.app@ict4d.at</string>
+    <string name="content_description_scroll_to_top">Nach Oben scrollen</string>
+    <string name="welcome_summary_welcome">Willkommen zu ICT4D News</string>
+    <string name="welcome_summary_explaination">Wir haben für Dich %1$d ICT4D-Nachrichtenquellen handverlesen. Die App kann Dich automatisch auf dem Laufenden halten:</string>
+    <string name="welcome_summary_setup">Klar, los gehts!</string>
+    <string name="welcome_summary_configure_sources">Zuerst die Nachrichtenquellen konfigurieren</string>
+    <string name="welcome_summary_disclaimer">Die App kann täglich nach ICT4D-News suchen und diese als Benachrichtigung anzeigen. Du kannst dies in den Einstellungen jederzeit ein- und ausschalten.</string>
+    <string name="welcome_summary_skip">Automatische Updates überspringen</string>
+    <string name="welcome_summary_done_text">Wir werden Dich auf dem Laufenden halten. Du kannst die Benachrichtigungen jederzeit in den Einstellungen ein- und ausschalten.</string>
+    <string name="welcome_summary_done_headline">Geschafft!</string>
+    <string name="runtime_permission_notification_not_granted">Berechtigung nicht erteilt - Einstellungen öffnen, um die Berechtigung manuell zu erteilen</string>
+    <string name="runtime_permission_notification_open_settings">Öffnen</string>
 
 </resources>

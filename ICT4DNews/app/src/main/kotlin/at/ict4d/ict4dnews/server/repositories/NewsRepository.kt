@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import org.jsoup.Jsoup
 import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -58,11 +57,9 @@ class NewsRepository(
         .flowOn(Dispatchers.IO)
 
     suspend fun updateAllActiveNewsWithFlow(): Flow<NewsUpdateResource> {
-
         recordNetworkBreadcrumb("loadAllNewsFromAllActiveBlogs", this)
 
         return flow {
-
             val activeBlogs = blogsRepository.getAllActiveBlogs().first()
 
             val successfulBlogs = mutableListOf<Blog>()
@@ -121,7 +118,6 @@ class NewsRepository(
     }
 
     suspend fun downloadAllNews(): NewsUpdateResource = withContext(Dispatchers.IO) {
-
         val activeBlogs = blogsRepository.getAllActiveBlogs().first()
 
         val successfulBlogs = mutableListOf<Blog>()
@@ -155,16 +151,13 @@ class NewsRepository(
     }
 
     private suspend fun handleSelfHostedWpBlog(blog: Blog): Resource<Triple<List<News>, List<Author>, List<Media>>> {
-
         return try {
-
             val latestNewsDate = getLatestNewsPublishedDate(blog.feed_url).first().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             val response = apiJsonSelfHostedWPService.getJsonNewsOfUrl(blog.feed_url + SELF_HOSTED_URL_ENDING, newsAfterDate = latestNewsDate)
 
             val selfHostedWpPostList = response.body()
 
             if (response.isSuccessful && selfHostedWpPostList != null) {
-
                 // set blog URL
                 selfHostedWpPostList.map { it.blogLink = blog.feed_url }
 
@@ -223,8 +216,6 @@ class NewsRepository(
                 Timber.d("$serverAuthors")
                 Timber.d("$serverMedia")
 
-                streamLineElementsInContent(news)
-
                 insertAuthorsNewsAndMedia(authors, news, media)
 
                 Resource.success(Triple(news, authors, media), response.code())
@@ -238,14 +229,11 @@ class NewsRepository(
     }
 
     private suspend fun handleRSSBlog(blog: Blog): Resource<Triple<List<News>, List<Author>, List<Media>>> {
-
         return try {
-
             val response = apiRssService.getRssNews(blog.feed_url)
 
             val channel = response.body()?.channel
             if (response.isSuccessful && channel != null) {
-
                 val author = Author(blog, channel)
 
                 val mediaList = mutableListOf<Media>()
@@ -262,15 +250,12 @@ class NewsRepository(
                                 0,
                                 channel.image?.url,
                                 item.title?.stripHtml(),
-                                item.description,
                                 item.pubDate?.toLocalDateTimeFromRFCString(),
                                 blog.feed_url
                             )
                         )
 
                         if (blog.feedType == FeedType.WORDPRESS_COM) { // RSS feeds only have one media
-
-                            newsList.last().description = item.wpContent
 
                             item.wpRSSMedia?.let { media ->
 
@@ -295,8 +280,6 @@ class NewsRepository(
                     }
                 }
 
-                streamLineElementsInContent(newsList)
-
                 Timber.d("$mediaList")
                 insertAuthorsNewsAndMedia(listOf(author), newsList, mediaList)
 
@@ -307,23 +290,6 @@ class NewsRepository(
         } catch (e: Exception) {
             Timber.w(e, "Error in downloading self hosted Wordpress blog")
             Resource.error(e, null, null)
-        }
-    }
-
-    /**
-     * Parses HTML and sets width of elements like images or iframes to the width of the phone
-     */
-    private fun streamLineElementsInContent(news: List<News>) {
-        news.forEach { oneNewsItem ->
-            oneNewsItem.description?.let { html ->
-                val doc = Jsoup.parse(html)
-
-                doc.select("img").attr("width", "100%")
-                doc.select("figure").attr("style", "width: 80%")
-                doc.select("iframe").attr("style", "width: 100%")
-
-                oneNewsItem.description = doc.html()
-            }
         }
     }
 

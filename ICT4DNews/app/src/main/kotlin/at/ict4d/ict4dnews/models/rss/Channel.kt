@@ -16,36 +16,44 @@ data class Channel(
 
     @field:Element(
         name = CHANNEL_SERIALIZED_TITLE,
-        required = false)
+        required = false
+    )
     var title: String? = null,
 
     @field:Element(
         name = CHANNEL_SERIALIZED_DESCRIPTION,
-        required = false)
+        required = false
+    )
     var description: String? = null,
 
     @field:Element(
         name = CHANNEL_SERIALIZED_LAST_BUILD_DATE,
-        required = false)
+        required = false
+    )
     var lastBuildDate: String? = null,
 
     @field:Element(
         name = CHANNEL_SERIALIZED_LANGUAGE,
-        required = false)
+        required = false
+    )
     var language: String? = null,
 
     @field:Element(
         name = CHANNEL_SERIALIZED_GENERATOR,
-        required = false)
+        required = false
+    )
     var generator: String? = null,
 
     @field:Element(
         name = CHANNEL_IMAGE_SERIALIZED_IMAGE,
-        required = false)
+        required = false
+    )
     var image: ChannelImage? = null,
 
-    @field:ElementList(inline = true,
+    @field:ElementList(
+        inline = true,
         name = FEED_ITEM_SERIALIZED_FEED_ITEM,
-        required = false)
+        required = false
+    )
     var feedItems: List<FeedItem>? = null
 )

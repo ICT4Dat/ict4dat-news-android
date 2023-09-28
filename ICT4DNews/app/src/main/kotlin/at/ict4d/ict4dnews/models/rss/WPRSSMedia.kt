@@ -16,11 +16,13 @@ data class WPRSSMedia(
 
     @field:Attribute(
         name = WP_RSS_MEDIA_SERIALIZED_URL,
-        required = false)
+        required = false
+    )
     var url: String? = null,
 
     @field:Attribute(
         name = WP_RSS_MEDIA_SERIALIZED_MEDIUM,
-        required = false)
+        required = false
+    )
     var medium: String? = null
 )

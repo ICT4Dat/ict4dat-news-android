@@ -18,7 +18,6 @@ fun <T> Fragment.handleApiResponse(
     errorTextView: TextView? = null,
     showErrorDialogs: Boolean = true
 ) {
-
     swipeRefreshLayout?.isRefreshing = resource.status == Status.LOADING
     progressbar?.isVisible = resource.status == Status.LOADING
     errorTextView?.isVisible = (resource.status == Status.ERROR || resource.status == Status.SUCCESS) && (resource.data == null || (resource.data as? List<*>).isNullOrEmpty())
@@ -27,7 +26,6 @@ fun <T> Fragment.handleApiResponse(
         Status.SUCCESS -> Timber.d("${this::class.java.simpleName} repository update success with Status ${resource.status}")
         Status.ERROR -> {
             if (showErrorDialogs) {
-
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.error_dialog_title)
                     .setMessage(R.string.error_dialog_msg)

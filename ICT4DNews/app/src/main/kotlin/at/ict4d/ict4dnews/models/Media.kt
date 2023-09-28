@@ -31,10 +31,13 @@ const val MEDIA_TABLE_MIME_TYPE = "mime_type"
             entity = Author::class,
             parentColumns = [AUTHOR_TABLE_LINK],
             childColumns = [MEDIA_TABLE_AUTHOR_ID]
-        )],
+        )
+    ],
 
-    indices = [(Index(value = [MEDIA_TABLE_NEWS_ID])),
-        Index(value = [MEDIA_TABLE_AUTHOR_ID])]
+    indices = [
+        (Index(value = [MEDIA_TABLE_NEWS_ID])),
+        Index(value = [MEDIA_TABLE_AUTHOR_ID])
+    ]
 )
 data class Media(
 

@@ -12,7 +12,7 @@ import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 fun <E> SendChannel<E>.safeOffer(value: E) = !isClosedForSend && try {
-    offer(value)
+    trySend(value).isSuccess
 } catch (e: CancellationException) {
     false
 }

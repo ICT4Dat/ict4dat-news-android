@@ -10,6 +10,7 @@ data class RSSFeed(
 
     @field:Element(
         name = CHANNEL_SERIALIZED_CHANNEL,
-        required = false)
+        required = false
+    )
     var channel: Channel? = null
 )

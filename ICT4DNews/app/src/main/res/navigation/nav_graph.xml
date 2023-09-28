@@ -11,10 +11,8 @@
               android:label="@string/app_name">
         <action android:id="@+id/action_actionNews_to_blogAndSourceFragment"
                 app:destination="@id/blogAndSourceFragment"/>
-        <action android:id="@+id/action_actionNews_to_ICT4DNewsDetailFragment"
-                app:destination="@id/ICT4DNewsDetailFragment"/>
-        <action android:id="@+id/action_actionNews_to_splashFragment"
-                app:destination="@id/splashFragment"/>
+        <action android:id="@+id/action_actionNews_to_welcomeSetupFragment"
+                app:destination="@id/welcomeSetupFragment"/>
     </fragment>
 
     <fragment android:id="@+id/ict4dFragment"
@@ -22,33 +20,42 @@
               tools:layout="@layout/fragment_tabbed_ict4d"
               android:label="@string/nav_ict4d"/>
 
-    <fragment android:id="@+id/moreFragment"
-              android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"
-              tools:layout="@layout/fragment_more"
-              android:label="@string/nav_more">
-        <action android:id="@+id/action_actionMore_to_settingsFragment"
-                app:destination="@id/settingsFragment"/>
+    <fragment
+            android:id="@+id/moreFragment"
+            android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"
+            tools:layout="@layout/fragment_more">
+        <action
+                android:id="@+id/action_actionMore_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
     </fragment>
 
     <fragment android:id="@+id/blogAndSourceFragment"
               tools:layout="@layout/fragment_blog_and_sources"
               android:name="at.ict4d.ict4dnews.screens.news.blogandsource.BlogAndSourceFragment"
-              android:label="@string/ict4d_blogs_and_sources"/>
-
-    <fragment android:id="@+id/splashFragment"
-              android:name="at.ict4d.ict4dnews.screens.splashscreen.SplashFragment"
-              tools:layout="@layout/fragment_splash"
-              android:label="SplashFragment">
+              android:label="@string/ict4d_blogs_and_sources">
+        <argument
+                android:name="hideBottomNavigation"
+                app:argType="boolean" />
     </fragment>
 
-    <fragment android:id="@+id/ICT4DNewsDetailFragment"
-              tools:layout="@layout/fragment_ict4d_news_detail"
-              android:name="at.ict4d.ict4dnews.screens.news.detail.ICT4DNewsDetailFragment"
-              android:label=" ">
-        <argument android:name="newsItem"
-                  app:argType="at.ict4d.ict4dnews.models.News"/>
+    <fragment android:id="@+id/welcomeSetupFragment"
+              android:name="at.ict4d.ict4dnews.screens.welcome.setup.WelcomeSetupFragment"
+              tools:layout="@layout/fragment_welcome_setup"
+              android:label="">
+        <action
+                android:id="@+id/action_welcomeSetupFragment_to_welcomeSummaryFragment"
+                app:destination="@id/welcomeSummaryFragment" />
     </fragment>
+
     <fragment android:id="@+id/settingsFragment"
               android:name="at.ict4d.ict4dnews.screens.more.settings.SettingsFragmentWithToolbar"
               android:label="@string/settings"/>
+    <fragment
+            android:id="@+id/welcomeSummaryFragment"
+            android:name="at.ict4d.ict4dnews.screens.welcome.summary.WelcomeSummaryFragment"
+            android:label="WelcomeSummaryFragment" >
+        <action
+                android:id="@+id/action_welcomeSummaryFragment_to_blogAndSourceFragment"
+                app:destination="@id/blogAndSourceFragment" />
+    </fragment>
 </navigation>

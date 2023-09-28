@@ -1,9 +1,12 @@
 package at.ict4d.ict4dnews.persistence.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.DeleteColumn
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import androidx.room.migration.AutoMigrationSpec
 import at.ict4d.ict4dnews.models.Author
 import at.ict4d.ict4dnews.models.Blog
 import at.ict4d.ict4dnews.models.FeedType
@@ -15,13 +18,28 @@ import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Collections.emptyList
 
-@Database(entities = [News::class, Author::class, Media::class, Blog::class], version = 2)
+@Database(
+    entities = [
+        News::class,
+        Author::class,
+        Media::class,
+        Blog::class
+    ],
+    version = 3,
+    autoMigrations = [
+        AutoMigration(
+            from = 2,
+            to = 3,
+            spec = AppDatabase.AutoMigration2to3::class
+        )
+    ]
+)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -36,6 +54,12 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         const val DATABASE_NAME = "ict4d_news_database"
     }
+
+    @DeleteColumn(
+        tableName = "news",
+        columnName = "description"
+    )
+    class AutoMigration2to3 : AutoMigrationSpec
 }
 
 class Converters : KoinComponent {
