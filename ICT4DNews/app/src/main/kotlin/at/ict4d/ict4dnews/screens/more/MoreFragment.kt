@@ -51,14 +51,13 @@ class MoreFragment :
 
                 override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
                     R.id.menu_settings -> {
-                        recordNavigationBreadcrumb("R.id.menu_settings", this)
-                        findNavController().navigateSafe(
-                            R.id.moreFragment,
-                            MoreFragmentDirections.actionActionMoreToSettingsFragment()
-                        )
+//                        recordNavigationBreadcrumb("R.id.menu_settings", this)
+//                        findNavController().navigateSafe(
+//                            R.id.moreFragment,
+//                            MoreFragmentDirections.actionActionMoreToSettingsFragment()
+//                        )
                         true
                     }
-
                     else -> false
                 }
             },
