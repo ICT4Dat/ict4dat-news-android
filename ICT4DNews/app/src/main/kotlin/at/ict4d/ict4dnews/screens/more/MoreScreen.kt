@@ -7,7 +7,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -138,6 +137,7 @@ private fun ListOfDevelopers() {
         ICT4DDeveloper(image = R.drawable.paul, name = stringResource(R.string.paul_spiesberger), role = stringResource(R.string.software_developer)),
         ICT4DDeveloper(image = R.drawable.raja, name = stringResource(R.string.raja_saboor_ali), role = stringResource(R.string.software_developer)),
         ICT4DDeveloper(image = R.drawable.noah, name = stringResource(R.string.noah_alorwu), role = stringResource(R.string.software_developer)),
+        ICT4DDeveloper(image = R.drawable.job, name = stringResource(R.string.job_guitiche), role = stringResource(R.string.software_developer)),
         ICT4DDeveloper(image = R.drawable.chloe, name = stringResource(R.string.chlo_zimmermann), role = stringResource(R.string.designer))
     )
     val shuffledIct4dDevs = ict4dDevs.shuffled()
