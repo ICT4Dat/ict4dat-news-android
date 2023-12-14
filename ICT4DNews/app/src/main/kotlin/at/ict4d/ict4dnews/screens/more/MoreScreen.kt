@@ -45,12 +45,22 @@ import at.ict4d.ict4dnews.ui.theme.AppTheme
 @Composable
 private fun PreviewCourseDetailScreen() {
     AppTheme {
-        MoreScreen()
+        MoreScreen(
+            onRateApp = {},
+            onShareApp = {},
+            onContactUs = {},
+            onOpenGithubProject = {}
+        )
     }
 }
 
 @Composable
-fun MoreScreen() {
+fun MoreScreen(
+    onRateApp: () -> Unit,
+    onShareApp: () -> Unit,
+    onContactUs: () -> Unit,
+    onOpenGithubProject: () -> Unit,
+) {
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
@@ -60,10 +70,10 @@ fun MoreScreen() {
         ListOfDevelopers()
         SpacerVertical(height = 16.dp)
 
-        Button(text = stringResource(R.string.rate_application), onClick = {})
-        Button(text = stringResource(R.string.share_application), onClick = {})
-        Button(text = stringResource(R.string.contact_us), onClick = {})
-        Button(text = stringResource(R.string.github_project), onClick = {})
+        Button(text = stringResource(R.string.rate_application), onClick = { onRateApp.invoke() })
+        Button(text = stringResource(R.string.share_application), onClick = { onShareApp.invoke() })
+        Button(text = stringResource(R.string.contact_us), onClick = { onContactUs.invoke() })
+        Button(text = stringResource(R.string.github_project), onClick = { onOpenGithubProject.invoke() })
     }
 }
 

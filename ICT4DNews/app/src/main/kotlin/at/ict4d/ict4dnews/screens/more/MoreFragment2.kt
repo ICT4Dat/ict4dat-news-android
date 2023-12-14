@@ -4,9 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import at.ict4d.ict4dnews.R
+import at.ict4d.ict4dnews.extensions.browseCustomTabWithUrl
+import at.ict4d.ict4dnews.extensions.email
+import at.ict4d.ict4dnews.extensions.openGooglePlayApp
+import at.ict4d.ict4dnews.extensions.share
 import at.ict4d.ict4dnews.ui.theme.AppTheme
+import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 
 class MoreFragment2 : Fragment() {
 
@@ -18,9 +25,42 @@ class MoreFragment2 : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme {
-                    MoreScreen()
+                    MoreScreen(
+                        onRateApp = { rateApplication() },
+                        onShareApp = { shareApplication() },
+                        onContactUs = { contactUs() },
+                        onOpenGithubProject = { openUrlInCustomTab(R.string.url_github_project) }
+                    )
                 }
             }
         }
+    }
+
+    private fun rateApplication() {
+        requireActivity().openGooglePlayApp()
+    }
+
+    private fun shareApplication() {
+        recordActionBreadcrumb("shareApplication", this)
+        requireActivity().share(
+            text = getString(
+                R.string.share_app_text,
+                "http://play.google.com/store/apps/details?id=${context?.packageName}"
+            )
+        )
+    }
+
+    private fun contactUs() {
+        recordActionBreadcrumb("contactUs", this)
+
+        requireActivity().email(
+            email = getString(R.string.contact_email),
+            subject = getString(R.string.contact_mail_subject),
+            text = getString(R.string.contact_mail_text)
+        )
+    }
+
+    private fun openUrlInCustomTab(@StringRes stringRes: Int) {
+        requireActivity().browseCustomTabWithUrl(getString(stringRes))
     }
 }
