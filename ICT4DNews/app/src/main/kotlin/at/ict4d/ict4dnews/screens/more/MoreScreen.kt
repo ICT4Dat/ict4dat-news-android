@@ -1,5 +1,6 @@
 package at.ict4d.ict4dnews.screens.more
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Build
 import androidx.annotation.DrawableRes
@@ -7,15 +8,13 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -23,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -63,6 +63,7 @@ private fun PreviewCourseDetailScreen() {
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MoreScreen(
     onRateApp: () -> Unit,
@@ -70,26 +71,29 @@ fun MoreScreen(
     onContactUs: () -> Unit,
     onOpenGithubProject: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-        TopAppBar()
+    Scaffold(
+        topBar = { TopAppBar() },
+        modifier = Modifier.padding(horizontal = 16.dp),
+        content = {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                TextAboutDevelopers(text = stringResource(R.string.about_developers))
+                SpacerVertical(16.dp)
 
-        TextAboutDevelopers(text = stringResource(R.string.about_developers))
-        SpacerVertical(height = 16.dp)
+                ListOfDevelopers()
 
-        ListOfDevelopers2()
-
-        SpacerVertical(height = 16.dp)
-
-        Button(text = stringResource(R.string.rate_application), onClick = { onRateApp.invoke() })
-        Button(text = stringResource(R.string.share_application), onClick = { onShareApp.invoke() })
-        Button(text = stringResource(R.string.contact_us), onClick = { onContactUs.invoke() })
-        Button(text = stringResource(R.string.github_project), onClick = { onOpenGithubProject.invoke() })
-    }
+                Button(text = stringResource(R.string.rate_application), onClick = { onRateApp.invoke() })
+                Button(text = stringResource(R.string.share_application), onClick = { onShareApp.invoke() })
+                Button(text = stringResource(R.string.contact_us), onClick = { onContactUs.invoke() })
+                Button(text = stringResource(R.string.github_project), onClick = { onOpenGithubProject.invoke() })
+                SpacerVertical(8.dp)
+            }
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -171,39 +175,8 @@ private data class ICT4DDeveloper(
     val role: String
 )
 
-@Deprecated("")
 @Composable
 private fun ListOfDevelopers() {
-
-    val ict4dDevs = listOf(
-        ICT4DDeveloper(image = R.drawable.paul, name = stringResource(R.string.paul_spiesberger), role = stringResource(R.string.software_developer)),
-        ICT4DDeveloper(image = R.drawable.raja, name = stringResource(R.string.raja_saboor_ali), role = stringResource(R.string.software_developer)),
-        ICT4DDeveloper(image = R.drawable.noah, name = stringResource(R.string.noah_alorwu), role = stringResource(R.string.software_developer)),
-        ICT4DDeveloper(image = R.drawable.job, name = stringResource(R.string.job_guitiche), role = stringResource(R.string.software_developer)),
-        ICT4DDeveloper(image = R.drawable.chloe, name = stringResource(R.string.chlo_zimmermann), role = stringResource(R.string.designer))
-    )
-    val shuffledIct4dDevs = ict4dDevs.shuffled()
-
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(
-            space = 16.dp,
-            alignment = Alignment.Top
-        ),
-    ) {
-        items(shuffledIct4dDevs) { ict4dDev ->
-            DevProfile(
-                image = ict4dDev.image,
-                name = ict4dDev.name,
-                role = ict4dDev.role,
-                onClick = {}
-            )
-        }
-    }
-}
-
-@Composable
-private fun ListOfDevelopers2() {
 
     val ict4dDevs = listOf(
         ICT4DDeveloper(image = R.drawable.paul, name = stringResource(R.string.paul_spiesberger), role = stringResource(R.string.software_developer)),
@@ -218,18 +191,18 @@ private fun ListOfDevelopers2() {
         dev1 = shuffledIct4dDevs[0],
         dev2 = shuffledIct4dDevs[1]
     )
-    SpacerVertical(height = 16.dp)
+    SpacerVertical(16.dp)
 
     DevProfilesRow(
         dev1 = shuffledIct4dDevs[2],
         dev2 = shuffledIct4dDevs[3]
     )
-    SpacerVertical(height = 16.dp)
+    SpacerVertical(16.dp)
 
     DevProfilesRow(
         dev1 = shuffledIct4dDevs[4]
     )
-    SpacerVertical(height = 16.dp)
+    SpacerVertical(16.dp)
 }
 
 @Composable
