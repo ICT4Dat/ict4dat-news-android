@@ -26,11 +26,13 @@
 
     <!--    <fragment-->
     <!--            android:id="@+id/moreFragment"-->
-    <!--            android:name="at.ict4d.ict4dnews.screens.more.MoreFragment2"-->
+    <!--            android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"-->
     <!--            tools:layout="@layout/fragment_more">-->
+
     <fragment
             android:id="@+id/moreFragment"
             android:name="at.ict4d.ict4dnews.screens.more.MoreFragment2">
+
         <action
                 android:id="@+id/action_actionMore_to_settingsFragment"
                 app:destination="@id/settingsFragment" />
