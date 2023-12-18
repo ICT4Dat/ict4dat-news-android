@@ -28,11 +28,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -135,11 +133,10 @@ private fun AppBar(
                 Icon(
                     imageVector = Icons.Rounded.Settings,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(Color.White),
+        }
     )
 }
 
@@ -155,7 +152,6 @@ private fun Button(text: String, onClick: () -> Unit) {
     ) {
         Text(
             text = text,
-            color = Color.White,
             fontWeight = FontWeight.Bold
         )
     }
