@@ -24,11 +24,6 @@
             android:label="@string/nav_ict4d"
             tools:layout="@layout/fragment_tabbed_ict4d" />
 
-    <!--    <fragment-->
-    <!--            android:id="@+id/moreFragment"-->
-    <!--            android:name="at.ict4d.ict4dnews.screens.more.MoreFragment"-->
-    <!--            tools:layout="@layout/fragment_more">-->
-
     <fragment
             android:id="@+id/moreFragment"
             android:name="at.ict4d.ict4dnews.screens.more.MoreFragment2">

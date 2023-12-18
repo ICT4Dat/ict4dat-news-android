@@ -23,6 +23,7 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 
+@Deprecated("Stop using xml")
 class MoreFragment :
     BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
 
@@ -51,13 +52,14 @@ class MoreFragment :
 
                 override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
                     R.id.menu_settings -> {
-//                        recordNavigationBreadcrumb("R.id.menu_settings", this)
-//                        findNavController().navigateSafe(
-//                            R.id.moreFragment,
-//                            MoreFragmentDirections.actionActionMoreToSettingsFragment()
-//                        )
+                        recordNavigationBreadcrumb("R.id.menu_settings", this)
+                        findNavController().navigateSafe(
+                            R.id.moreFragment,
+                            MoreFragment2Directions.actionActionMoreToSettingsFragment()
+                        )
                         true
                     }
+
                     else -> false
                 }
             },

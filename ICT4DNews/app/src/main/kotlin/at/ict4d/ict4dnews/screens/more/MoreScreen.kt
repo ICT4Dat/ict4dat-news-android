@@ -61,6 +61,7 @@ private fun PreviewCourseDetailScreen() {
             onRateApp = {},
             onShareApp = {},
             onContactUs = {},
+            onMenuSettingsSelected = {},
             onOpenGithubProject = {}
         )
     }
@@ -72,10 +73,15 @@ fun MoreScreen(
     onRateApp: () -> Unit,
     onShareApp: () -> Unit,
     onContactUs: () -> Unit,
+    onMenuSettingsSelected: () -> Unit,
     onOpenGithubProject: () -> Unit,
 ) {
     Scaffold(
-        topBar = { TopAppBar() },
+        topBar = {
+            AppBar(
+                onMenuSettingsSelected = { onMenuSettingsSelected.invoke() }
+            )
+        },
         content = {
             Column(
                 modifier = Modifier
@@ -100,7 +106,9 @@ fun MoreScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar() {
+private fun AppBar(
+    onMenuSettingsSelected: () -> Unit
+) {
     TopAppBar(
         title = {
             Text(
@@ -109,7 +117,7 @@ private fun TopAppBar() {
             )
         },
         actions = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = { onMenuSettingsSelected.invoke() }) {
                 Icon(
                     imageVector = Icons.Rounded.Settings,
                     contentDescription = null,
