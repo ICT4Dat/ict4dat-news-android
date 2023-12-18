@@ -61,6 +61,7 @@ private fun PreviewCourseDetailScreen() {
             onRateApp = {},
             onShareApp = {},
             onContactUs = {},
+            onOpenDevUrl = {},
             onMenuSettingsSelected = {},
             onOpenGithubProject = {}
         )
@@ -73,6 +74,7 @@ fun MoreScreen(
     onRateApp: () -> Unit,
     onShareApp: () -> Unit,
     onContactUs: () -> Unit,
+    onOpenDevUrl: (Int) -> Unit,
     onMenuSettingsSelected: () -> Unit,
     onOpenGithubProject: () -> Unit,
 ) {
@@ -92,12 +94,24 @@ fun MoreScreen(
                 TextAboutDevelopers(text = stringResource(R.string.about_developers))
                 SpacerVertical(16.dp)
 
-                ListOfDevelopers()
+                ListOfDevelopers(onOpenDevUrl = onOpenDevUrl)
 
-                Button(text = stringResource(R.string.rate_application), onClick = { onRateApp.invoke() })
-                Button(text = stringResource(R.string.share_application), onClick = { onShareApp.invoke() })
-                Button(text = stringResource(R.string.contact_us), onClick = { onContactUs.invoke() })
-                Button(text = stringResource(R.string.github_project), onClick = { onOpenGithubProject.invoke() })
+                Button(
+                    text = stringResource(R.string.rate_application),
+                    onClick = { onRateApp.invoke() }
+                )
+                Button(
+                    text = stringResource(R.string.share_application),
+                    onClick = { onShareApp.invoke() }
+                )
+                Button(
+                    text = stringResource(R.string.contact_us),
+                    onClick = { onContactUs.invoke() }
+                )
+                Button(
+                    text = stringResource(R.string.github_project),
+                    onClick = { onOpenGithubProject.invoke() }
+                )
                 SpacerVertical(8.dp)
             }
         }
@@ -192,35 +206,64 @@ private fun DevProfile(
 private data class ICT4DDeveloper(
     val image: Int,
     val name: String,
-    val role: String
+    val role: String,
+    val url: Int
 )
 
 @Composable
-private fun ListOfDevelopers() {
+private fun ListOfDevelopers(onOpenDevUrl: (Int) -> Unit) {
 
     val ict4dDevs = listOf(
-        ICT4DDeveloper(image = R.drawable.paul, name = stringResource(R.string.paul_spiesberger), role = stringResource(R.string.software_developer)),
-        ICT4DDeveloper(image = R.drawable.raja, name = stringResource(R.string.raja_saboor_ali), role = stringResource(R.string.software_developer)),
-        ICT4DDeveloper(image = R.drawable.noah, name = stringResource(R.string.noah_alorwu), role = stringResource(R.string.software_developer)),
-        ICT4DDeveloper(image = R.drawable.job, name = stringResource(R.string.job_guitiche), role = stringResource(R.string.software_developer)),
-        ICT4DDeveloper(image = R.drawable.chloe, name = stringResource(R.string.chlo_zimmermann), role = stringResource(R.string.designer))
+        ICT4DDeveloper(
+            image = R.drawable.paul,
+            name = stringResource(R.string.paul_spiesberger),
+            role = stringResource(R.string.software_developer),
+            url = R.string.url_paul
+        ),
+        ICT4DDeveloper(
+            image = R.drawable.raja,
+            name = stringResource(R.string.raja_saboor_ali),
+            role = stringResource(R.string.software_developer),
+            url = R.string.url_raja
+        ),
+        ICT4DDeveloper(
+            image = R.drawable.noah,
+            name = stringResource(R.string.noah_alorwu),
+            role = stringResource(R.string.software_developer),
+            url = R.string.url_noah
+        ),
+        ICT4DDeveloper(
+            image = R.drawable.job,
+            name = stringResource(R.string.job_guitiche),
+            role = stringResource(R.string.software_developer),
+            url = R.string.url_job
+        ),
+        ICT4DDeveloper(
+            image = R.drawable.chloe,
+            name = stringResource(R.string.chlo_zimmermann),
+            role = stringResource(R.string.designer),
+            url = R.string.url_chloe
+        ),
     )
     val shuffledIct4dDevs = ict4dDevs.shuffled()
 
     DevProfilesRow(
         dev1 = shuffledIct4dDevs[0],
-        dev2 = shuffledIct4dDevs[1]
+        dev2 = shuffledIct4dDevs[1],
+        onOpenDevUrl = onOpenDevUrl
     )
     SpacerVertical(16.dp)
 
     DevProfilesRow(
         dev1 = shuffledIct4dDevs[2],
-        dev2 = shuffledIct4dDevs[3]
+        dev2 = shuffledIct4dDevs[3],
+        onOpenDevUrl = onOpenDevUrl
     )
     SpacerVertical(16.dp)
 
     DevProfilesRow(
-        dev1 = shuffledIct4dDevs[4]
+        dev1 = shuffledIct4dDevs[4],
+        onOpenDevUrl = onOpenDevUrl
     )
     SpacerVertical(16.dp)
 }
@@ -229,6 +272,7 @@ private fun ListOfDevelopers() {
 private fun DevProfilesRow(
     dev1: ICT4DDeveloper,
     dev2: ICT4DDeveloper? = null,
+    onOpenDevUrl: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -238,7 +282,7 @@ private fun DevProfilesRow(
             image = dev1.image,
             name = dev1.name,
             role = dev1.role,
-            onClick = {}
+            onClick = { onOpenDevUrl.invoke(dev1.url) }
         )
 
         SpacerHorizontal(width = 16.dp)
@@ -248,7 +292,7 @@ private fun DevProfilesRow(
                 image = dev2.image,
                 name = dev2.name,
                 role = dev2.role,
-                onClick = {}
+                onClick = { onOpenDevUrl.invoke(dev2.url) }
             )
         }
     }
