@@ -1,10 +1,6 @@
 package at.ict4d.ict4dnews.screens.more
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
-import android.os.Build
-import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,14 +40,7 @@ import at.ict4d.ict4dnews.screens.util.compose.SpacerHorizontal
 import at.ict4d.ict4dnews.screens.util.compose.SpacerVertical
 import at.ict4d.ict4dnews.ui.theme.AppTheme
 
-@RequiresApi(Build.VERSION_CODES.Q)
-@Preview(
-    name = "light-theme",
-    group = "themes",
-    showSystemUi = true,
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL,
-)
+@Preview
 @Composable
 private fun PreviewCourseDetailScreen() {
     AppTheme {
@@ -77,11 +66,7 @@ fun MoreScreen(
     onOpenGithubProject: () -> Unit,
 ) {
     Scaffold(
-        topBar = {
-            AppBar(
-                onMenuSettingsSelected = { onMenuSettingsSelected.invoke() }
-            )
-        },
+        topBar = { AppBar(onMenuSettingsSelected = { onMenuSettingsSelected.invoke() }) },
         content = {
             Column(
                 modifier = Modifier
@@ -94,22 +79,10 @@ fun MoreScreen(
 
                 ListOfDevelopers(onOpenDevUrl = onOpenDevUrl)
 
-                Button(
-                    text = stringResource(R.string.rate_application),
-                    onClick = { onRateApp.invoke() }
-                )
-                Button(
-                    text = stringResource(R.string.share_application),
-                    onClick = { onShareApp.invoke() }
-                )
-                Button(
-                    text = stringResource(R.string.contact_us),
-                    onClick = { onContactUs.invoke() }
-                )
-                Button(
-                    text = stringResource(R.string.github_project),
-                    onClick = { onOpenGithubProject.invoke() }
-                )
+                Button(text = stringResource(R.string.rate_application), onClick = onRateApp)
+                Button(text = stringResource(R.string.share_application), onClick = onShareApp)
+                Button(text = stringResource(R.string.contact_us), onClick = onContactUs)
+                Button(text = stringResource(R.string.github_project), onClick = onOpenGithubProject)
                 SpacerVertical(8.dp)
             }
         }
@@ -118,9 +91,7 @@ fun MoreScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AppBar(
-    onMenuSettingsSelected: () -> Unit
-) {
+private fun AppBar(onMenuSettingsSelected: () -> Unit) {
     TopAppBar(
         title = {
             Text(
@@ -143,7 +114,7 @@ private fun AppBar(
 @Composable
 private fun Button(text: String, onClick: () -> Unit) {
     Button(
-        onClick = { onClick.invoke() },
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
         shape = RoundedCornerShape(24.dp),
         modifier = Modifier
@@ -151,8 +122,7 @@ private fun Button(text: String, onClick: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 2.dp),
     ) {
         Text(
-            text = text,
-            fontWeight = FontWeight.Bold
+            text = text, fontWeight = FontWeight.Bold
         )
     }
 }
@@ -168,11 +138,8 @@ private fun TextAboutDevelopers(text: String) {
 }
 
 @Composable
-private fun DevProfile(
-    @DrawableRes
-    image: Int,
-    name: String,
-    role: String = stringResource(id = R.string.software_developer),
+private fun DeveloperProfile(
+    developer: ICT4DDeveloper,
     onClick: () -> Unit
 ) {
     Column(
@@ -180,20 +147,20 @@ private fun DevProfile(
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
         Image(
-            painter = painterResource(image),
+            painter = painterResource(developer.image),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             alignment = Alignment.Center,
             modifier = Modifier.size(72.dp)
         )
         Text(
-            text = name,
+            text = developer.name,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             modifier = Modifier.padding(top = 8.dp)
         )
         Text(
-            text = role,
+            text = developer.role,
             fontSize = 16.sp,
         )
     }
@@ -274,21 +241,16 @@ private fun DevProfilesRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        DevProfile(
-            image = dev1.image,
-            name = dev1.name,
-            role = dev1.role,
+        DeveloperProfile(
+            developer = dev1,
             onClick = { onOpenDevUrl.invoke(dev1.url) }
         )
-
         SpacerHorizontal(width = 16.dp)
 
-        if (dev2 != null) {
-            DevProfile(
-                image = dev2.image,
-                name = dev2.name,
-                role = dev2.role,
-                onClick = { onOpenDevUrl.invoke(dev2.url) }
+        dev2?.let {
+            DeveloperProfile(
+                developer = it,
+                onClick = { onOpenDevUrl.invoke(it.url) }
             )
         }
     }
