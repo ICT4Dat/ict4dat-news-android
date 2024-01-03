@@ -5,14 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -56,6 +56,7 @@ private fun PreviewCourseDetailScreen() {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MoreScreen(
@@ -78,7 +79,54 @@ fun MoreScreen(
                 TextAboutContributors(text = stringResource(R.string.about_developers))
                 Spacer(modifier = Modifier.height(16.dp))
 
-                ListOfContributors(onOpenUrl = onOpenUrl)
+                val appContributors = listOf(
+                    AppContributor(
+                        image = R.drawable.paul,
+                        name = stringResource(R.string.paul_spiesberger),
+                        role = stringResource(R.string.software_developer),
+                        url = R.string.url_paul
+                    ),
+                    AppContributor(
+                        image = R.drawable.raja,
+                        name = stringResource(R.string.raja_saboor_ali),
+                        role = stringResource(R.string.software_developer),
+                        url = R.string.url_raja
+                    ),
+                    AppContributor(
+                        image = R.drawable.noah,
+                        name = stringResource(R.string.noah_alorwu),
+                        role = stringResource(R.string.software_developer),
+                        url = R.string.url_noah
+                    ),
+                    AppContributor(
+                        image = R.drawable.job,
+                        name = stringResource(R.string.job_guitiche),
+                        role = stringResource(R.string.software_developer),
+                        url = R.string.url_job
+                    ),
+                    AppContributor(
+                        image = R.drawable.chloe,
+                        name = stringResource(R.string.chlo_zimmermann),
+                        role = stringResource(R.string.designer),
+                        url = R.string.url_chloe
+                    ),
+                )
+
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+
+                    for (contributor in appContributors)
+                        ContributorProfile(
+                            contributor = contributor,
+                            onClick = {
+                                onOpenUrl.invoke(contributor.url)
+                            }
+                        )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Button(text = stringResource(R.string.rate_application), onClick = onRateApp)
                 Button(text = stringResource(R.string.share_application), onClick = onShareApp)
@@ -145,7 +193,9 @@ private fun ContributorProfile(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { onClick.invoke() }
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .clickable { onClick.invoke() }
     ) {
         Image(
             painter = painterResource(contributor.image),
@@ -173,86 +223,3 @@ private data class AppContributor(
     val role: String,
     val url: Int
 )
-
-@Composable
-private fun ListOfContributors(onOpenUrl: (Int) -> Unit) {
-
-    val appContributors = listOf(
-        AppContributor(
-            image = R.drawable.paul,
-            name = stringResource(R.string.paul_spiesberger),
-            role = stringResource(R.string.software_developer),
-            url = R.string.url_paul
-        ),
-        AppContributor(
-            image = R.drawable.raja,
-            name = stringResource(R.string.raja_saboor_ali),
-            role = stringResource(R.string.software_developer),
-            url = R.string.url_raja
-        ),
-        AppContributor(
-            image = R.drawable.noah,
-            name = stringResource(R.string.noah_alorwu),
-            role = stringResource(R.string.software_developer),
-            url = R.string.url_noah
-        ),
-        AppContributor(
-            image = R.drawable.job,
-            name = stringResource(R.string.job_guitiche),
-            role = stringResource(R.string.software_developer),
-            url = R.string.url_job
-        ),
-        AppContributor(
-            image = R.drawable.chloe,
-            name = stringResource(R.string.chlo_zimmermann),
-            role = stringResource(R.string.designer),
-            url = R.string.url_chloe
-        ),
-    )
-    val shuffledAppContributors = appContributors.shuffled()
-
-    ContributorProfilesRow(
-        contributor1 = shuffledAppContributors[0],
-        contributor2 = shuffledAppContributors[1],
-        onOpenUrl = onOpenUrl
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-
-    ContributorProfilesRow(
-        contributor1 = shuffledAppContributors[2],
-        contributor2 = shuffledAppContributors[3],
-        onOpenUrl = onOpenUrl
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-
-    ContributorProfilesRow(
-        contributor1 = shuffledAppContributors[4],
-        onOpenUrl = onOpenUrl
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-}
-
-@Composable
-private fun ContributorProfilesRow(
-    contributor1: AppContributor,
-    contributor2: AppContributor? = null,
-    onOpenUrl: (Int) -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        ContributorProfile(
-            contributor = contributor1,
-            onClick = { onOpenUrl.invoke(contributor1.url) }
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-
-        contributor2?.let {
-            ContributorProfile(
-                contributor = it,
-                onClick = { onOpenUrl.invoke(it.url) }
-            )
-        }
-    }
-}
