@@ -6,10 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -36,8 +39,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import at.ict4d.ict4dnews.R
-import at.ict4d.ict4dnews.screens.util.compose.SpacerHorizontal
-import at.ict4d.ict4dnews.screens.util.compose.SpacerVertical
 import at.ict4d.ict4dnews.ui.theme.AppTheme
 
 @Preview
@@ -75,7 +76,7 @@ fun MoreScreen(
                     .verticalScroll(rememberScrollState())
             ) {
                 TextAboutDevelopers(text = stringResource(R.string.about_developers))
-                SpacerVertical(16.dp)
+                Spacer(modifier = Modifier.height(16.dp))
 
                 ListOfDevelopers(onOpenDevUrl = onOpenDevUrl)
 
@@ -83,7 +84,7 @@ fun MoreScreen(
                 Button(text = stringResource(R.string.share_application), onClick = onShareApp)
                 Button(text = stringResource(R.string.contact_us), onClick = onContactUs)
                 Button(text = stringResource(R.string.github_project), onClick = onOpenGithubProject)
-                SpacerVertical(8.dp)
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     )
@@ -215,20 +216,20 @@ private fun ListOfDevelopers(onOpenDevUrl: (Int) -> Unit) {
         dev2 = shuffledIct4dDevs[1],
         onOpenDevUrl = onOpenDevUrl
     )
-    SpacerVertical(16.dp)
+    Spacer(modifier = Modifier.height(16.dp))
 
     DevProfilesRow(
         dev1 = shuffledIct4dDevs[2],
         dev2 = shuffledIct4dDevs[3],
         onOpenDevUrl = onOpenDevUrl
     )
-    SpacerVertical(16.dp)
+    Spacer(modifier = Modifier.height(16.dp))
 
     DevProfilesRow(
         dev1 = shuffledIct4dDevs[4],
         onOpenDevUrl = onOpenDevUrl
     )
-    SpacerVertical(16.dp)
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
@@ -245,7 +246,7 @@ private fun DevProfilesRow(
             developer = dev1,
             onClick = { onOpenDevUrl.invoke(dev1.url) }
         )
-        SpacerHorizontal(width = 16.dp)
+        Spacer(modifier = Modifier.width(16.dp))
 
         dev2?.let {
             DeveloperProfile(
