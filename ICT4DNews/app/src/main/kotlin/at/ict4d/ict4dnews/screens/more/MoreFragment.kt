@@ -32,7 +32,7 @@ class MoreFragment : Fragment() {
                         onRateApp = { rateApp() },
                         onShareApp = { shareApp() },
                         onContactUs = { contactUs() },
-                        onOpenDevUrl = { openUrlInCustomTab(it) },
+                        onOpenUrl = { openUrlInCustomTab(it) },
                         onMenuSettingsSelected = { onMenuSettingsSelected() },
                         onOpenGithubProject = { openUrlInCustomTab(R.string.url_github_project) }
                     )

@@ -49,7 +49,7 @@ private fun PreviewCourseDetailScreen() {
             onRateApp = {},
             onShareApp = {},
             onContactUs = {},
-            onOpenDevUrl = {},
+            onOpenUrl = {},
             onMenuSettingsSelected = {},
             onOpenGithubProject = {}
         )
@@ -62,7 +62,7 @@ fun MoreScreen(
     onRateApp: () -> Unit,
     onShareApp: () -> Unit,
     onContactUs: () -> Unit,
-    onOpenDevUrl: (Int) -> Unit,
+    onOpenUrl: (Int) -> Unit,
     onMenuSettingsSelected: () -> Unit,
     onOpenGithubProject: () -> Unit,
 ) {
@@ -75,10 +75,10 @@ fun MoreScreen(
                     .padding(it)
                     .verticalScroll(rememberScrollState())
             ) {
-                TextAboutDevelopers(text = stringResource(R.string.about_developers))
+                TextAboutContributors(text = stringResource(R.string.about_developers))
                 Spacer(modifier = Modifier.height(16.dp))
 
-                ListOfDevelopers(onOpenDevUrl = onOpenDevUrl)
+                ListOfContributors(onOpenUrl = onOpenUrl)
 
                 Button(text = stringResource(R.string.rate_application), onClick = onRateApp)
                 Button(text = stringResource(R.string.share_application), onClick = onShareApp)
@@ -129,7 +129,7 @@ private fun Button(text: String, onClick: () -> Unit) {
 }
 
 @Composable
-private fun TextAboutDevelopers(text: String) {
+private fun TextAboutContributors(text: String) {
     Text(
         text = text,
         modifier = Modifier.padding(horizontal = 16.dp),
@@ -139,8 +139,8 @@ private fun TextAboutDevelopers(text: String) {
 }
 
 @Composable
-private fun DeveloperProfile(
-    developer: ICT4DDeveloper,
+private fun ContributorProfile(
+    contributor: AppContributor,
     onClick: () -> Unit
 ) {
     Column(
@@ -148,26 +148,26 @@ private fun DeveloperProfile(
         modifier = Modifier.clickable { onClick.invoke() }
     ) {
         Image(
-            painter = painterResource(developer.image),
+            painter = painterResource(contributor.image),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             alignment = Alignment.Center,
             modifier = Modifier.size(72.dp)
         )
         Text(
-            text = developer.name,
+            text = contributor.name,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             modifier = Modifier.padding(top = 8.dp)
         )
         Text(
-            text = developer.role,
+            text = contributor.role,
             fontSize = 16.sp,
         )
     }
 }
 
-private data class ICT4DDeveloper(
+private data class AppContributor(
     val image: Int,
     val name: String,
     val role: String,
@@ -175,83 +175,83 @@ private data class ICT4DDeveloper(
 )
 
 @Composable
-private fun ListOfDevelopers(onOpenDevUrl: (Int) -> Unit) {
+private fun ListOfContributors(onOpenUrl: (Int) -> Unit) {
 
-    val ict4dDevs = listOf(
-        ICT4DDeveloper(
+    val appContributors = listOf(
+        AppContributor(
             image = R.drawable.paul,
             name = stringResource(R.string.paul_spiesberger),
             role = stringResource(R.string.software_developer),
             url = R.string.url_paul
         ),
-        ICT4DDeveloper(
+        AppContributor(
             image = R.drawable.raja,
             name = stringResource(R.string.raja_saboor_ali),
             role = stringResource(R.string.software_developer),
             url = R.string.url_raja
         ),
-        ICT4DDeveloper(
+        AppContributor(
             image = R.drawable.noah,
             name = stringResource(R.string.noah_alorwu),
             role = stringResource(R.string.software_developer),
             url = R.string.url_noah
         ),
-        ICT4DDeveloper(
+        AppContributor(
             image = R.drawable.job,
             name = stringResource(R.string.job_guitiche),
             role = stringResource(R.string.software_developer),
             url = R.string.url_job
         ),
-        ICT4DDeveloper(
+        AppContributor(
             image = R.drawable.chloe,
             name = stringResource(R.string.chlo_zimmermann),
             role = stringResource(R.string.designer),
             url = R.string.url_chloe
         ),
     )
-    val shuffledIct4dDevs = ict4dDevs.shuffled()
+    val shuffledAppContributors = appContributors.shuffled()
 
-    DevProfilesRow(
-        dev1 = shuffledIct4dDevs[0],
-        dev2 = shuffledIct4dDevs[1],
-        onOpenDevUrl = onOpenDevUrl
+    ContributorProfilesRow(
+        contributor1 = shuffledAppContributors[0],
+        contributor2 = shuffledAppContributors[1],
+        onOpenUrl = onOpenUrl
     )
     Spacer(modifier = Modifier.height(16.dp))
 
-    DevProfilesRow(
-        dev1 = shuffledIct4dDevs[2],
-        dev2 = shuffledIct4dDevs[3],
-        onOpenDevUrl = onOpenDevUrl
+    ContributorProfilesRow(
+        contributor1 = shuffledAppContributors[2],
+        contributor2 = shuffledAppContributors[3],
+        onOpenUrl = onOpenUrl
     )
     Spacer(modifier = Modifier.height(16.dp))
 
-    DevProfilesRow(
-        dev1 = shuffledIct4dDevs[4],
-        onOpenDevUrl = onOpenDevUrl
+    ContributorProfilesRow(
+        contributor1 = shuffledAppContributors[4],
+        onOpenUrl = onOpenUrl
     )
     Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
-private fun DevProfilesRow(
-    dev1: ICT4DDeveloper,
-    dev2: ICT4DDeveloper? = null,
-    onOpenDevUrl: (Int) -> Unit
+private fun ContributorProfilesRow(
+    contributor1: AppContributor,
+    contributor2: AppContributor? = null,
+    onOpenUrl: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        DeveloperProfile(
-            developer = dev1,
-            onClick = { onOpenDevUrl.invoke(dev1.url) }
+        ContributorProfile(
+            contributor = contributor1,
+            onClick = { onOpenUrl.invoke(contributor1.url) }
         )
         Spacer(modifier = Modifier.width(16.dp))
 
-        dev2?.let {
-            DeveloperProfile(
-                developer = it,
-                onClick = { onOpenDevUrl.invoke(it.url) }
+        contributor2?.let {
+            ContributorProfile(
+                contributor = it,
+                onClick = { onOpenUrl.invoke(it.url) }
             )
         }
     }
