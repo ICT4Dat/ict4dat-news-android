@@ -15,12 +15,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WelcomeSetupFragment : BaseFragment<FragmentWelcomeSetupBinding>(
     R.layout.fragment_welcome_setup,
-    hasToolbar = false
+    hasToolbar = false,
 ) {
-
     private val model by viewModel<WelcomeSetupViewModel>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         showOwnershipAlertDialog(requireContext()) {
@@ -31,11 +33,11 @@ class WelcomeSetupFragment : BaseFragment<FragmentWelcomeSetupBinding>(
                 if (!resource.data.isNullOrEmpty()) {
                     recordNavigationBreadcrumb(
                         "actionWelcomeSetupFragmentToWelcomeSummaryFragment",
-                        this
+                        this,
                     )
                     findNavController().navigateSafe(
                         R.id.welcomeSetupFragment,
-                        WelcomeSetupFragmentDirections.actionWelcomeSetupFragmentToWelcomeSummaryFragment()
+                        WelcomeSetupFragmentDirections.actionWelcomeSetupFragmentToWelcomeSummaryFragment(),
                     )
                 } else {
                     binding.setupProgressBar.isVisible = true

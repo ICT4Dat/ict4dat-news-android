@@ -5,12 +5,14 @@ import org.simpleframework.xml.Root
 
 const val RSSFEED_SERIALIZED_RSS = "rss"
 
-@Root(name = RSSFEED_SERIALIZED_RSS, strict = false)
+@Root(
+    name = RSSFEED_SERIALIZED_RSS,
+    strict = false,
+)
 data class RSSFeed(
-
     @field:Element(
         name = CHANNEL_SERIALIZED_CHANNEL,
-        required = false
+        required = false,
     )
-    var channel: Channel? = null
+    var channel: Channel? = null,
 )

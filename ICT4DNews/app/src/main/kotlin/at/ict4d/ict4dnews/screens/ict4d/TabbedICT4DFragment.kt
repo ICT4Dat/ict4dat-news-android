@@ -17,27 +17,30 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class TabbedICT4DFragment : BaseFragment<FragmentTabbedIct4dBinding>(
     R.layout.fragment_tabbed_ict4d,
-    hasToolbar = false
+    hasToolbar = false,
 ) {
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val rootView = super.onCreateView(inflater, container, savedInstanceState)
         binding.viewpager.adapter = TabbedICT4DSectionsPagerAdapter(requireActivity())
         return rootView
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         TabLayoutMediator(binding.tabLayout, binding.viewpager) { tab, position ->
-            tab.text = when (position) {
-                0 -> getString(R.string.nav_ict4dat)
-                1 -> getString(R.string.nav_ict4d)
-                else -> throw IllegalArgumentException("position of tab not valid")
-            }
+            tab.text =
+                when (position) {
+                    0 -> getString(R.string.nav_ict4dat)
+                    1 -> getString(R.string.nav_ict4d)
+                    else -> throw IllegalArgumentException("position of tab not valid")
+                }
         }.attach()
     }
 

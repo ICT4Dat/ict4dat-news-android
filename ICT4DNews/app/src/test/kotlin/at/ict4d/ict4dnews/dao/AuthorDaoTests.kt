@@ -13,7 +13,6 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class AuthorDaoTests : BaseDaoTest() {
-
     private lateinit var authorDao: AuthorDao
 
     @Before
@@ -37,18 +36,19 @@ class AuthorDaoTests : BaseDaoTest() {
     }
 
     @Test
-    fun testGetAuthorDetailsBy() = runBlocking {
-        val list = generateAuthorListAndInsert(authorDao)
+    fun testGetAuthorDetailsBy() =
+        runBlocking {
+            val list = generateAuthorListAndInsert(authorDao)
 
-        var result = authorDao.getAuthorDetailsBy(list.first().link).first()
-        Assert.assertNotNull(result)
-        Assert.assertEquals(list.first(), result)
+            var result = authorDao.getAuthorDetailsBy(list.first().link).first()
+            Assert.assertNotNull(result)
+            Assert.assertEquals(list.first(), result)
 
-        result = authorDao.getAuthorDetailsBy(list.last().link).first()
-        Assert.assertNotNull(result)
-        Assert.assertEquals(list.last(), result)
+            result = authorDao.getAuthorDetailsBy(list.last().link).first()
+            Assert.assertNotNull(result)
+            Assert.assertEquals(list.last(), result)
 
-        result = authorDao.getAuthorDetailsBy(list.joinToString { it.link }).first()
-        Assert.assertNull(result)
-    }
+            result = authorDao.getAuthorDetailsBy(list.joinToString { it.link }).first()
+            Assert.assertNull(result)
+        }
 }

@@ -16,9 +16,8 @@ import java.net.HttpURLConnection
 
 class BlogsRepository(
     private val blogsDao: BlogDao,
-    private val apiIct4dNews: ApiICT4DatNews
+    private val apiIct4dNews: ApiICT4DatNews,
 ) {
-
     /**
      * Loads all available [blogs][at.ict4d.ict4dnews.models.Blog] in the application.
      *
@@ -43,7 +42,7 @@ class BlogsRepository(
 
                     blogsDao.insertAll(newBlogs)
                     Timber.d("downloaded ${newBlogs.size} blogs from ICT4D.at")
-                }
+                },
             )
         } else {
             blogsDao.getAllBlogs()

@@ -26,7 +26,6 @@ const val BLOG_SERIALIZED_LOGO_URL = "logo_url"
 @Parcelize
 @Entity(tableName = BLOG_TABLE_TABLE_NAME)
 data class Blog(
-
     @PrimaryKey
     @ColumnInfo(name = BLOG_TABLE_FEED_URL)
     @SerializedName(BLOG_SERIALIZED_FEED_URL)
@@ -53,11 +52,11 @@ data class Blog(
     var logoURL: String?,
 
     @ColumnInfo(name = BLOG_TABLE_ACTIVE)
-    var active: Boolean = true
+    var active: Boolean = true,
 ) : Parcelable
 
 enum class FeedType {
     SELF_HOSTED_WP_BLOG,
     WORDPRESS_COM,
-    RSS
+    RSS,
 }

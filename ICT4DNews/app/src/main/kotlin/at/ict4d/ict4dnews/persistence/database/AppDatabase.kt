@@ -29,20 +29,19 @@ import java.util.Collections.emptyList
         News::class,
         Author::class,
         Media::class,
-        Blog::class
+        Blog::class,
     ],
     version = 3,
     autoMigrations = [
         AutoMigration(
             from = 2,
             to = 3,
-            spec = AppDatabase.AutoMigration2to3::class
-        )
-    ]
+            spec = AppDatabase.AutoMigration2to3::class,
+        ),
+    ],
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-
     abstract fun newsDao(): NewsDao
 
     abstract fun authorDao(): AuthorDao
@@ -57,13 +56,12 @@ abstract class AppDatabase : RoomDatabase() {
 
     @DeleteColumn(
         tableName = "news",
-        columnName = "description"
+        columnName = "description",
     )
     class AutoMigration2to3 : AutoMigrationSpec
 }
 
 class Converters : KoinComponent {
-
     private val gson: Gson by inject()
 
     @TypeConverter

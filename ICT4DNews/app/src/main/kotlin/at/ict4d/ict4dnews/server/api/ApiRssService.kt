@@ -6,7 +6,8 @@ import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface ApiRssService {
-
     @GET
-    suspend fun getRssNews(@Url url: String): Response<RSSFeed>
+    suspend fun getRssNews(
+        @Url url: String,
+    ): Response<RSSFeed>
 }

@@ -12,13 +12,12 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 class ICT4DatFragment :
     BaseFragment<FragmentIct4datBinding>(
         R.layout.fragment_ict4dat,
-        hasToolbar = false
+        hasToolbar = false,
     ) {
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val rootView = super.onCreateView(inflater, container, savedInstanceState)
 
@@ -48,7 +47,6 @@ class ICT4DatFragment :
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance() = ICT4DatFragment()
     }

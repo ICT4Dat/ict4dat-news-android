@@ -28,7 +28,7 @@ fun FragmentActivity.safeStartActivity(intent: Intent?): Boolean {
 
 fun FragmentActivity.browseCustomTabWithUrl(
     url: String,
-    customTabSession: CustomTabsSession? = null
+    customTabSession: CustomTabsSession? = null,
 ) {
     val uri = safeParseUri(url) ?: return
     browseCustomTabWithUri(uri, customTabSession)
@@ -36,15 +36,20 @@ fun FragmentActivity.browseCustomTabWithUrl(
 
 fun FragmentActivity.browseCustomTabWithUri(
     uri: Uri,
-    customTabSession: CustomTabsSession? = null
+    customTabSession: CustomTabsSession? = null,
 ) {
     try {
         CustomTabsIntent
             .Builder(customTabSession)
             .setDefaultColorSchemeParams(
                 CustomTabColorSchemeParams.Builder()
-                    .setToolbarColor(ContextCompat.getColor(this, R.color.md_theme_light_primary))
-                    .build()
+                    .setToolbarColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.md_theme_light_primary,
+                        ),
+                    )
+                    .build(),
             )
             .build()
             .launchUrl(this, uri)
@@ -67,17 +72,27 @@ fun safeParseUri(url: String): Uri? {
 fun FragmentActivity.share(
     text: String,
     title: String = getString(R.string.share),
-    subject: String = ""
+    subject: String = "",
 ): Boolean {
     val intent = Intent(Intent.ACTION_SEND)
     intent.type = "text/plain"
-    intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-    intent.putExtra(Intent.EXTRA_TEXT, text)
+    intent.putExtra(
+        Intent.EXTRA_SUBJECT,
+        subject,
+    )
+    intent.putExtra(
+        Intent.EXTRA_TEXT,
+        text,
+    )
 
     return safeStartActivity(Intent.createChooser(intent, title))
 }
 
-fun FragmentActivity.email(email: String, subject: String = "", text: String = ""): Boolean {
+fun FragmentActivity.email(
+    email: String,
+    subject: String = "",
+    text: String = "",
+): Boolean {
     val intent = Intent(Intent.ACTION_SENDTO)
     intent.data = Uri.parse("mailto:")
     intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
@@ -95,23 +110,25 @@ fun FragmentActivity.email(email: String, subject: String = "", text: String = "
 
 fun FragmentActivity.openGooglePlayApp(packageName: String = BuildConfig.APPLICATION_ID) {
     val playStoreLink = getGooglePlayUrl(packageName)
-    val intent = Intent(Intent.ACTION_VIEW).apply {
-        data = Uri.parse(playStoreLink)
-        setPackage("com.android.vending")
-    }
+    val intent =
+        Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(playStoreLink)
+            setPackage("com.android.vending")
+        }
     safeStartActivity(intent)
 }
 
 fun FragmentActivity.openNotificationSettings(): Boolean {
-    val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-            putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
+    val intent =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
+            }
+        } else {
+            Intent("android.settings.APP_NOTIFICATION_SETTINGS").apply {
+                putExtra("app_package", BuildConfig.APPLICATION_ID)
+                putExtra("app_uid", applicationInfo.uid)
+            }
         }
-    } else {
-        Intent("android.settings.APP_NOTIFICATION_SETTINGS").apply {
-            putExtra("app_package", BuildConfig.APPLICATION_ID)
-            putExtra("app_uid", applicationInfo.uid)
-        }
-    }
     return safeStartActivity(intent)
 }

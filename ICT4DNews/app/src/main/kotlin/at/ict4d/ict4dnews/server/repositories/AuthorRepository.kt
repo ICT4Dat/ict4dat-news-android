@@ -5,6 +5,5 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 
 class AuthorRepository(private val authorDao: AuthorDao) {
-
     fun getAuthorBy(authorId: String) = authorDao.getAuthorDetailsBy(authorId).flowOn(Dispatchers.IO)
 }

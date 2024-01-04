@@ -20,6 +20,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import org.jsoup.Jsoup
 import timber.log.Timber
@@ -30,7 +31,10 @@ import java.util.Locale
 fun LocalDateTime.extractDate(): String = this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault()))
 
 fun String.toLocalDateTimeFromRFCString(): LocalDateTime? =
-    LocalDateTime.parse(this, DateTimeFormatter.RFC_1123_DATE_TIME) ?: null
+    LocalDateTime.parse(
+        this,
+        DateTimeFormatter.RFC_1123_DATE_TIME,
+    ) ?: null
 
 @BindingAdapter(value = ["loadFromRes", "placeholder", "error", "round"], requireAll = false)
 fun ImageView.loadFromURL(
@@ -40,7 +44,7 @@ fun ImageView.loadFromURL(
     placeholder: Int? = null,
     @DrawableRes
     error: Int? = null,
-    round: Boolean = false
+    round: Boolean = false,
 ) = setUpGlideAndLoad(this, Glide.with(context).load(drawableRes), placeholder, error, round)
 
 @BindingAdapter(value = ["loadFromURL", "placeholder", "error", "round"], requireAll = false)
@@ -50,7 +54,7 @@ fun ImageView.loadFromURL(
     placeholder: Int? = null,
     @DrawableRes
     error: Int? = null,
-    round: Boolean = false
+    round: Boolean = false,
 ) = setUpGlideAndLoad(this, Glide.with(context).load(url), placeholder, error, round)
 
 private val crossFadeFactory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
@@ -62,7 +66,7 @@ private fun setUpGlideAndLoad(
     placeholder: Int? = null,
     @DrawableRes
     error: Int? = null,
-    round: Boolean
+    round: Boolean,
 ) {
     if (round) {
         glide.apply { RequestOptions.circleCropTransform() }
@@ -78,28 +82,29 @@ private fun setUpGlideAndLoad(
 
     glide
         .transition(withCrossFade(crossFadeFactory))
-        .listener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                if (model != null && model.toString().isNotEmpty()) {
-                    Timber.w(e, "Failed to load image with $model")
+        .listener(
+            object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>,
+                    isFirstResource: Boolean,
+                ): Boolean {
+                    if (model != null && model.toString().isNotEmpty()) {
+                        Timber.w(e, "Failed to load image with $model")
+                    }
+                    return false
                 }
-                return false
-            }
 
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean = false
-        })
-        .into(imageView)
+                override fun onResourceReady(
+                    resource: Drawable,
+                    model: Any,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean,
+                ): Boolean = false
+            },
+        ).into(imageView)
 }
 
 fun String.stripHtml(): String = Jsoup.parse(this).text()
@@ -113,7 +118,7 @@ fun NavController.navigateSafe(
     alternateCurrentDestinations: List<Int> = emptyList(),
     extras: FragmentNavigator.Extras? = null,
     navOptions: NavOptions? = null,
-    args: Bundle? = null
+    args: Bundle? = null,
 ) {
     this.currentDestination?.id?.let { id ->
         try {
@@ -138,5 +143,4 @@ fun <T> MutableLiveData<T>.trigger() {
     value = value
 }
 
-fun getGooglePlayUrl(applicationId: String = BuildConfig.APPLICATION_ID) =
-    "http://play.google.com/store/apps/details?id=$applicationId"
+fun getGooglePlayUrl(applicationId: String = BuildConfig.APPLICATION_ID) = "http://play.google.com/store/apps/details?id=$applicationId"

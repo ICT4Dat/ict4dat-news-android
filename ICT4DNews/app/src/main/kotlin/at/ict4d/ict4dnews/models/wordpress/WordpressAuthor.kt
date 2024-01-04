@@ -11,7 +11,6 @@ const val WORDPRESS_AUTHOR_SERIALIZED_AVATAR_URLS = "avatar_urls"
 const val WORDPRESS_AUTHOR_SERIALIZED_LINK = "link"
 
 data class WordpressAuthor(
-
     @SerializedName(WORDPRESS_AUTHOR_SERIALIZED_LINK)
     val link: String,
 
@@ -31,5 +30,5 @@ data class WordpressAuthor(
     val slug: String,
 
     @SerializedName(WORDPRESS_AUTHOR_SERIALIZED_AVATAR_URLS)
-    val avatarURLs: Map<String, String>
+    val avatarURLs: Map<String, String>,
 )

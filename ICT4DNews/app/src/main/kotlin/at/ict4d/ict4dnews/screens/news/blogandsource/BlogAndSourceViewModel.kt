@@ -12,9 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class BlogAndSourceViewModel(
-    private val blogsRepository: BlogsRepository
+    private val blogsRepository: BlogsRepository,
 ) : ViewModel() {
-
     private val trigger = MutableLiveData<Boolean>().apply { value = false }
     val allBlogsList = trigger.switchMap { blogsRepository.getAllBlogs().asLiveData() }
 

@@ -16,7 +16,7 @@ fun <T> Fragment.handleApiResponse(
     swipeRefreshLayout: SwipeRefreshLayout? = null,
     progressbar: ProgressBar? = null,
     errorTextView: TextView? = null,
-    showErrorDialogs: Boolean = true
+    showErrorDialogs: Boolean = true,
 ) {
     swipeRefreshLayout?.isRefreshing = resource.status == Status.LOADING
     progressbar?.isVisible = resource.status == Status.LOADING

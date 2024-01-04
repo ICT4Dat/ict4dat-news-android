@@ -11,18 +11,20 @@ const val WP_RSS_MEDIA_SERIALIZED_MEDIUM = "medium"
 const val WP_RSS_MEDIA_SERIALIZED_PREFIX_MEDIA = "media"
 
 @Namespace(prefix = WP_RSS_MEDIA_SERIALIZED_PREFIX_MEDIA)
-@Root(name = WP_RSS_MEDIA_SERIALIZED_WP_RSS_MEDIA, strict = false)
+@Root(
+    name = WP_RSS_MEDIA_SERIALIZED_WP_RSS_MEDIA,
+    strict = false,
+)
 data class WPRSSMedia(
-
     @field:Attribute(
         name = WP_RSS_MEDIA_SERIALIZED_URL,
-        required = false
+        required = false,
     )
     var url: String? = null,
 
     @field:Attribute(
         name = WP_RSS_MEDIA_SERIALIZED_MEDIUM,
-        required = false
+        required = false,
     )
-    var medium: String? = null
+    var medium: String? = null,
 )

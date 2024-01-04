@@ -16,7 +16,6 @@ const val AUTHOR_TABLE_IMAGE_URL = "image_url"
 
 @Entity(tableName = AUTHOR_TABLE_TABLE_NAME)
 data class Author(
-
     @PrimaryKey
     @ColumnInfo(name = AUTHOR_TABLE_LINK)
     val link: String,
@@ -34,9 +33,8 @@ data class Author(
     var description: String? = null,
 
     @ColumnInfo(name = AUTHOR_TABLE_USERNAME)
-    var username: String? = null
+    var username: String? = null,
 ) {
-
     constructor(serverAuthor: WordpressAuthor) : this(serverAuthor.link, serverAuthor.server_id) {
         name = serverAuthor.name
         // Ignore Android Studio suggestion, the null checks are necessary!
@@ -57,6 +55,6 @@ data class Author(
         channel.title,
         channel.image?.url,
         channel.description,
-        null
+        null,
     )
 }
