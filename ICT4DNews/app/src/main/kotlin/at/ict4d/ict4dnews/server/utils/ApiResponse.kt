@@ -25,16 +25,17 @@ sealed class ApiResponse<T> {
                     ApiSuccessResponse(
                         body = body,
                         linkHeader = response.headers()?.get("link"),
-                        responseCode = response.code()
+                        responseCode = response.code(),
                     )
                 }
             } else {
                 val msg = response.errorBody()?.string()
-                val errorMsg = if (msg.isNullOrEmpty()) {
-                    response.message()
-                } else {
-                    msg
-                }
+                val errorMsg =
+                    if (msg.isNullOrEmpty()) {
+                        response.message()
+                    } else {
+                        msg
+                    }
                 ApiErrorResponse(Throwable(errorMsg ?: "unknown error"), response.code())
             }
         }
@@ -49,13 +50,12 @@ class ApiEmptyResponse<T>(val responseCode: Int) : ApiResponse<T>()
 data class ApiSuccessResponse<T>(
     val body: T,
     val links: Map<String, String>,
-    val responseCode: Int
+    val responseCode: Int,
 ) : ApiResponse<T>() {
-
     constructor(body: T, linkHeader: String?, responseCode: Int) : this(
         body = body,
         links = linkHeader?.extractLinks() ?: emptyMap(),
-        responseCode = responseCode
+        responseCode = responseCode,
     )
 
     val nextPage: Int? by lazy(LazyThreadSafetyMode.NONE) {

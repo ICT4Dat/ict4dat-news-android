@@ -18,7 +18,7 @@ fun <ResultType, RemoteResultType> resultFlow(
     databaseQuery: () -> Flow<ResultType>,
     networkCall: suspend () -> Response<RemoteResultType>,
     saveCallResult: suspend (RemoteResultType) -> Unit,
-    emitFutureDatabaseUpdates: Boolean = true
+    emitFutureDatabaseUpdates: Boolean = true,
 ) = flow<Resource<ResultType>> {
     val dbSource = databaseQuery.invoke()
 
@@ -27,26 +27,27 @@ fun <ResultType, RemoteResultType> resultFlow(
 
         val response = networkCall.invoke()
 
-        val resourceFlow = when (val apiResponse = ApiResponse.create(response)) {
-            is ApiSuccessResponse -> {
-                saveCallResult(apiResponse.body)
-                dbSource.map { Resource.success(it, apiResponse.responseCode) }
-            }
+        val resourceFlow =
+            when (val apiResponse = ApiResponse.create(response)) {
+                is ApiSuccessResponse -> {
+                    saveCallResult(apiResponse.body)
+                    dbSource.map { Resource.success(it, apiResponse.responseCode) }
+                }
 
-            is ApiEmptyResponse -> {
-                dbSource.map { Resource.success(it, apiResponse.responseCode) }
-            }
+                is ApiEmptyResponse -> {
+                    dbSource.map { Resource.success(it, apiResponse.responseCode) }
+                }
 
-            is ApiErrorResponse -> {
-                dbSource.map {
-                    Resource.error(
-                        apiResponse.throwable,
-                        it,
-                        apiResponse.responseCode
-                    )
+                is ApiErrorResponse -> {
+                    dbSource.map {
+                        Resource.error(
+                            apiResponse.throwable,
+                            it,
+                            apiResponse.responseCode,
+                        )
+                    }
                 }
             }
-        }
 
         if (emitFutureDatabaseUpdates) {
             emitAll(resourceFlow)
@@ -61,7 +62,7 @@ fun <ResultType, RemoteResultType> resultFlow(
                 emitAll(
                     dbSource.map {
                         Resource.error(e, it, null)
-                    }
+                    },
                 )
             } else {
                 emit(Resource.error(e, dbSource.first(), null))

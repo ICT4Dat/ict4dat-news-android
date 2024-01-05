@@ -25,22 +25,21 @@ const val MEDIA_TABLE_MIME_TYPE = "mime_type"
         ForeignKey(
             entity = News::class,
             parentColumns = [NEWS_TABLE_LINK],
-            childColumns = [MEDIA_TABLE_NEWS_ID]
+            childColumns = [MEDIA_TABLE_NEWS_ID],
         ),
         ForeignKey(
             entity = Author::class,
             parentColumns = [AUTHOR_TABLE_LINK],
-            childColumns = [MEDIA_TABLE_AUTHOR_ID]
-        )
+            childColumns = [MEDIA_TABLE_AUTHOR_ID],
+        ),
     ],
 
     indices = [
         (Index(value = [MEDIA_TABLE_NEWS_ID])),
-        Index(value = [MEDIA_TABLE_AUTHOR_ID])
-    ]
+        Index(value = [MEDIA_TABLE_AUTHOR_ID]),
+    ],
 )
 data class Media(
-
     @PrimaryKey
     @ColumnInfo(name = MEDIA_TABLE_LINK)
     val link: String,
@@ -64,9 +63,8 @@ data class Media(
     var description: String? = null,
 
     @ColumnInfo(name = MEDIA_TABLE_DATE_CREATED)
-    var dateCreated: LocalDateTime? = null
+    var dateCreated: LocalDateTime? = null,
 ) {
-
     constructor(serverMedia: WordpressMedia) : this(
         serverMedia.linkRaw,
         serverMedia.serverID,
@@ -75,6 +73,6 @@ data class Media(
         serverMedia.mimeType,
         serverMedia.title.rendered,
         serverMedia.description.rendered,
-        serverMedia.dateCreated
+        serverMedia.dateCreated,
     )
 }

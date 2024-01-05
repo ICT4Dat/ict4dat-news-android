@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.map
 
 @Dao
 abstract class BlogDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(blog: Blog): Long
 
@@ -27,7 +26,7 @@ abstract class BlogDao {
        SELECT * 
        FROM $BLOG_TABLE_TABLE_NAME 
        ORDER BY $BLOG_TABLE_NAME 
-    """
+    """,
     )
     abstract fun getAllBlogs(): Flow<List<Blog>>
 
@@ -37,7 +36,7 @@ abstract class BlogDao {
        FROM $BLOG_TABLE_TABLE_NAME 
        WHERE $BLOG_TABLE_ACTIVE = 1 
        ORDER BY $BLOG_TABLE_NAME
-    """
+    """,
     )
     abstract fun getAllActiveBlogs(): Flow<List<Blog>>
 
@@ -46,7 +45,7 @@ abstract class BlogDao {
         SELECT * 
         FROM $BLOG_TABLE_TABLE_NAME 
         WHERE $BLOG_TABLE_FEED_URL = :feedUrl
-        """
+        """,
     )
     abstract fun getBlogByUrl(feedUrl: String): Flow<Blog?>
 
@@ -57,7 +56,7 @@ abstract class BlogDao {
         """
         SELECT COUNT(*) 
         FROM $BLOG_TABLE_TABLE_NAME
-        """
+        """,
     )
     abstract fun getBlogsCount(): Flow<Int>
 
@@ -68,7 +67,7 @@ abstract class BlogDao {
         SELECT COUNT(*) 
         FROM $BLOG_TABLE_TABLE_NAME 
         WHERE $BLOG_TABLE_ACTIVE = 1
-        """
+        """,
     )
     abstract fun getActiveBlogsCount(): Flow<Int>
 }

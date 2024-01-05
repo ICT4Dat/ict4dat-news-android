@@ -9,21 +9,20 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ApiJsonSelfHostedWPService {
-
     @GET
     suspend fun getJsonNewsOfUrl(
         @Url url: String,
-        @Query("per_page") numberOfNewsToRequest: Int = 5, // get 5 news posts per default
-        @Query("after") newsAfterDate: String
+        @Query("per_page") numberOfNewsToRequest: Int = 5,
+        @Query("after") newsAfterDate: String,
     ): Response<List<SelfHostedWPPost>>
 
     @GET
     suspend fun getJsonNewsAuthorByID(
-        @Url url: String
+        @Url url: String,
     ): Response<WordpressAuthor>
 
     @GET
     suspend fun getJsonNewsMediaForPost(
-        @Url url: String
+        @Url url: String,
     ): Response<List<WordpressMedia>>
 }

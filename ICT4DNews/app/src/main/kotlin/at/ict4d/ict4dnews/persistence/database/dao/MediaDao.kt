@@ -7,7 +7,6 @@ import at.ict4d.ict4dnews.models.Media
 
 @Dao
 abstract class MediaDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(media: Media): Long
 

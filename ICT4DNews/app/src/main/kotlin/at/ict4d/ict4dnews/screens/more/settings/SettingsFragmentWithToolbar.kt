@@ -6,5 +6,5 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 
 class SettingsFragmentWithToolbar :
     BaseFragment<FragmentSettingsWithToolbarBinding>(
-        R.layout.fragment_settings_with_toolbar
+        R.layout.fragment_settings_with_toolbar,
     )

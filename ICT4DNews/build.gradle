@@ -4,20 +4,20 @@ buildscript {
 
     ext {
         versionMajor = 1
-        versionMinor = 3
+        versionMinor = 4
         versionPatch = 0
         versionBuild = 0 // bump for dogfood builds, public betas, etc.
         versionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
 
         kotlin_version = "1.9.10"
-        glide_version = "4.15.1"
-        room_version = "2.5.2"
+        glide_version = "4.16.0"
+        room_version = "2.6.1"
         lifecycle_version = "2.6.2"
         retrofit_version = "2.9.0"
-        work_version = "2.8.1"
-        navigation_version = "2.7.3"
-        sentry_version = "6.21.0"
-        koin_version = "3.4.3"
+        work_version = "2.9.0"
+        navigation_version = "2.7.6"
+        sentry_version = "7.1.0"
+        koin_version = "3.5.3"
     }
     
     repositories {
@@ -29,11 +29,11 @@ buildscript {
     }
     
     dependencies {
-        classpath "com.android.tools.build:gradle:8.1.1"
+        classpath 'com.android.tools.build:gradle:8.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.android.gms:oss-licenses-plugin:0.10.6"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:11.5.1"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:12.0.3"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

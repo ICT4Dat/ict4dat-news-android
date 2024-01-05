@@ -8,7 +8,10 @@ import at.ict4d.ict4dnews.persistence.database.dao.BlogDao
 import at.ict4d.ict4dnews.persistence.database.dao.MediaDao
 import at.ict4d.ict4dnews.persistence.database.dao.NewsDao
 
-fun generateMedia(news: News, author: Author) = Media(
+fun generateMedia(
+    news: News,
+    author: Author,
+) = Media(
     generateUUID(),
     generateRandomNumber(),
     news.link,
@@ -16,10 +19,15 @@ fun generateMedia(news: News, author: Author) = Media(
     generateUUID(),
     generateUUID(),
     generateUUID(),
-    generatePastLocalDateTime()
+    generatePastLocalDateTime(),
 )
 
-fun generateMediaAndInsert(mediaDao: MediaDao, authorDao: AuthorDao, blogDao: BlogDao, newsDao: NewsDao): Media {
+fun generateMediaAndInsert(
+    mediaDao: MediaDao,
+    authorDao: AuthorDao,
+    blogDao: BlogDao,
+    newsDao: NewsDao,
+): Media {
     val author = generateAuthorAndInsert(authorDao)
     val media = generateMedia(generateNewsAndInsert(newsDao, generateBlogAndInsert(blogDao), author), author)
     mediaDao.insert(media)
@@ -31,7 +39,7 @@ fun generateMediaListAndInsert(
     authorDao: AuthorDao,
     blogDao: BlogDao,
     newsDao: NewsDao,
-    numberOfMedia: Int = 5
+    numberOfMedia: Int = 5,
 ): List<Media> {
     val list = mutableListOf<Media>()
     for (i in 0 until numberOfMedia) {

@@ -39,22 +39,23 @@ class NewsRepository(
     private val blogsRepository: BlogsRepository,
     private val database: AppDatabase,
     private val authorDao: AuthorDao,
-    private val mediaDao: MediaDao
+    private val mediaDao: MediaDao,
 ) {
-
     fun getAllActiveNews(query: String) = newsDao.getAllActiveNews(query).flowOn(Dispatchers.IO)
 
     fun getCountOfNews() = newsDao.getCountOfNews().flowOn(Dispatchers.IO)
 
     fun requestLatestNewsByDate(latestNewsDate: LocalDateTime) = newsDao.getLatestNewsByDate(latestNewsDate).flowOn(Dispatchers.IO)
 
-    fun getLatestNewsPublishedDate(blogID: String) = newsDao.getLatestPublishedDateOfBlog(blogID)
-        .map { it ?: LocalDateTime.now().minusYears(10) } // if database is empty then today minus 10 years per default
-        .flowOn(Dispatchers.IO)
+    fun getLatestNewsPublishedDate(blogID: String) =
+        newsDao.getLatestPublishedDateOfBlog(blogID)
+            .map { it ?: LocalDateTime.now().minusYears(10) } // if database is empty then today minus 10 years per default
+            .flowOn(Dispatchers.IO)
 
-    fun getLatestNewsPublishedDate() = newsDao.getLatestNewsPublishedDate()
-        .map { it ?: LocalDateTime.now().minusYears(10) } // if database is empty then today minus 10 years per default
-        .flowOn(Dispatchers.IO)
+    fun getLatestNewsPublishedDate() =
+        newsDao.getLatestNewsPublishedDate()
+            .map { it ?: LocalDateTime.now().minusYears(10) } // if database is empty then today minus 10 years per default
+            .flowOn(Dispatchers.IO)
 
     suspend fun updateAllActiveNewsWithFlow(): Flow<NewsUpdateResource> {
         recordNetworkBreadcrumb("loadAllNewsFromAllActiveBlogs", this)
@@ -73,26 +74,28 @@ class NewsRepository(
                         Resource.loading(blog),
                         successfulBlogs,
                         failedBlogs,
-                        activeBlogs.count()
-                    )
+                        activeBlogs.count(),
+                    ),
                 )
 
                 recordNetworkBreadcrumb("Update Blog", this, mapOf("Blog ID" to blog.feed_url))
                 Timber.d("Updating ${blog.name}")
-                val resource = if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
-                    handleSelfHostedWpBlog(blog)
-                } else { // Wordpress.com or RSS
-                    handleRSSBlog(blog)
-                }
+                val resource =
+                    if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
+                        handleSelfHostedWpBlog(blog)
+                    } else { // Wordpress.com or RSS
+                        handleRSSBlog(blog)
+                    }
 
                 Timber.d("${blog.name} was ${resource.status}")
-                val emitResource = if (resource.status == Status.SUCCESS) {
-                    successfulBlogs.add(blog)
-                    Resource.success(blog, resource.responseCode)
-                } else {
-                    failedBlogs.add(blog)
-                    Resource.error(resource.throwable ?: UnknownError(), blog, resource.responseCode)
-                }
+                val emitResource =
+                    if (resource.status == Status.SUCCESS) {
+                        successfulBlogs.add(blog)
+                        Resource.success(blog, resource.responseCode)
+                    } else {
+                        failedBlogs.add(blog)
+                        Resource.error(resource.throwable ?: UnknownError(), blog, resource.responseCode)
+                    }
 
                 emit(
                     NewsUpdateResource(
@@ -100,8 +103,8 @@ class NewsRepository(
                         emitResource,
                         successfulBlogs,
                         failedBlogs,
-                        activeBlogs.count()
-                    )
+                        activeBlogs.count(),
+                    ),
                 )
             }
 
@@ -111,44 +114,46 @@ class NewsRepository(
                     null,
                     successfulBlogs,
                     failedBlogs,
-                    activeBlogs.count()
-                )
+                    activeBlogs.count(),
+                ),
             )
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun downloadAllNews(): NewsUpdateResource = withContext(Dispatchers.IO) {
-        val activeBlogs = blogsRepository.getAllActiveBlogs().first()
+    suspend fun downloadAllNews(): NewsUpdateResource =
+        withContext(Dispatchers.IO) {
+            val activeBlogs = blogsRepository.getAllActiveBlogs().first()
 
-        val successfulBlogs = mutableListOf<Blog>()
-        val failedBlogs = mutableListOf<Blog>()
+            val successfulBlogs = mutableListOf<Blog>()
+            val failedBlogs = mutableListOf<Blog>()
 
-        activeBlogs.forEach { blog ->
+            activeBlogs.forEach { blog ->
 
-            recordNetworkBreadcrumb("Update Blog", this, mapOf("Blog ID" to blog.feed_url))
-            Timber.d("Updating ${blog.name}")
-            val resource = if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
-                handleSelfHostedWpBlog(blog)
-            } else { // Wordpress.com or RSS
-                handleRSSBlog(blog)
+                recordNetworkBreadcrumb("Update Blog", this, mapOf("Blog ID" to blog.feed_url))
+                Timber.d("Updating ${blog.name}")
+                val resource =
+                    if (blog.feedType == FeedType.SELF_HOSTED_WP_BLOG) {
+                        handleSelfHostedWpBlog(blog)
+                    } else { // Wordpress.com or RSS
+                        handleRSSBlog(blog)
+                    }
+
+                Timber.d("${blog.name} was ${resource.status}")
+                if (resource.status == Status.SUCCESS) {
+                    successfulBlogs.add(blog)
+                } else {
+                    failedBlogs.add(blog)
+                }
             }
 
-            Timber.d("${blog.name} was ${resource.status}")
-            if (resource.status == Status.SUCCESS) {
-                successfulBlogs.add(blog)
-            } else {
-                failedBlogs.add(blog)
-            }
+            NewsUpdateResource(
+                Status.SUCCESS,
+                null,
+                successfulBlogs,
+                failedBlogs,
+                activeBlogs.count(),
+            )
         }
-
-        NewsUpdateResource(
-            Status.SUCCESS,
-            null,
-            successfulBlogs,
-            failedBlogs,
-            activeBlogs.count()
-        )
-    }
 
     private suspend fun handleSelfHostedWpBlog(blog: Blog): Resource<Triple<List<News>, List<Author>, List<Media>>> {
         return try {
@@ -251,8 +256,8 @@ class NewsRepository(
                                 channel.image?.url,
                                 item.title?.stripHtml(),
                                 item.pubDate?.toLocalDateTimeFromRFCString(),
-                                blog.feed_url
-                            )
+                                blog.feed_url,
+                            ),
                         )
 
                         if (blog.feedType == FeedType.WORDPRESS_COM) { // RSS feeds only have one media
@@ -270,8 +275,8 @@ class NewsRepository(
                                                 it.medium,
                                                 null,
                                                 null,
-                                                null
-                                            )
+                                                null,
+                                            ),
                                         )
                                     }
                                 }
@@ -293,7 +298,11 @@ class NewsRepository(
         }
     }
 
-    private fun insertAuthorsNewsAndMedia(authors: List<Author>, news: List<News>, media: List<Media>) {
+    private fun insertAuthorsNewsAndMedia(
+        authors: List<Author>,
+        news: List<News>,
+        media: List<Media>,
+    ) {
         database.runInTransaction {
             authorDao.insertAll(authors)
             newsDao.insertAll(news)

@@ -21,12 +21,11 @@ import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 
 class SettingsFragment : PreferenceFragmentCompat() {
-
     private val sharedPrefs by inject<SharedPrefs>()
 
     private val requestPermissionLauncher =
         registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
+            ActivityResultContracts.RequestPermission(),
         ) { isGranted: Boolean ->
             if (isGranted) {
                 sharedPrefs.isAutomaticNewsUpdateEnabled.set(true)
@@ -41,7 +40,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         lifecycle.addObserver(SentryLifecycleObserver(this))
     }
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    override fun onCreatePreferences(
+        savedInstanceState: Bundle?,
+        rootKey: String?,
+    ) {
         setPreferencesFromResource(R.xml.setting_preferences, rootKey)
 
         findPreference<Preference>(getString(R.string.pref_key_current_app_version))?.summary = BuildConfig.VERSION_NAME
@@ -64,7 +66,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     when {
                         ContextCompat.checkSelfPermission(
                             requireContext(),
-                            Manifest.permission.POST_NOTIFICATIONS
+                            Manifest.permission.POST_NOTIFICATIONS,
                         ) == PackageManager.PERMISSION_GRANTED -> {
                             sharedPrefs.isAutomaticNewsUpdateEnabled.set(true)
                         }
@@ -86,7 +88,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                             // The registered ActivityResultCallback gets the result of this request.
 
                             requestPermissionLauncher.launch(
-                                Manifest.permission.POST_NOTIFICATIONS
+                                Manifest.permission.POST_NOTIFICATIONS,
                             )
                         }
                     }

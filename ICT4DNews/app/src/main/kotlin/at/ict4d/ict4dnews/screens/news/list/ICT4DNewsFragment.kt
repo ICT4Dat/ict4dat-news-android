@@ -38,28 +38,33 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class ICT4DNewsFragment : BaseFragment<FragmentIctdnewsListBinding>(
-    R.layout.fragment_ictdnews_list
+    R.layout.fragment_ictdnews_list,
 ) {
-
     private val model by viewModel<ICT4DNewsViewModel>()
 
-    private val adapter: ICT4DNewsRecyclerViewAdapter = ICT4DNewsRecyclerViewAdapter({ pair, _ ->
-        recordNavigationBreadcrumb(
-            "item click",
-            this,
-            mapOf("pair" to "$pair")
-        )
+    private val adapter: ICT4DNewsRecyclerViewAdapter =
+        ICT4DNewsRecyclerViewAdapter({ pair, _ ->
 
-        val session = (requireActivity() as? MainNavigationActivity)?.getCustomTabSession()
-        requireActivity().browseCustomTabWithUrl(
-            pair.first.link,
-            session // Set a session so all URLs open in a custom tab and not an app (e.g. Wordpress app)
-        )
-    })
+            recordNavigationBreadcrumb(
+                "item click",
+                this,
+                mapOf("pair" to "$pair"),
+            )
+
+            val session = (requireActivity() as? MainNavigationActivity)?.getCustomTabSession()
+            // Set a session so all URLs open in a custom tab and not an app (e.g. Wordpress app)
+            requireActivity().browseCustomTabWithUrl(
+                pair.first.link,
+                session,
+            )
+        })
 
     private var activeBlogCount = 0
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
         binding.recyclerview.adapter = adapter
@@ -77,7 +82,7 @@ class ICT4DNewsFragment : BaseFragment<FragmentIctdnewsListBinding>(
                 model.isWelcomeSetupNotStartedOnce = false
                 findNavController().navigateSafe(
                     R.id.newsListFragment,
-                    ICT4DNewsFragmentDirections.actionActionNewsToWelcomeSetupFragment()
+                    ICT4DNewsFragmentDirections.actionActionNewsToWelcomeSetupFragment(),
                 )
             } else {
                 model.newsUpdateStatus.observe(viewLifecycleOwner) { newsUpdateResource ->
@@ -86,18 +91,20 @@ class ICT4DNewsFragment : BaseFragment<FragmentIctdnewsListBinding>(
                     binding.progressTextView.isVisible = newsUpdateResource.status == Status.LOADING
 
                     newsUpdateResource.currentItem?.data?.name.let { currentBlogName ->
-                        val progressText = getString(
-                            R.string.connecting_text,
-                            newsUpdateResource.successfulBlogs.count() + newsUpdateResource.failedBlogs.count() + 1,
-                            newsUpdateResource.totalCount,
-                            currentBlogName
-                        )
+                        val progressText =
+                            getString(
+                                R.string.connecting_text,
+                                newsUpdateResource.successfulBlogs.count() + newsUpdateResource.failedBlogs.count() + 1,
+                                newsUpdateResource.totalCount,
+                                currentBlogName,
+                            )
 
-                        binding.progressTextView.text = if (BuildConfig.DEBUG) {
-                            "$progressText\n\nSuccessful: ${newsUpdateResource.successfulBlogs.count()}\nFailed:${newsUpdateResource.failedBlogs.count()}"
-                        } else {
-                            progressText
-                        }
+                        binding.progressTextView.text =
+                            if (BuildConfig.DEBUG) {
+                                "$progressText\n\nSuccessful: ${newsUpdateResource.successfulBlogs.count()}\nFailed:${newsUpdateResource.failedBlogs.count()}"
+                            } else {
+                                progressText
+                            }
                     }
 
                     if (newsUpdateResource.status != Status.LOADING && BuildConfig.DEBUG) {
@@ -143,8 +150,8 @@ class ICT4DNewsFragment : BaseFragment<FragmentIctdnewsListBinding>(
 
                 binding.recyclerview.addOnScrollListener(
                     ScrollToTopRecyclerViewScrollHandler(
-                        binding.quickScroll
-                    )
+                        binding.quickScroll,
+                    ),
                 )
             }
         }
@@ -152,7 +159,10 @@ class ICT4DNewsFragment : BaseFragment<FragmentIctdnewsListBinding>(
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(
             object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                override fun onCreateMenu(
+                    menu: Menu,
+                    menuInflater: MenuInflater,
+                ) {
                     // Add menu items here
                     menuInflater.inflate(R.menu.ict4dnews_menu, menu)
                     val menuItem = menu.findItem(R.id.menu_search)
@@ -180,50 +190,55 @@ class ICT4DNewsFragment : BaseFragment<FragmentIctdnewsListBinding>(
                         searchView.clearFocus()
                     }
 
-                    menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-
-                        override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
-                            enableRefreshMenuItem(false, menu)
-                            return true
-                        }
-
-                        override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
-                            adapter.submitList(model.newsList.value)
-                            model.performSearch("")
-                            enableRefreshMenuItem(true, menu)
-                            if (model.isNewsUpdateLoading()) {
-                                binding.swiperefresh.isRefreshing = false
-                                binding.swiperefresh.isRefreshing = true
+                    menuItem.setOnActionExpandListener(
+                        object : MenuItem.OnActionExpandListener {
+                            override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
+                                enableRefreshMenuItem(false, menu)
+                                return true
                             }
-                            return true
+
+                            override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
+                                adapter.submitList(model.newsList.value)
+                                model.performSearch("")
+                                enableRefreshMenuItem(true, menu)
+                                if (model.isNewsUpdateLoading()) {
+                                    binding.swiperefresh.isRefreshing = false
+                                    binding.swiperefresh.isRefreshing = true
+                                }
+                                return true
+                            }
+                        },
+                    )
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem) =
+                    when (menuItem.itemId) {
+                        R.id.menu_refresh -> {
+                            model.requestToLoadFeedsFromServers(true)
+                            true
                         }
-                    })
-                }
 
-                override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
-                    R.id.menu_refresh -> {
-                        model.requestToLoadFeedsFromServers(true)
-                        true
+                        R.id.menu_filter -> {
+                            recordNavigationBreadcrumb("news list", this)
+                            findNavController().navigateSafe(
+                                R.id.newsListFragment,
+                                ICT4DNewsFragmentDirections.actionActionNewsToBlogAndSourceFragment(false),
+                            )
+                            true
+                        }
+
+                        else -> false
                     }
-
-                    R.id.menu_filter -> {
-                        recordNavigationBreadcrumb("news list", this)
-                        findNavController().navigateSafe(
-                            R.id.newsListFragment,
-                            ICT4DNewsFragmentDirections.actionActionNewsToBlogAndSourceFragment(false)
-                        )
-                        true
-                    }
-
-                    else -> false
-                }
             },
             viewLifecycleOwner,
-            Lifecycle.State.RESUMED
+            Lifecycle.State.RESUMED,
         )
     }
 
-    private fun enableRefreshMenuItem(enable: Boolean, menu: Menu?) {
+    private fun enableRefreshMenuItem(
+        enable: Boolean,
+        menu: Menu?,
+    ) {
         menu?.findItem(R.id.menu_refresh)?.isEnabled = enable
         binding.swiperefresh.isEnabled = enable
     }

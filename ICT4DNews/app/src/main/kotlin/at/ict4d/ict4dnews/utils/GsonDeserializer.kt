@@ -11,11 +11,10 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class GsonLocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {
-
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
-        context: JsonDeserializationContext?
+        context: JsonDeserializationContext?,
     ): LocalDateTime? {
         try {
             if (json?.asString.isNullOrEmpty()) {
@@ -31,11 +30,10 @@ class GsonLocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {
 }
 
 class GsonFeedTypeDeserializer : JsonDeserializer<FeedType> {
-
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
-        context: JsonDeserializationContext?
+        context: JsonDeserializationContext?,
     ): FeedType? {
         val intFeedType = json?.asInt
         if (intFeedType != null && intFeedType in 0..2) {

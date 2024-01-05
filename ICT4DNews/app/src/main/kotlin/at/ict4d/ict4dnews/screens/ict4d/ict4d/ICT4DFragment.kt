@@ -6,10 +6,9 @@ import at.ict4d.ict4dnews.screens.base.BaseFragment
 
 class ICT4DFragment : BaseFragment<FragmentIct4dBinding>(
     R.layout.fragment_ict4d,
-    hasToolbar = false
+    hasToolbar = false,
 ) {
     companion object {
-
         @JvmStatic
         fun newInstance() = ICT4DFragment()
     }

@@ -23,10 +23,9 @@ const val NEWS_WORKER_SUMMARY_NOTIFICATION_ID = 1
 const val NEWS_WORKER_NOTIFICATION_GROUP = "${BuildConfig.APPLICATION_ID}.NEWS_UPDATE"
 
 class NotificationHandler(private val blogsRepository: BlogsRepository) {
-
     suspend fun displayNewsNotifications(
         newsList: List<News>,
-        context: Context
+        context: Context,
     ) {
         if (newsList.isNotEmpty()) {
             val allActiveBlogs = blogsRepository.getAllActiveBlogs().first()
@@ -35,31 +34,33 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
 
             newsList.forEach { news ->
 
-                val notificationIntent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(news.link)
-                )
+                val notificationIntent =
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(news.link),
+                    )
 
-                val pendingIntent = PendingIntent.getActivity(
-                    context,
-                    0,
-                    notificationIntent,
-                    PendingIntent.FLAG_IMMUTABLE
-                )
+                val pendingIntent =
+                    PendingIntent.getActivity(
+                        context,
+                        0,
+                        notificationIntent,
+                        PendingIntent.FLAG_IMMUTABLE,
+                    )
 
                 notifications.add(
                     NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_notification)
                         .setContentTitle(
                             allActiveBlogs.find { blog -> blog.feed_url == news.blogID }?.name
-                                ?: context.getString(R.string.app_name)
+                                ?: context.getString(R.string.app_name),
                         )
                         .setContentText(news.title ?: "")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent)
                         .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
-                        .build()
+                        .build(),
                 )
 
                 if (!news.title.isNullOrEmpty()) {
@@ -68,24 +69,28 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
             }
 
             // Create summary notification for Android < 7.0
-            val summaryIntent = Intent(context, MainNavigationActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
+            val summaryIntent =
+                Intent(context, MainNavigationActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
             val summaryPendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, summaryIntent, PendingIntent.FLAG_IMMUTABLE)
             summaryNotificationStyle
                 .setBigContentTitle(context.getString(R.string.news_update_complete))
                 .setSummaryText(context.getString(R.string.news_update_notification_content_text, newsList.size))
-            val summaryNotification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(context.getString(R.string.news_update_complete))
-                .setContentText(context.getString(R.string.news_update_notification_content_text, newsList.size))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true)
-                .setContentIntent(summaryPendingIntent)
-                .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
-                .setGroupSummary(true)
-                .setStyle(summaryNotificationStyle)
-                .build()
+            val summaryNotification =
+                NotificationCompat.Builder(
+                    context,
+                    NOTIFICATION_CHANNEL_ID,
+                ).setSmallIcon(R.drawable.ic_notification)
+                    .setContentTitle(context.getString(R.string.news_update_complete))
+                    .setContentText(context.getString(R.string.news_update_notification_content_text, newsList.size))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setAutoCancel(true)
+                    .setContentIntent(summaryPendingIntent)
+                    .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
+                    .setGroupSummary(true)
+                    .setStyle(summaryNotificationStyle)
+                    .build()
 
             with(NotificationManagerCompat.from(context)) {
                 var notificationIdCounter = 2
@@ -98,14 +103,17 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
             }
         } else if (BuildConfig.DEBUG) { // Display a notification if the updates was successful, but no new news were found
 
-            val debugNotification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("ICT4D News Update")
-                .setContentText("Update was complete, but no new news found...")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true)
-                .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
-                .build()
+            val debugNotification =
+                NotificationCompat.Builder(
+                    context,
+                    NOTIFICATION_CHANNEL_ID,
+                ).setSmallIcon(R.drawable.ic_notification)
+                    .setContentTitle("ICT4D News Update")
+                    .setContentText("Update was complete, but no new news found...")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setAutoCancel(true)
+                    .setGroup(NEWS_WORKER_NOTIFICATION_GROUP)
+                    .build()
 
             with(NotificationManagerCompat.from(context)) { notifyWithRuntimeCheck(context, this, 999, debugNotification) }
         }
@@ -115,7 +123,7 @@ class NotificationHandler(private val blogsRepository: BlogsRepository) {
         context: Context,
         notificationManager: NotificationManagerCompat,
         id: Int,
-        notification: Notification
+        notification: Notification,
     ) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             notificationManager.notify(id, notification)

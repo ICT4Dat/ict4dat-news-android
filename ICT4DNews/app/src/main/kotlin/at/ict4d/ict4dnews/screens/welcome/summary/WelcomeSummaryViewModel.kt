@@ -6,9 +6,8 @@ import at.ict4d.ict4dnews.server.repositories.BlogsRepository
 
 class WelcomeSummaryViewModel(
     blogsRepository: BlogsRepository,
-    sharedPrefs: SharedPrefs
+    sharedPrefs: SharedPrefs,
 ) : ViewModel() {
-
     val blogsCount = blogsRepository.getBlogsCount()
 
     val isAutomaticNewsUpdateEnabled = sharedPrefs.isAutomaticNewsUpdateEnabled

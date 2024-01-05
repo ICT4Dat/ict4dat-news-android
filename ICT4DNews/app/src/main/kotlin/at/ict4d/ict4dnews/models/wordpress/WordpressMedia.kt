@@ -25,7 +25,6 @@ const val MEDIA_TITLE_SERIALIZED_TITLE_RENDERED = "rendered"
 const val MEDIA_DESCRIPTION_SERIALIZED_DESCRIPTION_RENDERED = "rendered"
 
 data class WordpressMedia(
-
     @SerializedName(WORDPRESS_MEDIA_SERIALIZED_WP_LINK)
     val wpLink: String,
 
@@ -76,15 +75,15 @@ data class WordpressMedia(
 
     var postLink: String?,
 
-    var authorLink: String?
+    var authorLink: String?,
 )
 
 data class MediaTitle(
     @SerializedName(MEDIA_TITLE_SERIALIZED_TITLE_RENDERED)
-    var rendered: String
+    var rendered: String,
 )
 
 data class MediaDescription(
     @SerializedName(MEDIA_DESCRIPTION_SERIALIZED_DESCRIPTION_RENDERED)
-    var rendered: String
+    var rendered: String,
 )

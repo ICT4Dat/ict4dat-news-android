@@ -11,12 +11,23 @@ import at.ict4d.ict4dnews.extensions.browseCustomTabWithUrl
 import at.ict4d.ict4dnews.models.Blog
 
 class BlogAndSourceRecyclerViewAdapter(private val clickHandler: (Blog) -> Unit) : ListAdapter<Blog, BlogAndSourceRecyclerViewAdapter.ViewHolder>(BlogListDiffCallback()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(BlogAndSourceItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): ViewHolder {
+        return ViewHolder(
+            BlogAndSourceItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false,
+            ),
+        )
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: ViewHolder,
+        position: Int,
+    ) {
         holder.setItem(getItem(position))
     }
 
@@ -46,12 +57,17 @@ class BlogAndSourceRecyclerViewAdapter(private val clickHandler: (Blog) -> Unit)
 }
 
 class BlogListDiffCallback : DiffUtil.ItemCallback<Blog>() {
-
-    override fun areItemsTheSame(oldItem: Blog, newItem: Blog): Boolean {
+    override fun areItemsTheSame(
+        oldItem: Blog,
+        newItem: Blog,
+    ): Boolean {
         return oldItem.feed_url == newItem.feed_url
     }
 
-    override fun areContentsTheSame(oldItem: Blog, newItem: Blog): Boolean {
+    override fun areContentsTheSame(
+        oldItem: Blog,
+        newItem: Blog,
+    ): Boolean {
         return oldItem == newItem
     }
 }

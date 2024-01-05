@@ -48,10 +48,10 @@ class MoreFragment : Fragment() {
     private fun shareApp() {
         recordActionBreadcrumb("shareApplication", this)
         requireActivity().share(
-            text = getString(
+            getString(
                 R.string.share_app_text,
-                "http://play.google.com/store/apps/details?id=${context?.packageName}"
-            )
+                "http://play.google.com/store/apps/details?id=${context?.packageName}",
+            ),
         )
     }
 
@@ -61,7 +61,7 @@ class MoreFragment : Fragment() {
         requireActivity().email(
             email = getString(R.string.contact_email),
             subject = getString(R.string.contact_mail_subject),
-            text = getString(R.string.contact_mail_text)
+            text = getString(R.string.contact_mail_text),
         )
     }
 

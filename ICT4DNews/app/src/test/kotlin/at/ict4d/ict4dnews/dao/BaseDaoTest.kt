@@ -12,7 +12,6 @@ import org.koin.core.context.stopKoin
 import org.robolectric.Robolectric
 
 abstract class BaseDaoTest {
-
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule() // Triggers LiveData
 

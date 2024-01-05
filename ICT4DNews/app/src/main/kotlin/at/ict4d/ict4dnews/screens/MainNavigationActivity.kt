@@ -18,21 +18,21 @@ import com.google.android.material.elevation.SurfaceColors
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
-
     private lateinit var binding: ActivityMainNavigationBinding
 
     private val model: MainNavigationViewModel by viewModel()
 
     private val customTabSessionManager = CustomTabSessionManager()
 
-    val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
-        topLevelDestinationIds = setOf(
-            R.id.newsListFragment,
-            R.id.ict4dFragment,
-            R.id.moreFragment
-        ),
-        fallbackOnNavigateUpListener = ::onSupportNavigateUp
-    )
+    val appBarConfiguration: AppBarConfiguration =
+        AppBarConfiguration(
+            setOf(
+                R.id.newsListFragment,
+                R.id.ict4dFragment,
+                R.id.moreFragment,
+            ),
+            fallbackOnNavigateUpListener = ::onSupportNavigateUp,
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +57,7 @@ class MainNavigationActivity : AppCompatActivity(), NavController.OnDestinationC
     override fun onDestinationChanged(
         controller: NavController,
         destination: NavDestination,
-        arguments: Bundle?
+        arguments: Bundle?,
     ) {
         if (destination.id == R.id.welcomeSetupFragment ||
             destination.id == R.id.welcomeSummaryFragment

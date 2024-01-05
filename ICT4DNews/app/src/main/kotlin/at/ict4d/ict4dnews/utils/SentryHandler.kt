@@ -13,7 +13,7 @@ const val SENTRY_HANDLER_CATEGORY_ACTION = "Action"
 fun recordNavigationBreadcrumb(
     message: String,
     context: Any,
-    data: Map<String, String>? = null
+    data: Map<String, String>? = null,
 ) = Sentry.addBreadcrumb(
     Breadcrumb().apply {
         category = SENTRY_HANDLER_CATEGORY_NAVIGATION
@@ -22,13 +22,13 @@ fun recordNavigationBreadcrumb(
         data?.forEach {
             setData(it.key, it.value)
         }
-    }
+    },
 )
 
 fun recordActionBreadcrumb(
     message: String,
     context: Any,
-    data: Map<String, String>? = null
+    data: Map<String, String>? = null,
 ) = Sentry.addBreadcrumb(
     Breadcrumb().apply {
         category = SENTRY_HANDLER_CATEGORY_ACTION
@@ -37,13 +37,13 @@ fun recordActionBreadcrumb(
         data?.forEach {
             setData(it.key, it.value)
         }
-    }
+    },
 )
 
 fun recordNetworkBreadcrumb(
     message: String,
     context: Any,
-    data: Map<String, String>? = null
+    data: Map<String, String>? = null,
 ) = Sentry.addBreadcrumb(
     Breadcrumb().apply {
         category = SENTRY_HANDLER_CATEGORY_NETWORK
@@ -52,14 +52,16 @@ fun recordNetworkBreadcrumb(
         data?.forEach {
             setData(it.key, it.value)
         }
-    }
+    },
 )
 
-fun recordLifecycleBreadcrumb(message: String, lifecycleOwner: LifecycleOwner) =
-    Sentry.addBreadcrumb(
-        Breadcrumb().apply {
-            category = SENTRY_HANDLER_CATEGORY_LIFECYCLE
-            level = SentryLevel.INFO
-            setMessage("${lifecycleOwner::class.java.simpleName}: $message")
-        }
-    )
+fun recordLifecycleBreadcrumb(
+    message: String,
+    lifecycleOwner: LifecycleOwner,
+) = Sentry.addBreadcrumb(
+    Breadcrumb().apply {
+        category = SENTRY_HANDLER_CATEGORY_LIFECYCLE
+        level = SentryLevel.INFO
+        setMessage("${lifecycleOwner::class.java.simpleName}: $message")
+    },
+)

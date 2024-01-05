@@ -15,7 +15,6 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class BlogDaoTests : BaseDaoTest() {
-
     private lateinit var blogDao: BlogDao
 
     @Before
@@ -38,75 +37,85 @@ class BlogDaoTests : BaseDaoTest() {
     }
 
     @Test
-    fun testGetAll() = runBlocking {
-        var result = blogDao.getAllBlogs().first()
-        Assert.assertTrue(result.isEmpty())
+    fun testGetAll() =
+        runBlocking {
+            var result =
+                blogDao.getAllBlogs()
+                    .first()
+            Assert.assertTrue(result.isEmpty())
 
-        val list = generateListBlogAndInsert(blogDao)
+            val list = generateListBlogAndInsert(blogDao)
 
-        result = blogDao.getAllBlogs().first()
-        Assert.assertTrue(result.isNotEmpty())
-        Assert.assertEquals(list.size, result.size)
-        Assert.assertTrue(result.containsAll(list))
-    }
-
-    @Test
-    fun testGetAllActiveBlogs() = runBlocking {
-        var result = blogDao.getAllActiveBlogs().first()
-        Assert.assertTrue(result.isEmpty())
-
-        val blog1 = generateBlogAndInsert(blogDao, active = true)
-        val blog2 = generateBlogAndInsert(blogDao, active = true)
-        generateBlogAndInsert(blogDao, active = false)
-        val blog4 = generateBlogAndInsert(blogDao, active = true)
-
-        result = blogDao.getAllActiveBlogs().first()
-        Assert.assertTrue(result.isNotEmpty())
-        Assert.assertEquals(3, result.size)
-        Assert.assertTrue(result.containsAll(listOf(blog1, blog2, blog4)))
-    }
+            result =
+                blogDao
+                    .getAllBlogs()
+                    .first()
+            Assert.assertTrue(result.isNotEmpty())
+            Assert.assertEquals(list.size, result.size)
+            Assert.assertTrue(result.containsAll(list))
+        }
 
     @Test
-    fun testGetBlogByUrl() = runBlocking {
-        var result = blogDao.getBlogByUrl(generateRandomURL()).first()
-        Assert.assertNull(result)
+    fun testGetAllActiveBlogs() =
+        runBlocking {
+            var result = blogDao.getAllActiveBlogs().first()
+            Assert.assertTrue(result.isEmpty())
 
-        val list = generateListBlogAndInsert(blogDao).shuffled()
+            val blog1 = generateBlogAndInsert(blogDao, active = true)
+            val blog2 = generateBlogAndInsert(blogDao, active = true)
+            generateBlogAndInsert(blogDao, active = false)
+            val blog4 = generateBlogAndInsert(blogDao, active = true)
 
-        result = blogDao.getBlogByUrl(list.first().feed_url).first()
-        Assert.assertNotNull(result)
-        Assert.assertEquals(list.first(), result)
-
-        result = blogDao.getBlogByUrl(list.last().feed_url).first()
-        Assert.assertNotNull(result)
-        Assert.assertEquals(list.last(), result)
-
-        result = blogDao.getBlogByUrl(list.joinToString { it.feed_url }).first()
-        Assert.assertNull(result)
-    }
+            result = blogDao.getAllActiveBlogs().first()
+            Assert.assertTrue(result.isNotEmpty())
+            Assert.assertEquals(3, result.size)
+            Assert.assertTrue(result.containsAll(listOf(blog1, blog2, blog4)))
+        }
 
     @Test
-    fun testUpdateBlog() = runBlocking {
-        val blog = generateBlogAndInsert(blogDao, active = true)
-        var result = blogDao.getBlogByUrl(blog.feed_url).first()
-        Assert.assertEquals(blog, result)
+    fun testGetBlogByUrl() =
+        runBlocking {
+            var result = blogDao.getBlogByUrl(generateRandomURL()).first()
+            Assert.assertNull(result)
 
-        blog.active = false
-        val index = blogDao.updateBlog(blog)
-        Assert.assertEquals(1, index)
+            val list = generateListBlogAndInsert(blogDao).shuffled()
 
-        result = blogDao.getBlogByUrl(blog.feed_url).first()
-        Assert.assertEquals(blog, result)
-    }
+            result = blogDao.getBlogByUrl(list.first().feed_url).first()
+            Assert.assertNotNull(result)
+            Assert.assertEquals(list.first(), result)
+
+            result = blogDao.getBlogByUrl(list.last().feed_url).first()
+            Assert.assertNotNull(result)
+            Assert.assertEquals(list.last(), result)
+
+            result = blogDao.getBlogByUrl(list.joinToString { it.feed_url }).first()
+            Assert.assertNull(result)
+        }
 
     @Test
-    fun testIsBlogsExist() = runBlocking {
-        var result = blogDao.doBlogsExist().first()
-        Assert.assertFalse(result)
+    fun testUpdateBlog() =
+        runBlocking {
+            val blog = generateBlogAndInsert(blogDao, active = true)
+            var result = blogDao.getBlogByUrl(blog.feed_url).first()
+            Assert.assertEquals(blog, result)
 
-        generateListBlogAndInsert(blogDao)
+            blog.active = false
+            val index = blogDao.updateBlog(blog)
+            Assert.assertEquals(1, index)
 
-        result = blogDao.doBlogsExist().first()
-        Assert.assertTrue(result)
-    }
+            result = blogDao.getBlogByUrl(blog.feed_url).first()
+            Assert.assertEquals(blog, result)
+        }
+
+    @Test
+    fun testIsBlogsExist() =
+        runBlocking {
+            var result = blogDao.doBlogsExist().first()
+            Assert.assertFalse(result)
+
+            generateListBlogAndInsert(blogDao)
+
+            result = blogDao.doBlogsExist().first()
+            Assert.assertTrue(result)
+        }
 }

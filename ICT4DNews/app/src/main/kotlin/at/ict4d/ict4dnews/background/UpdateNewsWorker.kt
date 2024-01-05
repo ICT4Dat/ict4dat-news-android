@@ -15,25 +15,25 @@ const val NEWS_WORKER_TAG = "NEWS_UPDATE_TASK"
 
 class UpdateNewsWorker(
     val context: Context,
-    workParams: WorkerParameters
+    workParams: WorkerParameters,
 ) : CoroutineWorker(context, workParams), KoinComponent {
-
     private val newsRepository by inject<NewsRepository>()
     private val notificationHandler by inject<NotificationHandler>()
 
-    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        val latestNewsDate = newsRepository.getLatestNewsPublishedDate().first()
-        val downloadStatus = newsRepository.downloadAllNews()
+    override suspend fun doWork(): Result =
+        withContext(Dispatchers.IO) {
+            val latestNewsDate = newsRepository.getLatestNewsPublishedDate().first()
+            val downloadStatus = newsRepository.downloadAllNews()
 
-        // Get all News which are older than 'latestNewsDate'
-        val newNews = newsRepository.requestLatestNewsByDate(latestNewsDate).first()
-        // If there are new news then create a notification and display the results
-        notificationHandler.displayNewsNotifications(newNews, context)
+            // Get all News which are older than 'latestNewsDate'
+            val newNews = newsRepository.requestLatestNewsByDate(latestNewsDate).first()
+            // If there are new news then create a notification and display the results
+            notificationHandler.displayNewsNotifications(newNews, context)
 
-        if (downloadStatus.totalCount > 0 && downloadStatus.successfulBlogs.isNotEmpty()) {
-            Result.success()
-        } else {
-            Result.retry()
+            if (downloadStatus.totalCount > 0 && downloadStatus.successfulBlogs.isNotEmpty()) {
+                Result.success()
+            } else {
+                Result.retry()
+            }
         }
-    }
 }

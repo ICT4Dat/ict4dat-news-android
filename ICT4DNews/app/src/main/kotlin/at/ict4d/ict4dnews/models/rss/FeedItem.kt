@@ -11,49 +11,49 @@ const val FEED_ITEM_SERIALIZED_TITLE = "title"
 const val FEED_ITEM_SERIALIZED_LINK = "link"
 const val FEED_ITEM_SERIALIZED_DESCRIPTION = "description"
 const val FEED_ITEM_SERIALIZED_CONTENT = "encoded"
-const val FEED_ITEM_SERIALIZED_WP_Media = "content"
+const val FEED_ITEM_SERIALIZED_WP_MEDIA = "content"
 
 const val FEED_ITEM_SERIALIZED_PREFIX_CONTENT = "content"
-const val FEED_ITEM_SERIALIZED_PREFIX_WP_Media = "media"
+const val FEED_ITEM_SERIALIZED_PREFIX_WP_MEDIA = "media"
 
 @Root(name = FEED_ITEM_SERIALIZED_FEED_ITEM, strict = false)
 data class FeedItem(
     @field:Element(
         name = FEED_ITEM_SERIALIZED_PUB_DATE,
-        required = false
+        required = false,
     )
     var pubDate: String? = null,
 
     @field:Element(
         name = FEED_ITEM_SERIALIZED_TITLE,
-        required = false
+        required = false,
     )
     var title: String? = null,
 
     @field:Element(
         name = FEED_ITEM_SERIALIZED_LINK,
-        required = false
+        required = false,
     )
     var link: String? = null,
 
     @field:Element(
         name = FEED_ITEM_SERIALIZED_DESCRIPTION,
-        required = false
+        required = false,
     )
     var description: String? = null,
 
     @Namespace(prefix = FEED_ITEM_SERIALIZED_PREFIX_CONTENT)
     @field:Element(
         name = FEED_ITEM_SERIALIZED_CONTENT,
-        required = false
+        required = false,
     )
     var wpContent: String? = null,
 
-    @field:Namespace(prefix = FEED_ITEM_SERIALIZED_PREFIX_WP_Media)
+    @field:Namespace(prefix = FEED_ITEM_SERIALIZED_PREFIX_WP_MEDIA)
     @field:ElementList(
-        name = FEED_ITEM_SERIALIZED_WP_Media,
+        name = FEED_ITEM_SERIALIZED_WP_MEDIA,
         required = false,
-        inline = true
+        inline = true,
     )
-    var wpRSSMedia: List<WPRSSMedia>? = null
+    var wpRSSMedia: List<WPRSSMedia>? = null,
 )
