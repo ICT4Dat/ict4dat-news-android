@@ -21,9 +21,8 @@ import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BlogAndSourceFragment : BaseFragment<FragmentBlogAndSourcesBinding>(
-    R.layout.fragment_blog_and_sources
+    R.layout.fragment_blog_and_sources,
 ) {
-
     private val model by viewModel<BlogAndSourceViewModel>()
 
     private lateinit var blogAndSourceAdapter: BlogAndSourceRecyclerViewAdapter
@@ -35,13 +34,20 @@ class BlogAndSourceFragment : BaseFragment<FragmentBlogAndSourcesBinding>(
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
+        super.onViewCreated(
+            view,
+            savedInstanceState,
+        )
 
-        blogAndSourceAdapter = BlogAndSourceRecyclerViewAdapter { blog ->
-            recordActionBreadcrumb("list click", this, mapOf("blog" to "$blog"))
-            model.updateBlogActiveStatus(blog)
-        }
+        blogAndSourceAdapter =
+            BlogAndSourceRecyclerViewAdapter { blog ->
+                recordActionBreadcrumb("list click", this, mapOf("blog" to "$blog"))
+                model.updateBlogActiveStatus(blog)
+            }
 
         binding.newsAndSourcesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.newsAndSourcesRecyclerView.adapter = blogAndSourceAdapter
@@ -55,36 +61,46 @@ class BlogAndSourceFragment : BaseFragment<FragmentBlogAndSourcesBinding>(
 
             handleApiResponse(resource, swipeRefreshLayout = binding.swiperefresh)
 
-            if (resource.data != null && resource.data.isNotEmpty()) {
+            if (resource.data != null &&
+                resource.data.isNotEmpty()
+            ) {
                 blogAndSourceAdapter.submitList(resource.data)
 
-                (activity as? AppCompatActivity)?.supportActionBar?.subtitle = getString(
-                    R.string.contextual_selection,
-                    resource.data.filter { blog -> blog.active }.size,
-                    resource.data.size
-                )
+                (activity as? AppCompatActivity)?.supportActionBar?.subtitle =
+                    getString(
+                        R.string.contextual_selection,
+                        resource.data.filter { blog -> blog.active }.size,
+                        resource.data.size,
+                    )
             }
         }
 
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(
             object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                override fun onCreateMenu(
+                    menu: Menu,
+                    menuInflater: MenuInflater,
+                ) {
                     // Add menu items here
-                    menuInflater.inflate(R.menu.blogs_and_sources_menu, menu)
+                    menuInflater.inflate(
+                        R.menu.blogs_and_sources_menu,
+                        menu,
+                    )
                 }
 
-                override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
-                    R.id.info -> {
-                        showOwnershipAlertDialog(requireContext())
-                        true
+                override fun onMenuItemSelected(menuItem: MenuItem) =
+                    when (menuItem.itemId) {
+                        R.id.info -> {
+                            showOwnershipAlertDialog(requireContext())
+                            true
+                        }
+
+                        else -> false
                     }
-
-                    else -> false
-                }
             },
             viewLifecycleOwner,
-            Lifecycle.State.RESUMED
+            Lifecycle.State.RESUMED,
         )
     }
 }

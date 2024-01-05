@@ -17,7 +17,6 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class MediaDaoTests : BaseDaoTest() {
-
     private lateinit var mediaDao: MediaDao
     private lateinit var blogDao: BlogDao
     private lateinit var authorDao: AuthorDao
@@ -35,12 +34,13 @@ class MediaDaoTests : BaseDaoTest() {
     @Test
     fun testInsert() {
         val author = generateAuthorAndInsert(authorDao)
-        val result = mediaDao.insert(
-            generateMedia(
-                generateNewsAndInsert(newsDao, generateBlogAndInsert(blogDao), author),
-                author
+        val result =
+            mediaDao.insert(
+                generateMedia(
+                    generateNewsAndInsert(newsDao, generateBlogAndInsert(blogDao), author),
+                    author,
+                ),
             )
-        )
         Assert.assertEquals(1L, result)
     }
 

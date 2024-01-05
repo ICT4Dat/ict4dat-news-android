@@ -25,69 +25,70 @@ import java.time.LocalDateTime
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
-val apiServiceModule = module {
-
-    single<ApiRssService> {
-        Retrofit.Builder()
-            .baseUrl("http://will.be.overritten.com")
-            .addConverterFactory(SimpleXmlConverterFactory.create())
-            .client(get<OkHttpClient>())
-            .build().create(ApiRssService::class.java)
-    }
-
-    single<ApiJsonSelfHostedWPService> {
-        Retrofit.Builder()
-            .baseUrl("http://will.be.overritten.com")
-            .addConverterFactory(GsonConverterFactory.create(get<Gson>()))
-            .client(get<OkHttpClient>())
-            .build().create(ApiJsonSelfHostedWPService::class.java)
-    }
-
-    single<ApiICT4DatNews> {
-        Retrofit.Builder()
-            .baseUrl("http://www.ict4d.at/ict4dnews/")
-            .addConverterFactory(GsonConverterFactory.create(get<Gson>()))
-            .client(get<OkHttpClient>())
-            .build().create(ApiICT4DatNews::class.java)
-    }
-
-    single<Gson> {
-        GsonBuilder()
-            .registerTypeAdapter(LocalDateTime::class.java, GsonLocalDateTimeDeserializer())
-            .registerTypeAdapter(FeedType::class.java, GsonFeedTypeDeserializer())
-            .create()
-    }
-
-    single {
-        val builder = OkHttpClient.Builder()
-            .cache(get<Cache>())
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(get<HttpLoggingInterceptor>())
-
-        try {
-            ProviderInstaller.installIfNeeded(androidContext())
-        } catch (e: Exception) {
-            Timber.e("SecurityException: Google Play Services not available.")
+val apiServiceModule =
+    module {
+        single<ApiRssService> {
+            Retrofit.Builder()
+                .baseUrl("http://will.be.overritten.com")
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .client(get<OkHttpClient>())
+                .build().create(ApiRssService::class.java)
         }
 
-        builder.build()
-    }
-
-    single {
-        // 10 MiB cache
-        Cache(File(androidApplication().cacheDir, UUID.randomUUID().toString()), 10 * 1024 * 1024)
-    }
-
-    single {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-        if (BuildConfig.DEBUG) {
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        } else {
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
+        single<ApiJsonSelfHostedWPService> {
+            Retrofit.Builder()
+                .baseUrl("http://will.be.overritten.com")
+                .addConverterFactory(GsonConverterFactory.create(get<Gson>()))
+                .client(get<OkHttpClient>())
+                .build().create(ApiJsonSelfHostedWPService::class.java)
         }
 
-        httpLoggingInterceptor
+        single<ApiICT4DatNews> {
+            Retrofit.Builder()
+                .baseUrl("http://www.ict4d.at/ict4dnews/")
+                .addConverterFactory(GsonConverterFactory.create(get<Gson>()))
+                .client(get<OkHttpClient>())
+                .build().create(ApiICT4DatNews::class.java)
+        }
+
+        single<Gson> {
+            GsonBuilder()
+                .registerTypeAdapter(LocalDateTime::class.java, GsonLocalDateTimeDeserializer())
+                .registerTypeAdapter(FeedType::class.java, GsonFeedTypeDeserializer())
+                .create()
+        }
+
+        single {
+            val builder =
+                OkHttpClient.Builder()
+                    .cache(get<Cache>())
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .addInterceptor(get<HttpLoggingInterceptor>())
+
+            try {
+                ProviderInstaller.installIfNeeded(androidContext())
+            } catch (e: Exception) {
+                Timber.e("SecurityException: Google Play Services not available.")
+            }
+
+            builder.build()
+        }
+
+        single {
+            // 10 MiB cache
+            Cache(File(androidApplication().cacheDir, UUID.randomUUID().toString()), 10 * 1024 * 1024)
+        }
+
+        single {
+            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            if (BuildConfig.DEBUG) {
+                httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            } else {
+                httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
+            }
+
+            httpLoggingInterceptor
+        }
     }
-}

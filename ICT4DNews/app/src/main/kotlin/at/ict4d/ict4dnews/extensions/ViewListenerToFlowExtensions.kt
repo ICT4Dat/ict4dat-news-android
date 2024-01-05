@@ -11,24 +11,28 @@ import kotlinx.coroutines.flow.conflate
 import timber.log.Timber
 
 @ExperimentalCoroutinesApi
-fun <E> SendChannel<E>.safeOffer(value: E) = !isClosedForSend && try {
-    trySend(value).isSuccess
-} catch (e: CancellationException) {
-    false
-}
-
-@ExperimentalCoroutinesApi
-fun SearchView.queryTextChanges() = callbackFlow<String> {
-    val listener = object : SearchView.OnQueryTextListener {
-        override fun onQueryTextChange(newText: String): Boolean {
-            safeOffer(newText)
-            return true
+fun <E> SendChannel<E>.safeOffer(value: E) =
+    !isClosedForSend &&
+        try {
+            trySend(value).isSuccess
+        } catch (e: CancellationException) {
+            false
         }
 
-        override fun onQueryTextSubmit(query: String): Boolean = false
-    }
-    setOnQueryTextListener(listener)
+@ExperimentalCoroutinesApi
+fun SearchView.queryTextChanges() =
+    callbackFlow {
+        val listener =
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String): Boolean {
+                    safeOffer(newText)
+                    return true
+                }
 
-    awaitClose { setOnQueryTextListener(null) }
-}.conflate()
-    .catch { e -> Timber.w(e) }
+                override fun onQueryTextSubmit(query: String): Boolean = false
+            }
+        setOnQueryTextListener(listener)
+
+        awaitClose { setOnQueryTextListener(null) }
+    }.conflate()
+        .catch { e -> Timber.w(e) }

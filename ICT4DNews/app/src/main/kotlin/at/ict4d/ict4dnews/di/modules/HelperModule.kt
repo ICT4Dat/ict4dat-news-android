@@ -8,15 +8,16 @@ import at.ict4d.ict4dnews.utils.NotificationHandler
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
-val helperModule = module {
+val helperModule =
+    module {
 
-    single { androidApplication() as ICT4DNewsApplication }
+        single { androidApplication() as ICT4DNewsApplication }
 
-    single { WorkManager.getInstance(get<ICT4DNewsApplication>()) }
+        single { WorkManager.getInstance(get<ICT4DNewsApplication>()) }
 
-    single { SharedPrefs(get()) }
+        single { SharedPrefs(get()) }
 
-    factory { UpdateNewsServiceHandler(get()) }
+        factory { UpdateNewsServiceHandler(get()) }
 
-    single { NotificationHandler(get()) }
-}
+        single { NotificationHandler(get()) }
+    }

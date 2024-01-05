@@ -22,7 +22,6 @@ import timber.log.Timber
 const val NOTIFICATION_CHANNEL_ID = "ict4d_news_app"
 
 open class ICT4DNewsApplication : Application() {
-
     private val sharedPrefs by inject<SharedPrefs>()
 
     override fun onCreate() {
@@ -54,28 +53,30 @@ open class ICT4DNewsApplication : Application() {
         try {
             SentryAndroid.init(this) { options ->
                 options.addIntegration(
-                    SentryTimberIntegration()
+                    SentryTimberIntegration(),
                 )
             }
         } catch (e: Exception) {
             Timber.e(
                 e,
-                "Sentry is NOT running due to config error, see sentry-config.gradle for more information"
+                "Sentry is NOT running due to config error, see sentry-config.gradle for more information",
             )
         }
     }
 
     private fun setUpTimber() {
         if (BuildConfig.DEBUG) {
-            Timber.plant(object : Timber.DebugTree() {
-                override fun createStackElementTag(element: StackTraceElement): String? {
-                    return String.format(
-                        "C:%s: Line %s",
-                        super.createStackElementTag(element),
-                        element.lineNumber
-                    )
-                }
-            })
+            Timber.plant(
+                object : Timber.DebugTree() {
+                    override fun createStackElementTag(element: StackTraceElement): String? {
+                        return String.format(
+                            "C:%s: Line %s",
+                            super.createStackElementTag(element),
+                            element.lineNumber,
+                        )
+                    }
+                },
+            )
         }
     }
 
@@ -94,9 +95,14 @@ open class ICT4DNewsApplication : Application() {
             val name = getString(R.string.notification_channel_name)
             val descriptionText = getString(R.string.notification_channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
+            val channel =
+                NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID,
+                    name,
+                    importance,
+                ).apply {
+                    description = descriptionText
+                }
             // Register the channel with the system
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

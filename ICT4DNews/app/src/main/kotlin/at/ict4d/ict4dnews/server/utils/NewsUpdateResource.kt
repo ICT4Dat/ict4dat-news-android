@@ -7,5 +7,5 @@ data class NewsUpdateResource(
     val currentItem: Resource<Blog>?,
     val successfulBlogs: List<Blog>,
     val failedBlogs: List<Blog>,
-    val totalCount: Int
+    val totalCount: Int,
 )

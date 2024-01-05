@@ -15,13 +15,12 @@ import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WelcomeSummaryFragment : Fragment() {
-
     private val model by viewModel<WelcomeSummaryViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
@@ -32,20 +31,20 @@ class WelcomeSummaryFragment : Fragment() {
                         onNavigateToBlogsAndSources = {
                             recordNavigationBreadcrumb(
                                 "actionWelcomeSummaryFragmentToBlogAndSourceFragment",
-                                this
+                                this,
                             )
                             findNavController().navigateSafe(
                                 R.id.welcomeSummaryFragment,
-                                WelcomeSummaryFragmentDirections.actionWelcomeSummaryFragmentToBlogAndSourceFragment(true)
+                                WelcomeSummaryFragmentDirections.actionWelcomeSummaryFragmentToBlogAndSourceFragment(true),
                             )
                         },
                         onPopBackToStart = {
                             recordNavigationBreadcrumb(
                                 "popBackStack to newsListFragment",
-                                this
+                                this,
                             )
                             findNavController().popBackStack(R.id.newsListFragment, false)
-                        }
+                        },
                     )
                 }
             }

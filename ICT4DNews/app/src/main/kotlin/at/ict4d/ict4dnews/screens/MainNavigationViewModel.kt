@@ -9,9 +9,8 @@ import kotlinx.coroutines.launch
 
 class MainNavigationViewModel(
     private val updateNewsServiceHandler: UpdateNewsServiceHandler,
-    private val sharedPrefs: SharedPrefs
+    private val sharedPrefs: SharedPrefs,
 ) : ViewModel() {
-
     fun watchAutomaticNewsUpdates() {
         viewModelScope.launch {
             sharedPrefs.isAutomaticNewsUpdateEnabled

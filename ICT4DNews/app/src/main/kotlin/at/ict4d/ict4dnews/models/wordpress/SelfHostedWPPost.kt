@@ -20,7 +20,6 @@ const val SELF_HOSTED_WP_POST_SERIALIZED_TAGS = "tags"
 const val SELF_HOSTED_WP_POST_SERIALIZED_RENDERED = "rendered"
 
 data class SelfHostedWPPost(
-
     @SerializedName(SELF_HOSTED_WP_POST_SERIALIZED_LINK)
     val link: String,
 
@@ -67,5 +66,5 @@ data class SelfHostedWPPost(
 
     var featuredMediaLink: String,
 
-    var blogLink: String
+    var blogLink: String,
 )

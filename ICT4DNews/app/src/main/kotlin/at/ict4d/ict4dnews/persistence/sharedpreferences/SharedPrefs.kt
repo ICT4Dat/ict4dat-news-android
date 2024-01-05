@@ -12,7 +12,6 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SharedPrefs(application: ICT4DNewsApplication) {
-
     private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
     private val flowSharedPreferences = FlowSharedPreferences(sharedPreferences)
 
@@ -20,11 +19,16 @@ class SharedPrefs(application: ICT4DNewsApplication) {
     private val keyIsAutoNewsUpdateEnabled = application.getString(R.string.pref_key_is_auto_sync_enabled)
     private val keyIsBugTrackingEnabled = application.getString(R.string.pref_key_is_bug_tracking_enabled)
 
-    private val lastAutomaticNewsUpdateLocalDateSerializer = object : Serializer<LocalDate> {
-        override fun deserialize(serialized: String) = LocalDate.parse(serialized, DateTimeFormatter.ISO_DATE)
+    private val lastAutomaticNewsUpdateLocalDateSerializer =
+        object : Serializer<LocalDate> {
+            override fun deserialize(serialized: String) =
+                LocalDate.parse(
+                    serialized,
+                    DateTimeFormatter.ISO_DATE,
+                )
 
-        override fun serialize(value: LocalDate) = value.format(DateTimeFormatter.ISO_DATE)
-    }
+            override fun serialize(value: LocalDate) = value.format(DateTimeFormatter.ISO_DATE)
+        }
 
     val lastAutomaticNewsUpdateLocalDate = flowSharedPreferences.getObject(keyLastAutoNewsUpdate, lastAutomaticNewsUpdateLocalDateSerializer, LocalDate.now())
 

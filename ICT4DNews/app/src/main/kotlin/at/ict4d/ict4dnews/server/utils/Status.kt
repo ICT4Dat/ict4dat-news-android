@@ -10,5 +10,5 @@ package at.ict4d.ict4dnews.server.utils
 enum class Status {
     SUCCESS,
     ERROR,
-    LOADING
+    LOADING,
 }

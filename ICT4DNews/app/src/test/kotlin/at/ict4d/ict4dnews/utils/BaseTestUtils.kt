@@ -15,7 +15,7 @@ fun generateRandomNumber(numberLimit: Int = NUMBER_LIMIT): Int = Random().nextIn
 fun generatePastLocalDateTime(
     days: Long = generateRandomNumber(10000).toLong(),
     hours: Long = generateRandomNumber(10000).toLong(),
-    minutes: Long = generateRandomNumber(10000).toLong()
+    minutes: Long = generateRandomNumber(10000).toLong(),
 ): LocalDateTime {
     return LocalDateTime.now().minusDays(days).minusHours(hours).minusMinutes(minutes)
 }

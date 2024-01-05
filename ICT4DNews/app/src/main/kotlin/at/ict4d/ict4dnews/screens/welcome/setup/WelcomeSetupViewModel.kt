@@ -10,9 +10,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class WelcomeSetupViewModel(
-    private val blogsRepository: BlogsRepository
+    private val blogsRepository: BlogsRepository,
 ) : ViewModel() {
-
     private val trigger = MutableLiveData<Boolean>().apply { value = false }
     val blogs = trigger.switchMap { blogsRepository.getAllBlogs().asLiveData() }
 

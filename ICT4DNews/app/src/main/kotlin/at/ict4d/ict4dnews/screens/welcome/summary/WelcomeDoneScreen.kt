@@ -19,18 +19,16 @@ import androidx.compose.ui.unit.dp
 import at.ict4d.ict4dnews.R
 
 @Composable
-fun WelcomeDoneScreen(
-    onPopFragment: () -> Unit
-) {
+fun WelcomeDoneScreen(onPopFragment: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(16.dp),
     ) {
         Text(
             text = stringResource(id = R.string.welcome_summary_done_headline),
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -38,14 +36,14 @@ fun WelcomeDoneScreen(
         Text(
             text = stringResource(id = R.string.welcome_summary_done_text),
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
             onClick = onPopFragment,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(text = "Lets go")
         }
@@ -54,11 +52,11 @@ fun WelcomeDoneScreen(
 
 @Preview(
     showSystemUi = true,
-    uiMode = UI_MODE_NIGHT_YES
+    uiMode = UI_MODE_NIGHT_YES,
 )
 @Composable
 fun PreviewWelcomeDoneScreen() {
     WelcomeDoneScreen(
-        onPopFragment = {}
+        onPopFragment = {},
     )
 }

@@ -25,11 +25,10 @@ import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 
 class MoreFragment :
     BaseFragment<FragmentMoreBinding>(R.layout.fragment_more) {
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         val view = super.onCreateView(inflater, container, savedInstanceState)
@@ -38,32 +37,39 @@ class MoreFragment :
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(
             object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                override fun onCreateMenu(
+                    menu: Menu,
+                    menuInflater: MenuInflater,
+                ) {
                     // Add menu items here
                     menuInflater.inflate(R.menu.menu_more_settings, menu)
                 }
 
-                override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
-                    R.id.menu_settings -> {
-                        recordNavigationBreadcrumb("R.id.menu_settings", this)
-                        findNavController().navigateSafe(
-                            R.id.moreFragment,
-                            MoreFragmentDirections.actionActionMoreToSettingsFragment()
-                        )
-                        true
-                    }
+                override fun onMenuItemSelected(menuItem: MenuItem) =
+                    when (menuItem.itemId) {
+                        R.id.menu_settings -> {
+                            recordNavigationBreadcrumb("R.id.menu_settings", this)
+                            findNavController().navigateSafe(
+                                R.id.moreFragment,
+                                MoreFragmentDirections.actionActionMoreToSettingsFragment(),
+                            )
+                            true
+                        }
 
-                    else -> false
-                }
+                        else -> false
+                    }
             },
             viewLifecycleOwner,
-            Lifecycle.State.RESUMED
+            Lifecycle.State.RESUMED,
         )
     }
 
@@ -74,14 +80,16 @@ class MoreFragment :
     fun shareApplication() {
         recordActionBreadcrumb("shareApplication", this)
         requireActivity().share(
-            text = getString(
+            getString(
                 R.string.share_app_text,
-                "http://play.google.com/store/apps/details?id=${context?.packageName}"
-            )
+                "http://play.google.com/store/apps/details?id=${context?.packageName}",
+            ),
         )
     }
 
-    fun openUrlInCustomTab(@StringRes stringRes: Int) {
+    fun openUrlInCustomTab(
+        @StringRes stringRes: Int,
+    ) {
         requireActivity().browseCustomTabWithUrl(getString(stringRes))
     }
 
@@ -91,7 +99,7 @@ class MoreFragment :
         requireActivity().email(
             email = getString(R.string.contact_email),
             subject = getString(R.string.contact_mail_subject),
-            text = getString(R.string.contact_mail_text)
+            text = getString(R.string.contact_mail_text),
         )
     }
 }

@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class AuthorDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(author: Author): Long
 

@@ -19,27 +19,27 @@ import androidx.browser.customtabs.CustomTabsSession
  * See more here: https://developer.chrome.com/docs/android/custom-tabs/guide-warmup-prefetch/
  */
 class CustomTabSessionManager {
-
     private var client: CustomTabsClient? = null
     var session: CustomTabsSession? = null
 
-    private val mConnection: CustomTabsServiceConnection = object : CustomTabsServiceConnection() {
-        override fun onCustomTabsServiceConnected(
-            name: ComponentName,
-            client: CustomTabsClient
-        ) {
-            // Warm up the browser process
-            client.warmup(0 /* placeholder for future use */)
-            // Create a new browser session
-            session = client.newSession(CustomTabsCallback())
-            this@CustomTabSessionManager.client = client
-        }
+    private val mConnection: CustomTabsServiceConnection =
+        object : CustomTabsServiceConnection() {
+            override fun onCustomTabsServiceConnected(
+                name: ComponentName,
+                client: CustomTabsClient,
+            ) {
+                // Warm up the browser process
+                client.warmup(0) // placeholder for future use
+                // Create a new browser session
+                session = client.newSession(CustomTabsCallback())
+                this@CustomTabSessionManager.client = client
+            }
 
-        override fun onServiceDisconnected(name: ComponentName) {
-            client = null
-            session = null
+            override fun onServiceDisconnected(name: ComponentName) {
+                client = null
+                session = null
+            }
         }
-    }
 
     fun bindCustomTabService(context: Context) {
         // Check for an existing connection
@@ -50,9 +50,13 @@ class CustomTabSessionManager {
 
         // Get the default browser package name, this will be null if
         // the default browser does not provide a CustomTabsService
-        val packageName = CustomTabsClient.getPackageName(context, null)
-            ?: // Do nothing as service connection is not supported
-            return
+        val packageName =
+            CustomTabsClient.getPackageName(
+                context,
+                null,
+            )
+                ?: // Do nothing as service connection is not supported
+                return
         CustomTabsClient.bindCustomTabsService(context, packageName, mConnection)
     }
 }

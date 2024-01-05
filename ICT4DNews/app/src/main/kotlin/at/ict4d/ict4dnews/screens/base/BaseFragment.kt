@@ -21,9 +21,8 @@ import timber.log.Timber
 
 abstract class BaseFragment<B : ViewDataBinding>(
     @LayoutRes private val layoutID: Int,
-    private val hasToolbar: Boolean = true
+    private val hasToolbar: Boolean = true,
 ) : Fragment(), NavController.OnDestinationChangedListener {
-
     protected lateinit var binding: B
 
     override fun onAttach(context: Context) {
@@ -34,7 +33,7 @@ abstract class BaseFragment<B : ViewDataBinding>(
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutID, container, false)
         findNavController().addOnDestinationChangedListener(this)
@@ -45,7 +44,7 @@ abstract class BaseFragment<B : ViewDataBinding>(
     override fun onDestinationChanged(
         controller: NavController,
         destination: NavDestination,
-        arguments: Bundle?
+        arguments: Bundle?,
     ) {
         if (activity is AppCompatActivity && hasToolbar) {
             val appCompatActivity: AppCompatActivity
@@ -54,14 +53,14 @@ abstract class BaseFragment<B : ViewDataBinding>(
             } catch (exception: Exception) {
                 Timber.e(
                     exception,
-                    "Activity is not of AppCompactActivity Type ${exception.message}"
+                    "Activity is not of AppCompactActivity Type ${exception.message}",
                 )
                 throw IllegalStateException("Activity is not of AppCompactActivity Type")
             }
             appCompatActivity.setSupportActionBar(binding.root.findViewById(R.id.toolbar))
             appCompatActivity.setupActionBarWithNavController(
                 controller,
-                (requireActivity() as MainNavigationActivity).appBarConfiguration
+                (requireActivity() as MainNavigationActivity).appBarConfiguration,
             )
         } else {
             Timber.w("Activity is not of type AppCompact or Fragment has no Toolbar")

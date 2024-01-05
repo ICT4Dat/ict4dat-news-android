@@ -6,7 +6,6 @@ import at.ict4d.ict4dnews.utils.recordLifecycleBreadcrumb
 
 class SentryLifecycleObserver(private val lifecycleOwner: LifecycleOwner) :
     DefaultLifecycleObserver {
-
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
         recordLifecycleBreadcrumb("OnCreate", lifecycleOwner)

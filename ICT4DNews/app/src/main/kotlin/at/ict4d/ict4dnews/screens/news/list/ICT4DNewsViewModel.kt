@@ -20,9 +20,8 @@ import java.time.LocalDate
 class ICT4DNewsViewModel(
     private val blogsRepository: BlogsRepository,
     private val newsRepository: NewsRepository,
-    sharedPrefs: SharedPrefs
+    sharedPrefs: SharedPrefs,
 ) : ViewModel() {
-
     private val mutableNewsUpdateStatus = MutableLiveData<NewsUpdateResource>()
     val newsUpdateStatus: LiveData<NewsUpdateResource> = mutableNewsUpdateStatus
 
@@ -35,11 +34,12 @@ class ICT4DNewsViewModel(
     private val mutableSearchQuery = MutableLiveData<String>().apply { value = "" }
     val searchQuery: LiveData<String> = mutableSearchQuery
 
-    val newsList = mutableSearchQuery.switchMap {
-        newsRepository.getAllActiveNews(it)
-            .map { newsList -> newsList.map { news -> Pair(news, blogsRepository.getBlogByUrl(news.blogID ?: "").first()) } }
-            .asLiveData(Dispatchers.IO)
-    }
+    val newsList =
+        mutableSearchQuery.switchMap {
+            newsRepository.getAllActiveNews(it)
+                .map { newsList -> newsList.map { news -> Pair(news, blogsRepository.getBlogByUrl(news.blogID ?: "").first()) } }
+                .asLiveData(Dispatchers.IO)
+        }
 
     val lastAutomaticNewsUpdateLocalDate = sharedPrefs.lastAutomaticNewsUpdateLocalDate
 

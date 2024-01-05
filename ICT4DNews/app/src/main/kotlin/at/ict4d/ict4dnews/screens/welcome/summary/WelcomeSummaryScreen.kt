@@ -34,7 +34,7 @@ import com.google.accompanist.permissions.shouldShowRationale
 fun WelcomeSummaryScreen(
     viewModel: WelcomeSummaryViewModel,
     onNavigateToBlogsAndSources: () -> Unit,
-    onPopBackToStart: () -> Unit
+    onPopBackToStart: () -> Unit,
 ) {
     val blogsCount by viewModel.blogsCount.collectAsStateWithLifecycle(initialValue = 0)
 
@@ -42,7 +42,7 @@ fun WelcomeSummaryScreen(
         blogsCount = blogsCount,
         model = viewModel,
         onNavigateToBlogsAndSources = onNavigateToBlogsAndSources,
-        onPopBackToStart = onPopBackToStart
+        onPopBackToStart = onPopBackToStart,
     )
 }
 
@@ -52,37 +52,37 @@ private fun SummaryScreen(
     runtimeNotificationButtonText: String,
     onRuntimeNotificationButtonClicked: () -> Unit,
     onNavigateToBlogsAndSources: () -> Unit,
-    onPopBackToStart: () -> Unit
+    onPopBackToStart: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(
             stringResource(id = R.string.welcome_summary_welcome),
             style = MaterialTheme.typography.displayLarge,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Text(
             text = stringResource(R.string.welcome_summary_explaination, blogsCount),
             style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
             onClick = onRuntimeNotificationButtonClicked,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(runtimeNotificationButtonText)
         }
 
         OutlinedButton(
             onClick = onPopBackToStart,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(stringResource(id = R.string.welcome_summary_skip))
         }
@@ -91,7 +91,7 @@ private fun SummaryScreen(
 
         OutlinedButton(
             onClick = { onNavigateToBlogsAndSources() },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(stringResource(id = R.string.welcome_summary_configure_sources))
         }
@@ -99,7 +99,7 @@ private fun SummaryScreen(
         Text(
             text = stringResource(id = R.string.welcome_summary_disclaimer),
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }
@@ -110,7 +110,7 @@ private fun NotificationRuntimePermissionContainer(
     blogsCount: Int,
     model: WelcomeSummaryViewModel,
     onNavigateToBlogsAndSources: () -> Unit,
-    onPopBackToStart: () -> Unit
+    onPopBackToStart: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -129,7 +129,7 @@ private fun NotificationRuntimePermissionContainer(
                         runtimeNotificationButtonText = stringResource(id = R.string.runtime_permission_notification_not_granted),
                         onRuntimeNotificationButtonClicked = { (context as? FragmentActivity)?.openNotificationSettings() },
                         onNavigateToBlogsAndSources = onNavigateToBlogsAndSources,
-                        onPopBackToStart = onPopBackToStart
+                        onPopBackToStart = onPopBackToStart,
                     )
                 } else {
                     SummaryScreen(
@@ -137,7 +137,7 @@ private fun NotificationRuntimePermissionContainer(
                         runtimeNotificationButtonText = stringResource(id = R.string.welcome_summary_setup),
                         onRuntimeNotificationButtonClicked = { notificationPermissionState.launchPermissionRequest() },
                         onNavigateToBlogsAndSources = onNavigateToBlogsAndSources,
-                        onPopBackToStart = onPopBackToStart
+                        onPopBackToStart = onPopBackToStart,
                     )
                 }
             }
@@ -151,7 +151,7 @@ private fun NotificationRuntimePermissionContainer(
                 onPopBackToStart()
             },
             onNavigateToBlogsAndSources = onNavigateToBlogsAndSources,
-            onPopBackToStart = onPopBackToStart
+            onPopBackToStart = onPopBackToStart,
         )
     }
 }
@@ -159,7 +159,8 @@ private fun NotificationRuntimePermissionContainer(
 @Preview(
     showSystemUi = true,
     uiMode = UI_MODE_NIGHT_YES,
-    apiLevel = 30 // Runtime Permission is ignored
+    // Runtime Permission is ignored
+    apiLevel = 30,
 )
 @Composable
 fun PreviewWelcomeSummaryScreen() {
@@ -168,6 +169,6 @@ fun PreviewWelcomeSummaryScreen() {
         runtimeNotificationButtonText = "Button",
         onRuntimeNotificationButtonClicked = {},
         onNavigateToBlogsAndSources = {},
-        onPopBackToStart = {}
+        onPopBackToStart = {},
     )
 }

@@ -9,17 +9,18 @@ import at.ict4d.ict4dnews.screens.welcome.summary.WelcomeSummaryViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val viewModelModule = module {
+val viewModelModule =
+    module {
 
-    viewModel { ICT4DNewsViewModel(get(), get(), get()) }
+        viewModel { ICT4DNewsViewModel(get(), get(), get()) }
 
-    viewModel { MoreViewModel() }
+        viewModel { MoreViewModel() }
 
-    viewModel { MainNavigationViewModel(get(), get()) }
+        viewModel { MainNavigationViewModel(get(), get()) }
 
-    viewModel { BlogAndSourceViewModel(get()) }
+        viewModel { BlogAndSourceViewModel(get()) }
 
-    viewModel { WelcomeSetupViewModel(get()) }
+        viewModel { WelcomeSetupViewModel(get()) }
 
-    viewModel { WelcomeSummaryViewModel(get(), get()) }
-}
+        viewModel { WelcomeSummaryViewModel(get(), get()) }
+    }

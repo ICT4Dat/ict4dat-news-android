@@ -1,3 +1,5 @@
 [*.{kt,kts}]
 max_line_length=500
-ktlint_disabled_rules=import-ordering
+ktlint_standard_no-blank-line-in-list=disabled
+ktlint_standard_import-ordering=disabled
+ktlint_function_naming_ignore_when_annotated_with=Composable
