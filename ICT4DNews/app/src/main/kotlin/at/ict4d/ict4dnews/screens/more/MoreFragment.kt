@@ -19,11 +19,10 @@ import at.ict4d.ict4dnews.utils.recordActionBreadcrumb
 import at.ict4d.ict4dnews.utils.recordNavigationBreadcrumb
 
 class MoreFragment : Fragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -34,7 +33,7 @@ class MoreFragment : Fragment() {
                         onContactUs = { contactUs() },
                         onOpenUrl = { openUrlInCustomTab(it) },
                         onMenuSettingsSelected = { onMenuSettingsSelected() },
-                        onOpenGithubProject = { openUrlInCustomTab(R.string.url_github_project) }
+                        onOpenGithubProject = { openUrlInCustomTab(R.string.url_github_project) },
                     )
                 }
             }
@@ -65,7 +64,9 @@ class MoreFragment : Fragment() {
         )
     }
 
-    private fun openUrlInCustomTab(@StringRes stringRes: Int) {
+    private fun openUrlInCustomTab(
+        @StringRes stringRes: Int,
+    ) {
         requireActivity().browseCustomTabWithUrl(getString(stringRes))
     }
 
@@ -73,7 +74,7 @@ class MoreFragment : Fragment() {
         recordNavigationBreadcrumb("R.id.menu_settings", this)
         findNavController().navigateSafe(
             currentDestination = R.id.moreFragment,
-            destinationId = R.id.settingsFragment
+            destinationId = R.id.settingsFragment,
         )
     }
 }
