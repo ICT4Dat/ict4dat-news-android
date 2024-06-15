@@ -80,5 +80,4 @@
     <string name="welcome_summary_done_headline">All done!</string>
     <string name="runtime_permission_notification_not_granted">Permission not granted – open settings to grant manually</string>
     <string name="runtime_permission_notification_open_settings">Open</string>
-    <string name="job_guitiche" translatable="false">Job Guitiche</string>
 </resources>
