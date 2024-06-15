@@ -1,6 +1,5 @@
 package at.ict4d.ict4dnews.screens.more
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -41,7 +40,6 @@ import androidx.compose.ui.unit.sp
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.ui.theme.AppTheme
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MoreScreen(
     onRateApp: () -> Unit,

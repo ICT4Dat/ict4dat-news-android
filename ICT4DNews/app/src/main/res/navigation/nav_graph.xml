@@ -26,7 +26,11 @@
 
     <fragment
             android:id="@+id/moreFragment"
-            android:name="at.ict4d.ict4dnews.screens.more.MoreFragment" />
+            android:name="at.ict4d.ict4dnews.screens.more.MoreFragment" >
+        <action
+                android:id="@+id/action_moreFragment_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
+    </fragment>
 
     <fragment
             android:id="@+id/blogAndSourceFragment"

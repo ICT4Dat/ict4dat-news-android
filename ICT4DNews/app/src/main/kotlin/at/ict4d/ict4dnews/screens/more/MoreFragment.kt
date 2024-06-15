@@ -78,7 +78,7 @@ class MoreFragment : Fragment() {
         recordNavigationBreadcrumb("R.id.menu_settings", this)
         findNavController().navigateSafe(
             currentDestination = R.id.moreFragment,
-            destinationId = R.id.settingsFragment,
+            MoreFragmentDirections.actionMoreFragmentToSettingsFragment()
         )
     }
 }
