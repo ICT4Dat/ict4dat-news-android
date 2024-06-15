@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import at.ict4d.ict4dnews.R
@@ -26,6 +27,7 @@ class MoreFragment : Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
+                setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
                 AppTheme {
                     MoreScreen(
                         onRateApp = { rateApp() },
@@ -41,6 +43,7 @@ class MoreFragment : Fragment() {
     }
 
     private fun rateApp() {
+        recordActionBreadcrumb("openGooglePlayApp", this)
         requireActivity().openGooglePlayApp()
     }
 
@@ -67,6 +70,7 @@ class MoreFragment : Fragment() {
     private fun openUrlInCustomTab(
         @StringRes stringRes: Int,
     ) {
+        recordActionBreadcrumb(getString(stringRes), this)
         requireActivity().browseCustomTabWithUrl(getString(stringRes))
     }
 

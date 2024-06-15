@@ -41,21 +41,6 @@ import androidx.compose.ui.unit.sp
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.ui.theme.AppTheme
 
-@Preview
-@Composable
-private fun PreviewCourseDetailScreen() {
-    AppTheme {
-        MoreScreen(
-            onRateApp = {},
-            onShareApp = {},
-            onContactUs = {},
-            onOpenUrl = {},
-            onMenuSettingsSelected = {},
-            onOpenGithubProject = {}
-        )
-    }
-}
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MoreScreen(
@@ -67,13 +52,15 @@ fun MoreScreen(
     onOpenGithubProject: () -> Unit,
 ) {
     Scaffold(
-        topBar = { AppBar(onMenuSettingsSelected = { onMenuSettingsSelected.invoke() }) },
+        topBar = { AppBar(onMenuSettingsSelected = { onMenuSettingsSelected() }) },
         content = {
             Column(
-                modifier = Modifier
+                Modifier
                     .fillMaxSize()
                     .padding(it)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(
+                        rememberScrollState(),
+                    ),
             ) {
                 TextAboutContributors(text = stringResource(R.string.about_developers))
                 Spacer(modifier = Modifier.height(16.dp))
@@ -85,9 +72,11 @@ fun MoreScreen(
                 Button(text = stringResource(R.string.share_application), onClick = onShareApp)
                 Button(text = stringResource(R.string.contact_us), onClick = onContactUs)
                 Button(text = stringResource(R.string.github_project), onClick = onOpenGithubProject)
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(
+                    modifier = Modifier.height(8.dp),
+                )
             }
-        }
+        },
     )
 }
 
@@ -98,33 +87,38 @@ private fun AppBar(onMenuSettingsSelected: () -> Unit) {
         title = {
             Text(
                 text = stringResource(id = R.string.headline_more, String(Character.toChars(0x2764))),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         },
         actions = {
-            IconButton(onClick = { onMenuSettingsSelected.invoke() }) {
+            IconButton(onClick = { onMenuSettingsSelected() }) {
                 Icon(
                     imageVector = Icons.Rounded.Settings,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-        }
+        },
     )
 }
 
 @Composable
-private fun Button(text: String, onClick: () -> Unit) {
+private fun Button(
+    text: String,
+    onClick: () -> Unit,
+) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
         shape = RoundedCornerShape(24.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 2.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 2.dp),
     ) {
         Text(
-            text = text, fontWeight = FontWeight.Bold
+            text = text,
+            fontWeight = FontWeight.Bold,
         )
     }
 }
@@ -141,80 +135,79 @@ private fun TextAboutContributors(text: String) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ListOfContributors(
-    onOpenUrl: (Int) -> Unit
-) {
-    val appContributors = listOf(
-        AppContributor(
-            image = R.drawable.paul,
-            name = stringResource(R.string.paul_spiesberger),
-            role = stringResource(R.string.software_developer),
-            url = R.string.url_paul
-        ),
-        AppContributor(
-            image = R.drawable.raja,
-            name = stringResource(R.string.raja_saboor_ali),
-            role = stringResource(R.string.software_developer),
-            url = R.string.url_raja
-        ),
-        AppContributor(
-            image = R.drawable.noah,
-            name = stringResource(R.string.noah_alorwu),
-            role = stringResource(R.string.software_developer),
-            url = R.string.url_noah
-        ),
-        AppContributor(
-            image = R.drawable.job,
-            name = stringResource(R.string.job_guitiche),
-            role = stringResource(R.string.software_developer),
-            url = R.string.url_job
-        ),
-        AppContributor(
-            image = R.drawable.chloe,
-            name = stringResource(R.string.chlo_zimmermann),
-            role = stringResource(R.string.designer),
-            url = R.string.url_chloe
-        ),
-    ).shuffled()
+private fun ListOfContributors(onOpenUrl: (Int) -> Unit) {
+    val appContributors =
+        listOf(
+            AppContributor(
+                image = R.drawable.paul,
+                name = stringResource(R.string.paul_spiesberger),
+                role = stringResource(R.string.software_developer),
+                url = R.string.url_paul,
+            ),
+            AppContributor(
+                image = R.drawable.raja,
+                name = stringResource(R.string.raja_saboor_ali),
+                role = stringResource(R.string.software_developer),
+                url = R.string.url_raja,
+            ),
+            AppContributor(
+                image = R.drawable.noah,
+                name = stringResource(R.string.noah_alorwu),
+                role = stringResource(R.string.software_developer),
+                url = R.string.url_noah,
+            ),
+            AppContributor(
+                image = R.drawable.job,
+                name = stringResource(R.string.job_guitiche),
+                role = stringResource(R.string.software_developer),
+                url = R.string.url_job,
+            ),
+            AppContributor(
+                image = R.drawable.chloe,
+                name = stringResource(R.string.chlo_zimmermann),
+                role = stringResource(R.string.designer),
+                url = R.string.url_chloe,
+            ),
+        ).shuffled()
 
     FlowRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        for (contributor in appContributors)
-            ContributorProfile(
-                contributor = contributor,
-                onClick = {
-                    onOpenUrl.invoke(contributor.url)
-                }
-            )
+        for (contributor in appContributors) ContributorProfile(
+            contributor = contributor,
+            onClick = {
+                onOpenUrl(contributor.url)
+            },
+        )
     }
 }
 
 @Composable
 private fun ContributorProfile(
     contributor: AppContributor,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .clickable { onClick.invoke() }
+        modifier =
+            Modifier
+                .padding(horizontal = 8.dp)
+                .clickable { onClick() },
     ) {
         Image(
             painter = painterResource(contributor.image),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             alignment = Alignment.Center,
-            modifier = Modifier.size(72.dp)
+            modifier = Modifier.size(72.dp),
         )
         Text(
             text = contributor.name,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = 8.dp),
         )
         Text(
             text = contributor.role,
@@ -227,5 +220,20 @@ private data class AppContributor(
     val image: Int,
     val name: String,
     val role: String,
-    val url: Int
+    val url: Int,
 )
+
+@Preview
+@Composable
+private fun PreviewCourseDetailScreen() {
+    AppTheme {
+        MoreScreen(
+            onRateApp = {},
+            onShareApp = {},
+            onContactUs = {},
+            onOpenUrl = {},
+            onMenuSettingsSelected = {},
+            onOpenGithubProject = {},
+        )
+    }
+}
