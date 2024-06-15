@@ -39,9 +39,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import at.ict4d.ict4dnews.R
 import at.ict4d.ict4dnews.ui.theme.AppTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MoreScreen(
+    viewModel: MoreViewModel = koinViewModel(),
+    onRateApp: () -> Unit,
+    onShareApp: () -> Unit,
+    onContactUs: () -> Unit,
+    onOpenUrl: (Int) -> Unit,
+    onMenuSettingsSelected: () -> Unit,
+    onOpenGithubProject: () -> Unit,
+) {
+    More(
+        appContributors = viewModel.appContributors,
+        onRateApp = onRateApp,
+        onShareApp = onShareApp,
+        onContactUs = onContactUs,
+        onOpenUrl = onOpenUrl,
+        onMenuSettingsSelected = onMenuSettingsSelected,
+        onOpenGithubProject = onOpenGithubProject,
+    )
+}
+
+@Composable
+private fun More(
+    appContributors: List<AppContributor>,
     onRateApp: () -> Unit,
     onShareApp: () -> Unit,
     onContactUs: () -> Unit,
@@ -61,18 +84,22 @@ fun MoreScreen(
                     ),
             ) {
                 TextAboutContributors(text = stringResource(R.string.about_developers))
+
                 Spacer(modifier = Modifier.height(16.dp))
 
-                ListOfContributors(onOpenUrl = onOpenUrl)
+                ListOfContributors(
+                    appContributors = appContributors,
+                    onOpenUrl = onOpenUrl,
+                )
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(text = stringResource(R.string.rate_application), onClick = onRateApp)
                 Button(text = stringResource(R.string.share_application), onClick = onShareApp)
                 Button(text = stringResource(R.string.contact_us), onClick = onContactUs)
                 Button(text = stringResource(R.string.github_project), onClick = onOpenGithubProject)
-                Spacer(
-                    modifier = Modifier.height(8.dp),
-                )
+
+                Spacer(modifier = Modifier.height(8.dp))
             }
         },
     )
@@ -116,7 +143,6 @@ private fun Button(
     ) {
         Text(
             text = text,
-            fontWeight = FontWeight.Bold,
         )
     }
 }
@@ -133,52 +159,23 @@ private fun TextAboutContributors(text: String) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ListOfContributors(onOpenUrl: (Int) -> Unit) {
-    val appContributors =
-        listOf(
-            AppContributor(
-                image = R.drawable.paul,
-                name = stringResource(R.string.paul_spiesberger),
-                role = stringResource(R.string.software_developer),
-                url = R.string.url_paul,
-            ),
-            AppContributor(
-                image = R.drawable.raja,
-                name = stringResource(R.string.raja_saboor_ali),
-                role = stringResource(R.string.software_developer),
-                url = R.string.url_raja,
-            ),
-            AppContributor(
-                image = R.drawable.noah,
-                name = stringResource(R.string.noah_alorwu),
-                role = stringResource(R.string.software_developer),
-                url = R.string.url_noah,
-            ),
-            AppContributor(
-                image = R.drawable.job,
-                name = stringResource(R.string.job_guitiche),
-                role = stringResource(R.string.software_developer),
-                url = R.string.url_job,
-            ),
-            AppContributor(
-                image = R.drawable.chloe,
-                name = stringResource(R.string.chlo_zimmermann),
-                role = stringResource(R.string.designer),
-                url = R.string.url_chloe,
-            ),
-        ).shuffled()
-
+private fun ListOfContributors(
+    appContributors: List<AppContributor>,
+    onOpenUrl: (Int) -> Unit,
+) {
     FlowRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        for (contributor in appContributors) ContributorProfile(
-            contributor = contributor,
-            onClick = {
-                onOpenUrl(contributor.url)
-            },
-        )
+        for (contributor in appContributors) {
+            ContributorProfile(
+                contributor = contributor,
+                onClick = {
+                    onOpenUrl(contributor.url)
+                },
+            )
+        }
     }
 }
 
@@ -196,30 +193,23 @@ private fun ContributorProfile(
     ) {
         Image(
             painter = painterResource(contributor.image),
-            contentDescription = null,
+            contentDescription = stringResource(id = contributor.name),
             contentScale = ContentScale.Crop,
             alignment = Alignment.Center,
             modifier = Modifier.size(72.dp),
         )
         Text(
-            text = contributor.name,
+            text = stringResource(id = contributor.name),
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             modifier = Modifier.padding(top = 8.dp),
         )
         Text(
-            text = contributor.role,
+            text = stringResource(id = contributor.role),
             fontSize = 16.sp,
         )
     }
 }
-
-private data class AppContributor(
-    val image: Int,
-    val name: String,
-    val role: String,
-    val url: Int,
-)
 
 @Preview
 @Composable

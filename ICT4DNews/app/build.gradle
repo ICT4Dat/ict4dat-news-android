@@ -221,6 +221,7 @@ dependencies {
 
     // Koin AndroidX ViewModel features
     implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
 }
