@@ -4,8 +4,8 @@ signing.properties
 playstore.properties
 sentry_config.properties
 
-# Created by https://www.toptal.com/developers/gitignore/api/java,kotlin,linux,macos,windows,android,androidstudio,gradle,intellij
-# Edit at https://www.toptal.com/developers/gitignore?templates=java,kotlin,linux,macos,windows,android,androidstudio,gradle,intellij
+# Created by https://www.toptal.com/developers/gitignore/api/java,linux,macos,gradle,kotlin,android,windows,intellij,androidstudio
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,linux,macos,gradle,kotlin,android,windows,intellij,androidstudio
 
 ### Android ###
 # Gradle files
@@ -404,4 +404,4 @@ obj/
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-# End of https://www.toptal.com/developers/gitignore/api/java,kotlin,linux,macos,windows,android,androidstudio,gradle,intellij
+# End of https://www.toptal.com/developers/gitignore/api/java,linux,macos,gradle,kotlin,android,windows,intellij,androidstudio
