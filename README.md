@@ -1,3 +1,14 @@
+# THIS REPOSITORY HAS BEEN MIGRATED
+
+**You can find [the new repository here](https://codeberg.org/ICT4Dat/ict4dat-news-android/)**
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
 <p align="center">
     <a href="http://www.ict4d.at" target="_blank"><img src="https://raw.githubusercontent.com/ict4dat/ict4dat-news-android/develop/ICT4DNews/app/src/main/res/drawable-xhdpi/ict4d_logo.png" alt="ICT4D.at Logo" /></a>
 </p>
