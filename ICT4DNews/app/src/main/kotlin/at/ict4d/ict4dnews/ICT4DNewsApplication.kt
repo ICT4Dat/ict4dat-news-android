@@ -5,7 +5,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import androidx.multidex.MultiDex
 import at.ict4d.ict4dnews.di.modules.apiServiceModule
 import at.ict4d.ict4dnews.di.modules.helperModule
 import at.ict4d.ict4dnews.di.modules.repositoryModule
@@ -78,11 +77,6 @@ open class ICT4DNewsApplication : Application() {
                 },
             )
         }
-    }
-
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
     }
 
     /*
